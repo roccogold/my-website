@@ -90,28 +90,32 @@
     background: radial-gradient(circle, var(--accent-light) 1px, transparent 1px);
   }
 
-  header {
-    text-align: center;
-    padding: 2rem 1rem 1rem;
-    position: relative;
-    z-index: 1;
-    animation: fadeIn 0.8s ease;
-  }
-  header h1 {
-    margin: 0; font-size: 2rem; font-weight: 700; display: inline-block; position: relative;
-  }
-  header h1::after {
-    content: "_";
-    position: absolute;
-    right: -0.6em;
-    animation: blink 1s step-end infinite;
-    font-weight: 900;
-    color: currentColor;
-  }
-  /* On small screens, reduce right offset to avoid overlap */
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+}
+
+header h1::after {
+  content: "_";
+  position: absolute;
+  right: -0.6em;
+  animation: blink 1s step-end infinite;
+  font-weight: 900;
+  color: currentColor;
+}
+
+/* Fix blinking underscore on small screens */
 @media (max-width: 480px) {
   header {
-    padding-top: 3.5rem; /* increase top padding */
+    padding-top: 3.5rem; /* existing fix for toggle button */
+  }
+  header h1::after {
+    right: auto;      /* unset right */
+    left: 100%;      /* position immediately after the h1 text */
+    margin-left: 0.1em; /* small space from text */
   }
 }
   @keyframes blink { 0%,100% {opacity:0;} 50% {opacity:1;} }
