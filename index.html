@@ -190,7 +190,8 @@
     z-index: 1;
   }
 
-  .social a {
+  .social a,
+  #toggleTheme {
     width: 50px;
     height: 50px;
     font-size: 28px;
@@ -199,14 +200,33 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    transition: filter 0.3s ease, transform 0.3s ease;
+    transition: filter 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    color: var(--accent-dark);
+    border-radius: 6px;
+    border: none;
+    background: transparent;
   }
 
   .social a:hover,
-  .social a:focus-visible {
+  .social a:focus-visible,
+  #toggleTheme:hover,
+  #toggleTheme:focus-visible {
     filter: drop-shadow(0 0 6px var(--accent-dark));
     transform: scale(1.1);
     outline-offset: 2px;
+    color: #9a77c6;
+  }
+
+  body.light .social a,
+  body.light #toggleTheme {
+    color: var(--accent-light);
+  }
+  body.light .social a:hover,
+  body.light .social a:focus-visible,
+  body.light #toggleTheme:hover,
+  body.light #toggleTheme:focus-visible {
+    filter: drop-shadow(0 0 6px var(--accent-light));
+    color: var(--accent-light);
   }
 
   p.work-desc, p.contact-desc {
@@ -226,38 +246,6 @@
     font-size: 0.8rem;
     position: relative;
     z-index: 1;
-  }
-
-  #toggleTheme {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    background: transparent;
-    border: 2px solid var(--accent-dark);
-    border-radius: 6px;
-    color: var(--accent-dark);
-    padding: 0.3rem 0.7rem;
-    font-family: 'Fira Code', monospace;
-    font-weight: 700;
-    cursor: pointer;
-    z-index: 10000;
-    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  }
-  #toggleTheme:hover,
-  #toggleTheme:focus-visible {
-    background: var(--accent-dark);
-    color: var(--bg-dark);
-    border-color: var(--accent-dark);
-    outline-offset: 2px;
-  }
-  body.light #toggleTheme {
-    color: var(--accent-light);
-    border-color: var(--accent-light);
-  }
-  body.light #toggleTheme:hover,
-  body.light #toggleTheme:focus-visible {
-    background: var(--accent-light);
-    color: var(--bg-light);
   }
 
   /* Text selection */
@@ -302,10 +290,20 @@
     }
   }
 
+  /* Position toggleTheme button top-right fixed */
+  #toggleTheme {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10000;
+  }
+
 </style>
 </head>
 <body>
-  <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">🌙</button>
+  <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+  </button>
 
   <header>
     <h1>Ciao, I’m Rocco Goldschmidt</h1>
@@ -313,28 +311,27 @@
   </header>
 
   <main>
-    <p class="work-desc">I work where design, tech, and finance intersect — turning complicated fintech puzzles into smooth, user-friendly solutions.</p>
+    <p class="work-desc">I work where design, tech and finance intersect — turning complicated fintech puzzles into smooth solutions.</p>
 
     <section aria-labelledby="work-heading">
       <h2 id="work-heading">My work</h2>
       <ul>
         <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make onboarding so easy, even your grandma could do it.</li>
-        <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker platform to streamline operations, compliance, and support processes for smoother trading days.</li>
+        <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker platform to streamline operations, compliance and support processes for smoother trading days.</li>
         <li><strong>Other Projects:</strong>  
           <ul>
             <li><u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[insurtrain]</a></u>: decentralized insurance solution on smart contracts to automate claims processing for train delays.</li>
-
-            <li><u><a href="https://github.com/roccogold/tbills-auction" target="_blank" rel="noopener noreferrer">[tbills-auctions]</a></u>: blockchain-based proof-of-concept that automates treasury bill auctions for a faster, more transparent, and secure process.</li>
+            <li><u><a href="https://github.com/roccogold/tbills-auction" target="_blank" rel="noopener noreferrer">[tbills-auctions]</a></u>: blockchain-based solution that automates treasury bill auctions for a faster, more transparent and secure process.</li>
           </ul>
         </li>
-        <li>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Throw it my way.</li>
+        <li>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Let’s solve it together.</li>
       </ul>
     </section> 
     
     <section aria-labelledby="contact-heading">
       <h2 id="contact-heading">Get in touch</h2>
       <p class="contact-desc">
-        Let’s connect whether it's about product stuff, fintech trends, or the best ping pong serve — find me on linkedin, join the conversation on twitter, explore my projects on github, or say hello via email.
+        Let’s connect whether it's about product stuff, fintech trends or the best ping pong serve — find me on linkedin, join the conversation on twitter, explore my projects on github or say hello via email.
       </p>
 
       <nav class="social" aria-label="Social media links">
@@ -357,27 +354,37 @@
 <script>
   const toggleThemeBtn = document.getElementById('toggleTheme');
   const body = document.body;
+  const icon = toggleThemeBtn.querySelector('i');
 
   // Initialize theme based on localStorage or system preference
   const savedTheme = localStorage.getItem('theme');
   if(savedTheme === 'light') {
     body.classList.add('light');
-    toggleThemeBtn.textContent = '☀️';
+    icon.classList.remove('fa-moon');
+    icon.classList.add('fa-sun');
     toggleThemeBtn.setAttribute('aria-pressed', 'true');
   } else if(savedTheme === 'dark') {
     body.classList.remove('light');
-    toggleThemeBtn.textContent = '🌙';
+    icon.classList.remove('fa-sun');
+    icon.classList.add('fa-moon');
     toggleThemeBtn.setAttribute('aria-pressed', 'false');
   } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
     body.classList.add('light');
-    toggleThemeBtn.textContent = '☀️';
+    icon.classList.remove('fa-moon');
+    icon.classList.add('fa-sun');
     toggleThemeBtn.setAttribute('aria-pressed', 'true');
   }
 
   toggleThemeBtn.addEventListener('click', () => {
     body.classList.toggle('light');
     const isLight = body.classList.contains('light');
-    toggleThemeBtn.textContent = isLight ? '☀️' : '🌙';
+    if(isLight) {
+      icon.classList.remove('fa-moon');
+      icon.classList.add('fa-sun');
+    } else {
+      icon.classList.remove('fa-sun');
+      icon.classList.add('fa-moon');
+    }
     toggleThemeBtn.setAttribute('aria-pressed', isLight.toString());
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
   });
@@ -392,24 +399,21 @@
     let trailX = mouseX;
     let trailY = mouseY;
 
-    document.addEventListener('mousemove', e => {
+    document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-
       dot.style.left = mouseX + 'px';
       dot.style.top = mouseY + 'px';
     });
 
-    function animate() {
-      trailX += (mouseX - trailX) * 0.1;
-      trailY += (mouseY - trailY) * 0.1;
-
+    function animateTrail() {
+      trailX += (mouseX - trailX) * 0.15;
+      trailY += (mouseY - trailY) * 0.15;
       trail.style.left = trailX + 'px';
       trail.style.top = trailY + 'px';
-
-      requestAnimationFrame(animate);
+      requestAnimationFrame(animateTrail);
     }
-    animate();
+    animateTrail();
   }
 </script>
 </body>
