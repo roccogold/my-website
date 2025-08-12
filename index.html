@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rocco Goldschmidt — Product Manager</title>
-<meta name="description" content="Rocco Goldschmidt, Product Manager focused on design, technology, and finance. Building projects to make life easier." />
+<meta name="description" content="Rocco Goldschmidt — Product Manager blending design, technology & finance to build simple, impactful solutions. Explore my projects and get in touch." />
 <meta name="robots" content="index, follow" />
 
 <!-- Favicon and touch icons -->
@@ -15,6 +15,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="shortcut icon" href="assets/favicon.ico">
 
+<!-- Preconnect for fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Fonts and icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" />
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://roccogold.com/" />
@@ -31,15 +38,11 @@
 <meta name="twitter:image" content="https://roccogold.com/og-color.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
 
-<!-- Fonts and icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" />
-
 <style>
   :root {
-    --accent-dark: #9a77c6;
+    --accent-dark: #9a77c6;   
     --bg-dark: #111;
-    --accent-light: #5a3e91;
+    --accent-light: #4a2e80;  
     --bg-light: #f5f5f7;
   }
 
@@ -64,24 +67,17 @@
     cursor: none;
   }
 
-  /* Disable cursor:none on touch devices */
   @media (hover: none), (pointer: coarse) {
-    body {
-      cursor: auto;
-    }
+    body { cursor: auto; }
   }
 
-  a, button {
-    cursor: pointer;
-  }
+  a, button { cursor: pointer; }
 
-  /* Dot grid background */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background:
-      radial-gradient(circle, var(--accent-dark) 1px, transparent 1px);
+    background: radial-gradient(circle, var(--accent-dark) 1px, transparent 1px);
     background-size: 40px 40px;
     opacity: 0.05;
     pointer-events: none;
@@ -89,13 +85,9 @@
     transition: background 0.4s ease;
   }
 
-  body.light {
-    background: var(--bg-light);
-    color: var(--accent-light);
-  }
+  body.light { background: var(--bg-light); color: var(--accent-light); }
   body.light::before {
-    background:
-      radial-gradient(circle, var(--accent-light) 1px, transparent 1px);
+    background: radial-gradient(circle, var(--accent-light) 1px, transparent 1px);
   }
 
   header {
@@ -103,23 +95,27 @@
     padding: 2rem 1rem 1rem;
     position: relative;
     z-index: 1;
+    animation: fadeIn 0.8s ease;
   }
   header h1 {
     margin: 0; font-size: 2rem; font-weight: 700; display: inline-block; position: relative;
   }
   header h1::after {
     content: "_";
-    position: absolute; right: -0.6em;
+    position: absolute;
+    right: -0.6em;
     animation: blink 1s step-end infinite;
     font-weight: 900;
+    color: currentColor;
   }
-  @keyframes blink {
-    0%,100% {opacity:0;} 50% {opacity:1;}
+  /* On small screens, reduce right offset to avoid overlap */
+@media (max-width: 480px) {
+  header {
+    padding-top: 3.5rem; /* increase top padding */
   }
-  header p {
-    margin-top: 0.8rem;
-    font-size: 14px;
-  }
+}
+  @keyframes blink { 0%,100% {opacity:0;} 50% {opacity:1;} }
+  header p { margin-top: 0.8rem; font-size: 14px; }
 
   main {
     max-width: 650px;
@@ -138,17 +134,9 @@
     margin-top: 3rem;
     margin-bottom: 1rem;
   }
+  body.light h2 { border-color: #bbb; }
 
-  body.light h2 {
-    border-color: #bbb;
-  }
-
-  ul {
-    padding-left: 0;
-    margin-left: 0;
-    list-style: none;
-  }
-
+  ul { padding-left: 0; margin-left: 0; list-style: none; }
   ul li {
     position: relative;
     padding-left: 1.2rem;
@@ -156,7 +144,6 @@
     font-weight: 500;
     font-size: 14px;
   }
-
   ul li::before {
     content: "•";
     position: absolute;
@@ -174,8 +161,7 @@
     transition: color 0.3s ease;
     font-size: 14px;
   }
-  a:hover,
-  a:focus-visible {
+  a:hover, a:focus-visible {
     color: #b18cd9;
     text-decoration: underline;
     outline-offset: 2px;
@@ -190,8 +176,7 @@
     z-index: 1;
   }
 
-  .social a,
-  #toggleTheme {
+  .social a, #toggleTheme {
     width: 50px;
     height: 50px;
     font-size: 28px;
@@ -206,25 +191,14 @@
     border: none;
     background: transparent;
   }
-
-  .social a:hover,
-  .social a:focus-visible,
-  #toggleTheme:hover,
-  #toggleTheme:focus-visible {
+  .social a:hover, .social a:focus-visible,
+  #toggleTheme:hover, #toggleTheme:focus-visible {
     filter: drop-shadow(0 0 6px var(--accent-dark));
     transform: scale(1.1);
-    outline-offset: 2px;
     color: #9a77c6;
   }
-
-  body.light .social a,
-  body.light #toggleTheme {
-    color: var(--accent-light);
-  }
-  body.light .social a:hover,
-  body.light .social a:focus-visible,
-  body.light #toggleTheme:hover,
-  body.light #toggleTheme:focus-visible {
+  body.light .social a, body.light #toggleTheme { color: var(--accent-light); }
+  body.light .social a:hover, body.light #toggleTheme:hover {
     filter: drop-shadow(0 0 6px var(--accent-light));
     color: var(--accent-light);
   }
@@ -248,19 +222,10 @@
     z-index: 1;
   }
 
-  /* Text selection */
-  ::selection {
-    background: var(--accent-dark);
-    color: white;
-  }
-  body.light ::selection {
-    background: var(--accent-light);
-    color: white;
-  }
+  ::selection { background: var(--accent-dark); color: white; }
+  body.light ::selection { background: var(--accent-light); color: white; }
 
-  /* Custom cursor dots */
-  .dot-cursor,
-  .trailing-dot {
+  .dot-cursor, .trailing-dot {
     position: fixed;
     top: 0; left: 0;
     border-radius: 50%;
@@ -269,28 +234,13 @@
     z-index: 10000;
     transition: background-color 0.3s ease;
   }
-  .dot-cursor {
-    width: 8px;
-    height: 8px;
-    background: var(--accent-dark);
-  }
-  .trailing-dot {
-    width: 12px;
-    height: 12px;
-    background: var(--accent-light);
-    opacity: 0.7;
-    z-index: 9999;
-  }
+  .dot-cursor { width: 8px; height: 8px; background: var(--accent-dark); }
+  .trailing-dot { width: 12px; height: 12px; background: var(--accent-light); opacity: 0.7; z-index: 9999; }
 
-  /* Hide custom cursor on touch devices */
   @media (hover: none), (pointer: coarse) {
-    .dot-cursor,
-    .trailing-dot {
-      display: none;
-    }
+    .dot-cursor, .trailing-dot { display: none; }
   }
 
-  /* Position toggleTheme button top-right fixed */
   #toggleTheme {
     position: fixed;
     top: 1rem;
@@ -298,6 +248,24 @@
     z-index: 10000;
   }
 
+  /* Fade-in animation for page load */
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Scroll reveal */
+  @keyframes revealUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: revealUp 0.6s ease forwards;
+  }
 </style>
 </head>
 <body>
@@ -305,15 +273,15 @@
     <i class="fas fa-moon" aria-hidden="true"></i>
   </button>
 
-  <header>
+  <header class="reveal">
     <h1>Ciao, I’m Rocco Goldschmidt</h1>
     <p>[Product Manager — building things that make life easier]</p>
   </header>
 
   <main>
-    <p class="work-desc">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
+    <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
 
-    <section aria-labelledby="work-heading">
+    <section aria-labelledby="work-heading" class="reveal">
       <h2 id="work-heading">My work</h2>
       <ul>
         <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make onboarding so easy, even your grandma could integrate them.</li>
@@ -328,28 +296,27 @@
       </ul>
     </section> 
     
-    <section aria-labelledby="contact-heading">
+    <section aria-labelledby="contact-heading" class="reveal">
       <h2 id="contact-heading">Get in touch</h2>
       <p class="contact-desc">
         Let’s connect whether it's about product stuff, fintech trends or the best ping pong serve — find me on linkedin, join the conversation on twitter, explore my projects on github or say hello via email.
       </p>
 
-      <nav class="social" aria-label="Social media links">
-        <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
-        <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-        <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-        <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+      <nav class="social">
+        <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt"><i class="fas fa-envelope"></i></a>
+        <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank"><i class="fab fa-twitter"></i></a>
       </nav>
     </section>
   </main>
 
-<footer>
+<footer class="reveal">
   <span id="lastUpdated"></span>
 </footer>
 
-  <!-- Custom cursor elements -->
-  <div class="dot-cursor" aria-hidden="true"></div>
-  <div class="trailing-dot" aria-hidden="true"></div>
+<div class="dot-cursor" aria-hidden="true"></div>
+<div class="trailing-dot" aria-hidden="true"></div>
 
 <script>
 fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1")
@@ -358,86 +325,86 @@ fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1
     if (data.workflow_runs && data.workflow_runs.length > 0) {
       const run = data.workflow_runs[0];
       const updatedDate = new Date(run.updated_at);
-      
-      // Format date as DD-MM-YYYY HH:MM
       const day = String(updatedDate.getDate()).padStart(2, '0');
       const month = String(updatedDate.getMonth() + 1).padStart(2, '0');
       const year = updatedDate.getFullYear();
       const hours = String(updatedDate.getHours()).padStart(2, '0');
       const minutes = String(updatedDate.getMinutes()).padStart(2, '0');
-
       const username = run.actor?.login || "unknown";
       document.getElementById('lastUpdated').textContent =
         `© Updated on ${day}-${month}-${year} ${hours}:${minutes} by ${username} — work in progress, just like me.`;
+    } else {
+      document.getElementById('lastUpdated').textContent = "© Site updated recently — work in progress.";
     }
   })
-  .catch(err => console.error("Error fetching last update date:", err));
-</script>
-
-<script>
-  const toggleThemeBtn = document.getElementById('toggleTheme');
-  const body = document.body;
-  const icon = toggleThemeBtn.querySelector('i');
-
-  // Initialize theme based on localStorage or system preference
-  const savedTheme = localStorage.getItem('theme');
-  if(savedTheme === 'light') {
-    body.classList.add('light');
-    icon.classList.remove('fa-moon');
-    icon.classList.add('fa-cloud-sun');
-    toggleThemeBtn.setAttribute('aria-pressed', 'true');
-  } else if(savedTheme === 'dark') {
-    body.classList.remove('light');
-    icon.classList.remove('fa-cloud-sun');
-    icon.classList.add('fa-moon');
-    toggleThemeBtn.setAttribute('aria-pressed', 'false');
-  } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-    body.classList.add('light');
-    icon.classList.remove('fa-moon');
-    icon.classList.add('fa-cloud-sun');
-    toggleThemeBtn.setAttribute('aria-pressed', 'true');
-  }
-
-  toggleThemeBtn.addEventListener('click', () => {
-    body.classList.toggle('light');
-    const isLight = body.classList.contains('light');
-    if(isLight) {
-      icon.classList.remove('fa-moon');
-      icon.classList.add('fa-cloud-sun');
-    } else {
-      icon.classList.remove('fa-cloud-sun');
-      icon.classList.add('fa-moon');
-    }
-    toggleThemeBtn.setAttribute('aria-pressed', isLight.toString());
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  .catch(() => {
+    document.getElementById('lastUpdated').textContent = "© Site updated recently — work in progress.";
   });
 
-  // Custom cursor logic - disable on touch devices for usability
-  if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const dot = document.querySelector('.dot-cursor');
-    const trail = document.querySelector('.trailing-dot');
+const toggleThemeBtn = document.getElementById('toggleTheme');
+const body = document.body;
+const icon = toggleThemeBtn.querySelector('i');
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let trailX = mouseX;
-    let trailY = mouseY;
+const savedTheme = localStorage.getItem('theme');
+if(savedTheme === 'light') {
+  body.classList.add('light');
+  icon.classList.replace('fa-moon', 'fa-cloud-sun');
+  toggleThemeBtn.setAttribute('aria-pressed', 'true');
+} else if(savedTheme === 'dark') {
+  body.classList.remove('light');
+  icon.classList.replace('fa-cloud-sun', 'fa-moon');
+  toggleThemeBtn.setAttribute('aria-pressed', 'false');
+} else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+  body.classList.add('light');
+  icon.classList.replace('fa-moon', 'fa-cloud-sun');
+  toggleThemeBtn.setAttribute('aria-pressed', 'true');
+}
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.left = mouseX + 'px';
-      dot.style.top = mouseY + 'px';
-    });
+toggleThemeBtn.addEventListener('click', () => {
+  body.classList.toggle('light');
+  const isLight = body.classList.contains('light');
+  icon.classList.replace(isLight ? 'fa-moon' : 'fa-cloud-sun', isLight ? 'fa-cloud-sun' : 'fa-moon');
+  toggleThemeBtn.setAttribute('aria-pressed', isLight.toString());
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
 
-    function animateTrail() {
-      trailX += (mouseX - trailX) * 0.15;
-      trailY += (mouseY - trailY) * 0.15;
-      trail.style.left = trailX + 'px';
-      trail.style.top = trailY + 'px';
-      requestAnimationFrame(animateTrail);
-    }
-    animateTrail();
+if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  const dot = document.querySelector('.dot-cursor');
+  const trail = document.querySelector('.trailing-dot');
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let trailX = mouseX;
+  let trailY = mouseY;
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top = mouseY + 'px';
+  });
+  function animateTrail() {
+    trailX += (mouseX - trailX) * 0.15;
+    trailY += (mouseY - trailY) * 0.15;
+    trail.style.left = trailX + 'px';
+    trail.style.top = trailY + 'px';
+    requestAnimationFrame(animateTrail);
   }
+  animateTrail();
+}
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+function revealOnScroll() {
+  const windowHeight = window.innerHeight;
+  const revealPoint = 80;
+  reveals.forEach((el) => {
+    const revealTop = el.getBoundingClientRect().top;
+    if (revealTop < windowHeight - revealPoint) {
+      el.classList.add('visible');
+    }
+  });
+}
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('load', revealOnScroll);
 </script>
 </body>
 </html>
