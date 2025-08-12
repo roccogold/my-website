@@ -4,6 +4,28 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rocco Goldschmidt</title>
+
+<!-- Primary Meta -->
+<meta name="title" content="Rocco Goldschmidt — Product Manager" />
+<meta name="description" content="Product Manager blending design, tech, and finance. Explore projects and get in touch." />
+
+<!-- Open Graph (used by WhatsApp, Facebook, etc.) -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://roccogold.com/" />
+<meta property="og:title" content="Rocco Goldschmidt — Product Manager" />
+<meta property="og:description" content="I hang out where design, tech, and finance throw a party and invite me." />
+<!-- Solid-color preview image (1200x630) matching accent color #9a77c6 -->
+<meta property="og:image" content="https://roccogold.com/og-color.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter Card (fallback for some apps) -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rocco Goldschmidt — Product Manager" />
+<meta name="twitter:description" content="I hang out where design, tech, and finance throw a party and invite me." />
+<meta name="twitter:image" content="https://roccogold.com/og-color.png" />
+<meta name="twitter:url" content="https://roccogold.com/" />
+
 <style>
   :root {
     --accent-dark: #9a77c6;
@@ -96,30 +118,31 @@
   }
 
   /* Updated ul styles for left-aligned bullets */
- ul {
-  padding-left: 0;
-  margin-left: 0;
-  list-style: none;
-}
+  ul {
+    padding-left: 0;
+    margin-left: 0;
+    list-style: none;
+  }
 
-ul li {
-  position: relative;
-  padding-left: 1.2rem; /* space for bullet */
-  margin-bottom: 0.7rem;
-  font-weight: 500;
-  font-size: 14px;
-}
+  ul li {
+    position: relative;
+    padding-left: 1.2rem; /* space for bullet */
+    margin-bottom: 0.7rem;
+    font-weight: 500;
+    font-size: 14px;
+  }
 
-ul li::before {
-  content: "•"; /* bullet character */
-  position: absolute;
-  left: 0;
-  color: var(--accent-dark);
-  font-weight: 900;
-  font-size: 18px;
-  line-height: 1;
-  top: 0;
-}
+  ul li::before {
+    content: "•"; /* bullet character */
+    position: absolute;
+    left: 0;
+    color: var(--accent-dark);
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 1;
+    top: 0;
+  }
+
   a {
     color: inherit;
     text-decoration: none;
@@ -132,35 +155,35 @@ ul li::before {
   }
 
   .social {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1.5rem; /* increase margin-top to move down */
-  position: relative;
-  z-index: 1;
-}
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem; /* increase margin-top to move down */
+    position: relative;
+    z-index: 1;
+  }
 
-.social a {
-  width: 50px;
-  height: 50px;
-  font-size: 28px;
-  fill: currentColor;
-  transition: filter 0.3s ease, transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none; /* remove underline/dash */
-}
+  .social a {
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+    fill: currentColor;
+    transition: filter 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; /* remove underline/dash */
+  }
 
-.social a:hover {
-  filter: drop-shadow(0 0 6px var(--accent-dark));
-  cursor: pointer;
-  transform: scale(1.1);
-}
+  .social a:hover {
+    filter: drop-shadow(0 0 6px var(--accent-dark));
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 
-.social i {
-  font-size: 28px; /* ensure icons inside scale up */
-}
+  .social i {
+    font-size: 28px; /* ensure icons inside scale up */
+  }
 
   p.work-desc, p.contact-desc {
     text-align: left;
@@ -209,53 +232,52 @@ ul li::before {
     background: var(--accent-light);
     color: var(--bg-light);
   }
-body {
-  cursor: none; /* Hide the native cursor */
-}
 
-/* Custom cursor */
-#customCursor {
-  position: fixed;
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--accent-dark);
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-  animation: pulse 2s infinite;
-  z-index: 10000;
-}
+  body {
+    cursor: none; /* Hide the native cursor */
+  }
 
-body.light #customCursor {
-  border-color: var(--accent-light);
-}
+  /* Custom cursor */
+  #customCursor {
+    position: fixed;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--accent-dark);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    animation: pulse 2s infinite;
+    z-index: 10000;
+  }
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 var(--accent-dark);
+  body.light #customCursor {
+    border-color: var(--accent-light);
   }
-  70% {
-    box-shadow: 0 0 0 10px transparent;
-  }
-  100% {
-    box-shadow: 0 0 0 0 transparent;
-  }
-}
 
-body.light @keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 var(--accent-light);
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 var(--accent-dark);
+    }
+    70% {
+      box-shadow: 0 0 0 10px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
   }
-  70% {
-    box-shadow: 0 0 0 10px transparent;
-  }
-  100% {
-    box-shadow: 0 0 0 0 transparent;
-  }
-}
 
-
+  body.light @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 var(--accent-light);
+    }
+    70% {
+      box-shadow: 0 0 0 10px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
 </style>
 </head>
 <body>
@@ -278,7 +300,7 @@ body.light @keyframes pulse {
 
     <h2>Get in touch</h2>
     <p class="contact-desc">
-    Let’s connect — find me on linkedin, join the conversation on twitter, explore my projects on github or yes say hello via gmail.
+      Let’s connect — find me on linkedin, join the conversation on twitter, explore my projects on github or yes say hello via gmail.
     </p>
     <!-- Font Awesome example -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -289,7 +311,6 @@ body.light @keyframes pulse {
       <a href="https://github.com/roccogold" aria-label="GitHub"><i class="fab fa-github"></i></a>
       <a href="https://x.com/roccogold_" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
     </div>
-
   </main>
 
   <footer>
@@ -307,25 +328,25 @@ body.light @keyframes pulse {
       toggleThemeBtn.textContent = '🌙';
     }
   });
+
   // Custom cursor element
-const customCursor = document.createElement('div');
-customCursor.id = 'customCursor';
-document.body.appendChild(customCursor);
+  const customCursor = document.createElement('div');
+  customCursor.id = 'customCursor';
+  document.body.appendChild(customCursor);
 
-// Move cursor with mouse
-document.addEventListener('mousemove', e => {
-  customCursor.style.left = e.clientX + 'px';
-  customCursor.style.top = e.clientY + 'px';
-});
+  // Move cursor with mouse
+  document.addEventListener('mousemove', e => {
+    customCursor.style.left = e.clientX + 'px';
+    customCursor.style.top = e.clientY + 'px';
+  });
 
-// Click animation
-document.addEventListener('mousedown', () => {
-  customCursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-});
-document.addEventListener('mouseup', () => {
-  customCursor.style.transform = 'translate(-50%, -50%) scale(1)';
-});
-
+  // Click animation
+  document.addEventListener('mousedown', () => {
+    customCursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+  });
+  document.addEventListener('mouseup', () => {
+    customCursor.style.transform = 'translate(-50%, -50%) scale(1)';
+  });
 </script>
 </body>
 </html>
