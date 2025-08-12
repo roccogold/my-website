@@ -59,6 +59,8 @@
   .top-bar header {
     margin: 0;
     width: max-content; /* shrink to content width */
+    text-align: center; /* center text inside header */
+    flex-shrink: 0;
   }
 
   .top-bar header h1 {
@@ -329,14 +331,14 @@ body.light ::selection { background: var(--accent-light); color: white; }
 </head>
 <body>
   <div id="topBar" class="top-bar">
-    <header class="reveal">
-      <h1>Ciao, I’m Rocco Goldschmidt</h1>
-      <p>[Product Manager — building things that make life easier]</p>
-    </header>
-    <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">
-      <i class="fas fa-moon" aria-hidden="true"></i>
-    </button>
-  </div>
+  <header class="reveal">
+    <h1>Ciao, I’m Rocco Goldschmidt</h1>
+    <p>[Product Manager — building things that make life easier]</p>
+  </header>
+  <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">
+    <i class="fas fa-moon" aria-hidden="true"></i>
+  </button>
+</div>
 
   <main>
     <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
