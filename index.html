@@ -46,6 +46,46 @@
   --bg-light: #f5f5f7;
 }
 
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 650px;
+    margin: 1rem auto 2rem;
+    padding: 0 2rem;
+  }
+
+  /* Reset header margin inside container */
+  .top-bar header {
+    margin: 0;
+  }
+
+  .top-bar header h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  /* Subheading styling */
+  .top-bar header p {
+    font-size: 12px;
+    margin-top: 0.4rem;
+  }
+
+  /* On small screens: stack vertically */
+  @media (max-width: 480px) {
+    .top-bar {
+      flex-direction: column;
+      align-items: center;
+    }
+    #toggleTheme {
+      margin-top: 1rem;
+    }
+    .top-bar header p {
+      margin-top: 0.8rem;
+    }
+  }
+
+ 
 @media (prefers-color-scheme: light) {
   body:not(.light) {
     background: var(--bg-light);
@@ -61,7 +101,7 @@ body {
   color: var(--accent-dark);
   font-family: 'JetBrains Mono', monospace;
   margin: 0; padding: 0;
-  font-size: 12px;  /* changed here */
+  font-size: 12px;
   position: relative;
   transition: background 0.4s ease, color 0.4s ease;
   cursor: none;
@@ -287,14 +327,15 @@ body.light ::selection { background: var(--accent-light); color: white; }
 </style>
 </head>
 <body>
-  <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">
-    <i class="fas fa-moon" aria-hidden="true"></i>
-  </button>
-
-  <header class="reveal">
-    <h1>Ciao, I’m Rocco Goldschmidt</h1>
-    <p>[Product Manager — building things that make life easier]</p>
-  </header>
+  <div id="topBar" class="top-bar">
+    <header class="reveal">
+      <h1>Ciao, I’m Rocco Goldschmidt</h1>
+      <p>[Product Manager — building things that make life easier]</p>
+    </header>
+    <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">
+      <i class="fas fa-moon" aria-hidden="true"></i>
+    </button>
+  </div>
 
   <main>
     <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
