@@ -281,6 +281,16 @@
       box-shadow: 0 0 0 0 transparent;
     }
   }
+  /* Change text selection color */
+::selection {
+  background: var(--accent-dark);
+  color: white;
+}
+
+body.light ::selection {
+  background: var(--accent-light);
+  color: white;
+}
 </style>
 </head>
 <body>
@@ -332,16 +342,29 @@
     }
   });
 
-  // Custom cursor element
+  // Only add custom cursor if not on touch devices
+if (window.matchMedia("(pointer: fine)").matches) {
   const customCursor = document.createElement('div');
   customCursor.id = 'customCursor';
   document.body.appendChild(customCursor);
 
-  // Move cursor with mouse
+  let mouseX = 0, mouseY = 0;
+  let isMoving = false;
+
   document.addEventListener('mousemove', e => {
-    customCursor.style.left = e.clientX + 'px';
-    customCursor.style.top = e.clientY + 'px';
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!isMoving) {
+      isMoving = true;
+      requestAnimationFrame(updateCursor);
+    }
   });
+
+  function updateCursor() {
+    customCursor.style.left = mouseX + 'px';
+    customCursor.style.top = mouseY + 'px';
+    isMoving = false;
+  }
 
   // Click animation
   document.addEventListener('mousedown', () => {
@@ -350,6 +373,8 @@
   document.addEventListener('mouseup', () => {
     customCursor.style.transform = 'translate(-50%, -50%) scale(1)';
   });
+}
+
 </script>
 </body>
 </html>
