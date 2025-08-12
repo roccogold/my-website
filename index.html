@@ -384,17 +384,17 @@ fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1
   if(savedTheme === 'light') {
     body.classList.add('light');
     icon.classList.remove('fa-moon');
-    icon.classList.add('fa-sun');
+    icon.classList.add('fa-sun-bright');
     toggleThemeBtn.setAttribute('aria-pressed', 'true');
   } else if(savedTheme === 'dark') {
     body.classList.remove('light');
-    icon.classList.remove('fa-sun');
+    icon.classList.remove('fa-sun-bright');
     icon.classList.add('fa-moon');
     toggleThemeBtn.setAttribute('aria-pressed', 'false');
   } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
     body.classList.add('light');
     icon.classList.remove('fa-moon');
-    icon.classList.add('fa-sun');
+    icon.classList.add('fa-sun-bright');
     toggleThemeBtn.setAttribute('aria-pressed', 'true');
   }
 
@@ -403,9 +403,9 @@ fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1
     const isLight = body.classList.contains('light');
     if(isLight) {
       icon.classList.remove('fa-moon');
-      icon.classList.add('fa-sun');
+      icon.classList.add('fa-sun-bright');
     } else {
-      icon.classList.remove('fa-sun');
+      icon.classList.remove('fa-sun-bright');
       icon.classList.add('fa-moon');
     }
     toggleThemeBtn.setAttribute('aria-pressed', isLight.toString());
