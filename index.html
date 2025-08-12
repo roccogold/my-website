@@ -318,7 +318,7 @@
       <ul>
         <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make onboarding so easy, even your grandma could integrate them.</li>
         <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.</li>
-        <li><strong>Other Projects:</strong>  
+        <li>Other Projects:  
           <ul>
             <li><u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[insurtrain]</a></u>: decentralized insurance solution on smart contracts to automate claims processing for train delays.</li>
             <li><u><a href="https://github.com/roccogold/tbills-auction" target="_blank" rel="noopener noreferrer">[tbills-auctions]</a></u>: blockchain-based solution that automates treasury bill auctions for a faster, more transparent and secure process.</li>
@@ -347,9 +347,31 @@
     © 2025 Rocco Goldschmidt — All features & content subject to change.
   </footer>
 
+
+<footer>
+  <span id="lastUpdated"></span>
+</footer>
+
   <!-- Custom cursor elements -->
   <div class="dot-cursor" aria-hidden="true"></div>
   <div class="trailing-dot" aria-hidden="true"></div>
+
+<script>
+  fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1")
+    .then(response => response.json())
+    .then(data => {
+      if (data.workflow_runs && data.workflow_runs.length > 0) {
+        const run = data.workflow_runs[0];
+        const updatedDate = new Date(run.updated_at);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const username = run.actor?.login || "unknown";
+        document.getElementById('lastUpdated').textContent =
+          `© Updated on ${updatedDate.toLocaleDateString(undefined, options)} by ${username} — work in progress, just like me.`;
+      }
+
+    })
+    .catch(err => console.error("Error fetching last update date:", err));
+</script>
 
 <script>
   const toggleThemeBtn = document.getElementById('toggleTheme');
