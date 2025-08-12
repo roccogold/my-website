@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Rocco Goldschmidt</title>
+<title>Rocco Goldschmidt — Product Manager</title>
+<meta name="description" content="Rocco Goldschmidt, Product Manager focused on design, technology, and finance. Building projects to make life easier." />
+<meta name="robots" content="index, follow" />
 
+<!-- Favicon and touch icons -->
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png">
@@ -12,13 +15,11 @@
 <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 <link rel="shortcut icon" href="assets/favicon.ico">
 
-<!-- Primary Meta -->
-<meta name="title" content="Rocco Goldschmidt" />
-
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://roccogold.com/" />
 <meta property="og:title" content="Rocco Goldschmidt" />
+<meta property="og:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
 <meta property="og:image" content="https://roccogold.com/og-color.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -26,19 +27,31 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Rocco Goldschmidt" />
+<meta name="twitter:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
 <meta name="twitter:image" content="https://roccogold.com/og-color.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
+
+<!-- Fonts and icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" />
 
 <style>
   :root {
     --accent-dark: #9a77c6;
     --bg-dark: #111;
-
     --accent-light: #5a3e91;
     --bg-light: #f5f5f7;
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+  @media (prefers-color-scheme: light) {
+    body:not(.light) {
+      background: var(--bg-light);
+      color: var(--accent-light);
+    }
+    body:not(.light)::before {
+      background: radial-gradient(circle, var(--accent-light) 1px, transparent 1px);
+    }
+  }
 
   body {
     background: var(--bg-dark);
@@ -48,18 +61,25 @@
     font-size: 14px;
     position: relative;
     transition: background 0.4s ease, color 0.4s ease;
-    cursor: none; /* Hide native cursor */
+    cursor: none;
+  }
+
+  /* Disable cursor:none on touch devices */
+  @media (hover: none), (pointer: coarse) {
+    body {
+      cursor: auto;
+    }
   }
 
   a, button {
-    cursor: pointer; /* pointer on links and buttons */
+    cursor: pointer;
   }
 
   /* Dot grid background */
   body::before {
     content: "";
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    inset: 0;
     background:
       radial-gradient(circle, var(--accent-dark) 1px, transparent 1px);
     background-size: 40px 40px;
@@ -99,7 +119,6 @@
   header p {
     margin-top: 0.8rem;
     font-size: 14px;
-    text-align: center;
   }
 
   main {
@@ -155,9 +174,11 @@
     transition: color 0.3s ease;
     font-size: 14px;
   }
-  a:hover {
+  a:hover,
+  a:focus-visible {
     color: #b18cd9;
     text-decoration: underline;
+    outline-offset: 2px;
   }
 
   .social {
@@ -174,21 +195,18 @@
     height: 50px;
     font-size: 28px;
     fill: currentColor;
-    transition: filter 0.3s ease, transform 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    transition: filter 0.3s ease, transform 0.3s ease;
   }
 
-  .social a:hover {
+  .social a:hover,
+  .social a:focus-visible {
     filter: drop-shadow(0 0 6px var(--accent-dark));
-    cursor: pointer;
     transform: scale(1.1);
-  }
-
-  .social i {
-    font-size: 28px;
+    outline-offset: 2px;
   }
 
   p.work-desc, p.contact-desc {
@@ -225,16 +243,19 @@
     z-index: 10000;
     transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
-  #toggleTheme:hover {
+  #toggleTheme:hover,
+  #toggleTheme:focus-visible {
     background: var(--accent-dark);
     color: var(--bg-dark);
     border-color: var(--accent-dark);
+    outline-offset: 2px;
   }
   body.light #toggleTheme {
     color: var(--accent-light);
     border-color: var(--accent-light);
   }
-  body.light #toggleTheme:hover {
+  body.light #toggleTheme:hover,
+  body.light #toggleTheme:focus-visible {
     background: var(--accent-light);
     color: var(--bg-light);
   }
@@ -250,37 +271,41 @@
   }
 
   /* Custom cursor dots */
-  .dot-cursor {
+  .dot-cursor,
+  .trailing-dot {
     position: fixed;
     top: 0; left: 0;
-    width: 8px;
-    height: 8px;
-    background: var(--accent-dark);
     border-radius: 50%;
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 10000;
+    transition: background-color 0.3s ease;
+  }
+  .dot-cursor {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-dark);
   }
   .trailing-dot {
-    position: fixed;
-    top: 0; left: 0;
     width: 12px;
     height: 12px;
     background: var(--accent-light);
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
     opacity: 0.7;
     z-index: 9999;
   }
+
+  /* Hide custom cursor on touch devices */
+  @media (hover: none), (pointer: coarse) {
+    .dot-cursor,
+    .trailing-dot {
+      display: none;
+    }
+  }
+
 </style>
-
-<!-- Font Awesome for social icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </head>
 <body>
-  <button id="toggleTheme" aria-label="Toggle Dark/Light Mode">🌙</button>
+  <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">🌙</button>
 
   <header>
     <h1>Hi, I’m Rocco Goldschmidt</h1>
@@ -288,75 +313,97 @@
   </header>
 
   <main>
-    <p class="work-desc">I hang out where design, tech, and finance throw a party and invite me.</p>
+    <p class="work-desc">I work where design, tech, and finance intersect — turning complex problems into clear, simple solutions.</p>
 
-    <h2>My work</h2>
-    <ul>
-      <li><strong>Project 1:</strong> ...</li>
-      <li><strong>Project 2:</strong> ...</li>
-      <li><strong>Project 3:</strong> ...</li>
-    </ul>
+    <section aria-labelledby="work-heading">
+      <h2 id="work-heading">My work</h2>
+      <ul>
+        <li><strong>Project 1:</strong> ...</li>
+        <li><strong>Project 2:</strong> ...</li>
+        <li><strong>Project 3:</strong> ...</li>
+      </ul>
+    </section>
 
-    <h2>Get in touch</h2>
-    <p class="contact-desc">
-      Let’s connect — find me on linkedin, join the conversation on twitter, explore my projects on github or yes say hello via gmail.
-    </p>
+    <section aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Get in touch</h2>
+      <p class="contact-desc">
+        Let’s connect — find me on LinkedIn, join the conversation on Twitter, explore my projects on GitHub, or say hello via email.
+      </p>
 
-    <div class="social">
-      <a href="mailto:roccogold23@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-      <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-      <a href="https://github.com/roccogold" aria-label="GitHub"><i class="fab fa-github"></i></a>
-      <a href="https://x.com/roccogold_" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-    </div>
+      <nav class="social" aria-label="Social media links">
+        <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+        <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+        <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a>
+      </nav>
+    </section>
   </main>
 
   <footer>
-    © 2025 Rocco Goldschmidt — All features subject to change.
+    © 2025 Rocco Goldschmidt — All features & content subject to change.
   </footer>
 
   <!-- Custom cursor elements -->
-  <div class="dot-cursor"></div>
-  <div class="trailing-dot"></div>
+  <div class="dot-cursor" aria-hidden="true"></div>
+  <div class="trailing-dot" aria-hidden="true"></div>
 
 <script>
-  // Dark/light toggle button
   const toggleThemeBtn = document.getElementById('toggleTheme');
-  toggleThemeBtn.addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    if(document.body.classList.contains('light')) {
-      toggleThemeBtn.textContent = '☀️';
-    } else {
-      toggleThemeBtn.textContent = '🌙';
-    }
-  });
+  const body = document.body;
 
-  // Custom cursor logic
-  const dot = document.querySelector('.dot-cursor');
-  const trail = document.querySelector('.trailing-dot');
-
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let trailX = mouseX;
-  let trailY = mouseY;
-
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-
-    dot.style.left = mouseX + 'px';
-    dot.style.top = mouseY + 'px';
-  });
-
-  function animate() {
-    trailX += (mouseX - trailX) * 0.1;
-    trailY += (mouseY - trailY) * 0.1;
-
-    trail.style.left = trailX + 'px';
-    trail.style.top = trailY + 'px';
-
-    requestAnimationFrame(animate);
+  // Initialize theme based on localStorage or system preference
+  const savedTheme = localStorage.getItem('theme');
+  if(savedTheme === 'light') {
+    body.classList.add('light');
+    toggleThemeBtn.textContent = '☀️';
+    toggleThemeBtn.setAttribute('aria-pressed', 'true');
+  } else if(savedTheme === 'dark') {
+    body.classList.remove('light');
+    toggleThemeBtn.textContent = '🌙';
+    toggleThemeBtn.setAttribute('aria-pressed', 'false');
+  } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    body.classList.add('light');
+    toggleThemeBtn.textContent = '☀️';
+    toggleThemeBtn.setAttribute('aria-pressed', 'true');
   }
-  animate();
+
+  toggleThemeBtn.addEventListener('click', () => {
+    body.classList.toggle('light');
+    const isLight = body.classList.contains('light');
+    toggleThemeBtn.textContent = isLight ? '☀️' : '🌙';
+    toggleThemeBtn.setAttribute('aria-pressed', isLight.toString());
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  });
+
+  // Custom cursor logic - disable on touch devices for usability
+  if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const dot = document.querySelector('.dot-cursor');
+    const trail = document.querySelector('.trailing-dot');
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let trailX = mouseX;
+    let trailY = mouseY;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      dot.style.left = mouseX + 'px';
+      dot.style.top = mouseY + 'px';
+    });
+
+    function animate() {
+      trailX += (mouseX - trailX) * 0.1;
+      trailY += (mouseY - trailY) * 0.1;
+
+      trail.style.left = trailX + 'px';
+      trail.style.top = trailY + 'px';
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
 </script>
 </body>
 </html>
