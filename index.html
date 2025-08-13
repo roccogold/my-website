@@ -39,12 +39,9 @@
 <meta name="twitter:image" content="https://roccogold.com/og-color.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
 
-<!-- Lottie animation library for dark mode toggle -->
-<script src="https://unpkg.com/lottie-web@5.7/build/player/lottie.min.js"></script>
-<!-- Dark-mode toggle WebComponent -->
-<script src="https://unpkg.com/@h0rn0chse/dark-mode-toggle@2/dist/bundle.min.js"></script>
-<!-- Optional styling for the toggle -->
-<link rel="stylesheet" href="https://unpkg.com/@h0rn0chse/dark-mode-toggle@2/dist/bundle.min.css" />
+<!-- Correct dark mode toggle scripts and stylesheet -->
+<script src="https://unpkg.com/@h0rn0chse/dark-mode-toggle@1.4.0/dist/dark-mode-toggle.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@h0rn0chse/dark-mode-toggle@1.4.0/dist/dark-mode-toggle.min.css" />
 
 <style>
 :root {
@@ -421,7 +418,7 @@ pre {
     <p>[Product Manager — building things that make life easier]</p>
     <!-- ---- Smooth Animated Theme Toggle ---- -->
     <div style="display:flex; justify-content:center; margin: 2.5rem 0;">
-      <dark-mode-toggle id="toggle" width="50"></dark-mode-toggle>
+      <dark-mode-toggle id="toggle" appearance="switch" dark="Dark" light="Light" width="50"></dark-mode-toggle>
     </div>
   </header>
 </div>
@@ -494,17 +491,21 @@ fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1
 
 // 2️⃣ Sync dark mode toggle with theme classes
 const dmToggle = document.getElementById('toggle');
-dmToggle.addEventListener('click', () => {
-  const theme = dmToggle.theme; // 'dark' or 'light'
-  document.body.classList.toggle('light', theme === 'light');
-  document.body.classList.toggle('dark', theme === 'dark');
+dmToggle.addEventListener('colorschemechange', () => {
+  if (dmToggle.mode === 'light') {
+    document.body.classList.add('light');
+    document.body.classList.remove('dark');
+  } else {
+    document.body.classList.remove('light');
+    document.body.classList.add('dark');
+  }
 });
 
 // Initialize toggle theme to match current body class
 if (document.body.classList.contains('light')) {
-  dmToggle.theme = 'light';
+  dmToggle.mode = 'light';
 } else {
-  dmToggle.theme = 'dark';
+  dmToggle.mode = 'dark';
 }
 
 // 3️⃣ Custom cursor trail
