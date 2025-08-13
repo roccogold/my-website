@@ -22,6 +22,7 @@
 <!-- Fonts and icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" />
+
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://roccogold.com/" />
@@ -38,13 +39,14 @@
 <meta name="twitter:image" content="https://roccogold.com/og-color.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
 
+<!-- Lottie animation library for dark mode toggle -->
+<script src="https://unpkg.com/lottie-web@5.7/build/player/lottie.min.js"></script>
+<!-- Dark-mode toggle WebComponent -->
+<script src="https://unpkg.com/@h0rn0chse/dark-mode-toggle@2/dist/bundle.min.js"></script>
+<!-- Optional styling for the toggle -->
+<link rel="stylesheet" href="https://unpkg.com/@h0rn0chse/dark-mode-toggle@2/dist/bundle.min.css" />
+
 <style>
- /* ===================
-   1️⃣ CONFIGURATION
-   ===================
-   - Central place to manage theme colors, fonts, and asset paths
-   - Update these variables to quickly change look/feel and icons
-*/
 :root {
   /* Theme Colors */
   --accent-dark: #9a77c6;   /* Main accent for dark mode */
@@ -60,7 +62,6 @@
   --icon-dark: url("assets/dark-side.png");
 }
 
-
 .top-bar {
   position: relative;
   max-width: 650px;
@@ -68,7 +69,6 @@
   padding: 0 2rem;
 }
 
-/* Reset header margin inside container */
 .top-bar header {
   margin: 0;
   width: 100%;
@@ -80,19 +80,16 @@
   font-size: 1.6rem;
 }
 
-/* Subheading styling */
 .top-bar header p {
   font-size: 12px;
   margin-top: 0.4rem;
 }
 
-/* On small screens: stack vertically */
 @media (max-width: 480px) {
   .top-bar {
     flex-direction: column;
     align-items: center;
   }
-  /* (Removed the old #toggleTheme absolute positioning here) */
   .top-bar header p {
     margin-top: 0.8rem;
   }
@@ -111,8 +108,9 @@
 body {
   background: var(--bg-dark);
   color: var(--accent-dark);
-  font-family: 'JetBrains Mono', monospace;
-  margin: 0; padding: 0;
+  font-family: var(--main-font);
+  margin: 0;
+  padding: 0;
   font-size: 12px;
   position: relative;
   transition: background 0.4s ease, color 0.4s ease;
@@ -120,10 +118,14 @@ body {
 }
 
 @media (hover: none), (pointer: coarse) {
-  body { cursor: auto; }
+  body {
+    cursor: auto;
+  }
 }
 
-a { cursor: pointer; }
+a {
+  cursor: pointer;
+}
 
 body::before {
   background: radial-gradient(circle, var(--accent-dark) 2px, transparent 2px);
@@ -134,7 +136,11 @@ body::before {
   transition: background 0.4s ease;
 }
 
-body.light { background: var(--bg-light); color: var(--accent-light); }
+body.light {
+  background: var(--bg-light);
+  color: var(--accent-light);
+}
+
 body.light::before {
   background: radial-gradient(circle, var(--accent-light) 2px, transparent 2px);
   opacity: 0.15;
@@ -162,7 +168,6 @@ header h1::after {
   color: currentColor;
 }
 
-/* Fix blinking underscore on small screens */
 @media (max-width: 480px) {
   header {
     padding-top: 3.5rem;
@@ -174,8 +179,19 @@ header h1::after {
   }
 }
 
-@keyframes blink { 0%,100% {opacity:0;} 50% {opacity:1;} }
-header p { margin-top: 0.8rem; font-size: 12px; }
+@keyframes blink {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+header p {
+  margin-top: 0.8rem;
+  font-size: 12px;
+}
 
 main {
   max-width: 650px;
@@ -195,9 +211,17 @@ h2 {
   margin-top: 3rem;
   margin-bottom: 1rem;
 }
-body.light h2 { border-color: #bbb; }
 
-ul { padding-left: 0; margin-left: 0; list-style: none; }
+body.light h2 {
+  border-color: #bbb;
+}
+
+ul {
+  padding-left: 0;
+  margin-left: 0;
+  list-style: none;
+}
+
 ul li {
   position: relative;
   padding-left: 1.2rem;
@@ -205,6 +229,7 @@ ul li {
   font-weight: 500;
   font-size: 12px;
 }
+
 ul li::before {
   content: "•";
   position: absolute;
@@ -222,7 +247,9 @@ a {
   transition: color 0.3s ease;
   font-size: 12px;
 }
-a:hover, a:focus-visible {
+
+a:hover,
+a:focus-visible {
   color: #b18cd9;
   text-decoration: underline;
   outline-offset: 2px;
@@ -237,7 +264,6 @@ a:hover, a:focus-visible {
   z-index: 1;
 }
 
-/* Keep social icon look & glow exactly the same */
 .social a {
   width: 50px;
   height: 50px;
@@ -253,18 +279,25 @@ a:hover, a:focus-visible {
   border: none;
   background: transparent;
 }
-.social a:hover, .social a:focus-visible {
+
+.social a:hover,
+.social a:focus-visible {
   filter: drop-shadow(0 0 6px var(--accent-dark));
   transform: scale(1.1);
   color: #9a77c6;
 }
-body.light .social a { color: var(--accent-light); }
+
+body.light .social a {
+  color: var(--accent-light);
+}
+
 body.light .social a:hover {
   filter: drop-shadow(0 0 6px var(--accent-light));
   color: var(--accent-light);
 }
 
-p.work-desc, p.contact-desc {
+p.work-desc,
+p.contact-desc {
   text-align: left;
   max-width: 100%;
   margin: 0 0 1rem 0;
@@ -283,48 +316,89 @@ footer {
   z-index: 1;
 }
 
-::selection { background: var(--accent-dark); color: white; }
-body.light ::selection { background: var(--accent-light); color: white; }
+::selection {
+  background: var(--accent-dark);
+  color: white;
+}
 
-.dot-cursor, .trailing-dot {
+body.light ::selection {
+  background: var(--accent-light);
+  color: white;
+}
+
+.dot-cursor,
+.trailing-dot {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 10000;
   transition: background-color 0.3s ease;
 }
-.dot-cursor { width: 8px; height: 8px; background: var(--accent-dark); }
-.trailing-dot { width: 12px; height: 12px; background: var(--accent-light); opacity: 0.7; z-index: 9999; }
 
-@media (hover: none), (pointer: coarse) {
-  .dot-cursor, .trailing-dot { display: none; }
+.dot-cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-dark);
 }
 
-/* (Removed the old fixed top-right positioning for #toggleTheme) */
+.trailing-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent-light);
+  opacity: 0.7;
+  z-index: 9999;
+}
+
+@media (hover: none),
+(pointer: coarse) {
+  .dot-cursor,
+  .trailing-dot {
+    display: none;
+  }
+}
 
 /* Fade-in animation for page load */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-// 4️⃣ Scroll reveal animation
 /* Scroll reveal */
 @keyframes revealUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .reveal {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
+
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
   animation: revealUp 0.6s ease forwards;
 }
-code, pre {
-  font-family: 'JetBrains Mono', monospace;
+
+code,
+pre {
+  font-family: var(--main-font);
   font-size: 1em;
   background-color: transparent;
   color: inherit;
@@ -333,48 +407,7 @@ code, pre {
   white-space: pre-wrap;
 }
 
-/* NEW: pill-style Star-Wars toggle (matches theme colors, icons only) */
-#themeToggleWrapper {
-  text-align: center;
-  margin-top: 3rem;
-}
-#toggleTheme {
-  width: 48px;
-  height: 48px;
-  border: none;
-  border-radius: 999px;
-  background-color: var(--accent-dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease, filter 0.3s ease;
-}
-body.light #toggleTheme {
-  background-color: var(--accent-light);
-}
-#toggleTheme:hover {
-  filter: drop-shadow(0 0 6px currentColor);
-}
-.force-icon {
-  --force-icon: none;
-  width: 1.6em;
-  height: 1.6em;
-  background-color: white;
-  -webkit-mask: var(--force-icon) center/contain no-repeat;
-          mask: var(--force-icon) center/contain no-repeat;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-.force-icon.fade-out {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-.force-icon.fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-/* Remove hand cursor from toggle and social icons */
-#toggleTheme,
+/* Remove hand cursor from social icons */
 .social a {
   cursor: default;
 }
@@ -382,53 +415,49 @@ body.light #toggleTheme {
 </head>
 <body>
 <!-- ================= HEADER ================= -->
-  <div id="topBar" class="top-bar">
-    <header class="reveal">
-      <h1>Ciao, I’m Rocco Goldschmidt</h1>
-      <p>[Product Manager — building things that make life easier]</p>
+<div id="topBar" class="top-bar">
+  <header class="reveal">
+    <h1>Ciao, I’m Rocco Goldschmidt</h1>
+    <p>[Product Manager — building things that make life easier]</p>
+    <!-- ---- Smooth Animated Theme Toggle ---- -->
+    <div style="display:flex; justify-content:center; margin: 2.5rem 0;">
+      <dark-mode-toggle id="toggle" width="50"></dark-mode-toggle>
+    </div>
+  </header>
+</div>
 
-      <!-- New centered Star-Wars toggle -->
-      <div id="themeToggleWrapper">
-        <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">
-          <span id="toggleText"></span>
-        </button>
-      </div>
-    </header>
-  </div>
+<!-- ================= MAIN CONTENT ================= -->
+<main>
+  <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
 
-  <!-- ================= MAIN CONTENT ================= -->
-  <main>
-    <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
+  <section aria-labelledby="work-heading" class="reveal">
+    <h2 id="work-heading">My work</h2>
+    <ul>
+      <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make onboarding so easy, even your grandma could integrate them.</li>
+      <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.</li>
+      <li>Other projects:
+        <ul>
+          <li><u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[insurtrain]</a></u>: decentralized insurance solution on smart contracts to automate claims processing for train delays.</li>
+          <li><u><a href="https://github.com/roccogold/tbills-auction" target="_blank" rel="noopener noreferrer">[tbills-auctions]</a></u>: blockchain-based solution that automates treasury bill auctions for a faster, more transparent and secure process.</li>
+        </ul>
+      </li>
+      <li>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Let’s solve it together.</li>
+    </ul>
+  </section>
 
-    <section aria-labelledby="work-heading" class="reveal">
-      <h2 id="work-heading">My work</h2>
-      <ul>
-        <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make onboarding so easy, even your grandma could integrate them.</li>
-        <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.</li>
-        <li>Other projects:  
-          <ul>
-            <li><u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[insurtrain]</a></u>: decentralized insurance solution on smart contracts to automate claims processing for train delays.</li>
-            <li><u><a href="https://github.com/roccogold/tbills-auction" target="_blank" rel="noopener noreferrer">[tbills-auctions]</a></u>: blockchain-based solution that automates treasury bill auctions for a faster, more transparent and secure process.</li>
-          </ul>
-        </li>
-        <li>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Let’s solve it together.</li>
-      </ul>
-    </section> 
-    
-    <section aria-labelledby="contact-heading" class="reveal">
-      <h2 id="contact-heading">Get in touch</h2>
-      <p class="contact-desc">
-        Let’s connect whether it's about product stuff, fintech trends or the best ping pong serve — find me on linkedin, join the conversation on twitter, explore my projects on github or say hello via email.
-      </p>
-
-      <nav class="social">
-        <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt"><i class="fas fa-envelope"></i></a>
-        <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank"><i class="fab fa-twitter"></i></a>
-      </nav>
-    </section>
-  </main>
+  <section aria-labelledby="contact-heading" class="reveal">
+    <h2 id="contact-heading">Get in touch</h2>
+    <p class="contact-desc">
+      Let’s connect whether it's about product stuff, fintech trends or the best ping pong serve — find me on linkedin, join the conversation on twitter, explore my projects on github or say hello via email.
+    </p>
+    <nav class="social">
+      <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt"><i class="fas fa-envelope"></i></a>
+      <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank"><i class="fab fa-twitter"></i></a>
+    </nav>
+  </section>
+</main>
 
 <!-- ================= FOOTER ================= -->
 <footer class="reveal">
@@ -463,70 +492,22 @@ fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1
     document.getElementById('lastUpdated').textContent = "© Site updated recently — work in progress.";
   });
 
-// 2️⃣ Star-Wars theme toggle logic
-/* New Star-Wars toggle logic (replaces old moon/sun icon logic) */
-const toggleThemeBtn = document.getElementById('toggleTheme');
-const toggleText = document.getElementById('toggleText');
-const body = document.body;
-
-function setToggleContent() {
-  const isLight = body.classList.contains('light');
-  const icon = document.createElement('span');
-  icon.className = 'force-icon fade-in';
-  icon.style.setProperty('--force-icon', `url("${isLight ? 'assets/dark-side.png' : 'assets/jedi.png'}")`);
-  toggleThemeBtn.innerHTML = '';
-  toggleThemeBtn.appendChild(icon);
-  toggleThemeBtn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
-}
-
-function updateToggleText(animated = false) {
-  const iconEl = toggleThemeBtn.querySelector('.force-icon');
-  if (animated && iconEl) {
-    iconEl.classList.remove('fade-in');
-    iconEl.classList.add('fade-out');
-    setTimeout(() => {
-      setToggleContent();
-    }, 200);
-  } else {
-    setToggleContent();
-  }
-}
-
-function updateToggleText(animated = false) {
-  if (animated) {
-    toggleText.classList.remove('fade-in');
-    toggleText.classList.add('fade-out');
-    setTimeout(() => {
-      setToggleContent();
-      toggleText.classList.remove('fade-out');
-      toggleText.classList.add('fade-in');
-    }, 300);
-  } else {
-    setToggleContent();
-  }
-}
-
-/* Load saved theme (kept behavior) */
-const savedTheme = localStorage.getItem('theme');
-if(savedTheme === 'light') {
-  body.classList.add('light');
-} else if(savedTheme === 'dark') {
-  body.classList.remove('light');
-} else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-  body.classList.add('light');
-}
-updateToggleText();
-
-/* Toggle click */
-toggleThemeBtn.addEventListener('click', () => {
-  body.classList.toggle('light');
-  const isLight = body.classList.contains('light');
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  updateToggleText(true);
+// 2️⃣ Sync dark mode toggle with theme classes
+const dmToggle = document.getElementById('toggle');
+dmToggle.addEventListener('click', () => {
+  const theme = dmToggle.theme; // 'dark' or 'light'
+  document.body.classList.toggle('light', theme === 'light');
+  document.body.classList.toggle('dark', theme === 'dark');
 });
 
+// Initialize toggle theme to match current body class
+if (document.body.classList.contains('light')) {
+  dmToggle.theme = 'light';
+} else {
+  dmToggle.theme = 'dark';
+}
+
 // 3️⃣ Custom cursor trail
-/* Cursor dots (unchanged) */
 if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   const dot = document.querySelector('.dot-cursor');
   const trail = document.querySelector('.trailing-dot');
@@ -551,7 +532,6 @@ if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
 }
 
 // 4️⃣ Scroll reveal animation
-/* Scroll reveal (unchanged) */
 const reveals = document.querySelectorAll('.reveal');
 function revealOnScroll() {
   const windowHeight = window.innerHeight;
