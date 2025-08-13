@@ -53,43 +53,36 @@
   padding: 0 2rem;
 }
 
-  /* Reset header margin inside container */
+/* Reset header margin inside container */
 .top-bar header {
   margin: 0;
   width: 100%;
   text-align: center;
 }
 
-  .top-bar header h1 {
-    margin: 0;
-    font-size: 1.6rem;
-  }
-
-  /* Subheading styling */
-  .top-bar header p {
-    font-size: 12px;
-    margin-top: 0.4rem;
-  }
-
-  /* On small screens: stack vertically */
-  @media (max-width: 480px) {
-    .top-bar {
-      flex-direction: column;
-      align-items: center;
-    }
-    #toggleTheme {
-  position: absolute;
-  top: 50%;
-  right: 2rem;
-  transform: translateY(-50%);
-  z-index: 10;
+.top-bar header h1 {
+  margin: 0;
+  font-size: 1.6rem;
 }
-    .top-bar header p {
-      margin-top: 0.8rem;
-    }
-  }
 
- 
+/* Subheading styling */
+.top-bar header p {
+  font-size: 12px;
+  margin-top: 0.4rem;
+}
+
+/* On small screens: stack vertically */
+@media (max-width: 480px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+  /* (Removed the old #toggleTheme absolute positioning here) */
+  .top-bar header p {
+    margin-top: 0.8rem;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   body:not(.light) {
     background: var(--bg-light);
@@ -132,14 +125,14 @@ body.light::before {
   opacity: 0.15;
 }
 
- header {
+header {
   text-align: center;
   margin-bottom: 1rem;
 }
 
 header h1 {
   margin: 0;
-  font-size: 1.6rem; /* smaller than 2rem */
+  font-size: 1.6rem;
   font-weight: 700;
   display: inline-block;
   position: relative;
@@ -167,7 +160,7 @@ header h1::after {
 }
 
 @keyframes blink { 0%,100% {opacity:0;} 50% {opacity:1;} }
-header p { margin-top: 0.8rem; font-size: 12px; } /* changed here */
+header p { margin-top: 0.8rem; font-size: 12px; }
 
 main {
   max-width: 650px;
@@ -176,12 +169,12 @@ main {
   line-height: 1.5;
   position: relative;
   z-index: 1;
-  font-size: 12px; /* explicitly smaller */
+  font-size: 12px;
 }
 
 h2 {
   font-weight: 900;
-  font-size: 1.1rem; /* smaller than 1.3rem */
+  font-size: 1.1rem;
   border-bottom: 1px solid #333;
   padding-bottom: 0.3rem;
   margin-top: 3rem;
@@ -195,7 +188,7 @@ ul li {
   padding-left: 1.2rem;
   margin-bottom: 0.7rem;
   font-weight: 500;
-  font-size: 12px; /* changed here */
+  font-size: 12px;
 }
 ul li::before {
   content: "•";
@@ -203,7 +196,7 @@ ul li::before {
   left: 0;
   color: var(--accent-dark);
   font-weight: 900;
-  font-size: 14px; /* keep a bit bigger for the bullet */
+  font-size: 14px;
   line-height: 1;
   top: 0;
 }
@@ -212,7 +205,7 @@ a {
   color: inherit;
   text-decoration: none;
   transition: color 0.3s ease;
-  font-size: 12px; /* changed here */
+  font-size: 12px;
 }
 a:hover, a:focus-visible {
   color: #b18cd9;
@@ -229,10 +222,11 @@ a:hover, a:focus-visible {
   z-index: 1;
 }
 
-.social a, #toggleTheme {
+/* Keep social icon look & glow exactly the same */
+.social a {
   width: 50px;
   height: 50px;
-  font-size: 28px; /* icons size */
+  font-size: 28px;
   fill: currentColor;
   display: flex;
   align-items: center;
@@ -244,14 +238,13 @@ a:hover, a:focus-visible {
   border: none;
   background: transparent;
 }
-.social a:hover, .social a:focus-visible,
-#toggleTheme:hover, #toggleTheme:focus-visible {
+.social a:hover, .social a:focus-visible {
   filter: drop-shadow(0 0 6px var(--accent-dark));
   transform: scale(1.1);
   color: #9a77c6;
 }
-body.light .social a, body.light #toggleTheme { color: var(--accent-light); }
-body.light .social a:hover, body.light #toggleTheme:hover {
+body.light .social a { color: var(--accent-light); }
+body.light .social a:hover {
   filter: drop-shadow(0 0 6px var(--accent-light));
   color: var(--accent-light);
 }
@@ -261,7 +254,7 @@ p.work-desc, p.contact-desc {
   max-width: 100%;
   margin: 0 0 1rem 0;
   font-style: normal;
-  font-size: 12px; /* changed here */
+  font-size: 12px;
   font-weight: 500;
   opacity: 0.9;
 }
@@ -270,7 +263,7 @@ footer {
   text-align: center;
   padding: 1rem;
   color: #555;
-  font-size: 0.8rem; /* keep footer smaller */
+  font-size: 0.8rem;
   position: relative;
   z-index: 1;
 }
@@ -294,12 +287,7 @@ body.light ::selection { background: var(--accent-light); color: white; }
   .dot-cursor, .trailing-dot { display: none; }
 }
 
-#toggleTheme {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 10000;
-}
+/* (Removed the old fixed top-right positioning for #toggleTheme) */
 
 /* Fade-in animation for page load */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -319,27 +307,76 @@ body.light ::selection { background: var(--accent-light); color: white; }
   transform: translateY(0);
   animation: revealUp 0.6s ease forwards;
 }
-  code, pre {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1em;
-    background-color: transparent;
-    color: inherit;
-    padding: 0.2em 0.4em;
-    border-radius: 4px;
-    white-space: pre-wrap;
-  }
+code, pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1em;
+  background-color: transparent;
+  color: inherit;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+/* NEW: centered Star-Wars toggle + icon tinting to currentColor */
+#themeToggleWrapper {
+  text-align: center;
+  margin-top: 0.8rem; /* same visual spacing as your header copy */
+}
+#toggleTheme {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  padding: 0.4rem 1rem;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.3s ease, filter 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+#toggleTheme:hover, #toggleTheme:focus-visible {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px currentColor); /* same glow behavior */
+  outline: none;
+}
+#toggleText.fade-out { opacity: 0; transition: opacity 0.3s ease; }
+#toggleText.fade-in  { opacity: 1; transition: opacity 0.3s ease; }
+
+/* Use the PNGs as a mask so they take on currentColor (purple/white) */
+.force-icon {
+  --force-icon: none;
+  width: 1.2em;
+  height: 1.2em;
+  display: inline-block;
+  vertical-align: -0.15em;
+  background-color: currentColor;                 /* color follows theme */
+  -webkit-mask: var(--force-icon) center/contain no-repeat;
+          mask: var(--force-icon) center/contain no-repeat;
+  transition: background-color 0.3s ease, filter 0.3s ease;
+  margin-left: 0.35rem;
+}
+/* Optional extra glow on icon itself when hovering the button */
+#toggleTheme:hover .force-icon,
+#toggleTheme:focus-visible .force-icon {
+  filter: drop-shadow(0 0 6px currentColor);
+}
 </style>
 </head>
 <body>
   <div id="topBar" class="top-bar">
-  <header class="reveal">
-    <h1>Ciao, I’m Rocco Goldschmidt</h1>
-    <p>[Product Manager — building things that make life easier]</p>
-  </header>
-  <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">
-    <i class="fas fa-moon" aria-hidden="true"></i>
-  </button>
-</div>
+    <header class="reveal">
+      <h1>Ciao, I’m Rocco Goldschmidt</h1>
+      <p>[Product Manager — building things that make life easier]</p>
+
+      <!-- New centered Star-Wars toggle -->
+      <div id="themeToggleWrapper">
+        <button id="toggleTheme" aria-label="Toggle Dark/Light Mode" aria-pressed="false" type="button">
+          <span id="toggleText"></span>
+        </button>
+      </div>
+    </header>
+  </div>
 
   <main>
     <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
@@ -404,33 +441,56 @@ fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1
     document.getElementById('lastUpdated').textContent = "© Site updated recently — work in progress.";
   });
 
+/* New Star-Wars toggle logic (replaces old moon/sun icon logic) */
 const toggleThemeBtn = document.getElementById('toggleTheme');
+const toggleText = document.getElementById('toggleText');
 const body = document.body;
-const icon = toggleThemeBtn.querySelector('i');
 
+function setToggleContent() {
+  const isLight = body.classList.contains('light');
+  const label = isLight ? "Join the Dark Force" : "Join the Light Force";
+  toggleText.textContent = label + " ";
+  const icon = document.createElement('span');
+  icon.className = 'force-icon';
+  icon.style.setProperty('--force-icon', `url("${isLight ? 'assets/dark-side.png' : 'assets/jedi.png'}")`);
+  toggleText.appendChild(icon);
+  toggleThemeBtn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+}
+
+function updateToggleText(animated = false) {
+  if (animated) {
+    toggleText.classList.remove('fade-in');
+    toggleText.classList.add('fade-out');
+    setTimeout(() => {
+      setToggleContent();
+      toggleText.classList.remove('fade-out');
+      toggleText.classList.add('fade-in');
+    }, 300);
+  } else {
+    setToggleContent();
+  }
+}
+
+/* Load saved theme (kept behavior) */
 const savedTheme = localStorage.getItem('theme');
 if(savedTheme === 'light') {
   body.classList.add('light');
-  icon.classList.replace('fa-moon', 'fa-cloud-sun');
-  toggleThemeBtn.setAttribute('aria-pressed', 'true');
 } else if(savedTheme === 'dark') {
   body.classList.remove('light');
-  icon.classList.replace('fa-cloud-sun', 'fa-moon');
-  toggleThemeBtn.setAttribute('aria-pressed', 'false');
 } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
   body.classList.add('light');
-  icon.classList.replace('fa-moon', 'fa-cloud-sun');
-  toggleThemeBtn.setAttribute('aria-pressed', 'true');
 }
+updateToggleText();
 
+/* Toggle click */
 toggleThemeBtn.addEventListener('click', () => {
   body.classList.toggle('light');
   const isLight = body.classList.contains('light');
-  icon.classList.replace(isLight ? 'fa-moon' : 'fa-cloud-sun', isLight ? 'fa-cloud-sun' : 'fa-moon');
-  toggleThemeBtn.setAttribute('aria-pressed', isLight.toString());
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  updateToggleText(true);
 });
 
+/* Cursor dots (unchanged) */
 if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   const dot = document.querySelector('.dot-cursor');
   const trail = document.querySelector('.trailing-dot');
@@ -454,7 +514,7 @@ if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   animateTrail();
 }
 
-// Scroll reveal
+/* Scroll reveal (unchanged) */
 const reveals = document.querySelectorAll('.reveal');
 function revealOnScroll() {
   const windowHeight = window.innerHeight;
