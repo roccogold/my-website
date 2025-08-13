@@ -37,13 +37,7 @@
 <meta name="twitter:title" content="Rocco Goldschmidt" />
 <meta name="twitter:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
 <meta name="twitter:image" content="https://roccogold.com/og-color.png" />
-<meta name="twitter:url" content="https://roccogold.com/" />
-
-<!-- Correct dark mode toggle scripts and stylesheet -->
-<script src="https://unpkg.com/@h0rn0chse/dark-mode-toggle@1.4.0/dist/dark-mode-toggle.min.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/@h0rn0chse/dark-mode-toggle@1.4.0/dist/dark-mode-toggle.min.css" />
-
-<style>
+<meta name="twitter:url" content="https://roccogold.com/" /><style>
 :root {
   /* Theme Colors */
   --accent-dark: #9a77c6;   /* Main accent for dark mode */
@@ -55,8 +49,6 @@
   --main-font: 'JetBrains Mono', monospace;
 
   /* Asset Paths */
-  --icon-jedi: url("assets/jedi.png");
-  --icon-dark: url("assets/dark-side.png");
 }
 
 .top-bar {
@@ -416,11 +408,7 @@ pre {
   <header class="reveal">
     <h1>Ciao, I’m Rocco Goldschmidt</h1>
     <p>[Product Manager — building things that make life easier]</p>
-    <!-- ---- Smooth Animated Theme Toggle ---- -->
-    <div style="display:flex; justify-content:center; margin: 2.5rem 0;">
-      <dark-mode-toggle id="toggle" appearance="switch" dark="Dark" light="Light" width="50"></dark-mode-toggle>
-    </div>
-  </header>
+</header>
 </div>
 
 <!-- ================= MAIN CONTENT ================= -->
@@ -488,25 +476,6 @@ fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1
   .catch(() => {
     document.getElementById('lastUpdated').textContent = "© Site updated recently — work in progress.";
   });
-
-// 2️⃣ Sync dark mode toggle with theme classes
-const dmToggle = document.getElementById('toggle');
-dmToggle.addEventListener('colorschemechange', () => {
-  if (dmToggle.mode === 'light') {
-    document.body.classList.add('light');
-    document.body.classList.remove('dark');
-  } else {
-    document.body.classList.remove('light');
-    document.body.classList.add('dark');
-  }
-});
-
-// Initialize toggle theme to match current body class
-if (document.body.classList.contains('light')) {
-  dmToggle.mode = 'light';
-} else {
-  dmToggle.mode = 'dark';
-}
 
 // 3️⃣ Custom cursor trail
 if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
