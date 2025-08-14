@@ -525,17 +525,6 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
-// 4 Outbound click tracking
-document.querySelectorAll('a').forEach(link => {
-  if (link.hostname !== location.hostname) { // Only track outbound links
-    link.addEventListener('click', () => {
-      gtag('event', 'click', {
-        event_category: 'Outbound Link',
-        event_label: link.href
-      });
-    });
-  }
-});
 </script>
 </body>
 </html>
