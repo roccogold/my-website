@@ -401,6 +401,15 @@ pre {
   cursor: default;
 }
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VKN0MXTZ4Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VKN0MXTZ4Q');
+</script>
+
 </head>
 <body>
 <!-- ================= HEADER ================= -->
@@ -454,7 +463,7 @@ pre {
 
 <!-- ================= JAVASCRIPT ================= -->
 <script>
-// 1️⃣ GitHub last updated footer
+// 1 GitHub last updated footer
 fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1")
   .then(response => response.json())
   .then(data => {
@@ -477,7 +486,7 @@ fetch("https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1
     document.getElementById('lastUpdated').textContent = "© Site updated recently — work in progress.";
   });
 
-// 3️⃣ Custom cursor trail
+// 2 Custom cursor trail
 if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   const dot = document.querySelector('.dot-cursor');
   const trail = document.querySelector('.trailing-dot');
@@ -501,7 +510,7 @@ if(window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
   animateTrail();
 }
 
-// 4️⃣ Scroll reveal animation
+// 3 Scroll reveal animation
 const reveals = document.querySelectorAll('.reveal');
 function revealOnScroll() {
   const windowHeight = window.innerHeight;
@@ -515,6 +524,18 @@ function revealOnScroll() {
 }
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
+
+// 4 Outbound click tracking
+document.querySelectorAll('a').forEach(link => {
+  if (link.hostname !== location.hostname) { // Only track outbound links
+    link.addEventListener('click', () => {
+      gtag('event', 'click', {
+        event_category: 'Outbound Link',
+        event_label: link.href
+      });
+    });
+  }
+});
 </script>
 </body>
 </html>
