@@ -548,13 +548,10 @@ body.light .theme-toggle:focus-visible {
 
   <!-- Theme Toggle Button Centered Here -->
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
-<button id="toggleTheme" class="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme" style="position: relative; width: 40px; height: 40px;">
-  <!-- Baby Yoda SVG as icon-sun -->
-  <svg class="icon-sun" style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;" aria-hidden="true" fill="currentColor" viewBox="...">...</svg>
-  <!-- Darth Vader SVG as icon-moon -->
-  <svg class="icon-moon" style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;" aria-hidden="true" fill="currentColor" viewBox="...">...</svg>
+<button id="toggleTheme" class="theme-toggle" type="button" aria-label="Toggle theme" style="position: relative; width: 40px; height: 40px;">
+  <img src="assets/baby-yoda.png" alt="Baby Yoda" class="icon-sun" style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;" />
+  <img src="assets/darth-vader.png" alt="Darth Vader" class="icon-moon" style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;" />
 </button>
-
 
 </div>
 
@@ -697,19 +694,19 @@ toggleButton.addEventListener('click', () => {
 
   if (document.body.classList.contains('light')) {
     localStorage.setItem('theme', 'light');
-    if (favicon) favicon.href = 'assets/jedi.png'; // favicon for light theme
+    if (favicon) favicon.href = 'assets/baby-yoda.svg'; // favicon for light theme
   } else {
     localStorage.setItem('theme', 'dark');
-    if (favicon) favicon.href = 'assets/dark-side.png'; // favicon for dark theme
+    if (favicon) favicon.href = 'assets/darth-vader.svg'; // favicon for dark theme
   }
 });
 
 window.addEventListener('load', () => {
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light');
-    if (favicon) favicon.href = 'assets/jedi.png';
+    if (favicon) favicon.href = 'assets/baby-yoda.svg';
   } else {
-    if (favicon) favicon.href = 'assets/dark-side.png';
+    if (favicon) favicon.href = 'assets/darth-vader.svg';
   }
 });
 
