@@ -486,29 +486,31 @@ body.light .theme-toggle {
   object-fit: contain;
 }
 
-body.light .icon-sun {
-  opacity: 1;
-  pointer-events: auto;
-  color: var(--accent-light);
-  filter: drop-shadow(0 0 6px var(--accent-light));
-}
-
-body.light .icon-moon {
-  opacity: 0;
-  pointer-events: none;
-}
-
+/* Yoda visible in dark mode */
 body:not(.light) .icon-sun {
-  opacity: 0;
-  pointer-events: none;
-}
-
-body:not(.light) .icon-moon {
   opacity: 1;
   pointer-events: auto;
   color: var(--accent-dark);
   filter: drop-shadow(0 0 6px var(--accent-dark));
 }
+body:not(.light) .icon-moon {
+  opacity: 0;
+  pointer-events: none;
+}
+  
+/* Vader visible in light mode */
+body.light .icon-sun {
+  opacity: 0;
+  pointer-events: none;
+}
+body.light .icon-moon {
+  opacity: 1;
+  pointer-events: auto;
+  color: var(--accent-light);
+  filter: drop-shadow(0 0 6px var(--accent-light));
+}  
+  
+
 
 /* Glow and scale on hover/focus */
 .theme-toggle:hover,
@@ -519,11 +521,42 @@ body:not(.light) .icon-moon {
   color: #9a77c6;
 }
 
+/* Hover on toggle */
+.theme-toggle::after {
+  content: "Which side are you?";
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  font-family: var(--main-font);
+}
+
+body.light .theme-toggle::after {
+  background: rgba(255,255,255,0.9);
+  color: #000;
+}
+
+.theme-toggle:hover::after,
+.theme-toggle:focus-visible::after {
+  opacity: 1;
+}
+  
+
 body.light .theme-toggle:hover,
 body.light .theme-toggle:focus-visible {
   filter: drop-shadow(0 0 6px var(--accent-light));
   color: var(--accent-light);
 }
+
 
 </style>
 <!-- Google tag (gtag.js) -->
@@ -711,10 +744,10 @@ const favicon = document.querySelector('link[rel="icon"]');
 function applyTheme(theme) {
   if (theme === 'light') {
     document.body.classList.add('light');
-    if (favicon) favicon.href = 'assets/baby-yoda.svg';
+    if (favicon) favicon.href = 'assets/darth-vader.svg';
   } else {
     document.body.classList.remove('light');
-    if (favicon) favicon.href = 'assets/darth-vader.svg';
+    if (favicon) favicon.href = 'assets/baby-yoda.svg';
   }
 }
 
@@ -733,12 +766,9 @@ window.addEventListener('load', () => {
 toggleButton.addEventListener('click', () => {
   const isLight = document.body.classList.toggle('light');
   localStorage.setItem('theme', isLight ? 'light' : 'dark');
-
   if (favicon) {
-    favicon.href = isLight ? 'assets/baby-yoda.svg' : 'assets/darth-vader.svg';
+    favicon.href = isLight ? 'assets/darth-vader.svg' : 'assets/baby-yoda.svg';
   }
-  console.log('Toggled theme to:', isLight ? 'light' : 'dark');
-  console.log('body class list now:', document.body.classList);
 });
 
 
