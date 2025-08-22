@@ -476,7 +476,13 @@ pre {
 body.light .theme-toggle {
   color: var(--accent-light);
 }
-
+.icon-sun {
+  z-index: 10 !important;
+  color: var(--accent-light) !important;
+  shape-rendering: geometricPrecision;
+  background-color: rgba(255, 0, 0, 0.1); /* light red background to check visibility */
+}
+  
 .icon-sun, .icon-moon {
   color: var(--accent-dark);
   filter: drop-shadow(0 0 6px var(--accent-dark));
