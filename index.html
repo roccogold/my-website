@@ -550,44 +550,21 @@ body.light .theme-toggle:focus-visible {
   <!-- Theme Toggle Button Centered Here -->
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
 <button id="toggleTheme" class="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme" style="position: relative; width: 40px; height: 40px;">
-  <!-- Sun icon (visible in dark mode) -->
-  <svg
+  <img
+    src="assets/dark-side.png"
+    alt="Dark Side Icon"
     class="icon-sun"
-    xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    style="position: absolute; top: 0; left: 0;"
+    style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;"
     aria-hidden="true"
-  >
-    <circle cx="12" cy="12" r="6" />
-    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-      <line x1="12" y1="1" x2="12" y2="4" />
-      <line x1="12" y1="20" x2="12" y2="23" />
-      <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
-      <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
-      <line x1="1" y1="12" x2="4" y2="12" />
-      <line x1="20" y1="12" x2="23" y2="12" />
-      <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
-      <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
-    </g>
-  </svg>
-  <!-- Moon icon (visible in light mode) -->
-  <svg
+  />
+  <img
+    src="assets/jedi.png"
+    alt="Jedi Icon"
     class="icon-moon"
-    xmlns="http://www.w3.org/2000/svg"
-    width="40"
-    height="40"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    style="position: absolute; top: 0; left: 0;"
+    style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;"
     aria-hidden="true"
-  >
-    <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
-  </svg>
+  />
 </button>
-
 
 </div>
 
@@ -723,22 +700,28 @@ window.addEventListener('load', revealOnScroll);
 
 // 4 Theme Toggle Button
 const toggleButton = document.getElementById('toggleTheme');
+const favicon = document.querySelector('link[rel="icon"]');
 
 toggleButton.addEventListener('click', () => {
   document.body.classList.toggle('light');
+
   if (document.body.classList.contains('light')) {
     localStorage.setItem('theme', 'light');
+    if (favicon) favicon.href = 'assets/jedi.png'; // favicon for light theme
   } else {
     localStorage.setItem('theme', 'dark');
+    if (favicon) favicon.href = 'assets/dark-side.png'; // favicon for dark theme
   }
 });
 
 window.addEventListener('load', () => {
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light');
+    if (favicon) favicon.href = 'assets/jedi.png';
+  } else {
+    if (favicon) favicon.href = 'assets/dark-side.png';
   }
 });
-
 
 // 5 Resume Download Tracking
 document.getElementById('resumeDownload').addEventListener('click', () => {
