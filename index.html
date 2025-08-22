@@ -479,13 +479,12 @@ body.light .theme-toggle {
 
 .icon-sun,
 .icon-moon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
+  color: var(--accent-dark); /* purple for dark mode */
   transition: opacity 0.3s ease;
-  color: inherit;
+}
+body.light .icon-sun,
+body.light .icon-moon {
+  color: var(--accent-light); /* lighter purple for light mode */
 }
 
 /* Show sun when dark mode (default) */
@@ -550,21 +549,12 @@ body.light .theme-toggle:focus-visible {
   <!-- Theme Toggle Button Centered Here -->
 <div style="display: flex; justify-content: center; margin: 2rem 0;">
 <button id="toggleTheme" class="theme-toggle" type="button" title="Toggle theme" aria-label="Toggle theme" style="position: relative; width: 40px; height: 40px;">
-  <img
-    src="assets/dark-side.png"
-    alt="Dark Side Icon"
-    class="icon-sun"
-    style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;"
-    aria-hidden="true"
-  />
-  <img
-    src="assets/jedi.png"
-    alt="Jedi Icon"
-    class="icon-moon"
-    style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;"
-    aria-hidden="true"
-  />
+  <!-- Baby Yoda SVG as icon-sun -->
+  <svg class="icon-sun" style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;" aria-hidden="true" fill="currentColor" viewBox="...">...</svg>
+  <!-- Darth Vader SVG as icon-moon -->
+  <svg class="icon-moon" style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;" aria-hidden="true" fill="currentColor" viewBox="...">...</svg>
 </button>
+
 
 </div>
 
