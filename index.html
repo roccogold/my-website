@@ -483,48 +483,28 @@ body.light .theme-toggle {
   transition: opacity 0.3s ease;
 }
 
-body.light .icon-sun, 
-body.light .icon-moon {
+body.light .icon-sun {
+  opacity: 1;
+  pointer-events: auto;
   color: var(--accent-light);
   filter: drop-shadow(0 0 6px var(--accent-light));
 }
 
-/* Show and hide icons based on light or dark mode */
-body:not(.light) .icon-sun {
-  opacity: 1;
-  pointer-events: auto;
-}
-body:not(.light) .icon-moon {
-  opacity: 0;
-  pointer-events: none;
-}
 body.light .icon-moon {
-  opacity: 1;
-  pointer-events: auto;
-}
-body.light .icon-sun {
   opacity: 0;
   pointer-events: none;
 }
 
-/* Show sun when dark mode (default) */
 body:not(.light) .icon-sun {
-  opacity: 1;
-  pointer-events: auto;
-}
-body:not(.light) .icon-moon {
   opacity: 0;
   pointer-events: none;
 }
 
-/* Show moon when light mode */
-body.light .icon-moon {
+body:not(.light) .icon-moon {
   opacity: 1;
   pointer-events: auto;
-}
-body.light .icon-sun {
-  opacity: 0;
-  pointer-events: none;
+  color: var(--accent-dark);
+  filter: drop-shadow(0 0 6px var(--accent-dark));
 }
 
 /* Glow and scale on hover/focus */
