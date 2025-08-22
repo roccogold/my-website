@@ -695,26 +695,39 @@ window.addEventListener('load', revealOnScroll);
 const toggleButton = document.getElementById('toggleTheme');
 const favicon = document.querySelector('link[rel="icon"]');
 
-toggleButton.addEventListener('click', () => {
-  document.body.classList.toggle('light');
-
-  if (document.body.classList.contains('light')) {
-    localStorage.setItem('theme', 'light');
-    if (favicon) favicon.href = 'assets/baby-yoda.svg'; // favicon for light theme
-  } else {
-    localStorage.setItem('theme', 'dark');
-    if (favicon) favicon.href = 'assets/darth-vader.svg'; // favicon for dark theme
-  }
-});
-
-window.addEventListener('load', () => {
-  if (localStorage.getItem('theme') === 'light') {
+function applyTheme(theme) {
+  if (theme === 'light') {
     document.body.classList.add('light');
     if (favicon) favicon.href = 'assets/baby-yoda.svg';
   } else {
+    document.body.classList.remove('light');
     if (favicon) favicon.href = 'assets/darth-vader.svg';
   }
+}
+
+// On page load, apply saved theme or default to dark
+window.addEventListener('load', () => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    applyTheme('light');
+  } else {
+    applyTheme('dark');
+  }
+  console.log('Initial theme applied:', document.body.classList.contains('light') ? 'light' : 'dark');
 });
+
+// Toggle button click handler
+toggleButton.addEventListener('click', () => {
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+
+  if (favicon) {
+    favicon.href = isLight ? 'assets/baby-yoda.svg' : 'assets/darth-vader.svg';
+  }
+  console.log('Toggled theme to:', isLight ? 'light' : 'dark');
+  console.log('body class list now:', document.body.classList);
+});
+
 
 // 5 Resume Download Tracking
 document.getElementById('resumeDownload').addEventListener('click', () => {
