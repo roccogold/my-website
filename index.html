@@ -57,10 +57,11 @@
   max-width: 650px;
   margin: 1rem auto 2rem;
   padding: 0 2rem;
+  text-align: center;
 }
 
 .top-bar header {
-  margin: 0;
+  margin: 0 auto;
   width: 100%;
   text-align: center;
 }
@@ -80,6 +81,7 @@
     flex-direction: column;
     align-items: center;
   }
+
   .top-bar header p {
     margin-top: 0.8rem;
   }
@@ -401,6 +403,83 @@ pre {
 .social a {
   cursor: default;
 }
+
+#contactForm {
+  max-width: 400px;
+  margin: 1rem auto;
+}
+
+#contactForm label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+#contactForm input,
+#contactForm textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: var(--main-font);
+  background-color: transparent;
+  color: inherit;
+  transition: border-color 0.3s ease;
+}
+
+#contactForm input:focus,
+#contactForm textarea:focus {
+  border-color: var(--accent-dark);
+  outline: none;
+}
+
+#contactForm button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background: var(--accent-dark);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+#contactForm button:hover,
+#contactForm button:focus {
+  background: #7c5abd;
+}
+
+#formStatus {
+  margin-top: 0.8rem;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.theme-toggle {
+  color: var(--accent-dark);
+  transition: color 0.3s ease;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.light .theme-toggle {
+  color: var(--accent-light);
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus {
+  color: #b18cd9;
+  outline: none;
+}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VKN0MXTZ4Q"></script>
@@ -418,12 +497,41 @@ pre {
   <header class="reveal">
     <h1>Ciao, I’m Rocco Goldschmidt</h1>
     <p>[Product Manager — building things that make life easier]</p>
-</header>
+  </header>
 </div>
 
 <!-- ================= MAIN CONTENT ================= -->
 <main>
   <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
+
+  <!-- Theme Toggle Button Centered Here -->
+  <div style="display: flex; justify-content: center; margin: 2rem 0;">
+    <button
+      id="toggleTheme"
+      class="theme-toggle"
+      type="button"
+      title="Toggle theme"
+      aria-label="Toggle theme"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        width="32"
+        height="32"
+        fill="currentColor"
+        class="theme-toggle__expand"
+        viewBox="0 0 32 32"
+      >
+        <clipPath id="theme-toggle__expand__cutout">
+          <path d="M0-11h25a1 1 0 0017 13v30H0Z" />
+        </clipPath>
+        <g clip-path="url(#theme-toggle__expand__cutout)">
+          <circle cx="16" cy="16" r="8.4" />
+          <path d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z" />
+        </g>
+      </svg>
+    </button>
+  </div>
 
   <section aria-labelledby="work-heading" class="reveal">
     <h2 id="work-heading">My work</h2>
@@ -446,15 +554,40 @@ pre {
       Let’s connect whether it's about product stuff, fintech trends or the best ping pong serve — find me on linkedin, join the conversation on twitter, explore my projects on github or say hello via email.
     </p>
     <p class="contact-desc">
-    Want the full story? Download my resume <a href="https://drive.google.com/file/d/11c8tkDc5AH3pCAEgM44WR4d9w4cxoMR5/view" 
-    target="_blank" rel="noopener noreferrer"><u>here</u></a>.
+      Want the full story? Download my resume <a href="https://drive.google.com/file/d/11c8tkDc5AH3pCAEgM44WR4d9w4cxoMR5/view" 
+      target="_blank" rel="noopener noreferrer" id="resumeDownload"><u>here</u></a>.
     </p>
-    <nav class="social">
-      <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt"><i class="fas fa-envelope"></i></a>
-      <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank"><i class="fab fa-twitter"></i></a>
+
+    <nav class="social" aria-label="Social and contact links">
+      <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-twitter"></i>
+      </a>
     </nav>
+
+    
+    <!-- Contact Form -->
+    <form id="contactForm" aria-label="Contact form to send a message">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required placeholder="Your name" />
+      
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="Your email" />
+      
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="4" required placeholder="Type your message here..."></textarea>
+      
+      <button type="submit">Send</button>
+      <p id="formStatus" aria-live="polite"></p>
+    </form>
   </section>
 </main>
 
@@ -530,6 +663,63 @@ function revealOnScroll() {
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
 
+// 4 Theme Toggle Button
+const toggleButton = document.getElementById('toggleTheme');
+
+toggleButton.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  if (document.body.classList.contains('light')) {
+    localStorage.setItem('theme', 'light');
+  } else {
+    localStorage.setItem('theme', 'dark');
+  }
+});
+
+window.addEventListener('load', () => {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light');
+  } else if (savedTheme === 'dark') {
+    document.body.classList.remove('light');
+  }
+});
+
+// 5 Resume Download Tracking
+document.getElementById('resumeDownload').addEventListener('click', () => {
+  if (window.gtag) {
+    gtag('event', 'resume_download', {
+      event_category: 'engagement',
+      event_label: 'Resume PDF Download'
+    });
+  }
+});
+
+// 6 Contact Form with EmailJS
+// Load EmailJS script and initialize
+const emailjsScript = document.createElement('script');
+emailjsScript.src = 'https://cdn.emailjs.com/dist/email.min.js';
+emailjsScript.onload = () => {
+  emailjs.init('HNfQEsAopw8TGCkop'); // Replace with your EmailJS user ID
+};
+document.body.appendChild(emailjsScript);
+
+const form = document.getElementById('contactForm');
+const status = document.getElementById('formStatus');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  status.textContent = 'Sending message...';
+
+  emailjs.sendForm('service_c8d9vna', 'template_b66ttzh', form)
+    .then(() => {
+      status.textContent = 'Message sent! Thank you for reaching out.';
+      form.reset();
+    }, (error) => {
+      status.textContent = 'Oops! Something went wrong. Please try again later.';
+      console.error('EmailJS error:', error);
+    });
+});
 </script>
 </body>
 </html>
