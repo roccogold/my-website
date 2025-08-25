@@ -536,9 +536,14 @@ body.light .icon-moon {
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s;
+  transition: opacity 0.45s cubic-bezier(0.4,0,0.2,1); /* Fade effect: adjust duration here */
   font-family: var(--main-font);
 }
+.theme-toggle:hover::after,
+.theme-toggle:focus-visible::after {
+  opacity: 1;
+}
+
 
 body.light .theme-toggle::after {
   background: rgba(255,255,255,0.9);
