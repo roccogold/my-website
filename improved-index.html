@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rocco Goldschmidt — Product Manager</title>
+<meta name="description" content="Rocco Goldschmidt — Product Manager blending design, technology & finance to build simple, impactful solutions. Explore my projects and get in touch." />
+<meta name="robots" content="index, follow" />
+
+<!-- Enhanced Security Headers -->
+<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.emailjs.com https://api.github.com;
+               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+               font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+               img-src 'self' data: https:;
+               connect-src 'self' https://api.github.com https://api.emailjs.com;">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#9a77c6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Favicon and touch icons -->
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="shortcut icon" href="assets/favicon.ico">
+
+<!-- Performance optimizations -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://api.github.com">
+<link rel="dns-prefetch" href="https://api.emailjs.com">
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" as="style">
+
+<!-- Fonts and icons with SRI -->
+<link rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://roccogold.com/" />
+<meta property="og:title" content="Rocco Goldschmidt" />
+<meta property="og:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
+<meta property="og:image" content="https://roccogold.com/og-color.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rocco Goldschmidt" />
+<meta name="twitter:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
+<meta name="twitter:image" content="https://roccogold.com/og-color.png" />
+<meta name="twitter:url" content="https://roccogold.com/" />
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Rocco Goldschmidt",
+  "jobTitle": "Product Manager",
+  "url": "https://roccogold.com",
+  "description": "Product Manager blending design, technology & finance to build simple, impactful solutions",
+  "sameAs": [
+    "https://www.linkedin.com/in/roccogoldschmidt/",
+    "https://github.com/roccogold",
+    "https://x.com/roccogold_"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Moody's Analytics"
+  }
+}
+</script>
+
+<style>
+:root {
+  /* Enhanced Theme Colors with better contrast */
+  --accent-dark: #9a77c6;
+  --accent-dark-hover: #b18cd9;
+  --bg-dark: #111;
+  --text-dark: #e5e5e5;
+  --accent-light: #4a2e80;
+  --accent-light-hover: #6b4fa0;
+  --bg-light: #f5f5f7;
+  --text-light: #2c2c2c;
+  
+  /* Enhanced Typography Scale */
+  --font-xs: clamp(0.75rem, 2vw, 0.875rem);
+  --font-sm: clamp(0.875rem, 2.5vw, 1rem);
+  --font-md: clamp(1rem, 3vw, 1.125rem);
+  --font-lg: clamp(1.25rem, 4vw, 1.5rem);
+  --font-xl: clamp(1.5rem, 5vw, 2rem);
+  
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  
+  /* Main Font */
+  --main-font: 'JetBrains Mono', 'Courier New', monospace;
+  
+  /* Animation Properties */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.6s ease;
+}
+
+/* Enhanced Accessibility - Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  :root {
+    --accent-dark: #c499ff;
+    --accent-light: #2d1a4a;
+  }
+}
+
+/* Skip Link for Accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-dark);
+  color: white;
+  padding: var(--space-sm) var(--space-md);
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: top var(--transition-normal);
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  top: var(--space-sm);
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* Container Queries Support */
+.top-bar {
+  position: relative;
+  max-width: 650px;
+  margin: 1rem auto 2rem;
+  padding: 0 2rem;
+  text-align: center;
+  container-type: inline-size;
+}
+
+@container (max-width: 480px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+  .top-bar header p {
+    margin-top: 0.8rem;
+  }
+}
+
+.top-bar header {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+.top-bar header h1 {
+  margin: 0;
+  font-size: var(--font-xl);
+  font-weight: 700;
+}
+
+.top-bar header p {
+  font-size: var(--font-xs);
+  margin-top: 0.4rem;
+  opacity: 0.9;
+}
+
+/* Enhanced Color Scheme Support */
+@media (prefers-color-scheme: light) {
+  body:not(.light) {
+    background: var(--bg-light);
+    color: var(--text-light);
+  }
+  body:not(.light)::before {
+    background: radial-gradient(circle, var(--accent-light) 1px, transparent 1px);
+  }
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+  font-family: var(--main-font);
+  margin: 0;
+  padding: 0;
+  font-size: var(--font-sm);
+  position: relative;
+  transition: background var(--transition-normal), color var(--transition-normal);
+  cursor: none;
+  line-height: 1.6;
+}
+
+/* Enhanced focus management */
+body:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Mobile cursor handling */
+@media (hover: none), (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
+
+a {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  font-size: inherit;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--accent-dark-hover);
+  text-decoration: underline;
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Enhanced background pattern */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle, var(--accent-dark) 2px, transparent 2px);
+  background-size: 40px 40px;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: -1;
+  transition: background var(--transition-normal);
+}
+
+body.light {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+body.light::before {
+  background: radial-gradient(circle, var(--accent-light) 2px, transparent 2px);
+  opacity: 0.08;
+}
+
+/* Enhanced header with better hierarchy */
+header {
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+header h1 {
+  margin: 0;
+  font-size: var(--font-xl);
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+}
+
+@media (max-width: 480px) {
+  header {
+    padding-top: 3.5rem;
+  }
+}
+
+header p {
+  margin-top: var(--space-sm);
+  font-size: var(--font-xs);
+  opacity: 0.9;
+}
+
+/* Enhanced main content with container queries */
+main {
+  max-width: 650px;
+  margin: auto;
+  padding: var(--space-md) var(--space-lg) var(--space-xl);
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  font-size: var(--font-sm);
+  container-type: inline-size;
+}
+
+@container (max-width: 480px) {
+  main {
+    padding: var(--space-md) var(--space-md) var(--space-xl);
+  }
+}
+
+/* Enhanced typography */
+h2 {
+  font-weight: 900;
+  font-size: var(--font-lg);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: var(--space-xs);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+
+body.light h2 {
+  border-color: rgba(0,0,0,0.2);
+}
+
+/* Enhanced list styling */
+ul {
+  padding-left: 0;
+  margin-left: 0;
+  list-style: none;
+}
+
+ul li {
+  position: relative;
+  padding-left: 1.2rem;
+  margin-bottom: 0.7rem;
+  font-weight: 500;
+  font-size: var(--font-sm);
+}
+
+ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent-dark);
+  font-weight: 900;
+  font-size: 14px;
+  line-height: 1;
+  top: 0;
+}
+
+/* Enhanced social icons with container queries */
+.social {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+  container-type: inline-size;
+}
+
+@container (max-width: 300px) {
+  .social {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+}
+
+@container (min-width: 500px) {
+  .social a {
+    width: 60px;
+    height: 60px;
+    font-size: 32px;
+  }
+}
+
+.social a {
+  width: 50px;
+  height: 50px;
+  font-size: 28px;
+  fill: currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: filter var(--transition-normal), transform var(--transition-normal), color var(--transition-normal);
+  color: var(--accent-dark);
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+}
+
+.social a:hover,
+.social a:focus-visible {
+  filter: drop-shadow(0 0 6px var(--accent-dark));
+  transform: scale(1.1);
+  color: var(--accent-dark-hover);
+  cursor: pointer;
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+body.light .social a {
+  color: var(--accent-light);
+}
+
+body.light .social a:hover,
+body.light .social a:focus-visible {
+  filter: drop-shadow(0 0 6px var(--accent-light));
+  color: var(--accent-light-hover);
+  outline-color: var(--accent-light);
+}
+
+/* Enhanced content descriptions */
+p.work-desc,
+p.contact-desc {
+  text-align: left;
+  max-width: 100%;
+  margin: 0 0 var(--space-md) 0;
+  font-style: normal;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* Enhanced footer */
+footer {
+  text-align: center;
+  padding: var(--space-md);
+  color: rgba(255,255,255,0.6);
+  font-size: var(--font-xs);
+  position: relative;
+  z-index: 1;
+}
+
+body.light footer {
+  color: rgba(0,0,0,0.6);
+}
+
+/* Enhanced selection styling */
+::selection {
+  background: var(--accent-dark);
+  color: white;
+}
+
+body.light ::selection {
+  background: var(--accent-light);
+  color: white;
+}
+
+/* Enhanced cursor effects */
+.dot-cursor,
+.trailing-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  transition: background-color var(--transition-normal);
+}
+
+.dot-cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-dark);
+}
+
+.trailing-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent-light);
+  opacity: 0.7;
+  z-index: 9999;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .dot-cursor,
+  .trailing-dot {
+    display: none;
+  }
+}
+
+/* Enhanced animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: revealUp var(--transition-slow) ease forwards;
+}
+
+/* Enhanced code styling */
+code, pre {
+  font-family: var(--main-font);
+  font-size: 1em;
+  background-color: rgba(255,255,255,0.1);
+  color: inherit;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+body.light code,
+body.light pre {
+  background-color: rgba(0,0,0,0.1);
+}
+
+/* Enhanced contact form */
+#contactForm {
+  max-width: 400px;
+  margin: var(--space-md) auto;
+}
+
+#contactForm label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+  font-size: var(--font-sm);
+}
+
+#contactForm input,
+#contactForm textarea {
+  width: 100%;
+  padding: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  font-size: var(--font-sm);
+  font-family: var(--main-font);
+  background-color: rgba(255,255,255,0.05);
+  color: inherit;
+  transition: border-color var(--transition-normal), background-color var(--transition-normal);
+}
+
+body.light #contactForm input,
+body.light #contactForm textarea {
+  border-color: rgba(0,0,0,0.3);
+  background-color: rgba(0,0,0,0.05);
+}
+
+#contactForm input:focus,
+#contactForm textarea:focus {
+  border-color: var(--accent-dark);
+  outline: none;
+  background-color: rgba(255,255,255,0.1);
+}
+
+body.light #contactForm input:focus,
+body.light #contactForm textarea:focus {
+  border-color: var(--accent-light);
+  background-color: rgba(0,0,0,0.1);
+}
+
+#contactForm button {
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  border: none;
+  background: var(--accent-dark);
+  color: white;
+  border-radius: 4px;
+  font-size: var(--font-sm);
+  font-family: var(--main-font);
+  transition: background-color var(--transition-normal), transform var(--transition-fast);
+  font-weight: 600;
+}
+
+#contactForm button:hover,
+#contactForm button:focus {
+  background: var(--accent-dark-hover);
+  transform: translateY(-1px);
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+body.light #contactForm button {
+  background: var(--accent-light);
+}
+
+body.light #contactForm button:hover,
+body.light #contactForm button:focus {
+  background: var(--accent-light-hover);
+  outline-color: var(--accent-light);
+}
+
+#formStatus {
+  margin-top: var(--space-sm);
+  font-size: var(--font-xs);
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* Enhanced theme toggle */
+.theme-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--accent-dark);
+  transition: color var(--transition-normal), filter var(--transition-normal), transform var(--transition-normal);
+}
+
+body.light .theme-toggle {
+  color: var(--accent-light);
+}
+
+.icon-sun, .icon-moon {
+  color: var(--accent-dark);
+  filter: drop-shadow(0 0 6px var(--accent-dark));
+  transition: opacity var(--transition-normal);
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+body:not(.light) .icon-sun {
+  opacity: 1;
+  pointer-events: auto;
+  color: var(--accent-dark);
+  filter: drop-shadow(0 0 6px var(--accent-dark));
+}
+
+body:not(.light) .icon-moon {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.light .icon-sun {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.light .icon-moon {
+  opacity: 1;
+  pointer-events: auto;
+  color: var(--accent-light);
+  filter: drop-shadow(0 0 6px var(--accent-light));
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  filter: drop-shadow(0 0 6px var(--accent-dark));
+  transform: scale(1.1);
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+  border-radius: 4px;
+  color: var(--accent-dark-hover);
+}
+
+body.light .theme-toggle:hover,
+body.light .theme-toggle:focus-visible {
+  filter: drop-shadow(0 0 6px var(--accent-light));
+  color: var(--accent-light-hover);
+  outline-color: var(--accent-light);
+}
+
+.theme-toggle::after {
+  content: "Join the light or the dark?";
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.9);
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+  font-family: var(--main-font);
+  font-weight: 500;
+  border: 1px solid var(--accent-dark);
+}
+
+.theme-toggle:hover::after,
+.theme-toggle:focus-visible::after {
+  opacity: 1;
+}
+
+body.light .theme-toggle::after {
+  background: rgba(255,255,255,0.95);
+  color: #000;
+  border-color: var(--accent-light);
+}
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VKN0MXTZ4Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VKN0MXTZ4Q');
+</script>
+</head>
+<body>
+<!-- Skip link for accessibility -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ================= HEADER ================= -->
+<div id="topBar" class="top-bar">
+  <header class="reveal">
+    <h1>Ciao, I'm Rocco Goldschmidt</h1>
+    <p>[Product Manager — building things that make life easier]</p>
+  </header>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<main id="main-content" role="main" aria-label="Portfolio content">
+  <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
+
+<div style="display: flex; justify-content: center; margin: 2rem 0;">
+  <button id="toggleTheme" class="theme-toggle" type="button" 
+    aria-label="Toggle between light and dark theme"
+    aria-pressed="false"
+    style="position: relative; width: 40px; height: 40px;">
+    <!-- Baby Yoda icon as inline SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"
+      class="icon-sun" 
+      style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;" 
+      fill="currentColor"
+      role="img"
+      aria-label="Light theme - Baby Yoda">
+      <title>Switch to light theme</title>
+      <path d="M 25 5 C 21.715706 5 19.145863 5.6421567 17.328125 6.9414062 C 17.083398 7.1163277 16.858085 7.3065695 16.644531 7.5058594 C 15.803546 7.1435217 14.881118 7 14 7 L 3 7 A 1.0001 1.0001 0 0 0 2.2402344 8.6503906 C 2.2402344 8.6503906 7.0753619 14.465401 13.546875 15.742188 C 13.433239 16.062245 13.356975 16.40014 13.289062 16.751953 C 13.10503 17.705322 13.051641 18.733012 13.027344 19.695312 C 11.630149 21.168444 10.466903 23.209768 9.5546875 25.046875 C 8.5209211 24.763231 7.3997939 25.309651 7.0175781 26.330078 L 6.1601562 28.621094 C 5.7556797 29.700952 6.3150021 30.931584 7.3945312 31.335938 L 8.0429688 31.578125 C 7.8730705 32.013297 7.7318202 32.507394 7.6835938 33.044922 C 7.6370407 33.563796 7.6852638 34.139899 7.9511719 34.689453 C 8.2170801 35.239007 8.7082448 35.720036 9.3457031 36.019531 C 10.094133 36.371022 10.85993 36.396172 11.521484 36.226562 L 10.263672 41.589844 L 10.255859 41.640625 C 10.047134 43.239436 11.022897 44.783035 12.574219 45.255859 C 14.994559 45.993604 20.251832 47 25 47 C 29.748168 47 35.005201 45.994233 37.425781 45.257812 C 38.977103 44.784988 39.952866 43.239436 39.744141 41.640625 L 39.738281 41.591797 L 38.478516 36.228516 C 39.139937 36.397959 39.906088 36.370918 40.654297 36.019531 C 41.291755 35.720036 41.78292 35.239007 42.048828 34.689453 C 42.314736 34.139899 42.362959 33.563796 42.316406 33.044922 C 42.268242 32.508114 42.126624 32.014832 41.957031 31.580078 L 42.605469 31.335938 C 43.684998 30.931583 44.24432 29.700952 43.839844 28.621094 L 42.982422 26.330078 L 42.980469 26.328125 C 42.597286 25.309456 41.478097 24.76347 40.445312 25.046875 C 39.533098 23.209768 38.369851 21.168444 36.972656 19.695312 C 36.948358 18.733012 36.894969 17.705322 36.710938 16.751953 C 36.643025 16.40014 36.566761 16.062245 36.453125 15.742188 C 42.924638 14.465401 47.759766 8.6503906 47.759766 8.6503906 A 1.0001 1.0001 0 0 0 47 7 L 36 7 C 35.118882 7 34.196454 7.1435217 33.355469 7.5058594 C 33.141915 7.3065695 32.916602 7.1163277 32.671875 6.9414062 C 30.854137 5.6421567 28.284294 5 25 5 z M 25 7 C 28.018706 7 30.175754 7.6148589 31.509766 8.5683594 C 32.843777 9.5218598 33.455078 10.768891 33.455078 12.5 C 33.455078 13.322026 33.247043 14.042415 32.890625 14.693359 C 31.18734 15.659175 29.790346 17 25 17 C 20.211832 17 18.813559 15.661032 17.111328 14.695312 C 16.753671 14.043113 16.544922 13.322785 16.544922 12.5 C 16.544922 10.768891 17.156223 9.5218598 18.490234 8.5683594 C 19.824246 7.6148589 21.981294 7 25 7 z M 5.6191406 9 L 14 9 C 14.466984 9 14.928517 9.0693033 15.353516 9.1875 C 14.824722 10.175972 14.544922 11.299567 14.544922 12.5 C 14.544922 12.990769 14.61307 13.459819 14.712891 13.916016 C 10.57979 13.424569 7.3899507 10.693775 5.6191406 9 z M 36 9 L 44.380859 9 C 42.61005 10.693775 39.42021 13.424569 35.287109 13.916016 C 35.38667 13.460063 35.455078 12.990218 35.455078 12.5 C 35.455078 11.299567 35.175278 10.175972 34.646484 9.1875 C 35.071483 9.0693033 35.533016 9 36 9 z M 20.972656 11 C 19.786377 11.030374 18.585719 11.614156 18.066406 12.652344 C 18.066406 13.839344 21.627 16.212844 24 13.839844 C 24 11.837344 22.497873 10.960948 20.972656 11 z M 29.027344 11 C 27.502127 10.960948 26 11.837344 26 13.839844 C 28.373 16.212844 31.933594 13.839344 31.933594 12.652344 C 31.414281 11.614156 30.213623 11.030374 29.027344 11 z M 24 15 C 24 15.552 24.448 16 25 16 C 25.552 16 26 15.552 26 15 L 24 15 z M 15.576172 16.166016 C 16.967476 16.801333 19.062021 19 25 19 C 25.614439 19 26.026144 18.893155 26.5625 18.849609 C 26.48171 19.420505 26.48124 19.902537 26.064453 20.886719 C 25.754144 21.619463 25.325521 22.29739 24.796875 22.740234 C 24.355756 23.109757 23.820213 23.297701 23.132812 23.324219 C 22.121952 23.272849 21.38535 23.291119 19.666016 23.001953 C 18.338967 22.778768 17.025262 22.44646 16.142578 22.033203 C 15.701236 21.826575 15.376224 21.598964 15.203125 21.414062 C 15.030026 21.229162 15 21.134722 15 21 C 15 19.850737 15.03744 18.242136 15.251953 17.130859 C 15.348283 16.631845 15.492161 16.310565 15.576172 16.166016 z M 34.423828 16.166016 C 34.507838 16.310565 34.65172 16.631845 34.748047 17.130859 C 34.962562 18.242136 35 19.850737 35 21 C 35 21.134722 34.96997 21.229162 34.796875 21.414062 C 34.623776 21.598963 34.298764 21.826575 33.857422 22.033203 C 32.974738 22.44646 31.661033 22.778768 30.333984 23.001953 C 28.549772 23.302025 27.727296 23.288167 26.736328 23.335938 C 27.163733 22.786303 27.656158 22.258519 27.90625 21.667969 C 28.547579 20.153576 28.592567 19.138925 28.640625 18.648438 C 31.889706 18.000688 33.367977 16.648154 34.423828 16.166016 z M 13.435547 22.390625 C 13.527784 22.530928 13.631032 22.662515 13.742188 22.78125 C 13.974452 23.029351 14.242814 23.235459 14.529297 23.419922 L 13.78125 26.609375 L 11.451172 25.736328 C 12.037271 24.58889 12.7172 23.410835 13.435547 22.390625 z M 36.564453 22.390625 C 37.2828 23.410835 37.962729 24.58889 38.548828 25.736328 L 36.220703 26.609375 L 35.472656 23.417969 C 35.758287 23.233847 36.026143 23.028716 36.257812 22.78125 C 36.368968 22.662515 36.472217 22.530928 36.564453 22.390625 z M 16.384766 24.269531 C 17.311846 24.580624 18.323818 24.804718 19.333984 24.974609 C 20.509923 25.172381 20.70165 25.113779 21.667969 25.191406 L 21.667969 44.839844 C 18.170603 44.529407 14.758934 43.831666 13.158203 43.34375 C 12.540254 43.155406 12.16138 42.558061 12.242188 41.908203 L 16.384766 24.269531 z M 33.617188 24.269531 L 37.759766 41.914062 C 37.837482 42.561563 37.45977 43.155995 36.84375 43.34375 C 35.241677 43.831153 31.829526 44.529249 28.332031 44.839844 L 28.332031 25.191406 C 29.29835 25.113776 29.490077 25.172386 30.666016 24.974609 C 31.676818 24.804611 32.689637 24.580935 33.617188 24.269531 z M 23.667969 25.376953 C 23.9367 25.386938 24.982422 25.5 24.982422 25.5 L 25 25.5 L 25.017578 25.5 C 25.017578 25.5 26.0633 25.386938 26.332031 25.376953 L 26.332031 44.964844 C 25.883991 44.98295 25.436119 45 25 45 C 24.563881 45 24.116004 44.982939 23.667969 44.964844 L 23.667969 25.376953 z M 8.9453125 26.962891 C 8.9692334 26.952146 8.9991321 26.954032 9.0332031 26.966797 L 13.320312 28.572266 L 12.705078 31.189453 L 8.0976562 29.462891 C 8.0291852 29.437241 8.0076801 29.390411 8.0332031 29.322266 L 8.890625 27.03125 C 8.9034485 26.997015 8.9213916 26.973636 8.9453125 26.962891 z M 41.054688 26.962891 C 41.078609 26.973637 41.096551 26.997025 41.109375 27.03125 L 41.966797 29.322266 C 41.992317 29.390406 41.970794 29.437244 41.902344 29.462891 L 37.296875 31.189453 L 36.681641 28.572266 L 40.966797 26.966797 C 41.000867 26.954037 41.030766 26.952144 41.054688 26.962891 z M 9.9296875 32.285156 L 12.205078 33.136719 C 11.991151 33.500091 11.700848 33.903395 11.392578 34.125 C 11.031512 34.384558 10.799043 34.492523 10.195312 34.208984 C 9.9047713 34.072484 9.8157793 33.954306 9.75 33.818359 C 9.6842207 33.682413 9.650131 33.488736 9.6738281 33.224609 C 9.6991527 32.942344 9.8022345 32.609291 9.9296875 32.285156 z M 40.072266 32.285156 C 40.199566 32.609042 40.300869 32.942582 40.326172 33.224609 C 40.349872 33.488736 40.31578 33.682413 40.25 33.818359 C 40.18422 33.954306 40.095229 34.07248 39.804688 34.208984 C 39.200958 34.492519 38.968488 34.384554 38.607422 34.125 C 38.299793 33.903856 38.010748 33.501478 37.796875 33.138672 L 40.072266 32.285156 z"></path>
+    </svg>
+    
+    <!-- Darth Vader icon as inline SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"
+      class="icon-moon" 
+      style="position: absolute; top: 0; left: 0; width: 40px; height: 40px;" 
+      fill="currentColor"
+      role="img"
+      aria-label="Dark theme - Darth Vader">
+      <title>Switch to dark theme</title>
+      <path d="M 24 2 C 22.90625 2 22 2.90625 22 4 L 22 4.046875 C 16.664063 4.492188 12.289063 8.46875 11.242188 13.625 C 11.171875 13.902344 11.125 14.203125 11.089844 14.527344 C 11.074219 14.566406 11.023438 14.691406 11.003906 14.917969 C 10.9375 15.726563 10.734375 16.8125 10.484375 17.90625 C 10.40625 18.242188 10.328125 18.578125 10.246094 18.90625 L 10.246094 18.914063 C 10.238281 18.941406 10.226563 18.980469 10.214844 19.035156 C 9.929688 20.148438 9.632813 21.191406 9.40625 21.949219 C 9 22.964844 8.554688 24.039063 8.109375 25.109375 C 7.128906 27.457031 5.871094 30.128906 4.851563 32.589844 C 3.828125 35.042969 3.003906 37.21875 3 38.988281 C 2.996094 39.386719 3.132813 40.554688 4.328125 41.769531 C 5.097656 42.550781 6.273438 43.140625 7.882813 43.71875 C 9.355469 44.253906 11.261719 44.714844 13.371094 45.097656 C 13.652344 45.617188 14.042969 46.070313 14.554688 46.378906 C 15.289063 46.820313 16.1875 47.121094 17.234375 47.355469 C 19.332031 47.820313 22.03125 48 25 48 C 27.964844 48 30.667969 47.832031 32.765625 47.371094 C 33.8125 47.136719 34.714844 46.839844 35.453125 46.394531 C 35.964844 46.082031 36.355469 45.621094 36.636719 45.097656 C 38.742188 44.714844 40.648438 44.253906 42.121094 43.71875 C 43.722656 43.140625 44.902344 42.550781 45.671875 41.769531 C 46.867188 40.554688 47.003906 39.386719 47 38.988281 C 46.996094 37.21875 46.171875 35.046875 45.152344 32.589844 C 44.128906 30.128906 42.871094 27.457031 41.894531 25.109375 C 41.445313 24.035156 41 22.957031 40.589844 21.9375 C 40.574219 21.886719 40.5625 21.839844 40.546875 21.796875 L 40.546875 21.785156 C 40.550781 21.808594 40.546875 21.792969 40.535156 21.757813 L 40.535156 21.753906 C 40.5 21.625 40.457031 21.480469 40.410156 21.328125 C 40.398438 21.285156 40.386719 21.242188 40.375 21.191406 L 40.371094 21.1875 C 40.332031 21.054688 40.292969 20.917969 40.253906 20.78125 L 40.253906 20.777344 C 40.242188 20.734375 40.230469 20.699219 40.222656 20.667969 L 40.222656 20.664063 L 40.21875 20.660156 C 40.171875 20.488281 40.125 20.308594 40.074219 20.121094 L 40.070313 20.109375 C 40.058594 20.0625 40.046875 20.023438 40.039063 19.992188 L 40.035156 19.988281 L 40.035156 19.984375 C 39.996094 19.832031 39.953125 19.675781 39.910156 19.515625 C 39.894531 19.457031 39.882813 19.40625 39.875 19.363281 L 39.871094 19.355469 L 39.871094 19.347656 C 39.816406 19.152344 39.765625 18.949219 39.71875 18.75 L 39.707031 18.714844 L 39.707031 18.707031 C 39.660156 18.523438 39.617188 18.332031 39.570313 18.140625 L 39.566406 18.136719 C 39.554688 18.078125 39.542969 18.023438 39.53125 17.976563 L 39.53125 17.964844 C 39.273438 16.851563 39.066406 15.742188 38.996094 14.917969 C 38.976563 14.6875 38.925781 14.5625 38.910156 14.527344 C 38.875 14.203125 38.828125 13.898438 38.757813 13.625 C 37.710938 8.464844 33.335938 4.492188 28 4.046875 L 28 4 C 28 2.90625 27.09375 2 26 2 Z M 24 4 L 26 4 L 26 18 L 24 18 Z M 22 6.054688 L 22 17.59375 C 21.085938 17.3125 19.738281 17.003906 18 17 L 17 17 C 15.453125 17 13.832031 17.449219 12.4375 18.34375 C 12.695313 17.203125 12.914063 16.066406 12.996094 15.082031 C 12.992188 15.125 12.984375 15.164063 13.027344 15 L 13.046875 14.921875 L 13.058594 14.84375 C 13.089844 14.535156 13.132813 14.285156 13.1875 14.082031 L 13.191406 14.058594 L 13.199219 14.03125 C 14.054688 9.789063 17.621094 6.496094 22 6.054688 Z M 28 6.054688 C 32.378906 6.496094 35.945313 9.789063 36.800781 14.03125 L 36.808594 14.058594 L 36.8125 14.082031 C 36.867188 14.285156 36.910156 14.539063 36.941406 14.84375 L 36.953125 14.921875 L 36.972656 15 C 37.015625 15.164063 37.007813 15.125 37.003906 15.082031 C 37.085938 16.066406 37.304688 17.207031 37.566406 18.347656 C 36.167969 17.449219 34.546875 17 33 17 L 32 17 C 30.261719 17.003906 28.914063 17.3125 28 17.59375 Z M 19.953125 7.996094 C 19.863281 8 19.773438 8.019531 19.6875 8.046875 C 19.6875 8.046875 16.351563 9.136719 15.0625 12.65625 C 14.871094 13.171875 15.136719 13.75 15.65625 13.9375 C 16.171875 14.128906 16.75 13.863281 16.9375 13.34375 C 17.898438 10.738281 20.3125 9.953125 20.3125 9.953125 C 20.777344 9.808594 21.070313 9.347656 21.007813 8.867188 C 20.945313 8.382813 20.542969 8.015625 20.054688 7.996094 C 20.023438 7.996094 19.988281 7.996094 19.953125 7.996094 Z M 17 19 L 18 19 C 20.644531 19 22.574219 19.90625 22.574219 19.90625 L 22.777344 20 L 27.222656 20 L 27.425781 19.90625 C 27.425781 19.90625 29.355469 19 32 19 L 33 19 C 35.226563 19 37.667969 20.167969 38.726563 22.664063 C 39.144531 23.707031 39.597656 24.796875 40.046875 25.878906 C 41.050781 28.292969 42.308594 30.960938 43.304688 33.359375 C 44.300781 35.753906 45 37.945313 45 39 L 45 39.019531 C 45 38.933594 45.058594 39.542969 44.25 40.367188 L 44.246094 40.367188 C 43.90625 40.710938 42.898438 41.3125 41.4375 41.839844 C 40.15625 42.304688 38.503906 42.738281 36.59375 43.097656 C 36.445313 42.878906 36.226563 42.5 35.949219 41.675781 C 35.808594 41.25 35.402344 40.96875 34.953125 40.988281 C 34.632813 41.003906 34.34375 41.164063 34.164063 41.429688 C 33.988281 41.691406 33.945313 42.023438 34.050781 42.324219 C 34.367188 43.242188 34.683594 43.804688 34.925781 44.183594 C 34.871094 44.320313 34.757813 44.472656 34.414063 44.683594 C 33.976563 44.949219 33.253906 45.214844 32.335938 45.417969 C 30.496094 45.820313 27.886719 46 25 46 C 22.117188 46 19.507813 45.8125 17.671875 45.402344 C 16.75 45.199219 16.027344 44.929688 15.589844 44.667969 C 15.339844 44.515625 15.214844 44.394531 15.132813 44.289063 C 15.667969 43.742188 16.480469 42.761719 16.953125 41.308594 C 17.054688 41 17.003906 40.664063 16.816406 40.402344 C 16.628906 40.140625 16.324219 39.984375 16 39.984375 C 15.5625 39.988281 15.175781 40.273438 15.046875 40.691406 C 14.597656 42.09375 13.742188 42.902344 13.496094 43.113281 C 11.546875 42.753906 9.863281 42.308594 8.5625 41.839844 C 7.101563 41.3125 6.089844 40.710938 5.75 40.367188 C 4.941406 39.542969 5 38.933594 5 39.019531 L 5 39 C 5 37.945313 5.699219 35.753906 6.695313 33.359375 C 7.691406 30.960938 8.949219 28.292969 9.953125 25.878906 C 10.410156 24.792969 10.863281 23.695313 11.28125 22.644531 C 12.347656 20.164063 14.777344 19 17 19 Z M 18.359375 20 C 16.519531 20 15.082031 20.929688 14.222656 22.121094 C 13.402344 23.257813 13.042969 24.605469 13.011719 25.828125 C 13.011719 25.832031 13.011719 25.832031 13.011719 25.832031 C 13.003906 25.886719 13 25.945313 13 26 C 13 27.332031 13.53125 29.25 14.039063 31.027344 C 14.546875 32.800781 15.050781 34.316406 15.050781 34.316406 C 15.226563 34.839844 15.792969 35.125 16.316406 34.949219 C 16.839844 34.773438 17.125 34.207031 16.949219 33.683594 C 16.949219 33.683594 16.453125 32.199219 15.960938 30.472656 C 15.792969 29.890625 15.652344 29.285156 15.511719 28.6875 C 15.597656 28.710938 15.6875 28.75 15.769531 28.769531 C 16.851563 29.023438 17.785156 29.003906 17.929688 29 C 17.953125 29 17.976563 29 18 29 C 18 29 18.03125 29 18.03125 29 L 22 29 L 22 30.679688 L 17.1875 37.417969 C 16.96875 37.722656 16.9375 38.125 17.109375 38.457031 C 17.28125 38.792969 17.625 39 18 39 L 32 39 C 32.375 39 32.71875 38.792969 32.890625 38.457031 C 33.0625 38.125 33.03125 37.722656 32.8125 37.417969 L 28 30.679688 L 28 29 L 32 29 C 32 29 32.027344 28.996094 32.03125 29 C 32.125 29 33.117188 29.03125 34.230469 28.769531 C 34.3125 28.75 34.402344 28.710938 34.488281 28.6875 C 34.347656 29.285156 34.207031 29.890625 34.039063 30.472656 C 33.546875 32.199219 33.050781 33.683594 33.050781 33.683594 C 32.875 34.207031 33.160156 34.773438 33.683594 34.949219 C 34.207031 35.125 34.773438 34.839844 34.949219 34.316406 C 34.949219 34.316406 35.453125 32.800781 35.960938 31.027344 C 36.46875 29.25 37 27.332031 37 26 C 37 25.949219 36.996094 25.898438 36.988281 25.847656 C 36.960938 24.621094 36.601563 23.265625 35.777344 22.121094 C 34.917969 20.929688 33.480469 20 31.640625 20 C 28.304688 20 26.25 22.339844 26.25 22.339844 C 26.089844 22.519531 26 22.757813 26 23 L 26 26.390625 C 25.894531 26.355469 25.792969 26.3125 25.683594 26.285156 C 25.5 26.105469 25.257813 26.003906 25 26 C 24.742188 26.003906 24.5 26.105469 24.316406 26.285156 C 24.207031 26.3125 24.105469 26.355469 24 26.390625 L 24 23 C 24 22.757813 23.910156 22.519531 23.75 22.339844 C 23.75 22.339844 21.695313 20 18.359375 20 Z M 18.359375 22 C 20.480469 22 21.695313 23.152344 22 23.464844 L 22 27 L 18.011719 27 C 18.007813 27 18.003906 27 18 27 C 17.988281 27 17.980469 27 17.96875 27 C 17.96875 27 17.066406 27.019531 16.230469 26.824219 C 15.808594 26.726563 15.429688 26.566406 15.234375 26.414063 C 15.035156 26.261719 15 26.21875 15 26 C 15 25.144531 15.289063 24.066406 15.847656 23.285156 C 16.40625 22.507813 17.148438 22 18.359375 22 Z M 31.640625 22 C 32.851563 22 33.59375 22.507813 34.152344 23.285156 C 34.710938 24.066406 35 25.144531 35 26 C 35 26.21875 34.964844 26.261719 34.765625 26.414063 C 34.570313 26.566406 34.191406 26.726563 33.769531 26.824219 C 32.933594 27.019531 32.03125 27 32.03125 27 C 32.019531 27 32.011719 27 32 27 L 28 27 L 28 23.464844 C 28.304688 23.152344 29.519531 22 31.640625 22 Z M 25 28 C 25.566406 28 26 28.433594 26 29 L 26 30 L 24 30 L 24 29 C 24 28.433594 24.433594 28 25 28 Z M 23.515625 32 L 24 32 L 24 37 L 23 37 L 23 32.722656 Z M 26 32 L 26.484375 32 L 27 32.722656 L 27 37 L 26 37 Z M 21 35.523438 L 21 37 L 19.945313 37 Z M 29 35.523438 L 30.054688 37 L 29 37 Z"></path>
+    </svg>
+  </button>
+</div>
+
+  <section aria-labelledby="work-heading" class="reveal">
+    <h2 id="work-heading">My work</h2>
+    <ul>
+      <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make onboarding so easy, even your grandpa could integrate them.</li>
+      <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.</li>
+      <li>Other projects:
+        <ul>
+          <li><u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[insurtrain]</a></u>: decentralized insurance solution on smart contracts to automate claims processing for train delays.</li>
+          <li><u><a href="https://github.com/roccogold/tbills-auction" target="_blank" rel="noopener noreferrer">[tbills-auctions]</a></u>: blockchain-based solution that automates treasury bill auctions.</li>
+        </ul>
+      </li>
+      <li>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Let's solve it together.</li>
+    </ul>
+  </section>
+  
+  <section aria-labelledby="contact-heading" class="reveal">
+    <h2 id="contact-heading">Get in touch</h2>
+    <p class="contact-desc">
+      Let's connect whether it's about product stuff, fintech trends or the best ping pong serve — find me on linkedin, join the conversation on twitter, explore my projects on github or say hello via email.
+    </p>
+    <p class="contact-desc">
+      Want the juicy bits? Download my resume <a href="https://drive.google.com/file/d/11c8tkDc5AH3pCAEgM44WR4d9w4cxoMR5/view" 
+      target="_blank" rel="noopener noreferrer" id="resumeDownload"><u>here</u></a>.
+    </p>
+    
+    <nav class="social" aria-label="Social and contact links" role="navigation">
+      <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-envelope" aria-hidden="true"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin" aria-hidden="true"></i>
+      </a>
+      <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-twitter" aria-hidden="true"></i>
+      </a>
+    </nav>
+    
+    <!-- Enhanced Contact Form -->
+    <form id="contactForm" aria-label="Contact form to send a message" novalidate>
+      <label for="name">Name <span aria-label="required">*</span></label>
+      <input type="text" 
+             id="name" 
+             name="name" 
+             required 
+             placeholder="Your name"
+             aria-describedby="name-error"
+             autocomplete="name" />
+      <div id="name-error" class="error-message" role="alert" aria-live="polite"></div>
+      
+      <label for="email">Email <span aria-label="required">*</span></label>
+      <input type="email" 
+             id="email" 
+             name="email" 
+             required 
+             placeholder="Your email"
+             aria-describedby="email-error"
+             autocomplete="email" />
+      <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
+      
+      <label for="message">Message <span aria-label="required">*</span></label>
+      <textarea id="message" 
+                name="message" 
+                rows="4" 
+                required 
+                placeholder="Your message"
+                aria-describedby="message-error"></textarea>
+      <div id="message-error" class="error-message" role="alert" aria-live="polite"></div>
+      
+      <button type="submit" aria-describedby="formStatus">Send</button>
+      <p id="formStatus" aria-live="polite" role="status"></p>
+    </form>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer role="contentinfo">
+  <span id="lastUpdated"></span>
+</footer>
+
+<!-- Enhanced cursor elements -->
+<div class="dot-cursor" aria-hidden="true"></div>
+<div class="trailing-dot" aria-hidden="true"></div>
+
+<!-- Enhanced JavaScript with modules -->
+<script type="module">
+// Theme Management Module
+class ThemeManager {
+  constructor() {
+    this.currentTheme = 'dark';
+    this.toggleButton = document.getElementById('toggleTheme');
+    this.favicon = document.querySelector('link[rel="icon"]');
+    this.init();
+  }
+
+  init() {
+    // Apply saved theme or default to dark
+    this.loadSavedTheme();
+    this.setupEventListeners();
+    this.updateAriaStates();
+  }
+
+  loadSavedTheme() {
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        this.applyTheme('light');
+      } else {
+        this.applyTheme('dark');
+      }
+    } catch (error) {
+      console.warn('Could not access localStorage:', error);
+      this.applyTheme('dark');
+    }
+  }
+
+  setupEventListeners() {
+    this.toggleButton?.addEventListener('click', () => this.toggleTheme());
+    
+    // Keyboard shortcut: Ctrl/Cmd + Shift + T
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'T') {
+        e.preventDefault();
+        this.toggleTheme();
+      }
+    });
+  }
+
+  async toggleTheme() {
+    const newTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+    await this.applyTheme(newTheme);
+    
+    // Announce theme change to screen readers
+    this.announceThemeChange(newTheme);
+    
+    // Analytics tracking
+    if (window.gtag) {
+      gtag('event', 'theme_toggle', {
+        event_category: 'engagement',
+        event_label: newTheme
+      });
+    }
+  }
+
+  async applyTheme(theme) {
+    return new Promise(resolve => {
+      this.currentTheme = theme;
+      
+      if (theme === 'light') {
+        document.body.classList.add('light');
+        if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
+      } else {
+        document.body.classList.remove('light');
+        if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
+      }
+      
+      // Save preference
+      try {
+        localStorage.setItem('theme', theme);
+      } catch (error) {
+        console.warn('Could not save theme preference:', error);
+      }
+      
+      this.updateAriaStates();
+      
+      // Allow CSS transitions to complete
+      setTimeout(resolve, 300);
+    });
+  }
+
+  updateAriaStates() {
+    if (this.toggleButton) {
+      this.toggleButton.setAttribute('aria-pressed', this.currentTheme === 'light');
+      const label = this.currentTheme === 'dark' ? 
+        'Switch to light theme' : 'Switch to dark theme';
+      this.toggleButton.setAttribute('aria-label', label);
+    }
+  }
+
+  announceThemeChange(theme) {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.setAttribute('aria-atomic', 'true');
+    announcement.className = 'sr-only';
+    announcement.textContent = `Switched to ${theme} theme`;
+    document.body.appendChild(announcement);
+    
+    setTimeout(() => {
+      document.body.removeChild(announcement);
+    }, 1000);
+  }
+}
+
+// Custom Cursor Module
+class CustomCursor {
+  constructor() {
+    this.isSupported = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (this.isSupported) {
+      this.init();
+    }
+  }
+
+  init() {
+    this.dot = document.querySelector('.dot-cursor');
+    this.trail = document.querySelector('.trailing-dot');
+    this.mouseX = window.innerWidth / 2;
+    this.mouseY = window.innerHeight / 2;
+    this.trailX = this.mouseX;
+    this.trailY = this.mouseY;
+
+    this.setupEventListeners();
+    this.animate();
+  }
+
+  setupEventListeners() {
+    document.addEventListener('mousemove', (e) => {
+      this.mouseX = e.clientX;
+      this.mouseY = e.clientY;
+      if (this.dot) {
+        this.dot.style.left = this.mouseX + 'px';
+        this.dot.style.top = this.mouseY + 'px';
+      }
+    });
+
+    // Hide cursor when leaving viewport
+    document.addEventListener('mouseleave', () => {
+      if (this.dot) this.dot.style.opacity = '0';
+      if (this.trail) this.trail.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+      if (this.dot) this.dot.style.opacity = '1';
+      if (this.trail) this.trail.style.opacity = '0.7';
+    });
+  }
+
+  animate() {
+    this.trailX += (this.mouseX - this.trailX) * 0.15;
+    this.trailY += (this.mouseY - this.trailY) * 0.15;
+    
+    if (this.trail) {
+      this.trail.style.left = this.trailX + 'px';
+      this.trail.style.top = this.trailY + 'px';
+    }
+    
+    requestAnimationFrame(() => this.animate());
+  }
+}
+
+// Scroll Animations Module
+class ScrollAnimations {
+  constructor() {
+    this.reveals = document.querySelectorAll('.reveal');
+    this.observer = null;
+    this.init();
+  }
+
+  init() {
+    // Use Intersection Observer for better performance
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          this.observer.unobserve(entry.target); // Stop observing once revealed
+        }
+      });
+    }, observerOptions);
+
+    this.reveals.forEach(element => {
+      this.observer.observe(element);
+    });
+  }
+}
+
+// Enhanced Contact Form Module
+class ContactForm {
+  constructor() {
+    this.form = document.getElementById('contactForm');
+    this.status = document.getElementById('formStatus');
+    this.isSubmitting = false;
+    this.init();
+  }
+
+  init() {
+    if (!this.form) return;
+    
+    this.loadEmailJS();
+    this.setupEventListeners();
+  }
+
+  async loadEmailJS() {
+    try {
+      if (!window.emailjs) {
+        await this.loadScript('https://cdn.emailjs.com/dist/email.min.js');
+        emailjs.init('HNfQEsAopw8TGCkop');
+      }
+    } catch (error) {
+      console.error('Failed to load EmailJS:', error);
+    }
+  }
+
+  loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
+    });
+  }
+
+  setupEventListeners() {
+    this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    
+    // Real-time validation
+    const inputs = this.form.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+      input.addEventListener('blur', () => this.validateField(input));
+      input.addEventListener('input', () => this.clearFieldError(input));
+    });
+  }
+
+  validateField(field) {
+    const errorElement = document.getElementById(`${field.id}-error`);
+    if (!errorElement) return;
+
+    let errorMessage = '';
+
+    if (field.hasAttribute('required') && !field.value.trim()) {
+      errorMessage = `${field.labels[0].textContent.replace('*', '').trim()} is required`;
+    } else if (field.type === 'email' && field.value && !this.isValidEmail(field.value)) {
+      errorMessage = 'Please enter a valid email address';
+    }
+
+    if (errorMessage) {
+      errorElement.textContent = errorMessage;
+      errorElement.style.display = 'block';
+      field.setAttribute('aria-invalid', 'true');
+      return false;
+    } else {
+      errorElement.textContent = '';
+      errorElement.style.display = 'none';
+      field.removeAttribute('aria-invalid');
+      return true;
+    }
+  }
+
+  clearFieldError(field) {
+    const errorElement = document.getElementById(`${field.id}-error`);
+    if (errorElement) {
+      errorElement.textContent = '';
+      errorElement.style.display = 'none';
+    }
+    field.removeAttribute('aria-invalid');
+  }
+
+  isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault();
+    
+    if (this.isSubmitting) return;
+    
+    // Validate all fields
+    const fields = this.form.querySelectorAll('input[required], textarea[required]');
+    let isValid = true;
+    
+    fields.forEach(field => {
+      if (!this.validateField(field)) {
+        isValid = false;
+      }
+    });
+
+    if (!isValid) {
+      this.showStatus('Please fix the errors above.', 'error');
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.showStatus('Sending message...', 'loading');
+
+    try {
+      if (window.emailjs) {
+        await emailjs.sendForm('service_c8d9vna', 'template_b66ttzh', this.form);
+        this.showStatus('Message sent! Thank you for reaching out.', 'success');
+        this.form.reset();
+        
+        // Analytics tracking
+        if (window.gtag) {
+          gtag('event', 'contact_form_submit', {
+            event_category: 'engagement',
+            event_label: 'success'
+          });
+        }
+      } else {
+        throw new Error('EmailJS not available');
+      }
+    } catch (error) {
+      console.error('Email error:', error);
+      this.showStatus('Oops! Something went wrong. Please try again later.', 'error');
+      
+      if (window.gtag) {
+        gtag('event', 'contact_form_error', {
+          event_category: 'error',
+          event_label: error.message || 'unknown'
+        });
+      }
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+
+  showStatus(message, type) {
+    if (!this.status) return;
+    
+    this.status.textContent = message;
+    this.status.className = `form-status ${type}`;
+    
+    // Auto-clear success messages
+    if (type === 'success') {
+      setTimeout(() => {
+        this.status.textContent = '';
+        this.status.className = '';
+      }, 5000);
+    }
+  }
+}
+
+// GitHub Integration Module
+class GitHubIntegration {
+  constructor() {
+    this.lastUpdatedElement = document.getElementById('lastUpdated');
+    this.init();
+  }
+
+  async init() {
+    if (!this.lastUpdatedElement) return;
+    
+    try {
+      const response = await fetch('https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1');
+      if (!response.ok) throw new Error('GitHub API request failed');
+      
+      const data = await response.json();
+      if (data.workflow_runs && data.workflow_runs.length > 0) {
+        this.displayLastUpdated(data.workflow_runs[0]);
+      } else {
+        this.displayFallback();
+      }
+    } catch (error) {
+      console.warn('GitHub API error:', error);
+      this.displayFallback();
+    }
+  }
+
+  displayLastUpdated(run) {
+    const updatedDate = new Date(run.updated_at);
+    const day = String(updatedDate.getDate()).padStart(2, '0');
+    const month = String(updatedDate.getMonth() + 1).padStart(2, '0');
+    const year = updatedDate.getFullYear();
+    const hours = String(updatedDate.getHours()).padStart(2, '0');
+    const minutes = String(updatedDate.getMinutes()).padStart(2, '0');
+    const username = run.actor?.login || "unknown";
+    
+    this.lastUpdatedElement.textContent =
+      `© Updated on ${day}-${month}-${year} ${hours}:${minutes} by ${username} — work in progress, just like me.`;
+  }
+
+  displayFallback() {
+    this.lastUpdatedElement.textContent = "© Site updated recently — work in progress.";
+  }
+}
+
+// Core Web Vitals monitoring
+class PerformanceMonitor {
+  constructor() {
+    this.init();
+  }
+
+  async init() {
+    try {
+      const { getCLS, getFID, getFCP, getLCP, getTTFB } = await import('https://unpkg.com/web-vitals@3?module');
+      
+      getCLS(this.sendToAnalytics);
+      getFID(this.sendToAnalytics);
+      getFCP(this.sendToAnalytics);
+      getLCP(this.sendToAnalytics);
+      getTTFB(this.sendToAnalytics);
+    } catch (error) {
+      console.warn('Web Vitals monitoring failed:', error);
+    }
+  }
+
+  sendToAnalytics(metric) {
+    if (window.gtag) {
+      gtag('event', metric.name, {
+        event_category: 'Web Vitals',
+        value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+        event_label: metric.id,
+        non_interaction: true,
+      });
+    }
+  }
+}
+
+// Initialize all modules when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize core functionality
+  new ThemeManager();
+  new CustomCursor();
+  new ScrollAnimations();
+  new ContactForm();
+  new GitHubIntegration();
+  new PerformanceMonitor();
+
+  // Resume download tracking
+  const resumeLink = document.getElementById('resumeDownload');
+  resumeLink?.addEventListener('click', () => {
+    if (window.gtag) {
+      gtag('event', 'resume_download', {
+        event_category: 'engagement',
+        event_label: 'Resume PDF Download'
+      });
+    }
+  });
+});
+
+// Register service worker for PWA functionality
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('ServiceWorker registered successfully');
+      
+      // Check for updates
+      registration.addEventListener('updatefound', () => {
+        console.log('New service worker available');
+      });
+    } catch (error) {
+      console.log('ServiceWorker registration failed:', error);
+    }
+  });
+}
+</script>
+
+<!-- Screen reader only styles -->
+<style>
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.error-message {
+  display: none;
+  color: #ff6b6b;
+  font-size: var(--font-xs);
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.form-status.success {
+  color: #51cf66;
+}
+
+.form-status.error {
+  color: #ff6b6b;
+}
+
+.form-status.loading {
+  color: var(--accent-dark);
+}
+
+body.light .form-status.loading {
+  color: var(--accent-light);
+}
+</style>
+</body>
+</html>
