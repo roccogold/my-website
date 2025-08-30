@@ -908,7 +908,7 @@ body.light-theme .form-status.loading {
 <body>
 <!-- Theme toggle button -->
 <button class="theme-toggle" aria-label="Toggle theme">
-  <i class="fas fa-sun"></i>
+  <i class="fas fa-lightbulb"></i>
 </button>
 
 <!-- Scroll progress bar -->
@@ -1358,14 +1358,14 @@ class EnhancedWebsite {
     
     if (savedTheme === 'light') {
       document.body.classList.add('light-theme');
-      toggle.innerHTML = '<i class="fas fa-moon"></i>';
+      toggle.innerHTML = '<i class="far fa-lightbulb"></i>';
     }
 
     toggle.addEventListener('click', () => {
       document.body.classList.toggle('light-theme');
       const isLight = document.body.classList.contains('light-theme');
       
-      toggle.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+      toggle.innerHTML = isLight ? '<i class="far fa-lightbulb"></i>' : '<i class="fas fa-lightbulb"></i>';
       localStorage.setItem('rocco-theme', isLight ? 'light' : 'dark');
       
       // Update theme color meta tag
