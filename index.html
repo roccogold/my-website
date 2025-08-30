@@ -329,6 +329,8 @@ ul {
   list-style: none;
 }
 
+/* 2. Improve bullet points - make them bigger and better centered */
+/* Main list items */
 ul li {
   position: relative;
   padding-left: 1.5rem; /* Increased from 1.2rem for better spacing */
@@ -351,6 +353,26 @@ ul li::before {
   display: flex;
   align-items: center; /* Center the bullet vertically with the first line */
   height: 1.5em; /* Match the line height for perfect alignment */
+}
+
+/* Nested sub-list styling */
+ul ul {
+  margin-top: 0.5rem;
+  margin-left: 0; /* Reset margin for nested lists */
+  padding-left: 0; /* Reset padding for nested lists */
+}
+
+ul ul li {
+  padding-left: 1.2rem; /* Smaller padding for sub-items */
+  margin-bottom: 0.5rem; /* Less margin for sub-items */
+  font-size: var(--font-xs); /* Slightly smaller font for hierarchy */
+}
+
+ul ul li::before {
+  content: "◦"; /* Different bullet style for sub-items (hollow circle) */
+  font-size: 16px; /* Smaller bullet for sub-items */
+  color: var(--accent-dark);
+  opacity: 0.8; /* Slightly more subtle */
 }
       
 /* Enhanced social icons with container queries */
