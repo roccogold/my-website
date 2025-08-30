@@ -2,10 +2,96 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Rocco Goldschmidt — Product Manager (Enhanced Demo)</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+<title>Rocco Goldschmidt — Product Manager</title>
+<meta name="description" content="Rocco Goldschmidt — Product Manager blending design, technology & finance to build simple, impactful solutions. Explore my projects and get in touch." />
+<meta name="robots" content="index, follow" />
+
+<!-- Enhanced Security Headers -->
+<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.emailjs.com https://api.github.com https://unpkg.com https://cdn.jsdelivr.net;
+               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+               font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+               img-src 'self' data: https:;
+               connect-src 'self' https://api.github.com https://api.emailjs.com https://region1.google-analytics.com;">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="msapplication-navbutton-color" content="#111111">
+<meta name="msapplication-TileColor" content="#111111">
+
+<!-- Favicon and touch icons -->
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="shortcut icon" href="assets/favicon.ico">
+
+<!-- Performance optimizations -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://api.github.com">
+<link rel="dns-prefetch" href="https://api.emailjs.com">
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" as="style">
+
+<!-- Fonts and icons with SRI -->
+<link rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://roccogold.com/" />
+<meta property="og:title" content="Rocco Goldschmidt" />
+<meta property="og:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
+<meta property="og:image" content="https://roccogold.com/og-color.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rocco Goldschmidt" />
+<meta name="twitter:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
+<meta name="twitter:image" content="https://roccogold.com/og-color.png" />
+<meta name="twitter:url" content="https://roccogold.com/" />
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Rocco Goldschmidt",
+  "jobTitle": "Product Manager",
+  "url": "https://roccogold.com",
+  "description": "Product Manager blending design, technology & finance to build simple, impactful solutions",
+  "sameAs": [
+    "https://www.linkedin.com/in/roccogoldschmidt/",
+    "https://github.com/roccogold",
+    "https://x.com/roccogold_"
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Moody's Analytics"
+  }
+}
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VKN0MXTZ4Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VKN0MXTZ4Q');
+</script>
 
 <style>
 :root {
@@ -41,6 +127,22 @@
   --transition-slow: 0.6s ease;
 }
 
+/* Enhanced Accessibility - Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  :root {
+    --accent-dark: #c499ff;
+  }
+}
+
 /* Theme transitions */
 * {
   transition: background-color var(--transition-normal), color var(--transition-normal), border-color var(--transition-normal);
@@ -48,6 +150,11 @@
 
 /* Base styles */
 html {
+  height: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
   scroll-behavior: smooth;
 }
 
@@ -57,11 +164,38 @@ body {
   font-family: var(--main-font);
   margin: 0;
   padding: 0;
+  padding-env: safe-area-inset-top env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   font-size: var(--font-sm);
+  position: relative;
+  transition: background var(--transition-fast), color var(--transition-fast);
+  cursor: none;
   line-height: 1.5;
   min-height: 100vh;
-  cursor: none;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Better mobile viewport handling */
+@supports (height: 100dvh) {
+  body {
+    min-height: 100dvh;
+  }
+}
+
+/* Prevent zoom on input focus on iOS */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  select, textarea, input[type="text"], input[type="password"], 
+  input[type="datetime"], input[type="datetime-local"], 
+  input[type="date"], input[type="month"], input[type="time"], 
+  input[type="week"], input[type="number"], input[type="email"], 
+  input[type="url"] {
+    font-size: 16px;
+  }
 }
 
 /* Light theme */
@@ -84,11 +218,26 @@ body::before {
   opacity: 0.1;
   pointer-events: none;
   z-index: -1;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+  will-change: background, opacity;
+  transform: translateZ(0);
 }
 
 body.light-theme::before {
   background: radial-gradient(circle, var(--accent-light) 1px, transparent 1px);
   opacity: 0.05;
+}
+
+/* Enhanced focus management */
+body:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Mobile cursor handling */
+@media (hover: none), (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
 }
 
 /* Theme toggle button */
@@ -185,13 +334,29 @@ body.light-theme .back-to-top:hover {
   background: var(--accent-light-hover);
 }
 
-
-
-/* Header */
+/* Container Queries Support */
 .top-bar {
+  position: relative;
   max-width: 650px;
   margin: 1rem auto 2rem;
   padding: 0 2rem;
+  text-align: center;
+  container-type: inline-size;
+}
+
+@container (max-width: 480px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: center;
+  }
+  .top-bar header p {
+    margin-top: 0.8rem;
+  }
+}
+
+.top-bar header {
+  margin: 0 auto;
+  width: 100%;
   text-align: center;
 }
 
@@ -234,7 +399,62 @@ body.light-theme .typing-effect {
   50% { border-color: currentColor; }
 }
 
-/* Main content */
+/* Links */
+a {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  font-size: inherit;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--accent-dark-hover);
+  text-decoration: underline;
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+body.light-theme a:hover,
+body.light-theme a:focus-visible {
+  color: var(--accent-light-hover);
+  outline-color: var(--accent-light);
+}
+
+/* Enhanced header with better hierarchy */
+header {
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+header h1 {
+  margin: 0;
+  font-size: var(--font-xl);
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+  color: var(--accent-dark);
+}
+
+body.light-theme header h1 {
+  color: var(--accent-light);
+}
+
+@media (max-width: 480px) {
+  header {
+    padding-top: 3.5rem;
+  }
+}
+
+header p {
+  margin-top: var(--space-sm);
+  font-size: var(--font-xs);
+  opacity: 0.9;
+}
+
+/* Enhanced main content with container queries */
 main {
   max-width: 650px;
   margin: auto;
@@ -243,8 +463,16 @@ main {
   position: relative;
   z-index: 1;
   font-size: var(--font-sm);
+  container-type: inline-size;
 }
 
+@container (max-width: 480px) {
+  main {
+    padding: var(--space-md) var(--space-md) var(--space-xl);
+  }
+}
+
+/* Enhanced typography */
 h2 {
   font-weight: 900;
   font-size: var(--font-lg);
@@ -258,23 +486,7 @@ body.light-theme h2 {
   border-bottom-color: rgba(0,0,0,0.2);
 }
 
-/* Links */
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--accent-dark-hover);
-  text-decoration: underline;
-}
-
-body.light-theme a:hover {
-  color: var(--accent-light-hover);
-}
-
-/* List styling */
+/* Enhanced list styling */
 ul {
   padding-left: 0;
   margin-left: 0;
@@ -305,7 +517,7 @@ body.light-theme ul li::before {
   color: var(--accent-light);
 }
 
-/* Nested lists */
+/* Nested sub-list styling */
 ul ul {
   margin-top: 0.5rem;
   margin-left: 0;
@@ -330,7 +542,7 @@ body.light-theme ul ul li::before {
   color: var(--accent-light);
 }
 
-/* Social icons */
+/* Enhanced social icons with container queries */
 .social {
   display: flex;
   justify-content: center;
@@ -338,33 +550,59 @@ body.light-theme ul ul li::before {
   margin-top: 1.5rem;
   position: relative;
   z-index: 1;
+  container-type: inline-size;
+}
+
+@container (max-width: 300px) {
+  .social {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+}
+
+@container (min-width: 500px) {
+  .social a {
+    width: 60px;
+    height: 60px;
+    font-size: 32px;
+  }
 }
 
 .social a {
   width: 50px;
   height: 50px;
   font-size: 28px;
+  fill: currentColor;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  transition: filter var(--transition-normal), transform var(--transition-normal), color var(--transition-normal);
   color: var(--accent-dark);
   border-radius: 6px;
-  transition: all var(--transition-normal);
+  border: none;
+  background: transparent;
 }
 
 body.light-theme .social a {
   color: var(--accent-light);
 }
 
-.social a:hover {
+.social a:hover,
+.social a:focus-visible {
   filter: drop-shadow(0 0 6px currentColor);
   transform: scale(1.1);
   color: var(--accent-dark-hover);
+  cursor: pointer;
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
 }
 
-body.light-theme .social a:hover {
+body.light-theme .social a:hover,
+body.light-theme .social a:focus-visible {
   color: var(--accent-light-hover);
+  outline-color: var(--accent-light);
 }
 
 /* Floating animation - reduced for mobile */
@@ -390,7 +628,7 @@ body.light-theme .social a:hover {
   }
   
   .social a {
-    animation-duration: 8s; /* Slower on mobile */
+    animation-duration: 8s;
   }
 }
 
@@ -401,7 +639,7 @@ body.light-theme .social a:hover {
   }
 }
 
-/* Work and contact descriptions */
+/* Enhanced content descriptions */
 p.work-desc,
 p.contact-desc {
   text-align: left;
@@ -413,7 +651,7 @@ p.contact-desc {
   opacity: 0.9;
 }
 
-/* Contact form */
+/* Enhanced contact form */
 #contactForm {
   max-width: 400px;
   margin: var(--space-md) auto;
@@ -473,20 +711,32 @@ body.light-theme #contactForm textarea:focus {
   font-weight: 600;
 }
 
-#contactForm button:hover {
+#contactForm button:hover,
+#contactForm button:focus {
   background: var(--accent-dark-hover);
   transform: translateY(-1px);
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
 }
 
 body.light-theme #contactForm button {
   background: var(--accent-light);
 }
 
-body.light-theme #contactForm button:hover {
+body.light-theme #contactForm button:hover,
+body.light-theme #contactForm button:focus {
   background: var(--accent-light-hover);
+  outline-color: var(--accent-light);
 }
 
-/* Footer */
+#formStatus {
+  margin-top: var(--space-sm);
+  font-size: var(--font-xs);
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* Enhanced footer */
 footer {
   text-align: center;
   padding: var(--space-md);
@@ -500,61 +750,15 @@ body.light-theme footer {
   color: rgba(0,0,0,0.6);
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Enhanced selection styling */
+::selection {
+  background: var(--accent-dark);
+  color: white;
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-  animation: fadeIn var(--transition-slow) ease forwards;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 1rem;
-    right: 1rem;
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-  
-  .back-to-top {
-    bottom: 1rem;
-    right: 1rem;
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
-  }
-
-  main {
-    padding: var(--space-md) var(--space-md) var(--space-xl);
-  }
-
-  .social {
-    gap: 1rem;
-  }
-
-  .social a {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
+body.light-theme ::selection {
+  background: var(--accent-light);
+  color: white;
 }
 
 /* Custom cursor for dark mode - disabled on mobile */
@@ -604,7 +808,122 @@ body.light-theme .trailing-dot {
   }
 }
 
-/* Keyboard shortcut indicator - removed */
+/* Enhanced animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: revealUp var(--transition-slow) ease forwards;
+}
+
+/* Enhanced code styling */
+code, pre {
+  font-family: var(--main-font);
+  font-size: 1em;
+  background-color: rgba(255,255,255,0.1);
+  color: inherit;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+body.light-theme code,
+body.light-theme pre {
+  background-color: rgba(0,0,0,0.1);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .back-to-top {
+    bottom: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .social {
+    gap: 1rem;
+  }
+
+  .social a {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+/* Screen reader only styles */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.error-message {
+  display: none;
+  color: #ff6b6b;
+  font-size: var(--font-xs);
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-sm);
+}
+
+.form-status.success {
+  color: #51cf66;
+}
+
+.form-status.error {
+  color: #ff6b6b;
+}
+
+.form-status.loading {
+  color: var(--accent-dark);
+}
+
+body.light-theme .form-status.loading {
+  color: var(--accent-light);
+}
 </style>
 </head>
 
@@ -622,26 +941,20 @@ body.light-theme .trailing-dot {
   <i class="fas fa-arrow-up"></i>
 </button>
 
-<!-- Copy success notification -->
-<!-- Removed copy email feature -->
-
-<!-- Keyboard shortcut indicator -->
-<!-- Removed keyboard shortcuts per user preference -->
-
-<!-- Header -->
-<div class="top-bar">
+<!-- ================= HEADER ================= -->
+<div id="topBar" class="top-bar">
   <header class="reveal">
     <h1>Ciao, I'm Rocco Goldschmidt</h1>
     <p class="typing-effect">[Product Manager — trying to build things]</p>
   </header>
 </div>
 
-<!-- Main content -->
-<main role="main">
+<!-- ================= MAIN CONTENT ================= -->
+<main id="main-content" role="main" aria-label="Portfolio content">
   <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated fintech puzzles into smooth solutions.</p>
 
-  <section class="reveal">
-    <h2>My work</h2>
+  <section aria-labelledby="work-heading" class="reveal">
+    <h2 id="work-heading">My work</h2>
     <ul>
       <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make onboarding so easy, even your grandpa could integrate them.</li>
       <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.</li>
@@ -655,17 +968,17 @@ body.light-theme .trailing-dot {
     </ul>
   </section>
   
-  <section class="reveal">
-    <h2>Get in touch</h2>
+  <section aria-labelledby="contact-heading" class="reveal">
+    <h2 id="contact-heading">Get in touch</h2>
     <p class="contact-desc">
       Let's connect whether it's about product stuff, fintech trends or the best ping pong serve.
     </p>
     <p class="contact-desc">
       Want the juicy bits? Download my resume <a href="https://drive.google.com/file/d/11c8tkDc5AH3pCAEgM44WR4d9w4cxoMR5/view" 
-      target="_blank" rel="noopener noreferrer"><u>here</u></a>.
+      target="_blank" rel="noopener noreferrer" id="resumeDownload"><u>here</u></a>.
     </p>
     
-    <nav class="social" role="navigation">
+    <nav class="social" aria-label="Social and contact links" role="navigation">
       <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" target="_blank" rel="noopener noreferrer">
         <i class="fas fa-envelope" aria-hidden="true"></i>
       </a>
@@ -680,40 +993,385 @@ body.light-theme .trailing-dot {
       </a>
     </nav>
     
-    <form id="contactForm" novalidate>
+    <!-- Enhanced Contact Form -->
+    <form id="contactForm" aria-label="Contact form to send a message" novalidate>
       <label for="name">Name</label>
-      <input type="text" id="name" name="name" required placeholder="Your name" />
+      <input type="text" 
+             id="name" 
+             name="name" 
+             required 
+             placeholder="Your name"
+             aria-describedby="name-error"
+             autocomplete="name" />
+      <div id="name-error" class="error-message" role="alert" aria-live="polite"></div>
       
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" required placeholder="Your email" />
+      <input type="email" 
+             id="email" 
+             name="email" 
+             required 
+             placeholder="Your email"
+             aria-describedby="email-error"
+             autocomplete="email" />
+      <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
       
       <label for="message">Message</label>
-      <textarea id="message" name="message" rows="4" required placeholder="Your message"></textarea>
+      <textarea id="message" 
+                name="message" 
+                rows="4" 
+                required 
+                placeholder="Your message"
+                aria-describedby="message-error"></textarea>
+      <div id="message-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <button type="submit">Send</button>
+      <button type="submit" aria-describedby="formStatus">Send</button>
+      <p id="formStatus" aria-live="polite" role="status"></p>
     </form>
   </section>
 </main>
 
-<footer>
-  <span>© Updated recently — work in progress, just like me.</span>
+<!-- ================= FOOTER ================= -->
+<footer role="contentinfo">
+  <span id="lastUpdated"></span>
 </footer>
 
-<!-- Custom cursor elements -->
+<!-- Enhanced cursor elements -->
 <div class="dot-cursor" aria-hidden="true"></div>
 <div class="trailing-dot" aria-hidden="true"></div>
 
-<script>
+<!-- Enhanced JavaScript with modules -->
+<script type="module">
+// Custom Cursor Module
+class CustomCursor {
+  constructor() {
+    this.isSupported = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (this.isSupported) {
+      this.init();
+    }
+  }
+
+  init() {
+    this.dot = document.querySelector('.dot-cursor');
+    this.trail = document.querySelector('.trailing-dot');
+    this.mouseX = window.innerWidth / 2;
+    this.mouseY = window.innerHeight / 2;
+    this.trailX = this.mouseX;
+    this.trailY = this.mouseY;
+
+    this.setupEventListeners();
+    this.animate();
+  }
+
+  setupEventListeners() {
+    document.addEventListener('mousemove', (e) => {
+      this.mouseX = e.clientX;
+      this.mouseY = e.clientY;
+      if (this.dot) {
+        this.dot.style.left = this.mouseX + 'px';
+        this.dot.style.top = this.mouseY + 'px';
+      }
+    });
+
+    // Hide cursor when leaving viewport
+    document.addEventListener('mouseleave', () => {
+      if (this.dot) this.dot.style.opacity = '0';
+      if (this.trail) this.trail.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+      if (this.dot) this.dot.style.opacity = '1';
+      if (this.trail) this.trail.style.opacity = '0.7';
+    });
+  }
+
+  animate() {
+    this.trailX += (this.mouseX - this.trailX) * 0.15;
+    this.trailY += (this.mouseY - this.trailY) * 0.15;
+    
+    if (this.trail) {
+      this.trail.style.left = this.trailX + 'px';
+      this.trail.style.top = this.trailY + 'px';
+    }
+    
+    requestAnimationFrame(() => this.animate());
+  }
+}
+
+// Scroll Animations Module
+class ScrollAnimations {
+  constructor() {
+    this.reveals = document.querySelectorAll('.reveal');
+    this.observer = null;
+    this.init();
+  }
+
+  init() {
+    // Use Intersection Observer for better performance
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          this.observer.unobserve(entry.target); // Stop observing once revealed
+        }
+      });
+    }, observerOptions);
+
+    this.reveals.forEach(element => {
+      this.observer.observe(element);
+    });
+  }
+}
+
+// Enhanced Contact Form Module
+class ContactForm {
+  constructor() {
+    this.form = document.getElementById('contactForm');
+    this.status = document.getElementById('formStatus');
+    this.isSubmitting = false;
+    this.init();
+  }
+
+  init() {
+    if (!this.form) return;
+    
+    this.loadEmailJS();
+    this.setupEventListeners();
+  }
+
+  async loadEmailJS() {
+    try {
+      if (!window.emailjs) {
+        await this.loadScript('https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js');
+        emailjs.init('HNfQEsAopw8TGCkop');
+      }
+    } catch (error) {
+      console.error('Failed to load EmailJS:', error);
+    }
+  }
+
+  loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
+    });
+  }
+
+  setupEventListeners() {
+    this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+    
+    // Real-time validation
+    const inputs = this.form.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+      input.addEventListener('blur', () => this.validateField(input));
+      input.addEventListener('input', () => this.clearFieldError(input));
+    });
+  }
+
+  validateField(field) {
+    const errorElement = document.getElementById(`${field.id}-error`);
+    if (!errorElement) return;
+
+    let errorMessage = '';
+
+    if (field.hasAttribute('required') && !field.value.trim()) {
+      errorMessage = `${field.labels[0].textContent.replace('*', '').trim()} is required`;
+    } else if (field.type === 'email' && field.value && !this.isValidEmail(field.value)) {
+      errorMessage = 'Please enter a valid email address';
+    }
+
+    if (errorMessage) {
+      errorElement.textContent = errorMessage;
+      errorElement.style.display = 'block';
+      field.setAttribute('aria-invalid', 'true');
+      return false;
+    } else {
+      errorElement.textContent = '';
+      errorElement.style.display = 'none';
+      field.removeAttribute('aria-invalid');
+      return true;
+    }
+  }
+
+  clearFieldError(field) {
+    const errorElement = document.getElementById(`${field.id}-error`);
+    if (errorElement) {
+      errorElement.textContent = '';
+      errorElement.style.display = 'none';
+    }
+    field.removeAttribute('aria-invalid');
+  }
+
+  isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault();
+    
+    if (this.isSubmitting) return;
+    
+    // Validate all fields
+    const fields = this.form.querySelectorAll('input[required], textarea[required]');
+    let isValid = true;
+    
+    fields.forEach(field => {
+      if (!this.validateField(field)) {
+        isValid = false;
+      }
+    });
+
+    if (!isValid) {
+      this.showStatus('Please fix the errors above.', 'error');
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.showStatus('Sending message...', 'loading');
+
+    try {
+      if (window.emailjs) {
+        await emailjs.sendForm('service_c8d9vna', 'template_b66ttzh', this.form);
+        this.showStatus('Message sent! Thank you for reaching out.', 'success');
+        this.form.reset();
+        
+        // Analytics tracking
+        if (window.gtag) {
+          gtag('event', 'contact_form_submit', {
+            event_category: 'engagement',
+            event_label: 'success'
+          });
+        }
+      } else {
+        throw new Error('EmailJS not available');
+      }
+    } catch (error) {
+      console.error('Email error:', error);
+      this.showStatus('Oops! Something went wrong. Please try again later.', 'error');
+      
+      if (window.gtag) {
+        gtag('event', 'contact_form_error', {
+          event_category: 'error',
+          event_label: error.message || 'unknown'
+        });
+      }
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+
+  showStatus(message, type) {
+    if (!this.status) return;
+    
+    this.status.textContent = message;
+    this.status.className = `form-status ${type}`;
+    
+    // Auto-clear success messages
+    if (type === 'success') {
+      setTimeout(() => {
+        this.status.textContent = '';
+        this.status.className = '';
+      }, 5000);
+    }
+  }
+}
+
+// GitHub Integration Module
+class GitHubIntegration {
+  constructor() {
+    this.lastUpdatedElement = document.getElementById('lastUpdated');
+    this.init();
+  }
+
+  async init() {
+    if (!this.lastUpdatedElement) return;
+    
+    try {
+      const response = await fetch('https://api.github.com/repos/roccogold/my-website/actions/runs?per_page=1');
+      if (!response.ok) throw new Error('GitHub API request failed');
+      
+      const data = await response.json();
+      if (data.workflow_runs && data.workflow_runs.length > 0) {
+        this.displayLastUpdated(data.workflow_runs[0]);
+      } else {
+        this.displayFallback();
+      }
+    } catch (error) {
+      console.warn('GitHub API error:', error);
+      this.displayFallback();
+    }
+  }
+
+  displayLastUpdated(run) {
+    const updatedDate = new Date(run.updated_at);
+    const day = String(updatedDate.getDate()).padStart(2, '0');
+    const month = String(updatedDate.getMonth() + 1).padStart(2, '0');
+    const year = updatedDate.getFullYear();
+    const hours = String(updatedDate.getHours()).padStart(2, '0');
+    const minutes = String(updatedDate.getMinutes()).padStart(2, '0');
+    const username = run.actor?.login || "unknown";
+    
+    this.lastUpdatedElement.textContent =
+      `© Updated on ${day}-${month}-${year} ${hours}:${minutes} by ${username} — work in progress, just like me.`;
+  }
+
+  displayFallback() {
+    this.lastUpdatedElement.textContent = "© Site updated recently — work in progress.";
+  }
+}
+
+// Core Web Vitals monitoring
+class PerformanceMonitor {
+  constructor() {
+    this.init();
+  }
+
+  async init() {
+    try {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/web-vitals@3/dist/web-vitals.umd.js';
+      script.onload = () => {
+        if (window.webVitals) {
+          const { getCLS, getFID, getFCP, getLCP, getTTFB } = window.webVitals;
+          getCLS(this.sendToAnalytics);
+          getFID(this.sendToAnalytics);
+          getFCP(this.sendToAnalytics);
+          getLCP(this.sendToAnalytics);
+          getTTFB(this.sendToAnalytics);
+        }
+      };
+      document.head.appendChild(script);
+    } catch (error) {
+      console.warn('Web Vitals monitoring failed:', error);
+    }
+  }
+
+  sendToAnalytics(metric) {
+    if (window.gtag) {
+      gtag('event', metric.name, {
+        event_category: 'Web Vitals',
+        value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+        event_label: metric.id,
+        non_interaction: true,
+      });
+    }
+  }
+}
+
+// Enhanced Website Class
 class EnhancedWebsite {
   constructor() {
     this.initThemeToggle();
     this.initScrollProgress();
     this.initBackToTop();
     this.initTypingEffect();
-    this.initCopyEmail();
-    this.initKeyboardNavigation();
-    this.initScrollAnimations();
-    this.initCustomCursor();
   }
 
   initThemeToggle() {
@@ -731,6 +1389,12 @@ class EnhancedWebsite {
       
       toggle.innerHTML = isLight ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
       localStorage.setItem('rocco-theme', isLight ? 'light' : 'dark');
+      
+      // Update theme color meta tag
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      if (themeColor) {
+        themeColor.content = isLight ? '#ffffff' : '#111111';
+      }
     });
   }
 
@@ -767,64 +1431,58 @@ class EnhancedWebsite {
       }, 4000);
     }
   }
-
-  initCopyEmail() {
-    // Copy email feature removed per user preference
-  }
-
-  initKeyboardNavigation() {
-    // Keyboard shortcuts removed per user preference
-  }
-
-  initScrollAnimations() {
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-
-    reveals.forEach(element => {
-      observer.observe(element);
-    });
-  }
-
-  initCustomCursor() {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    
-    const dot = document.querySelector('.dot-cursor');
-    const trail = document.querySelector('.trailing-dot');
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let trailX = mouseX;
-    let trailY = mouseY;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.left = mouseX + 'px';
-      dot.style.top = mouseY + 'px';
-    });
-
-    const animateTrail = () => {
-      trailX += (mouseX - trailX) * 0.15;
-      trailY += (mouseY - trailY) * 0.15;
-      
-      trail.style.left = trailX + 'px';
-      trail.style.top = trailY + 'px';
-      
-      requestAnimationFrame(animateTrail);
-    };
-    animateTrail();
-  }
 }
 
-// Initialize when DOM is ready
+// Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize core functionality
+  new CustomCursor();
+  new ScrollAnimations();
+  new ContactForm();
+  new GitHubIntegration();
+  new PerformanceMonitor();
   new EnhancedWebsite();
+
+  // Resume download tracking
+  const resumeLink = document.getElementById('resumeDownload');
+  resumeLink?.addEventListener('click', () => {
+    if (window.gtag) {
+      gtag('event', 'resume_download', {
+        event_category: 'engagement',
+        event_label: 'Resume PDF Download'
+      });
+    }
+  });
 });
+
+// Register service worker for PWA functionality
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('ServiceWorker registered successfully');
+      
+      // Check for updates
+      registration.addEventListener('updatefound', () => {
+        console.log('New service worker available');
+      });
+    } catch (error) {
+      console.log('ServiceWorker registration failed:', error);
+    }
+  });
+}
+
+// Listen for cache update messages from service worker
+if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+  navigator.serviceWorker.addEventListener('message', event => {
+    if (event.data.type === 'CACHE_UPDATED') {
+      // Optionally refresh the page to get fresh theme code
+      console.log('Cache updated, fresh content available');
+      // Uncomment the next line if you want automatic refresh on cache updates
+      // window.location.reload();
+    }
+  });
+}
 </script>
 </body>
 </html>
