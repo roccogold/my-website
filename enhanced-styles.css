@@ -313,6 +313,73 @@ body {
   padding: 0;
 }
 
+/* Fix for iOS overscroll purple background - ADD THIS HERE */
+html {
+  background-color: var(--color-background);
+  overscroll-behavior-y: contain;
+}
+
+body {
+  background-color: var(--color-background);
+  overscroll-behavior-y: contain;
+  min-height: 100vh;
+}
+
+/* Prevent overscroll bounce and background color flash */
+@supports (-webkit-overflow-scrolling: touch) {
+  html, body {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: -100vh;
+    left: 0;
+    right: 0;
+    bottom: -100vh;
+    background-color: var(--color-background);
+    z-index: -2;
+  }
+}
+
+/* Theme-specific background fixes */
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background-color: var(--color-charcoal-700);
+  }
+}
+
+[data-color-scheme="dark"] html,
+[data-color-scheme="dark"] body {
+  background-color: var(--color-charcoal-700) !important;
+}
+
+[data-color-scheme="light"] html,
+[data-color-scheme="light"] body {
+  background-color: var(--color-cream-50) !important;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  body {
+    position: relative;
+  }
+  
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200vh;
+    left: 0;
+    right: 0;
+    bottom: -200vh;
+    background: inherit;
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+/* END OF iOS FIX */
+
 *,
 *::before,
 *::after {
