@@ -10,16 +10,16 @@
 <!-- Enhanced Security Headers -->
 <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; 
-               script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.emailjs.com https://api.github.com;
+               script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.emailjs.com https://api.github.com https://unpkg.com https://cdn.jsdelivr.net;
                style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
                font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
                img-src 'self' data: https:;
-               connect-src 'self' https://api.github.com https://api.emailjs.com;">
+               connect-src 'self' https://api.github.com https://api.emailjs.com https://region1.google-analytics.com;">
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="msapplication-navbutton-color" content="#111111">
 <meta name="msapplication-TileColor" content="#111111">
@@ -812,7 +812,7 @@ class ContactForm {
   async loadEmailJS() {
     try {
       if (!window.emailjs) {
-        await this.loadScript('https://cdn.emailjs.com/dist/email.min.js');
+        await this.loadScript('https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js');
         emailjs.init('HNfQEsAopw8TGCkop');
       }
     } catch (error) {
@@ -1000,18 +1000,24 @@ class PerformanceMonitor {
   }
 
   async init() {
-    try {
-      const { getCLS, getFID, getFCP, getLCP, getTTFB } = await import('https://unpkg.com/web-vitals@3?module');
-      
-      getCLS(this.sendToAnalytics);
-      getFID(this.sendToAnalytics);
-      getFCP(this.sendToAnalytics);
-      getLCP(this.sendToAnalytics);
-      getTTFB(this.sendToAnalytics);
-    } catch (error) {
-      console.warn('Web Vitals monitoring failed:', error);
-    }
+  try {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/web-vitals@3/dist/web-vitals.umd.js';
+    script.onload = () => {
+      if (window.webVitals) {
+        const { getCLS, getFID, getFCP, getLCP, getTTFB } = window.webVitals;
+        getCLS(this.sendToAnalytics);
+        getFID(this.sendToAnalytics);
+        getFCP(this.sendToAnalytics);
+        getLCP(this.sendToAnalytics);
+        getTTFB(this.sendToAnalytics);
+      }
+    };
+    document.head.appendChild(script);
+  } catch (error) {
+    console.warn('Web Vitals monitoring failed:', error);
   }
+}
 
   sendToAnalytics(metric) {
     if (window.gtag) {
