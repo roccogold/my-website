@@ -137,6 +137,11 @@
   }
 }
 
+/* Remove all social icon animations */
+.social a {
+  animation: none !important;
+}
+
 @media (prefers-contrast: high) {
   :root {
     --accent-dark: #c499ff;
@@ -578,11 +583,11 @@ body.light-theme ul ul li::before {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: filter var(--transition-normal), transform var(--transition-normal), color var(--transition-normal);
   color: var(--accent-dark);
   border-radius: 6px;
   border: none;
   background: transparent;
+  transition: filter var(--transition-normal), transform var(--transition-normal), color var(--transition-normal);
 }
 
 body.light-theme .social a {
@@ -605,34 +610,7 @@ body.light-theme .social a:focus-visible {
   outline-color: var(--accent-light);
 }
 
-/* Floating animation - reduced for mobile */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.social a {
-  animation: float 6s ease-in-out infinite;
-}
-
-.social a:nth-child(1) { animation-delay: 0s; }
-.social a:nth-child(2) { animation-delay: 1s; }
-.social a:nth-child(3) { animation-delay: 2s; }
-.social a:nth-child(4) { animation-delay: 3s; }
-
-/* Reduce animations on mobile for better performance */
-@media (max-width: 768px) {
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
-  }
-  
-  .social a {
-    animation-duration: 8s;
-  }
-}
-
-/* Disable animations on low-powered devices */
+/* Floating animation removed per user request */
 @media (prefers-reduced-motion: reduce) {
   .social a {
     animation: none;
