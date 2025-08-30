@@ -1312,6 +1312,19 @@ if ('serviceWorker' in navigator) {
     }
   });
 }
+
+// ADD THIS NEW CODE HERE:
+// Listen for cache update messages from service worker
+if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+  navigator.serviceWorker.addEventListener('message', event => {
+    if (event.data.type === 'CACHE_UPDATED') {
+      // Optionally refresh the page to get fresh theme code
+      console.log('Cache updated, fresh content available');
+      // Uncomment the next line if you want automatic refresh on cache updates
+      // window.location.reload();
+    }
+  });
+}
 </script>
 
 <!-- Screen reader only styles -->
