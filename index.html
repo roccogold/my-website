@@ -923,31 +923,39 @@ class ThemeManager {
     }
   }
 
-async applyTheme(theme) {
-  return new Promise(resolve => {
-    this.currentTheme = theme;
+  // COMPLETELY REWRITTEN: Immediate theme application
+  async applyTheme(theme) {
+    return new Promise(resolve => {
+      this.currentTheme = theme;
+      
+      // Apply changes immediately using multiple methods for maximum compatibility
+      if (theme === 'light') {
+        document.documentElement.classList.add('light');
+        document.body.classList.add('light');
+        document.body.setAttribute('data-theme', 'light');
+        if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
+      } else {
+        document.documentElement.classList.remove('light');
+        document.body.classList.remove('light');
+        document.body.removeAttribute('data-theme');
+        if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
+      }
 
-    if (theme === 'light') {
-      document.body.setAttribute('data-theme', 'light');
-      document.body.classList.add('light');  // <--- Add this
-      if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
-    } else {
-      document.body.removeAttribute('data-theme');
-      document.body.classList.remove('light');  // <--- And this
-      if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
-    }
+      // Force style recalculation
+      document.body.offsetHeight;
 
-    try {
-      localStorage.setItem('theme', theme);
-    } catch (error) {
-      console.warn('Could not save theme preference:', error);
-    }
+      try {
+        localStorage.setItem('theme', theme);
+      } catch (error) {
+        console.warn('Could not save theme preference:', error);
+      }
 
-    this.updateAriaStates();
+      this.updateAriaStates();
 
-    setTimeout(resolve, 300);
-  });
-}
+      // Resolve immediately instead of waiting
+      setTimeout(resolve, 10); // Minimal delay for DOM update
+    });
+  }
 
   updateAriaStates() {
     if (this.toggleButton) {
