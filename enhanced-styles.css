@@ -313,77 +313,76 @@ body {
   padding: 0;
 }
 
-/* Fix for iOS overscroll purple background - ADD THIS HERE */
+/* Stronger iOS overscroll fix */
 html {
-  background-color: var(--color-background);
-  overscroll-behavior-y: contain;
+  background-color: var(--color-charcoal-700) !important;
+  overscroll-behavior: none !important;
+  -webkit-overflow-scrolling: auto !important;
 }
 
 body {
-  background-color: var(--color-background);
-  overscroll-behavior-y: contain;
+  background-color: var(--color-charcoal-700) !important;
+  overscroll-behavior: none !important;
+  -webkit-overflow-scrolling: auto !important;
   min-height: 100vh;
+  min-height: 100dvh; /* Modern viewport height */
+  position: relative;
 }
 
-/* Prevent overscroll bounce and background color flash */
-@supports (-webkit-overflow-scrolling: touch) {
-  html, body {
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
+/* Specifically target iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  html {
+    background: var(--color-charcoal-700) !important;
+    overscroll-behavior-y: none !important;
   }
   
+  body {
+    background: var(--color-charcoal-700) !important;
+    overscroll-behavior-y: none !important;
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  
+  /* Fill any gaps with solid background */
   body::before {
     content: '';
     position: fixed;
-    top: -100vh;
+    top: -300px;
     left: 0;
     right: 0;
-    bottom: -100vh;
-    background-color: var(--color-background);
-    z-index: -2;
+    bottom: -300px;
+    background: var(--color-charcoal-700) !important;
+    z-index: -999;
+    pointer-events: none;
   }
 }
 
-/* Theme-specific background fixes */
-@media (prefers-color-scheme: dark) {
-  html, body {
-    background-color: var(--color-charcoal-700);
-  }
-}
-
-[data-color-scheme="dark"] html,
-[data-color-scheme="dark"] body {
-  background-color: var(--color-charcoal-700) !important;
-}
-
-[data-color-scheme="light"] html,
+/* Light mode fix */
+body.light,
 [data-color-scheme="light"] body {
   background-color: var(--color-cream-50) !important;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio: 2) {
-  body {
-    position: relative;
-  }
-  
-  body::after {
-    content: '';
-    position: fixed;
-    top: -200vh;
-    left: 0;
-    right: 0;
-    bottom: -200vh;
-    background: inherit;
-    z-index: -1;
-    pointer-events: none;
+[data-color-scheme="light"] html {
+  background-color: var(--color-cream-50) !important;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body.light::before,
+  [data-color-scheme="light"] body::before {
+    background: var(--color-cream-50) !important;
   }
 }
-/* END OF iOS FIX */
 
-*,
+/* Force disable any purple backgrounds */
+* {
+  background-color: inherit;
+}
+
 *::before,
 *::after {
-  box-sizing: inherit;
+  background-color: inherit;
 }
 
 /* Typography */
