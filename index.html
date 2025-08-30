@@ -903,30 +903,30 @@ class ThemeManager {
   }
 
   async applyTheme(theme) {
-    return new Promise(resolve => {
-      this.currentTheme = theme;
-      
-      if (theme === 'light') {
-        document.body.classList.add('light');
-        if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
-      } else {
-        document.body.classList.remove('light');
-        if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
-      }
-      
-      // Save preference
-      try {
-        localStorage.setItem('theme', theme);
-      } catch (error) {
-        console.warn('Could not save theme preference:', error);
-      }
-      
-      this.updateAriaStates();
-      
-      // Allow CSS transitions to complete
-      setTimeout(resolve, 300);
-    });
-  }
+  return new Promise(resolve => {
+    this.currentTheme = theme;
+    if (theme === 'light') {
+      document.body.classList.add('light');
+      if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
+    } else {
+      document.body.classList.remove('light');
+      if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
+    }
+
+    // Trigger a reflow to force repaint on some mobile browsers
+    void document.body.offsetWidth;
+
+    // Save preference
+    try {
+      localStorage.setItem('theme', theme);
+    } catch (error) {
+      console.warn('Could not save theme preference:', error);
+    }
+
+    this.updateAriaStates();
+    setTimeout(resolve, 300);
+  });
+}
 
   updateAriaStates() {
     if (this.toggleButton) {
