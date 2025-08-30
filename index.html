@@ -278,6 +278,8 @@ header h1 {
   font-weight: 700;
   display: inline-block;
   position: relative;
+  color: var(--accent-dark); /* Makes the title purple */
+  font-size: clamp(1.5rem, 5vw, 2rem); /* Makes it bigger - increased from 1.3rem max to 2rem */
 }
 
 @media (max-width: 480px) {
@@ -329,23 +331,28 @@ ul {
 
 ul li {
   position: relative;
-  padding-left: 1.2rem;
+  padding-left: 1.5rem; /* Increased from 1.2rem for better spacing */
   margin-bottom: 0.7rem;
   font-weight: 500;
   font-size: var(--font-sm);
+  display: flex; /* Use flexbox for better alignment */
+  align-items: flex-start; /* Align items to the top */
 }
 
 ul li::before {
   content: "•";
-  position: absolute;
-  left: 0;
+  position: static; /* Changed from absolute to static for flexbox */
   color: var(--accent-dark);
   font-weight: 900;
-  font-size: 14px;
-  line-height: 1;
-  top: 0;
+  font-size: 18px; /* Increased from 14px to make bullets bigger */
+  line-height: 1.2;
+  margin-right: 0.8rem; /* Space between bullet and text */
+  flex-shrink: 0; /* Prevent bullet from shrinking */
+  display: flex;
+  align-items: center; /* Center the bullet vertically with the first line */
+  height: 1.5em; /* Match the line height for perfect alignment */
 }
-
+      
 /* Enhanced social icons with container queries */
 .social {
   display: flex;
