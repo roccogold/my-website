@@ -61,6 +61,22 @@
 <meta name="twitter:image" content="https://roccogold.com/og-color.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
 
+<script>
+  try {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'light') {
+      document.documentElement.classList.add('light'); // add body.light equivalent early
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.classList.remove('light');
+      document.documentElement.removeAttribute('data-theme');
+    }
+  } catch (e) {
+    // fail silently
+  }
+</script>
+
+      
 <!-- Structured Data for SEO -->
 <script type="application/ld+json">
 {
@@ -897,11 +913,11 @@ async applyTheme(theme) {
 
     if (theme === 'light') {
       document.body.setAttribute('data-theme', 'light');
-      document.body.classList.add('light');  // Keep this in sync with your CSS
+      document.body.classList.add('light');  // <--- Add this
       if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
     } else {
       document.body.removeAttribute('data-theme');
-      document.body.classList.remove('light');  // Keep this in sync with your CSS
+      document.body.classList.remove('light');  // <--- And this
       if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
     }
 
