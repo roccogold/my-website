@@ -367,7 +367,7 @@ body.light-theme .social a:hover {
   color: var(--accent-light-hover);
 }
 
-/* Floating animation */
+/* Floating animation - reduced for mobile */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -381,6 +381,25 @@ body.light-theme .social a:hover {
 .social a:nth-child(2) { animation-delay: 1s; }
 .social a:nth-child(3) { animation-delay: 2s; }
 .social a:nth-child(4) { animation-delay: 3s; }
+
+/* Reduce animations on mobile for better performance */
+@media (max-width: 768px) {
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  .social a {
+    animation-duration: 8s; /* Slower on mobile */
+  }
+}
+
+/* Disable animations on low-powered devices */
+@media (prefers-reduced-motion: reduce) {
+  .social a {
+    animation: none;
+  }
+}
 
 /* Work and contact descriptions */
 p.work-desc,
@@ -538,7 +557,7 @@ body.light-theme footer {
   }
 }
 
-/* Custom cursor for dark mode */
+/* Custom cursor for dark mode - disabled on mobile */
 .dot-cursor,
 .trailing-dot {
   position: fixed;
@@ -573,10 +592,15 @@ body.light-theme .trailing-dot {
   background: var(--accent-light);
 }
 
+/* Hide custom cursor on mobile and touch devices */
 @media (hover: none), (pointer: coarse) {
   .dot-cursor,
   .trailing-dot {
     display: none;
+  }
+  
+  body {
+    cursor: auto !important;
   }
 }
 
