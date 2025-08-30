@@ -172,17 +172,6 @@
   opacity: 0.9;
 }
 
-/* Enhanced Color Scheme Support */
-@media (prefers-color-scheme: light) {
-  body:not(.light) {
-    background: var(--bg-light);
-    color: var(--text-light);
-  }
-  body:not(.light)::before {
-    background: radial-gradient(circle, var(--accent-light) 1px, transparent 1px);
-  }
-}
-
 body {
   background: var(--bg-dark);
   color: var(--text-dark);
