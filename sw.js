@@ -1,11 +1,9 @@
-const CACHE_NAME = 'rocco-portfolio-v1.2';
-const STATIC_CACHE_NAME = 'rocco-static-v1.2';
-const DYNAMIC_CACHE_NAME = 'rocco-dynamic-v1.2';
+const CACHE_NAME = 'rocco-portfolio-v1.3'; // Bumped version
+const STATIC_CACHE_NAME = 'rocco-static-v1.3'; // Bumped version  
+const DYNAMIC_CACHE_NAME = 'rocco-dynamic-v1.3'; // Bumped version
 
-// Assets to cache immediately
+// Assets to cache immediately (excluding theme-critical files)
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
   '/manifest.json',
   'assets/favicon-16x16.png',
   'assets/favicon-32x32.png',
@@ -18,6 +16,12 @@ const STATIC_ASSETS = [
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
 
+// Theme-critical resources that should always be fresh
+const THEME_CRITICAL = [
+  '/',
+  '/index.html'
+];
+
 // Runtime caching for dynamic content
 const RUNTIME_CACHE = [
   'https://fonts.gstatic.com',
@@ -28,8 +32,7 @@ const RUNTIME_CACHE = [
 
 // Install event - cache static assets
 self.addEventListener('install', event => {
-  console.log('Service Worker: Installing...');
-  
+  console.log('Service Worker: Installing v1.3...');
   event.waitUntil(
     caches.open(STATIC_CACHE_NAME)
       .then(cache => {
@@ -40,15 +43,13 @@ self.addEventListener('install', event => {
         console.error('Service Worker: Error caching static assets:', error);
       })
   );
-  
-  // Force immediate activation
+  // Force immediate activation to ensure theme updates apply
   self.skipWaiting();
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up old caches aggressively
 self.addEventListener('activate', event => {
-  console.log('Service Worker: Activating...');
-  
+  console.log('Service Worker: Activating v1.3...');
   event.waitUntil(
     caches.keys()
       .then(cacheNames => {
@@ -65,13 +66,20 @@ self.addEventListener('activate', event => {
         );
       })
       .then(() => {
-        // Claim all clients immediately
+        // Force reload of all clients to get fresh theme code
+        return self.clients.matchAll().then(clients => {
+          clients.forEach(client => {
+            client.postMessage({ type: 'CACHE_UPDATED' });
+          });
+        });
+      })
+      .then(() => {
         return self.clients.claim();
       })
   );
 });
 
-// Fetch event - serve from cache with network fallback
+// Fetch event - modified caching strategy for theme issues
 self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
@@ -81,13 +89,20 @@ self.addEventListener('fetch', event => {
     return; // Only handle GET requests
   }
 
+  // Theme-critical resources - always network first for immediate updates
+  if (THEME_CRITICAL.some(asset => request.url.endsWith(asset)) || 
+      request.url === self.registration.scope) {
+    event.respondWith(networkFirstNoCache(request));
+    return;
+  }
+
   // API requests - network first, cache fallback
   if (url.origin === 'https://api.github.com' || url.origin === 'https://api.emailjs.com') {
     event.respondWith(networkFirst(request));
     return;
   }
   
-  // Static assets - cache first, network fallback
+  // Static assets (non-theme-critical) - cache first
   if (STATIC_ASSETS.some(asset => request.url.includes(asset)) || 
       request.url.includes('fonts.') || 
       request.url.includes('cdnjs.cloudflare.com')) {
@@ -95,17 +110,26 @@ self.addEventListener('fetch', event => {
     return;
   }
   
-  // HTML pages - stale while revalidate
-  if (request.headers.get('accept')?.includes('text/html')) {
-    event.respondWith(staleWhileRevalidate(request));
-    return;
-  }
-  
-  // Default - network first
+  // Default - network first for everything else to ensure freshness
   event.respondWith(networkFirst(request));
 });
 
-// Caching strategies
+// Network first strategy without caching (for theme-critical resources)
+async function networkFirstNoCache(request) {
+  try {
+    console.log('Fetching fresh (no cache):', request.url);
+    const networkResponse = await fetch(request, {
+      cache: 'no-store' // Force fresh fetch
+    });
+    return networkResponse;
+  } catch (error) {
+    console.log('Network first no-cache failed, trying regular cache');
+    const cachedResponse = await caches.match(request);
+    return cachedResponse || new Response('Offline', { status: 503 });
+  }
+}
+
+// Enhanced cache first strategy
 async function cacheFirst(request) {
   try {
     const cachedResponse = await caches.match(request);
@@ -121,11 +145,11 @@ async function cacheFirst(request) {
     return networkResponse;
   } catch (error) {
     console.error('Cache first strategy failed:', error);
-    // Return offline fallback if available
-    return caches.match('/offline.html') || new Response('Offline', { status: 503 });
+    return new Response('Offline', { status: 503 });
   }
 }
 
+// Enhanced network first with better error handling
 async function networkFirst(request) {
   try {
     const networkResponse = await fetch(request);
@@ -135,11 +159,12 @@ async function networkFirst(request) {
     }
     return networkResponse;
   } catch (error) {
-    console.log('Network first: Network failed, trying cache');
+    console.log('Network first: Network failed, trying cache for:', request.url);
     const cachedResponse = await caches.match(request);
     if (cachedResponse) {
       return cachedResponse;
     }
+    
     // Return appropriate offline response based on request type
     if (request.url.includes('api.github.com')) {
       return new Response(JSON.stringify({
@@ -153,23 +178,31 @@ async function networkFirst(request) {
   }
 }
 
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(DYNAMIC_CACHE_NAME);
-  const cachedResponse = await cache.match(request);
+// Handle client messages - including force refresh for theme updates
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
   
-  // Fetch fresh version in background
-  const networkResponsePromise = fetch(request).then(response => {
-    if (response.ok) {
-      cache.put(request, response.clone());
-    }
-    return response;
-  }).catch(() => cachedResponse);
-  
-  // Return cached version immediately, or wait for network
-  return cachedResponse || networkResponsePromise;
-}
+  // Handle force refresh request
+  if (event.data && event.data.type === 'FORCE_REFRESH') {
+    // Clear theme-critical caches
+    event.waitUntil(
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            if (cacheName.startsWith('rocco-')) {
+              console.log('Clearing cache for theme update:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
+    );
+  }
+});
 
-// Background sync for contact form
+// Background sync for contact form (unchanged)
 self.addEventListener('sync', event => {
   if (event.tag === 'contact-form-sync') {
     event.waitUntil(syncContactForm());
@@ -178,22 +211,18 @@ self.addEventListener('sync', event => {
 
 async function syncContactForm() {
   try {
-    // Get pending form submissions from IndexedDB
     const pendingForms = await getPendingForms();
     
     for (const formData of pendingForms) {
       try {
-        // Attempt to send the form
         const response = await fetch('/api/contact', {
           method: 'POST',
           body: formData
         });
         
         if (response.ok) {
-          // Remove from pending queue
           await removePendingForm(formData.id);
           
-          // Notify user of successful send
           self.clients.matchAll().then(clients => {
             clients.forEach(client => {
               client.postMessage({
@@ -212,18 +241,16 @@ async function syncContactForm() {
   }
 }
 
-// Placeholder functions for IndexedDB operations
+// Placeholder functions for IndexedDB operations (unchanged)
 async function getPendingForms() {
-  // Implementation would use IndexedDB to store/retrieve pending forms
   return [];
 }
 
 async function removePendingForm(id) {
-  // Implementation would remove form from IndexedDB
   console.log('Removing pending form:', id);
 }
 
-// Push notification handling (for future blog updates)
+// Push notification handling (unchanged)
 self.addEventListener('push', event => {
   if (event.data) {
     const data = event.data.json();
@@ -251,10 +278,9 @@ self.addEventListener('push', event => {
   }
 });
 
-// Handle notification clicks
+// Handle notification clicks (unchanged)
 self.addEventListener('notificationclick', event => {
   event.notification.close();
-  
   if (event.action === 'view') {
     event.waitUntil(
       clients.openWindow('/')
@@ -262,11 +288,4 @@ self.addEventListener('notificationclick', event => {
   }
 });
 
-// Handle messages from main thread
-self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
-
-console.log('Service Worker: Loaded successfully');
+console.log('Service Worker v1.3: Loaded successfully with theme-optimized caching');
