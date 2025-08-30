@@ -2,6 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>
+  try {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'light') {
+      document.documentElement.classList.add('light'); // add body.light equivalent early
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.classList.remove('light');
+      document.documentElement.removeAttribute('data-theme');
+    }
+  } catch (e) {
+    // fail silently
+  }
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Rocco Goldschmidt — Product Manager</title>
 <meta name="description" content="Rocco Goldschmidt — Product Manager blending design, technology & finance to build simple, impactful solutions. Explore my projects and get in touch." />
@@ -60,21 +74,6 @@
 <meta name="twitter:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
 <meta name="twitter:image" content="https://roccogold.com/og-color.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
-
-<script>
-  try {
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'light') {
-      document.documentElement.classList.add('light'); // add body.light equivalent early
-      document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-      document.documentElement.classList.remove('light');
-      document.documentElement.removeAttribute('data-theme');
-    }
-  } catch (e) {
-    // fail silently
-  }
-</script>
 
       
 <!-- Structured Data for SEO -->
@@ -186,6 +185,11 @@
   font-size: var(--font-xs);
   margin-top: 0.4rem;
   opacity: 0.9;
+}
+
+html {
+  height: 100%;
+  overflow-x: hidden;
 }
 
 body {
