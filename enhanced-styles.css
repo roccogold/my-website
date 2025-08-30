@@ -313,6 +313,12 @@ body {
   padding: 0;
 }
 
+html, body {
+  background-color: var(--color-background);
+  min-height: 100vh;
+  width: 100%;
+}
+
 /* Stronger iOS overscroll fix */
 html {
   background-color: var(--color-charcoal-700) !important;
