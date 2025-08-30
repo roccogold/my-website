@@ -923,31 +923,36 @@ class ThemeManager {
     }
   }
 
-  async applyTheme(theme) {
-    return new Promise(resolve => {
-      this.currentTheme = theme;
-      
-      if (theme === 'light') {
-        document.body.classList.add('light');
-        if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
-      } else {
-        document.body.classList.remove('light');
-        if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
-      }
-      
-      // Save preference
-      try {
-        localStorage.setItem('theme', theme);
-      } catch (error) {
-        console.warn('Could not save theme preference:', error);
-      }
-      
-      this.updateAriaStates();
-      
-      // Allow CSS transitions to complete
-      setTimeout(resolve, 300);
-    });
-  }
+async applyTheme(theme) {
+  return new Promise(resolve => {
+    this.currentTheme = theme;
+    const themeColorMeta = document.getElementById('theme-color');
+    
+    if (theme === 'light') {
+      document.body.classList.add('light');
+      if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
+      // Set light theme color to match cream background
+      if (themeColorMeta) themeColorMeta.content = '#fcfcf9';
+    } else {
+      document.body.classList.remove('light');
+      if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
+      // Set dark theme color to match charcoal background  
+      if (themeColorMeta) themeColorMeta.content = '#1f2121';
+    }
+    
+    // Save preference
+    try {
+      localStorage.setItem('theme', theme);
+    } catch (error) {
+      console.warn('Could not save theme preference:', error);
+    }
+    
+    this.updateAriaStates();
+    
+    // Allow CSS transitions to complete
+    setTimeout(resolve, 300);
+  });
+}
 
   updateAriaStates() {
     if (this.toggleButton) {
