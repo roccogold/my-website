@@ -18,7 +18,7 @@
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1f2121" id="theme-color">
+<meta name="theme-color" content="#fcfcf9" id="theme-color">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
@@ -922,22 +922,21 @@ class ThemeManager {
       });
     }
   }
-
+const lightBackground = '#fcfcf9';    // matches --color-cream-50 in your CSS
+const darkBackground = '#1f2121';     // matches --color-charcoal-700 in 
 async applyTheme(theme) {
   return new Promise(resolve => {
     this.currentTheme = theme;
     const themeColorMeta = document.getElementById('theme-color');
-    
+
     if (theme === 'light') {
       document.body.classList.add('light');
       if (this.favicon) this.favicon.href = 'assets/darth-vader.svg';
-      // Set light theme color to match cream background
-      if (themeColorMeta) themeColorMeta.content = '#fcfcf9';
+      if (themeColorMeta) themeColorMeta.content = lightBackground;
     } else {
       document.body.classList.remove('light');
       if (this.favicon) this.favicon.href = 'assets/baby-yoda.svg';
-      // Set dark theme color to match charcoal background  
-      if (themeColorMeta) themeColorMeta.content = '#1f2121';
+      if (themeColorMeta) themeColorMeta.content = darkBackground;
     }
     
     // Save preference
