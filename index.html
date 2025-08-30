@@ -203,10 +203,10 @@ body {
   }
 }
 
-/* Light theme */
+/* Light theme - force immediate application for mobile */
 body.light-theme {
-  background: var(--bg-light);
-  color: var(--text-light);
+  background: var(--bg-light) !important;
+  color: var(--text-light) !important;
   cursor: auto;
 }
 
@@ -1362,8 +1362,12 @@ class EnhancedWebsite {
     }
 
     toggle.addEventListener('click', () => {
-      // Force a reflow to ensure mobile browsers apply changes immediately
-      document.body.offsetHeight;
+      // Disable transitions temporarily on mobile
+      const isMobile = window.matchMedia('(hover: none)').matches;
+      if (isMobile) {
+        document.body.style.transition = 'none';
+        document.documentElement.style.transition = 'none';
+      }
       
       document.body.classList.toggle('light-theme');
       const isLight = document.body.classList.contains('light-theme');
@@ -1371,16 +1375,19 @@ class EnhancedWebsite {
       toggle.innerHTML = isLight ? '<i class="far fa-lightbulb"></i>' : '<i class="fas fa-lightbulb"></i>';
       localStorage.setItem('rocco-theme', isLight ? 'light' : 'dark');
       
-      // Update theme color meta tag
+      // Update theme color meta tag immediately
       const themeColor = document.querySelector('meta[name="theme-color"]');
       if (themeColor) {
         themeColor.content = isLight ? '#ffffff' : '#111111';
       }
 
-      // Force another reflow for mobile
-      setTimeout(() => {
-        document.body.offsetHeight;
-      }, 10);
+      // Re-enable transitions after a short delay
+      if (isMobile) {
+        setTimeout(() => {
+          document.body.style.transition = '';
+          document.documentElement.style.transition = '';
+        }, 50);
+      }
     });
   }
 
