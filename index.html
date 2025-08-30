@@ -1362,6 +1362,9 @@ class EnhancedWebsite {
     }
 
     toggle.addEventListener('click', () => {
+      // Force a reflow to ensure mobile browsers apply changes immediately
+      document.body.offsetHeight;
+      
       document.body.classList.toggle('light-theme');
       const isLight = document.body.classList.contains('light-theme');
       
@@ -1373,6 +1376,11 @@ class EnhancedWebsite {
       if (themeColor) {
         themeColor.content = isLight ? '#ffffff' : '#111111';
       }
+
+      // Force another reflow for mobile
+      setTimeout(() => {
+        document.body.offsetHeight;
+      }, 10);
     });
   }
 
