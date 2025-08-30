@@ -8,28 +8,37 @@
   --accent-light-hover: #6b4fa0;
   --bg-light: #f5f5f7;
   --text-light: #2c2c2c;
-
+  
   /* Enhanced Typography Scale */
   --font-xs: clamp(0.75rem, 2vw, 0.875rem);
   --font-sm: clamp(0.875rem, 2.5vw, 1rem);
   --font-md: clamp(1rem, 3vw, 1.125rem);
   --font-lg: clamp(1.25rem, 4vw, 1.5rem);
   --font-xl: clamp(1.5rem, 5vw, 2rem);
-
+  
   /* Spacing Scale */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 2rem;
   --space-xl: 3rem;
-
+  
   /* Main Font */
   --main-font: 'JetBrains Mono', 'Courier New', monospace;
+  
+  /* UPDATED: Faster Animation Properties */
+  --transition-fast: 0.1s ease;
+  --transition-normal: 0.15s ease;
+  --transition-slow: 0.4s ease;
+}
 
-  /* Animation Properties */
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
-  --transition-slow: 0.6s ease;
+/* Mobile-specific optimizations */
+@media (hover: none), (pointer: coarse) {
+  :root {
+    --transition-fast: 0.05s ease;
+    --transition-normal: 0.1s ease;
+    --transition-slow: 0.2s ease;
+  }
 }
 
 /* Enhanced Accessibility - Respect user preferences */
