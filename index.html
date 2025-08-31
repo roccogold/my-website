@@ -632,6 +632,36 @@ p.contact-desc {
   opacity: 0.9;
 }
 
+/* Spotify embed styling */
+.spotify-container {
+  max-width: 100%;
+  margin: var(--space-md) 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.spotify-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+body.light-theme .spotify-container {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .spotify-container:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.spotify-container iframe {
+  display: block;
+  width: 100%;
+  height: 152px;
+  border: none;
+}
+
 /* Enhanced contact form */
 #contactForm {
   max-width: 400px;
