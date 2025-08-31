@@ -24,7 +24,8 @@
 <meta name="msapplication-navbutton-color" content="#111111">
 <meta name="msapplication-TileColor" content="#111111">
 
-<!-- Favicon and touch icons -->
+<!-- Favicon and touch icons - Enhanced for Google Search -->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png">
@@ -368,7 +369,7 @@ body.light-theme .back-to-top:hover {
 .top-bar header h1 {
   margin: 0;
   font-size: var(--font-xl);
-  font-weight: 700;
+  font-weight: 900; /* Made bolder - was 700 */
   color: var(--accent-dark);
 }
 
@@ -377,9 +378,10 @@ body.light-theme .top-bar header h1 {
 }
 
 .top-bar header p {
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* Changed from var(--font-xs) to match body text */
   margin-top: 0.4rem;
   opacity: 0.9;
+  font-family: var(--main-font); /* Ensure it uses the same font as body text */
 }
 
 /* Typing effect */
@@ -437,7 +439,7 @@ header {
 header h1 {
   margin: 0;
   font-size: var(--font-xl);
-  font-weight: 700;
+  font-weight: 900; /* Made bolder - was 700 */
   display: inline-block;
   position: relative;
   color: var(--accent-dark);
@@ -455,8 +457,9 @@ body.light-theme header h1 {
 
 header p {
   margin-top: var(--space-sm);
-  font-size: var(--font-xs);
+  font-size: var(--font-sm); /* Changed from var(--font-xs) to match body text */
   opacity: 0.9;
+  font-family: var(--main-font); /* Ensure it uses the same font as body text */
 }
 
 /* Enhanced main content with container queries */
