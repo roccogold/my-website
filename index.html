@@ -968,39 +968,37 @@ a:hover {
   100% { transform: scale(1); }
 }
 
-/* Inline Code Skills */
-.code-skills {
-  line-height: 2;
+/* Minimal Tags Skills */
+.minimal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin: 1rem 0;
-  text-align: center;
+  justify-content: center;
 }
 
-.code-skill {
-  display: inline;
-  background: rgba(255,255,255,0.1);
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  margin: 0.2rem;
-  font-family: var(--main-font);
+.minimal-tag {
+  padding: 0.3rem 0.8rem;
+  background: rgba(154, 119, 198, 0.2);
+  border-radius: 4px;
+  font-size: var(--font-sm);
   cursor: pointer;
   transition: all var(--transition-normal);
-  font-size: var(--font-sm);
+  font-family: var(--main-font);
 }
 
-.code-skill:hover {
-  background: rgba(154, 119, 198, 0.3);
-  color: white;
+.minimal-tag:hover {
+  background: rgba(154, 119, 198, 0.4);
   transform: scale(1.05);
 }
 
-body.light-theme .code-skill {
-  background: rgba(0,0,0,0.1);
+body.light-theme .minimal-tag {
+  background: rgba(107, 70, 193, 0.2);
 }
 
-body.light-theme .code-skill:hover {
-  background: rgba(107, 70, 193, 0.3);
-  color: white;
-}   
+body.light-theme .minimal-tag:hover {
+  background: rgba(107, 70, 193, 0.4);
+}
       
 </style>
 </head>
@@ -1064,19 +1062,19 @@ body.light-theme .code-skill:hover {
 
 <section aria-labelledby="skills-heading" class="reveal">
   <h2 id="skills-heading">Skills</h2>
-  <div class="code-skills">
-    <span class="code-skill">Product Strategy</span>
-    <span class="code-skill">Python</span>
-    <span class="code-skill">JavaScript</span>
-    <span class="code-skill">Fintech</span>
-    <span class="code-skill">SQL</span>
-    <span class="code-skill">React</span>
-    <span class="code-skill">API Design</span>
-    <span class="code-skill">Data Analysis</span>
-    <span class="code-skill">Figma</span>
-    <span class="code-skill">Agile</span>
-    <span class="code-skill">Blockchain</span>
-    <span class="code-skill">Docker</span>
+  <div class="minimal-tags">
+    <span class="minimal-tag">Product Strategy</span>
+    <span class="minimal-tag">Python</span>
+    <span class="minimal-tag">JavaScript</span>
+    <span class="minimal-tag">Fintech</span>
+    <span class="minimal-tag">SQL</span>
+    <span class="minimal-tag">React</span>
+    <span class="minimal-tag">API Design</span>
+    <span class="minimal-tag">Data Analysis</span>
+    <span class="minimal-tag">Figma</span>
+    <span class="minimal-tag">Agile</span>
+    <span class="minimal-tag">Blockchain</span>
+    <span class="minimal-tag">Docker</span>
   </div>
 </section>
   
