@@ -972,6 +972,40 @@ a:hover {
   100% { transform: scale(1); }
 }
 
+/* Skills Tag Cloud */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.skill-tag {
+  padding: 0.5rem 1rem;
+  background: rgba(154, 119, 198, 0.1);
+  border: 1px solid var(--accent-dark);
+  border-radius: 20px;
+  font-size: var(--font-sm);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-family: var(--main-font);
+}
+
+.skill-tag:hover {
+  background: rgba(154, 119, 198, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(154, 119, 198, 0.2);
+}
+
+body.light-theme .skill-tag {
+  border-color: var(--accent-light);
+}
+
+body.light-theme .skill-tag:hover {
+  background: rgba(107, 70, 193, 0.3);
+  box-shadow: 0 4px 12px rgba(107, 70, 193, 0.2);
+}      
       
 </style>
 </head>
@@ -1016,6 +1050,25 @@ a:hover {
       <li>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Let's solve it together.</li>
     </ul>
   </section>
+
+<section aria-labelledby="skills-heading" class="reveal">
+  <h2 id="skills-heading">Skills</h2>
+  <div class="tag-cloud">
+    <span class="skill-tag">Product Strategy</span>
+    <span class="skill-tag">Python</span>
+    <span class="skill-tag">JavaScript</span>
+    <span class="skill-tag">Fintech</span>
+    <span class="skill-tag">SQL</span>
+    <span class="skill-tag">React</span>
+    <span class="skill-tag">API Design</span>
+    <span class="skill-tag">Data Analysis</span>
+    <span class="skill-tag">Figma</span>
+    <span class="skill-tag">Agile</span>
+    <span class="skill-tag">Blockchain</span>
+    <span class="skill-tag">Docker</span>
+  </div>
+</section>
+      
   <section aria-labelledby="music-heading" class="reveal">
   <h2 id="music-heading">Currently listening</h2>
   <div class="spotify-container">
