@@ -1000,7 +1000,7 @@ a:hover {
   100% { transform: scale(1); }
 }
 
-/* Minimal Tags Skills */
+/* Replace your existing .minimal-tags and .minimal-tag rules with: */
 .minimal-tags {
   display: flex;
   flex-wrap: wrap;
@@ -1009,21 +1009,39 @@ a:hover {
   justify-content: center;
 }
 
-/* Replace your existing .minimal-tag rule with this enhanced version */
 .minimal-tag {
-  padding: 0.3rem 0.8rem;
-  background: rgba(154, 119, 198, 0.2);
-  border-radius: 4px;
-  font-size: var(--font-sm);
-  cursor: pointer;
-  transition: all var(--transition-normal);
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.2), rgba(181, 140, 217, 0.2));
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  color: #e5e5e5;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.8rem; /* Reduced from 0.9rem */
+  font-weight: 600;
   font-family: var(--main-font);
+  cursor: default;
   opacity: 0;
   transform: translateY(10px);
   animation: slideInUp 0.5s ease forwards;
+  transition: all 0.3s ease;
 }
 
-/* Add these new rules after the .minimal-tag rule */
+.minimal-tag:hover {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.4), rgba(181, 140, 217, 0.4));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(154, 119, 198, 0.3);
+}
+
+body.light-theme .minimal-tag {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.2), rgba(124, 58, 237, 0.2));
+  border-color: rgba(107, 70, 193, 0.3);
+}
+
+body.light-theme .minimal-tag:hover {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.4), rgba(124, 58, 237, 0.4));
+  box-shadow: 0 4px 12px rgba(107, 70, 193, 0.3);
+}
+
+/* Keep your existing animation delays */
 .minimal-tag:nth-child(1) { animation-delay: 0.1s; }
 .minimal-tag:nth-child(2) { animation-delay: 0.2s; }
 .minimal-tag:nth-child(3) { animation-delay: 0.3s; }
