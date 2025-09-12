@@ -211,7 +211,9 @@ body.light-theme {
   color: var(--text-light) !important;
 }
 
-/* Background pattern */
+Here are the exact changes to integrate the animated background with both dark and light mode support:
+1. DELETE the existing background pattern (lines 145-157):
+css/* Background pattern */
 body::before {
   content: '';
   position: fixed;
@@ -232,6 +234,169 @@ body::before {
 body.light-theme::before {
   background: radial-gradient(circle, var(--accent-light) 1px, transparent 1px);
   opacity: 0.05;
+}
+2. ADD this new CSS after the existing theme variables (around line 65, after the :root section):
+css/* Animated background system */
+.animated-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Floating particles */
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--accent-dark);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: floatUp 25s linear infinite;
+}
+
+.particle:nth-child(odd) {
+  animation-duration: 30s;
+  opacity: 0.3;
+}
+
+.particle:nth-child(3n) {
+  animation-duration: 35s;
+  opacity: 0.2;
+  width: 1px;
+  height: 1px;
+}
+
+body.light-theme .particle {
+  background: var(--accent-light);
+  opacity: 0.3;
+}
+
+body.light-theme .particle:nth-child(odd) {
+  opacity: 0.2;
+}
+
+body.light-theme .particle:nth-child(3n) {
+  opacity: 0.15;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-100px) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* Flowing lines */
+.flowing-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-dark), transparent);
+  opacity: 0.2;
+  animation: flowLine 20s linear infinite;
+}
+
+body.light-theme .flowing-line {
+  background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+  opacity: 0.15;
+}
+
+@keyframes flowLine {
+  0% {
+    transform: translateX(-100vw);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.2;
+  }
+  85% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+}
+
+/* Subtle grid overlay */
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(circle, var(--accent-dark) 0.5px, transparent 0.5px);
+  background-size: 60px 60px;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: -2;
+}
+
+body.light-theme .grid-overlay {
+  background-image: radial-gradient(circle, var(--accent-light) 0.5px, transparent 0.5px);
+  opacity: 0.03;
+}
+
+/* Glowing orbs */
+.glow-orb {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-dark), transparent 60%);
+  opacity: 0.08;
+  filter: blur(60px);
+  animation: slowFloat 40s ease-in-out infinite;
+}
+
+.glow-orb:nth-child(2) {
+  animation-delay: -20s;
+  animation-duration: 50s;
+  width: 250px;
+  height: 250px;
+}
+
+body.light-theme .glow-orb {
+  background: radial-gradient(circle, var(--accent-light), transparent 60%);
+  opacity: 0.05;
+}
+
+@keyframes slowFloat {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(80px, -40px);
+  }
+  50% {
+    transform: translate(-40px, -80px);
+  }
+  75% {
+    transform: translate(-80px, 40px);
+  }
+}
+
+/* Disable animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .flowing-line,
+  .glow-orb {
+    animation: none !important;
+  }
 }
 
 /* Enhanced focus management */
@@ -1079,6 +1244,13 @@ body.light-theme .minimal-tag:hover {
 </head>
 
 <body>
+<!-- Animated background system -->
+<div class="grid-overlay"></div>
+<div class="animated-bg">
+  <div class="glow-orb" style="top: 15%; left: 10%;"></div>
+  <div class="glow-orb" style="top: 70%; right: 20%;"></div>
+</div>
+      
 <!-- Theme toggle button -->
 <button class="theme-toggle" aria-label="Toggle theme">
   <i class="fas fa-lightbulb"></i>
@@ -1640,6 +1812,45 @@ class EnhancedWebsite {
   }
 }
 
+// Animated Background Module
+class AnimatedBackground {
+  constructor() {
+    this.animatedBg = document.querySelector('.animated-bg');
+    this.init();
+  }
+
+  init() {
+    if (!this.animatedBg) return;
+    this.createParticles();
+    this.createFlowingLines();
+  }
+
+  createParticles() {
+    const particleCount = window.innerWidth > 768 ? 25 : 15; // Fewer on mobile
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.animationDelay = Math.random() * 25 + 's';
+      this.animatedBg.appendChild(particle);
+    }
+  }
+
+  createFlowingLines() {
+    const lineCount = window.innerWidth > 768 ? 4 : 2; // Fewer on mobile
+    
+    for (let i = 0; i < lineCount; i++) {
+      const line = document.createElement('div');
+      line.classList.add('flowing-line');
+      line.style.top = (20 + Math.random() * 60) + 'vh'; // Keep away from edges
+      line.style.width = (150 + Math.random() * 200) + 'px';
+      line.style.animationDelay = Math.random() * 20 + 's';
+      this.animatedBg.appendChild(line);
+    }
+  }
+}
+
 // Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize core functionality
@@ -1649,6 +1860,7 @@ document.addEventListener('DOMContentLoaded', () => {
   new GitHubIntegration();
   new PerformanceMonitor();
   new EnhancedWebsite();
+  new AnimatedBackground(); // Add this line
 
   // Resume download tracking
   const resumeLink = document.getElementById('resumeDownload');
