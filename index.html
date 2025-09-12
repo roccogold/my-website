@@ -1657,7 +1657,7 @@ body.light-theme .tech-tag:hover {
     
     <div class="projects-grid">
       <!-- insurtrain Card -->
-      <div class="project-card compact">
+      <div class="project-card">
         <div class="project-header" onclick="toggleProjectCard(this)">
           <h3 class="project-title">insurtrain</h3>
           <div class="project-actions">
@@ -1959,6 +1959,27 @@ body.light-theme .tech-tag:hover {
 <div class="dot-cursor" aria-hidden="true"></div>
 <div class="trailing-dot" aria-hidden="true"></div>
 
+<!-- Enhanced JavaScript with modules -->
+<script>
+// Project card toggle function (needs to be global for onclick)
+function toggleProjectCard(headerElement) {
+  const card = headerElement.closest('.project-card');
+  const isExpanded = card.classList.contains('expanded');
+  
+  if (isExpanded) {
+    card.classList.remove('expanded');
+  } else {
+    // Close any other open cards first
+    document.querySelectorAll('.project-card.expanded').forEach(otherCard => {
+      otherCard.classList.remove('expanded');
+    });
+    card.classList.add('expanded');
+  }
+}
+</script>
+      
+      
+      
 <!-- Enhanced JavaScript with modules -->
 <script type="module">
 // Custom Cursor Module
@@ -2450,23 +2471,6 @@ class GradientBackground {
     });
   }
 }
-
-// Project card toggle function
-function toggleProjectCard(headerElement) {
-  const card = headerElement.closest('.project-card');
-  const isExpanded = card.classList.contains('expanded');
-  
-  if (isExpanded) {
-    card.classList.remove('expanded');
-  } else {
-    // Close any other open cards first
-    document.querySelectorAll('.project-card.expanded').forEach(otherCard => {
-      otherCard.classList.remove('expanded');
-    });
-    card.classList.add('expanded');
-  }
-}
-
 
 // Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
