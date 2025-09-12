@@ -1209,6 +1209,235 @@ body.light-theme .minimal-tag {
 body.light-theme .minimal-tag:hover {
   background: rgba(107, 70, 193, 0.4);
 }
+
+/* Projects Section Styles */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.project-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(154, 119, 198, 0.2);
+  border-radius: 16px;
+  padding: var(--space-lg);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(154, 119, 198, 0.4);
+  box-shadow: 0 12px 40px rgba(154, 119, 198, 0.25);
+}
+
+body.light-theme .project-card {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(107, 70, 193, 0.2);
+}
+
+body.light-theme .project-card:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(107, 70, 193, 0.4);
+  box-shadow: 0 12px 40px rgba(107, 70, 193, 0.25);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.project-title {
+  font-size: var(--font-lg);
+  font-weight: 900;
+  color: var(--accent-dark);
+  margin: 0;
+}
+
+body.light-theme .project-title {
+  color: var(--accent-light);
+}
+
+.project-links {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.project-links a {
+  color: var(--accent-dark);
+  font-size: 20px;
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  padding: var(--space-xs);
+  border-radius: 6px;
+}
+
+.project-links a:hover {
+  color: var(--accent-dark-hover);
+  background: rgba(154, 119, 198, 0.1);
+  transform: scale(1.1);
+}
+
+body.light-theme .project-links a {
+  color: var(--accent-light);
+}
+
+body.light-theme .project-links a:hover {
+  color: var(--accent-light-hover);
+  background: rgba(107, 70, 193, 0.1);
+}
+
+.project-description {
+  margin-bottom: var(--space-lg);
+  line-height: 1.6;
+  opacity: 0.9;
+  font-size: var(--font-sm);
+}
+
+.project-flow {
+  margin-bottom: var(--space-lg);
+}
+
+.flow-diagram {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: var(--space-md);
+  border: 1px solid rgba(154, 119, 198, 0.1);
+}
+
+body.light-theme .flow-diagram {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(107, 70, 193, 0.1);
+}
+
+.process-flow {
+  width: 100%;
+  height: auto;
+}
+
+.flow-node.start, .flow-node.end {
+  fill: none;
+  stroke: var(--accent-dark);
+  stroke-width: 2;
+}
+
+.flow-node.task {
+  fill: rgba(154, 119, 198, 0.1);
+  stroke: var(--accent-dark);
+  stroke-width: 1.5;
+  transition: all var(--transition-normal);
+}
+
+.flow-node.task:hover {
+  fill: rgba(154, 119, 198, 0.2);
+  stroke: var(--accent-dark-hover);
+  cursor: pointer;
+}
+
+body.light-theme .flow-node.start,
+body.light-theme .flow-node.end {
+  stroke: var(--accent-light);
+}
+
+body.light-theme .flow-node.task {
+  fill: rgba(107, 70, 193, 0.1);
+  stroke: var(--accent-light);
+}
+
+body.light-theme .flow-node.task:hover {
+  fill: rgba(107, 70, 193, 0.2);
+  stroke: var(--accent-light-hover);
+}
+
+.flow-line {
+  stroke: var(--accent-dark);
+  stroke-width: 1.5;
+  opacity: 0.6;
+}
+
+body.light-theme .flow-line {
+  stroke: var(--accent-light);
+}
+
+.flow-arrow {
+  fill: var(--accent-dark);
+  opacity: 0.6;
+}
+
+body.light-theme .flow-arrow {
+  fill: var(--accent-light);
+}
+
+.flow-text {
+  fill: var(--text-dark);
+  font-size: 11px;
+  font-family: var(--main-font);
+  opacity: 0.9;
+}
+
+body.light-theme .flow-text {
+  fill: var(--text-light);
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: auto;
+}
+
+.tech-tag {
+  background: rgba(154, 119, 198, 0.15);
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  padding: 0.25rem 0.6rem;
+  border-radius: 16px;
+  font-size: var(--font-xs);
+  font-weight: 500;
+  transition: all var(--transition-normal);
+}
+
+.tech-tag:hover {
+  background: rgba(154, 119, 198, 0.25);
+  transform: scale(1.05);
+}
+
+body.light-theme .tech-tag {
+  background: rgba(107, 70, 193, 0.15);
+  border-color: rgba(107, 70, 193, 0.3);
+}
+
+body.light-theme .tech-tag:hover {
+  background: rgba(107, 70, 193, 0.25);
+}
+
+/* Mobile responsiveness for projects */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  
+  .project-card {
+    padding: var(--space-md);
+  }
+  
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .project-links {
+    align-self: flex-end;
+  }
+}
       
 </style>
 </head>
@@ -1272,14 +1501,136 @@ body.light-theme .minimal-tag:hover {
     <ul>
       <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make onboarding so easy, even your grandpa could integrate them.</li>
       <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.</li>
-      <li>Other projects:
-        <ul>
-          <li><u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[insurtrain]</a></u>: insurance solution on smart contracts to automate claims processing for train delays.</li>
-          <li><u><a href="https://github.com/roccogold/tbills-auction" target="_blank" rel="noopener noreferrer">[tbills-auctions]</a></u>: blockchain-based solution to automate treasury bill auctions.</li>
-        </ul>
-      </li>
       <li>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Let's solve it together.</li>
     </ul>
+  </section>
+
+<section aria-labelledby="projects-heading" class="reveal">
+    <h2 id="projects-heading">Projects</h2>
+    
+    <div class="projects-grid">
+      <!-- insurtrain Card -->
+      <div class="project-card">
+        <div class="project-header">
+          <h3 class="project-title">insurtrain</h3>
+          <div class="project-links">
+            <a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer" aria-label="View insurtrain on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+        </div>
+        
+        <p class="project-description">
+          Insurance solution on smart contracts to automate claims processing for train delays. Eliminates paperwork and reduces processing time from weeks to minutes.
+        </p>
+        
+        <div class="project-flow">
+          <div class="flow-diagram">
+            <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" class="process-flow">
+              <!-- Start -->
+              <circle class="flow-node start" cx="50" cy="100" r="18"/>
+              <text x="50" y="130" text-anchor="middle" class="flow-text">Delay</text>
+              
+              <!-- Check Policy -->
+              <rect class="flow-node task" x="100" y="80" width="80" height="40" rx="5"/>
+              <text x="140" y="105" text-anchor="middle" class="flow-text">Check Policy</text>
+              
+              <!-- Verify Delay -->
+              <rect class="flow-node task" x="220" y="80" width="80" height="40" rx="5"/>
+              <text x="260" y="105" text-anchor="middle" class="flow-text">Verify API</text>
+              
+              <!-- Smart Contract -->
+              <rect class="flow-node task" x="340" y="80" width="80" height="40" rx="5"/>
+              <text x="380" y="105" text-anchor="middle" class="flow-text">Execute</text>
+              
+              <!-- Payout -->
+              <circle class="flow-node end" cx="480" cy="100" r="18"/>
+              <text x="480" y="130" text-anchor="middle" class="flow-text">Payout</text>
+              
+              <!-- Flow lines -->
+              <line class="flow-line" x1="68" y1="100" x2="100" y2="100"/>
+              <line class="flow-line" x1="180" y1="100" x2="220" y2="100"/>
+              <line class="flow-line" x1="300" y1="100" x2="340" y2="100"/>
+              <line class="flow-line" x1="420" y1="100" x2="462" y2="100"/>
+              
+              <!-- Arrows -->
+              <polygon class="flow-arrow" points="95,95 100,100 95,105"/>
+              <polygon class="flow-arrow" points="215,95 220,100 215,105"/>
+              <polygon class="flow-arrow" points="335,95 340,100 335,105"/>
+              <polygon class="flow-arrow" points="457,95 462,100 457,105"/>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="project-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">Hardhat</span>
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Node.js</span>
+        </div>
+      </div>
+
+      <!-- tbills-auction Card -->
+      <div class="project-card">
+        <div class="project-header">
+          <h3 class="project-title">tbills-auction</h3>
+          <div class="project-links">
+            <a href="https://github.com/roccogold/tbills-auction" target="_blank" rel="noopener noreferrer" aria-label="View tbills-auction on GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+        </div>
+        
+        <p class="project-description">
+          Blockchain-based solution to automate treasury bill auctions. Brings transparency and efficiency to government bond markets through smart contracts.
+        </p>
+        
+        <div class="project-flow">
+          <div class="flow-diagram">
+            <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" class="process-flow">
+              <!-- Start -->
+              <circle class="flow-node start" cx="50" cy="100" r="18"/>
+              <text x="50" y="130" text-anchor="middle" class="flow-text">Submit</text>
+              
+              <!-- Validate Bid -->
+              <rect class="flow-node task" x="100" y="80" width="80" height="40" rx="5"/>
+              <text x="140" y="105" text-anchor="middle" class="flow-text">Validate</text>
+              
+              <!-- Auction Logic -->
+              <rect class="flow-node task" x="220" y="80" width="80" height="40" rx="5"/>
+              <text x="260" y="105" text-anchor="middle" class="flow-text">Auction</text>
+              
+              <!-- Settlement -->
+              <rect class="flow-node task" x="340" y="80" width="80" height="40" rx="5"/>
+              <text x="380" y="105" text-anchor="middle" class="flow-text">Settle</text>
+              
+              <!-- Complete -->
+              <circle class="flow-node end" cx="480" cy="100" r="18"/>
+              <text x="480" y="130" text-anchor="middle" class="flow-text">Issue</text>
+              
+              <!-- Flow lines -->
+              <line class="flow-line" x1="68" y1="100" x2="100" y2="100"/>
+              <line class="flow-line" x1="180" y1="100" x2="220" y2="100"/>
+              <line class="flow-line" x1="300" y1="100" x2="340" y2="100"/>
+              <line class="flow-line" x1="420" y1="100" x2="462" y2="100"/>
+              
+              <!-- Arrows -->
+              <polygon class="flow-arrow" points="95,95 100,100 95,105"/>
+              <polygon class="flow-arrow" points="215,95 220,100 215,105"/>
+              <polygon class="flow-arrow" points="335,95 340,100 335,105"/>
+              <polygon class="flow-arrow" points="457,95 462,100 457,105"/>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="project-tech">
+          <span class="tech-tag">Solidity</span>
+          <span class="tech-tag">Web3.js</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Truffle</span>
+        </div>
+      </div>
+    </div>
   </section>
 
 <section aria-labelledby="skills-heading" class="reveal">
