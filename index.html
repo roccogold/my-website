@@ -1619,6 +1619,12 @@ body.light-theme .thesis-closing-text a:hover {
 <div class="dot-cursor" aria-hidden="true"></div>
 <div class="trailing-dot" aria-hidden="true"></div>
 
+<script>
+function toggleThesisCard(card) {
+  card.classList.toggle('expanded');
+}
+</script>
+      
 <!-- Enhanced JavaScript with modules -->
 <script type="module">
 // Custom Cursor Module
@@ -2110,10 +2116,6 @@ class GradientBackground {
       });
     });
   }
-}
-
-function toggleThesisCard(card) {
-  card.classList.toggle('expanded');
 }
       
 // Initialize all modules when DOM is ready
