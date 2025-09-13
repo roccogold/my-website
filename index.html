@@ -1355,22 +1355,44 @@ body.light-theme .thesis-project-image svg text {
 
 .thesis-project-links {
   display: flex;
-  gap: var(--space-md);
+  justify-content: center;
+  gap: var(--space-lg);
   margin-top: var(--space-md);
 }
 
 .thesis-project-link {
-  padding: 0.5rem 1rem;
+  width: 50px;
+  height: 50px;
   background: var(--accent-dark);
   color: white;
   text-decoration: none;
-  border-radius: 6px;
-  font-size: var(--font-sm);
+  border-radius: 50%;
+  font-size: 20px;
   font-weight: 600;
   transition: all var(--transition-fast);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
+}
+
+.thesis-project-link:hover {
+  background: var(--accent-dark-hover);
+  transform: translateY(-3px) scale(1.1);
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 8px 25px rgba(154, 119, 198, 0.5);
+}
+
+body.light-theme .thesis-project-link {
+  background: var(--accent-light);
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
+}
+
+body.light-theme .thesis-project-link:hover {
+  background: var(--accent-light-hover);
+  color: white;
+  box-shadow: 0 8px 25px rgba(107, 70, 193, 0.5);
 }
 
 .thesis-project-link:hover {
@@ -1416,11 +1438,13 @@ body.light-theme .thesis-closing-text a:hover {
 
 @media (max-width: 640px) {
   .thesis-project-links {
-    flex-direction: column;
+    gap: var(--space-md);
   }
   
   .thesis-project-link {
-    text-align: center;
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
   }
   
   .thesis-project-image {
@@ -1528,12 +1552,12 @@ body.light-theme .thesis-closing-text a:hover {
       </div>
       
       <div class="thesis-project-links">
-        <a href="https://github.com/roccogold/insurtrain" 
-           target="_blank" 
-           rel="noopener noreferrer" 
-           class="thesis-project-link">
-          <i class="fab fa-github"></i> GitHub
-        </a>
+            <a href="https://github.com/roccogold/insurtrain" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="thesis-project-link">
+              <i class="fab fa-github"></i>
+            </a>
         <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
            target="_blank" 
            rel="noopener noreferrer" 
