@@ -1395,22 +1395,6 @@ body.light-theme .tech-tag:hover {
   background: rgba(107, 70, 193, 0.3);
 }
 
-.project-links {
-  display: flex;
-  gap: 1rem;
-}
-
-@media (max-width: 640px) {
-  .thesis-project-links {
-    gap: 1rem;
-  }
-  
-  .thesis-project-link {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-  }
-}
 
 </style>
 </head>
@@ -1479,34 +1463,29 @@ body.light-theme .tech-tag:hover {
 
 <section aria-labelledby="thesis-heading" class="reveal">
   <h2 id="thesis-heading">Thesis Project</h2>
-  
-  <div class="thesis-card">
-  <div class="thesis-card-header">
-    <span class="thesis-project-title">Insurtrain</span>
-  </div>
-  <p class="thesis-project-brief">Blockchain-powered insurance automation for train delays. ...</p>
-  <div class="minimal-tags">
-    <span class="minimal-tag">Smart Contracts</span>
-    <span class="minimal-tag">BPMN 2.0</span>
-    <span class="minimal-tag">Groovy</span>
-    <span class="minimal-tag">Insurtech</span>
-    <span class="minimal-tag">Oracles</span>
-  </div>
-    <div class="project-links">
-      <a href="https://github.com/roccogold/insurtrain" 
-         target="_blank" 
-         rel="noopener noreferrer" 
-         class="project-link">
-        <i class="fab fa-github"></i>
-      </a>
-      <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
-         target="_blank" 
-         rel="noopener noreferrer" 
-         class="project-link">
-        <i class="fas fa-file-alt"></i>
-      </a>
-    </div>
-  </div>
+
+      <div class="thesis-card">
+        <div class="thesis-card-header">
+          <span class="thesis-project-title">Insurtrain</span>
+        </div>
+        <p class="thesis-project-brief">Blockchain-powered insurance automation for train delays. ...</p>
+        <div class="minimal-tags">
+          <span class="minimal-tag">Smart Contracts</span>
+          <span class="minimal-tag">BPMN 2.0</span>
+          <span class="minimal-tag">Groovy</span>
+          <span class="minimal-tag">Insurtech</span>
+          <span class="minimal-tag">Oracles</span>
+        </div>
+        <div class="thesis-project-links social">
+          <a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link"
+             target="_blank" rel="noopener noreferrer" aria-label="Thesis PDF">
+            <i class="fas fa-file-alt"></i>
+          </a>
+        </div>
+      </div>
   
   <div class="thesis-closing-text">
     <p>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Let's solve it together.</p>
