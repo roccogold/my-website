@@ -1397,6 +1397,69 @@ body.light-theme .thesis-project-link:focus-visible {
   outline-color: var(--accent-light);
 }
 
+.simple-card {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.1), rgba(181, 140, 217, 0.05));
+  border: 1px solid rgba(154, 119, 198, 0.2);
+  border-radius: 8px;
+  padding: var(--space-md);
+  margin: var(--space-md) 0;
+}
+
+.project-title {
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-size: var(--font-lg);
+  margin: 0 0 var(--space-sm) 0;
+}
+
+body.light-theme .project-title {
+  color: var(--accent-light);
+}
+
+.project-brief {
+  margin: 0 0 var(--space-md) 0;
+  opacity: 0.9;
+  font-size: var(--font-sm);
+  line-height: 1.6;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: var(--space-sm) 0 var(--space-md) 0;
+}
+
+.tech-tag {
+  background: rgba(154, 119, 198, 0.2);
+  color: var(--text-dark);
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.9;
+  transition: all 0.2s ease;
+}
+
+.tech-tag:hover {
+  background: rgba(154, 119, 198, 0.3);
+  transform: translateY(-1px);
+}
+
+body.light-theme .tech-tag {
+  background: rgba(107, 70, 193, 0.2);
+  color: var(--text-light);
+}
+
+body.light-theme .tech-tag:hover {
+  background: rgba(107, 70, 193, 0.3);
+}
+
+.project-links {
+  display: flex;
+  gap: 1rem;
+}
+
 @media (max-width: 640px) {
   .thesis-project-links {
     gap: 1rem;
@@ -1409,19 +1472,6 @@ body.light-theme .thesis-project-link:focus-visible {
   }
 }
 
-/* Force SVG transparency - fixes white backgrounds */
-.thesis-project-image svg * {
-  fill: transparent !important;
-  background: transparent !important;
-}
-
-.thesis-project-image svg rect[fill="white"],
-.thesis-project-image svg circle[fill="white"],
-.thesis-project-image svg polygon[fill="white"],
-.thesis-project-image svg *[fill="white"] {
-  fill: transparent !important;
-}
-      
 </style>
 </head>
 
