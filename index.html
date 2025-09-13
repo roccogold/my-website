@@ -1356,99 +1356,55 @@ body.light-theme .thesis-project-image svg text {
 .thesis-project-links {
   display: flex;
   justify-content: center;
-  gap: var(--space-lg);
+  gap: 1.5rem;
   margin-top: var(--space-md);
 }
 
 .thesis-project-link {
   width: 50px;
   height: 50px;
-  background: var(--accent-dark);
-  color: white;
-  text-decoration: none;
-  border-radius: 50%;
-  font-size: 20px;
-  font-weight: 600;
-  transition: all var(--transition-fast);
+  font-size: 28px;
+  fill: currentColor;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
-}
-
-.thesis-project-link:hover {
-  background: var(--accent-dark-hover);
-  transform: translateY(-3px) scale(1.1);
-  color: white;
   text-decoration: none;
-  box-shadow: 0 8px 25px rgba(154, 119, 198, 0.5);
-}
-
-body.light-theme .thesis-project-link {
-  background: var(--accent-light);
-  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
-}
-
-body.light-theme .thesis-project-link:hover {
-  background: var(--accent-light-hover);
-  color: white;
-  box-shadow: 0 8px 25px rgba(107, 70, 193, 0.5);
-}
-
-.thesis-project-link:hover {
-  background: var(--accent-dark-hover);
-  transform: translateY(-1px);
-  color: white;
-  text-decoration: none;
-}
-
-body.light-theme .thesis-project-link {
-  background: var(--accent-light);
-}
-
-body.light-theme .thesis-project-link:hover {
-  background: var(--accent-light-hover);
-  color: white;
-}
-
-.thesis-closing-text {
-  margin-top: var(--space-lg);
-  font-size: var(--font-sm);
-  opacity: 0.9;
-  line-height: 1.6;
-}
-
-.thesis-closing-text a {
   color: var(--accent-dark);
-  text-decoration: underline;
-  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  transition: filter var(--transition-normal), transform var(--transition-normal), color var(--transition-normal);
 }
 
-.thesis-closing-text a:hover {
-  color: var(--accent-dark-hover);
-}
-
-body.light-theme .thesis-closing-text a {
+body.light-theme .thesis-project-link {
   color: var(--accent-light);
 }
 
-body.light-theme .thesis-closing-text a:hover {
+.thesis-project-link:hover,
+.thesis-project-link:focus-visible {
+  filter: drop-shadow(0 0 6px currentColor);
+  transform: scale(1.1);
+  color: var(--accent-dark-hover);
+  cursor: pointer;
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+body.light-theme .thesis-project-link:hover,
+body.light-theme .thesis-project-link:focus-visible {
   color: var(--accent-light-hover);
+  outline-color: var(--accent-light);
 }
 
 @media (max-width: 640px) {
   .thesis-project-links {
-    gap: var(--space-md);
+    gap: 1rem;
   }
   
   .thesis-project-link {
-    width: 45px;
-    height: 45px;
-    font-size: 18px;
-  }
-  
-  .thesis-project-image {
-    height: 150px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
   }
 }
 
