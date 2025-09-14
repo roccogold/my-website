@@ -1210,140 +1210,7 @@ body.light-theme .minimal-tag:hover {
   background: rgba(107, 70, 193, 0.4);
 }
 
-/* Thesis Project Card Styles */
-.thesis-card {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.1), rgba(181, 140, 217, 0.05));
-  border: 1px solid rgba(154, 119, 198, 0.2);
-  border-radius: 8px;
-  padding: var(--space-md);
-  margin: var(--space-md) 0;
-  cursor: pointer;
-  transition: all var(--transition-normal);
-  overflow: hidden;
-}
 
-.thesis-card:hover {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.2), rgba(181, 140, 217, 0.1));
-  border-color: var(--accent-dark);
-  transform: translateY(-2px);
-}
-
-body.light-theme .thesis-card {
-  background: linear-gradient(135deg, rgba(107, 70, 193, 0.1), rgba(124, 58, 237, 0.05));
-  border-color: rgba(107, 70, 193, 0.2);
-}
-
-body.light-theme .thesis-card:hover {
-  background: linear-gradient(135deg, rgba(107, 70, 193, 0.2), rgba(124, 58, 237, 0.1));
-  border-color: var(--accent-light);
-}
-
-.thesis-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-sm);
-}
-
-.thesis-project-title {
-  color: var(--accent-dark);
-  font-weight: 700;
-  font-size: var(--font-md);
-  margin: 0;
-}
-
-body.light-theme .thesis-project-title {
-  color: var(--accent-light);
-}
-
-.thesis-expand-icon {
-  color: var(--accent-dark);
-  font-size: 1.2rem;
-  transition: all var(--transition-normal);
-  user-select: none;
-}
-
-.thesis-expand-icon:before {
-  content: '⋯';
-}
-
-.thesis-card.expanded .thesis-expand-icon:before {
-  content: '⋰';
-}
-
-body.light-theme .thesis-expand-icon {
-  color: var(--accent-light);
-}
-
-.thesis-project-brief {
-  margin: 0;
-  opacity: 0.9;
-  font-size: var(--font-sm);
-  line-height: 1.6;
-}
-
-.thesis-card-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height var(--transition-normal) ease-out;
-}
-
-.thesis-card.expanded .thesis-card-content {
-  max-height: 500px;
-  padding-top: var(--space-md);
-  padding-bottom: var(--space-lg); /* Add this line */
-}
-
-
-.thesis-project-description {
-  margin: var(--space-sm) 0;
-  font-size: var(--font-xs);
-  line-height: 1.6;
-  opacity: 0.9;
-}
-
-.thesis-project-links {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: var(--space-md);
-}
-
-.thesis-project-link {
-  width: 50px;
-  height: 50px;
-  font-size: 28px;
-  fill: currentColor;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: var(--accent-dark);
-  border-radius: 6px;
-  border: none;
-  background: transparent;
-  transition: filter var(--transition-normal), transform var(--transition-normal), color var(--transition-normal);
-}
-
-body.light-theme .thesis-project-link {
-  color: var(--accent-light);
-}
-
-.thesis-project-link:hover,
-.thesis-project-link:focus-visible {
-  filter: drop-shadow(0 0 6px currentColor);
-  transform: scale(1.1);
-  color: var(--accent-dark-hover);
-  cursor: pointer;
-  outline: 2px solid var(--accent-dark);
-  outline-offset: 2px;
-}
-
-body.light-theme .thesis-project-link:hover,
-body.light-theme .thesis-project-link:focus-visible {
-  color: var(--accent-light-hover);
-  outline-color: var(--accent-light);
-}
 
 .project-title {
   color: var(--accent-dark);
@@ -1395,6 +1262,83 @@ body.light-theme .tech-tag:hover {
   background: rgba(107, 70, 193, 0.3);
 }
 
+* Minimal Card */
+.minimal-card {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.1), rgba(181, 140, 217, 0.05));
+  border: 1px solid rgba(154, 119, 198, 0.2);
+  border-radius: 8px;
+  padding: var(--space-md);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.minimal-card:hover {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.2), rgba(181, 140, 217, 0.1));
+  border-color: var(--accent-dark);
+  transform: translateY(-2px);
+}
+
+body.light-theme .minimal-card {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.1), rgba(124, 58, 237, 0.05));
+  border-color: rgba(107, 70, 193, 0.2);
+}
+
+body.light-theme .minimal-card:hover {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.2), rgba(124, 58, 237, 0.1));
+  border-color: var(--accent-light);
+}
+
+.minimal-card-title {
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-size: var(--font-md);
+  margin: 0 0 var(--space-sm) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body.light-theme .minimal-card-title {
+  color: var(--accent-light);
+}
+
+.title-links {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.title-links a {
+  color: var(--accent-dark);
+  text-decoration: none;
+  font-size: 18px;
+  transition: filter var(--transition-normal), transform var(--transition-normal), color var(--transition-normal);
+}
+
+.title-links a:hover,
+.title-links a:focus-visible {
+  filter: drop-shadow(0 0 6px currentColor);
+  transform: scale(1.1);
+  color: var(--accent-dark-hover);
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+body.light-theme .title-links a {
+  color: var(--accent-light);
+}
+
+body.light-theme .title-links a:hover,
+body.light-theme .title-links a:focus-visible {
+  color: var(--accent-light-hover);
+  outline-color: var(--accent-light);
+}
+
+.minimal-card-description {
+  margin: 0;
+  font-size: var(--font-sm);
+  opacity: 0.9;
+}
 
 </style>
 </head>
@@ -1463,29 +1407,22 @@ body.light-theme .tech-tag:hover {
 
 <section aria-labelledby="thesis-heading" class="reveal">
   <h2 id="thesis-heading">Thesis Project</h2>
-
-      <div class="thesis-card">
-        <div class="thesis-card-header">
-          <span class="thesis-project-title">[insurtrain]</span>
-        </div>
-        <p class="thesis-project-brief">Blockchain-powered insurance automation for train delays. Uses smart contracts and real-time railway data to process claims instantly, eliminating manual processing and reducing fraud.</p>
-        <div class="minimal-tags">
-          <span class="minimal-tag">Smart Contracts</span>
-          <span class="minimal-tag">BPMN 2.0</span>
-          <span class="minimal-tag">Groovy</span>
-          <span class="minimal-tag">Insurtech</span>
-          <span class="minimal-tag">Oracles</span>
-        </div>
-            <div class="thesis-project-links social">
-              <a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <i class="fab fa-github"></i>
-              </a>
-              <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link"
-                 target="_blank" rel="noopener noreferrer" aria-label="Thesis PDF">
-                <i class="fas fa-file-alt"></i>
-              </a>
-            </div>
+  <div class="minimal-card">
+    <div class="minimal-card-title">
+      [insurtrain]
+      <div class="title-links">
+        <a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" target="_blank" rel="noopener noreferrer" aria-label="Thesis PDF">
+          <i class="fas fa-file-alt"></i>
+        </a>
       </div>
+    </div>
+    <p class="minimal-card-description">
+      Blockchain-powered insurance automation for train delays using smart contracts and real-time data.
+    </p>
+  </div>
   
   <div class="thesis-closing-text">
     <p>Currently juggling APIs and dreaming up new ways to make fintech less boring. Got a challenge? Let's solve it together.</p>
@@ -1579,11 +1516,6 @@ body.light-theme .tech-tag:hover {
 <div class="dot-cursor" aria-hidden="true"></div>
 <div class="trailing-dot" aria-hidden="true"></div>
 
-<script>
-function toggleThesisCard(card) {
-  card.classList.toggle('expanded');
-}
-</script>
       
 <!-- Enhanced JavaScript with modules -->
 <script type="module">
