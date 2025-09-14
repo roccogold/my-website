@@ -1340,6 +1340,104 @@ body.light-theme .title-links a:focus-visible {
   opacity: 0.9;
 }
 
+/* Glassmorphism Thesis Card */
+.thesis-card {
+  background: rgba(154, 119, 198, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: var(--space-lg);
+  margin: var(--space-md) 0;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+}
+
+.thesis-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(154, 119, 198, 0.05), rgba(181, 140, 217, 0.05));
+  z-index: -1;
+  transition: all var(--transition-normal);
+}
+
+.thesis-card:hover {
+  background: rgba(154, 119, 198, 0.15);
+  transform: scale(1.02);
+  box-shadow: 0 20px 40px rgba(154, 119, 198, 0.1);
+}
+
+.thesis-card:hover::before {
+  background: linear-gradient(45deg, rgba(154, 119, 198, 0.08), rgba(181, 140, 217, 0.08));
+}
+
+/* Light theme support */
+body.light-theme .thesis-card {
+  background: rgba(107, 70, 193, 0.1);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .thesis-card::before {
+  background: linear-gradient(45deg, rgba(107, 70, 193, 0.05), rgba(124, 58, 237, 0.05));
+}
+
+body.light-theme .thesis-card:hover {
+  background: rgba(107, 70, 193, 0.15);
+  box-shadow: 0 20px 40px rgba(107, 70, 193, 0.1);
+}
+
+body.light-theme .thesis-card:hover::before {
+  background: linear-gradient(45deg, rgba(107, 70, 193, 0.08), rgba(124, 58, 237, 0.08));
+}
+
+.thesis-card-title {
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-size: var(--font-lg);
+  margin: 0 0 var(--space-sm) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body.light-theme .thesis-card-title {
+  color: var(--accent-light);
+}
+
+.thesis-card-description {
+  margin: 0 0 var(--space-md) 0;
+  font-size: var(--font-sm);
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.thesis-closing-text {
+  margin-top: var(--space-md);
+}
+
+.thesis-closing-text p {
+  margin: 0;
+  font-size: var(--font-sm);
+  opacity: 0.8;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .thesis-card {
+    padding: var(--space-md);
+    border-radius: 12px;
+  }
+  
+  .thesis-card:hover {
+    transform: scale(1.01);
+  }
+}
+
 </style>
 </head>
 
@@ -1422,6 +1520,7 @@ body.light-theme .title-links a:focus-visible {
     <p class="thesis-card-description">
       Blockchain-powered insurance automation for train delays using smart contracts and real-time data.
     </p>
+  </div>
 </section>
 
 <section aria-labelledby="skills-heading" class="reveal">
