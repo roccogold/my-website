@@ -1340,15 +1340,15 @@ body.light-theme .title-links a:focus-visible {
   opacity: 0.9;
 }
 
-/* Glassmorphism Thesis Card */
+/* Compact Glassmorphism Thesis Card */
 .thesis-card {
   background: rgba(154, 119, 198, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: var(--space-lg);
-  margin: var(--space-md) 0;
+  border-radius: 10px;
+  padding: var(--space-sm) var(--space-md);
+  margin: var(--space-sm) 0;
   position: relative;
   overflow: hidden;
   transition: all var(--transition-normal);
@@ -1357,10 +1357,7 @@ body.light-theme .title-links a:focus-visible {
 .thesis-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: linear-gradient(45deg, rgba(154, 119, 198, 0.05), rgba(181, 140, 217, 0.05));
   z-index: -1;
   transition: all var(--transition-normal);
@@ -1368,8 +1365,8 @@ body.light-theme .title-links a:focus-visible {
 
 .thesis-card:hover {
   background: rgba(154, 119, 198, 0.15);
-  transform: scale(1.02);
-  box-shadow: 0 20px 40px rgba(154, 119, 198, 0.1);
+  transform: scale(1.01);
+  box-shadow: 0 10px 25px rgba(154, 119, 198, 0.1);
 }
 
 .thesis-card:hover::before {
@@ -1388,7 +1385,7 @@ body.light-theme .thesis-card::before {
 
 body.light-theme .thesis-card:hover {
   background: rgba(107, 70, 193, 0.15);
-  box-shadow: 0 20px 40px rgba(107, 70, 193, 0.1);
+  box-shadow: 0 10px 25px rgba(107, 70, 193, 0.1);
 }
 
 body.light-theme .thesis-card:hover::before {
@@ -1396,17 +1393,13 @@ body.light-theme .thesis-card:hover::before {
 }
 
 .thesis-card-title {
-  color: var(--accent-dark);
-  font-weight: 700;
-  font-size: var(--font-lg);
+  font-weight: 500;
+  font-size: var(--font-sm);
   margin: 0 0 var(--space-sm) 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-body.light-theme .thesis-card-title {
-  color: var(--accent-light);
+  color: inherit;
 }
 
 .thesis-card-description {
@@ -1429,12 +1422,12 @@ body.light-theme .thesis-card-title {
 
 @media (max-width: 768px) {
   .thesis-card {
-    padding: var(--space-md);
-    border-radius: 12px;
+    padding: var(--space-sm);
+    border-radius: 8px;
   }
   
   .thesis-card:hover {
-    transform: scale(1.01);
+    transform: scale(1.005);
   }
 }
 
@@ -1507,7 +1500,7 @@ body.light-theme .thesis-card-title {
   <h2 id="thesis-heading">Thesis Project</h2>
   <div class="thesis-card">
     <div class="thesis-card-title">
-      [insurtrain]
+      <span><u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[insurtrain]</a></u>: blockchain-powered insurance automation for train delays using smart contracts and real-time data.</span>
       <div class="title-links">
         <a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
           <i class="fab fa-github"></i>
@@ -1517,9 +1510,6 @@ body.light-theme .thesis-card-title {
         </a>
       </div>
     </div>
-    <p class="thesis-card-description">
-      Blockchain-powered insurance automation for train delays using smart contracts and real-time data.
-    </p>
   </div>
 </section>
 
