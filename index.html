@@ -132,12 +132,14 @@
 /* Gradient background system */
 .gradient-background {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -10vh;
+  left: -10vw;
+  width: 120vw;
+  height: 120vh;
   z-index: -1;
   overflow: hidden;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .gradient-sphere {
@@ -151,8 +153,8 @@
   width: 40vw;
   height: 40vw;
   background: linear-gradient(40deg, rgba(154, 119, 198, 0.6), rgba(154, 119, 198, 0.2));
-  top: -10%;
-  left: -10%;
+  top: -20%;
+  left: -20%;
   animation: float-1 15s ease-in-out infinite alternate;
 }
 
@@ -160,8 +162,8 @@
   width: 45vw;
   height: 45vw;
   background: linear-gradient(240deg, rgba(154, 119, 198, 0.5), rgba(181, 140, 217, 0.3));
-  bottom: -20%;
-  right: -10%;
+  bottom: -30%;
+  right: -20%;
   animation: float-2 18s ease-in-out infinite alternate;
 }
 
@@ -343,6 +345,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  background: linear-gradient(135deg, #111 0%, #1a1a2e 50%, #16213e 100%);
 }
 
 /* Better mobile viewport handling */
@@ -367,6 +370,7 @@ body {
 body.light-theme {
   background: var(--bg-light) !important;
   color: var(--text-light) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%) !important;
 }
 
 /* Enhanced focus management */
@@ -1429,6 +1433,36 @@ body.light-theme .thesis-card:hover::before {
   }
 }
 
+/* Mobile background fixes */
+@supports (height: 100dvh) {
+  .gradient-background {
+    height: 120dvh;
+  }
+}
+
+@media (max-width: 768px) {
+  .gradient-background {
+    top: -20vh;
+    left: -20vw;
+    width: 140vw;
+    height: 140vh;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .gradient-background {
+    position: absolute;
+    height: 150vh;
+    top: -25vh;
+  }
+  
+  body {
+    position: relative;
+  }
+}
+      
 </style>
 </head>
 
