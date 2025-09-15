@@ -109,12 +109,13 @@
   --accent-light: #6b46c1;
   --accent-light-hover: #7c3aed;
   
-  /* Typography Scale */
-  --font-xs: clamp(0.7rem, 1.8vw, 0.8rem);
-  --font-sm: clamp(0.8rem, 2.2vw, 0.9rem);
-  --font-md: clamp(0.9rem, 2.7vw, 1rem);
-  --font-lg: clamp(1.1rem, 3.5vw, 1.3rem);
-  --font-xl: clamp(1.5rem, 5vw, 2rem);
+  /* Typography Scale - Slightly smaller */
+  --font-xs: clamp(0.65rem, 1.6vw, 0.75rem);  /* Reduced from 0.7-0.8rem */
+  --font-sm: clamp(0.75rem, 2.0vw, 0.85rem);  /* Reduced from 0.8-0.9rem */
+  --font-md: clamp(0.85rem, 2.4vw, 0.95rem);  /* Reduced from 0.9-1.0rem */
+  --font-lg: clamp(1.0rem, 3.2vw, 1.2rem);    /* Reduced from 1.1-1.3rem */
+  --font-xl: clamp(1.3rem, 4.5vw, 1.8rem);    /* Reduced from 1.5-2.0rem */
+}
   
   /* Spacing */
   --space-xs: 0.25rem;
@@ -386,8 +387,8 @@ body:focus-within {
   position: fixed;
   top: 2rem;
   right: 2rem;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border: 2px solid var(--accent-dark);
   border-radius: 50%;
   background: transparent;
@@ -626,7 +627,7 @@ main {
 /* Enhanced typography */
 h2 {
   font-weight: 900;
-  font-size: var(--font-lg);
+  font-size: clamp(1.0rem, 3.0vw, 1.15rem);
   border-bottom: 1px solid rgba(255,255,255,0.2);
   padding-bottom: var(--space-xs);
   margin-top: var(--space-xl);
@@ -714,16 +715,16 @@ body.light-theme ul ul li::before {
 
 @container (min-width: 500px) {
   .social a {
-    width: 60px;
-    height: 60px;
-    font-size: 32px;
+    width: 55px;
+    height: 55px;
+    font-size: 28px;
   }
 }
 
 .social a {
-  width: 50px;
-  height: 50px;
-  font-size: 28px;
+  width: 45px;
+  height: 45px;
+  font-size: 24px;
   fill: currentColor;
   display: flex;
   align-items: center;
@@ -1055,9 +1056,9 @@ body.light-theme pre {
   .back-to-top {
     bottom: 1rem;
     right: 1rem;
-    width: 40px;
-    height: 40px;
-    font-size: 16px;
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
   }
 
   .social {
@@ -1065,9 +1066,9 @@ body.light-theme pre {
   }
 
   .social a {
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
   }
 }
 
