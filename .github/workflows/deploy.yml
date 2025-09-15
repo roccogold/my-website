@@ -1,0 +1,27 @@
+name: Build and Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Replace API keys
+        env:
+          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+          EMAILJS_KEY: ${{ secrets.EMAILJS_KEY }}
+        run: |
+          sed -i "s/__NASA_API_KEY__/$NASA_API_KEY/g" index.html
+          sed -i "s/__EMAILJS_KEY__/$EMAILJS_KEY/g" index.html
+          
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
