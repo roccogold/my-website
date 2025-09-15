@@ -2102,7 +2102,7 @@ class ContactForm {
     try {
       if (!window.emailjs) {
         await this.loadScript('https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js');
-        emailjs.init('HNfQEsAopw8TGCkop');
+        emailjs.init('__EMAILJS_KEY__');
       }
     } catch (error) {
       console.error('Failed to load EmailJS:', error);
@@ -2543,7 +2543,7 @@ if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
 // Daily Discoveries API Integration
 class DailyDiscoveries {
   constructor() {
-    this.nasaApiKey = 'fctRooWO7s76qsgJqqTLFQan8WgrhAXse4RdgT3O'; // Replace with your NASA API key from api.nasa.gov
+    this.nasaApiKey = '__NASA_API_KEY__'; // Replace with your NASA API key from api.nasa.gov
     this.init();
   }
 
