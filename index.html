@@ -2583,14 +2583,15 @@ class DailyDiscoveries {
          alt="${data.title}" 
          class="apod-image" 
          data-hd="${data.hdurl || data.url}"
+         title="${data.explanation}"
          onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${data.title}')">
     <div class="apod-title">${data.title}</div>
-    <div class="apod-description">${data.explanation}</div>
+    <div class="apod-description" title="${data.explanation}">${data.explanation}</div>
   `;
 } else if (data.media_type === 'video' && data.url) {
   container.innerHTML = `
     <div class="apod-title">${data.title}</div>
-    <div class="apod-description">${data.explanation}</div>
+    <div class="apod-description" title="${data.explanation}">${data.explanation}</div>
     <p style="margin-top: 1rem; font-size: var(--font-xs); opacity: 0.7;">
       <a href="${data.url}" target="_blank" style="color: var(--accent-dark);">
         View video →
@@ -2600,7 +2601,7 @@ class DailyDiscoveries {
 } else {
   container.innerHTML = `
     <div class="apod-title">${data.title}</div>
-    <div class="apod-description">${data.explanation}</div>
+    <div class="apod-description" title="${data.explanation}">${data.explanation}</div>
     <p style="margin-top: 1rem; font-size: var(--font-xs); opacity: 0.7;">
       <em>Special content - no direct media available today</em>
     </p>
