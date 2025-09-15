@@ -1,0 +1,9 @@
+{
+  "name": "my-website",
+  "version": "1.0.0",
+  "description": "Rocco Goldschmidt's portfolio website",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {}
+}
