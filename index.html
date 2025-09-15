@@ -10,12 +10,12 @@
 <!-- Enhanced Security Headers -->
 <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; 
-               script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdn.emailjs.com https://api.github.com https://unpkg.com https://cdn.jsdelivr.net;
+               script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://api.github.com https://unpkg.com https://cdn.jsdelivr.net;
                style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
                font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
                img-src 'self' data: https:;
                frame-src 'self' https://open.spotify.com;
-               connect-src 'self' https://api.github.com https://api.emailjs.com https://region1.google-analytics.com https://api.nasa.gov https://api.wikimedia.org;">
+               connect-src 'self' https://api.github.com https://region1.google-analytics.com https://api.wikimedia.org;">
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
@@ -39,7 +39,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://api.github.com">
-<link rel="dns-prefetch" href="https://api.emailjs.com">
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" as="style">
 
 <!-- Fonts and icons with SRI -->
@@ -2162,71 +2161,56 @@ showStatus(message, type) {
   }
 }
 
-  async handleSubmit(event) {
-    event.preventDefault();
-    
-    if (this.isSubmitting) return;
-    
-    // Validate all fields
-    const fields = this.form.querySelectorAll('input[required], textarea[required]');
-    let isValid = true;
-    
-    fields.forEach(field => {
-      if (!this.validateField(field)) {
-        isValid = false;
-      }
-    });
-
-    if (!isValid) {
-      this.showStatus('Please fix the errors above.', 'error');
-      return;
+async handleSubmit(event) {
+  event.preventDefault();
+  
+  if (this.isSubmitting) return;
+  
+  // Validate all fields
+  const fields = this.form.querySelectorAll('input[required], textarea[required]');
+  let isValid = true;
+  
+  fields.forEach(field => {
+    if (!this.validateField(field)) {
+      isValid = false;
     }
-
-    this.isSubmitting = true;
-    this.showStatus('Sending message...', 'loading');
-
-try {
-  const formData = new FormData(this.form);
-  const response = await fetch('/api/contact', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: formData.get('name'),
-      email: formData.get('email'),
-      message: formData.get('message')
-    })
   });
 
-  const result = await response.json();
-  
-  if (response.ok) {
-    this.showStatus('Message sent! Thank you for reaching out.', 'success');
-    this.form.reset();
-  } else {
-    throw new Error(result.error || 'Failed to send message');
+  if (!isValid) {
+    this.showStatus('Please fix the errors above.', 'error');
+    return;
   }
-} catch (error) {
-  console.error('Contact form error:', error);
-  this.showStatus('Oops! Something went wrong. Please try again later.', 'error');
-} finally {
-  this.isSubmitting = false;
-}
 
-  showStatus(message, type) {
-    if (!this.status) return;
+  this.isSubmitting = true;
+  this.showStatus('Sending message...', 'loading');
+
+  try {
+    const formData = new FormData(this.form);
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: formData.get('name'),
+        email: formData.get('email'),
+        message: formData.get('message')
+      })
+    });
     
-    this.status.textContent = message;
-    this.status.className = `form-status ${type}`;
+    const result = await response.json();
     
-    // Auto-clear success messages
-    if (type === 'success') {
-      setTimeout(() => {
-        this.status.textContent = '';
-        this.status.className = '';
-      }, 5000);
+    if (response.ok) {
+      this.showStatus('Message sent! Thank you for reaching out.', 'success');
+      this.form.reset();
+    } else {
+      throw new Error(result.error || 'Failed to send message');
     }
+  } catch (error) {
+    console.error('Contact form error:', error);
+    this.showStatus('Oops! Something went wrong. Please try again later.', 'error');
+  } finally {
+    this.isSubmitting = false;
   }
 }
 
