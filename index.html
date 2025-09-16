@@ -1437,7 +1437,7 @@ body.light-theme .thesis-card:hover::before {
   align-items: stretch; /* Ensures equal height for all cards */
 }
 
-media (max-width: 768px) {
+@media (max-width: 768px) {
   /* Discovery grid improvements - FORCE single column */
   .discoveries-grid {
     grid-template-columns: 1fr !important;
@@ -1455,12 +1455,12 @@ media (max-width: 768px) {
   }
   
   .card-content {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
   
   .card-source {
-    margin-top: 1rem;
-    padding-top: 1rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
     border-top: 1px solid rgba(154, 119, 198, 0.1);
   }
 }
@@ -1480,12 +1480,12 @@ media (max-width: 768px) {
   }
   
   .card-content {
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.4rem;
   }
   
   .card-source {
-    margin-top: 0.8rem;
-    padding-top: 0.8rem;
+    margin-top: 0.4rem;
+    padding-top: 0.4rem;
   }
 }
 
