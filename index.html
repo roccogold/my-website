@@ -1849,6 +1849,39 @@ body.light-theme .refresh-discoveries:hover {
 .modal-close:hover {
   color: var(--accent-dark);
 }
+
+@media (max-width: 768px) {
+  .card-source {
+    margin-top: 0.3rem !important;
+    padding-top: 0.4rem !important;
+  }
+  
+  /* Add significant space after discoveries section */
+  section[aria-labelledby="discoveries-heading"] {
+    margin-bottom: 4rem !important;
+  }
+  
+  /* Force single column and good spacing between cards */
+  .discoveries-grid {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-source {
+    margin-top: 0.3rem !important;
+    padding-top: 0.3rem !important;
+  }
+  
+  section[aria-labelledby="discoveries-heading"] {
+    margin-bottom: 3rem !important;
+  }
+  
+  .discoveries-grid {
+    gap: 2.5rem !important;
+  }
+}
       
 </style>
 
