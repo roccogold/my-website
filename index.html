@@ -2538,60 +2538,85 @@ class DailyDiscoveries {
   try {
     const response = await fetch('/api/nasa');
     
-    // Check if response is OK first
+    // Check for rate limit headers
+    const remainingRequests = response.headers.get('X-RateLimit-Remaining');
+    const rateLimitLimit = response.headers.get('X-RateLimit-Limit');
+    
+    if (remainingRequests !== null) {
+      console.log(`NASA API: ${remainingRequests}/${rateLimitLimit} requests remaining`);
+    }
+    
     if (!response.ok) {
-      throw new Error(`API failed: ${response.status}`);
+      if (response.status === 403) {
+        throw new Error('Rate limit exceeded or invalid API key');
+      } else if (response.status === 429) {
+        throw new Error('Too many requests - try again later');
+      } else {
+        throw new Error(`API failed: ${response.status}`);
+      }
     }
     
     const data = await response.json();
     
-    // Now check if we have valid data
+    // Validate required fields exist
     if (!data || !data.title) {
-      throw new Error('Invalid API response');
+      throw new Error('Invalid API response - missing title');
     }
+    
+    // Safely handle explanation (might be missing for some content types)
+    const safeExplanation = data.explanation ? data.explanation.replace(/"/g, '&quot;') : '';
+    const safeTitle = data.title.replace(/"/g, '&quot;');
       
- if (data.media_type === 'image') {
-  container.innerHTML = `
-    <img src="${data.url}" 
-         alt="${data.title}" 
-         class="apod-image" 
-         data-hd="${data.hdurl || data.url}"
-         title="${data.explanation.replace(/"/g, '&quot;')}"
-         onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${data.title}')">
-    <div class="apod-title">${data.title}</div>
-    <div class="apod-description" title="${data.explanation.replace(/"/g, '&quot;')}">${data.explanation}</div>
-  `;
-} else if (data.media_type === 'video' && data.url) {
-  container.innerHTML = `
-    <div class="apod-title">${data.title}</div>
-    <div class="apod-description" title="${data.explanation.replace(/"/g, '&quot;')}">${data.explanation}</div>
-    <p style="margin-top: 1rem; font-size: var(--font-xs); opacity: 0.7;">
-      <a href="${data.url}" target="_blank" style="color: var(--accent-dark);">
-        View video →
-      </a>
-    </p>
-  `;
-} else {
-  container.innerHTML = `
-    <div class="apod-title">${data.title}</div>
-    <div class="apod-description" title="${data.explanation.replace(/"/g, '&quot;')}">${data.explanation}</div>
-    <p style="margin-top: 1rem; font-size: var(--font-xs); opacity: 0.7;">
-      <em>Special content - no direct media available today</em>
-    </p>
-  `;
-}
-    } catch (error) {
-      console.error('NASA APOD error:', error);
+    if (data.media_type === 'image' && data.url) {
       container.innerHTML = `
-        <div class="error-state">
-          <p>Unable to load space photo</p>
-          <button class="retry-button" onclick="dailyDiscoveries.loadNASAAPOD()">
-            Retry
-          </button>
-        </div>
+        <img src="${data.url}" 
+             alt="${safeTitle}" 
+             class="apod-image" 
+             data-hd="${data.hdurl || data.url}"
+             title="${safeExplanation}"
+             onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${safeTitle}')">
+        <div class="apod-title">${data.title}</div>
+        <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
+      `;
+    } else if (data.media_type === 'video' && data.url) {
+      container.innerHTML = `
+        <div class="apod-title">${data.title}</div>
+        <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
+        <p style="margin-top: 1rem; font-size: var(--font-xs); opacity: 0.7;">
+          <a href="${data.url}" target="_blank" style="color: var(--accent-dark);">
+            View video →
+          </a>
+        </p>
+      `;
+    } else {
+      container.innerHTML = `
+        <div class="apod-title">${data.title}</div>
+        <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
+        <p style="margin-top: 1rem; font-size: var(--font-xs); opacity: 0.7;">
+          <em>Content available - check NASA directly</em>
+        </p>
       `;
     }
+  } catch (error) {
+    console.error('NASA APOD error:', error);
+    
+    let errorMessage = 'Unable to load space photo';
+    if (error.message.includes('Rate limit')) {
+      errorMessage = 'Rate limit exceeded - try again later';
+    } else if (error.message.includes('Too many requests')) {
+      errorMessage = 'Too many requests - please wait';
+    }
+    
+    container.innerHTML = `
+      <div class="error-state">
+        <p>${errorMessage}</p>
+        <button class="retry-button" onclick="dailyDiscoveries.loadNASAAPOD()">
+          Retry
+        </button>
+      </div>
+    `;
   }
+}
 
   async loadHistoryEvents() {
   const container = document.getElementById('history-content');
