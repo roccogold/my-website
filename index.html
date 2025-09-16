@@ -2637,36 +2637,42 @@ class DailyDiscoveries {
     }
   }
 
+// Add this method to your DailyDiscoveries class
+setupEventListeners() {
+  // This method can be empty if you removed the refresh button
+  // Or add the refresh button code if you want to keep it
+}
+
   showModal(imageSrc, title) {
-    const modal = document.getElementById('apod-modal');
-    const modalImage = document.getElementById('modal-image');
-    
-    modalImage.src = imageSrc;
-    modalImage.alt = title;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
+  const modal = document.getElementById('apod-modal');
+  const modalImage = document.getElementById('modal-image');
+  
+  modalImage.src = imageSrc;
+  modalImage.alt = title;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
 
-  hideModal() {
-    const modal = document.getElementById('apod-modal');
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
+hideModal() {
+  const modal = document.getElementById('apod-modal');
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
 
-  setupModal() {
-    const modal = document.getElementById('apod-modal');
-    const closeBtn = document.getElementById('modal-close');
-    
-    closeBtn.addEventListener('click', () => this.hideModal());
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) this.hideModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        this.hideModal();
-      }
-    });
-  }
+setupModal() {
+  const modal = document.getElementById('apod-modal');
+  const closeBtn = document.getElementById('modal-close');
+  
+  closeBtn.addEventListener('click', () => this.hideModal());
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) this.hideModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      this.hideModal();
+    }
+  });
+}
 
 }
 
