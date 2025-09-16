@@ -1440,8 +1440,43 @@ body.light-theme .thesis-card:hover::before {
 @media (max-width: 768px) {
   .discoveries-grid {
     grid-template-columns: 1fr;
-    gap: var(--space-md);
+    gap: 2rem;
+    margin-top: 2rem;
   }
+  
+  .discovery-card {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .card-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-content {
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-source {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(154, 119, 198, 0.1);
+  }
+}
+
+@media (max-width: 480px) {
+  .discovery-card {
+    padding: 1.2rem;
+  }
+  
+  .discoveries-grid {
+    gap: 1.5rem;
+  }
+}
+
+/* Light theme mobile adjustments */
+body.light-theme .card-source {
+  border-top-color: rgba(107, 70, 193, 0.1);
 }
 
 /* Discovery Cards */
