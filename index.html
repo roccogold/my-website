@@ -1572,12 +1572,13 @@ body.light-theme .loading-spinner {
 /* NASA APOD Specific Styles */
 .apod-image {
   width: 100%;
- height: 140px;
-  object-fit: cover;
+  height: 140px;
+  object-fit: contain;
   border-radius: 8px;
   margin-bottom: 0.8rem;
   cursor: pointer;
   transition: transform var(--transition-normal);
+  background: rgba(154, 119, 198, 0.05);
 }
 
 .apod-image:hover {
