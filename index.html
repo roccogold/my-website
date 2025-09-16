@@ -1882,6 +1882,28 @@ body.light-theme .refresh-discoveries:hover {
     gap: 2.5rem !important;
   }
 }
+
+/* Make cards more compact - reduce bottom spacing */
+@media (max-width: 768px) {
+  .discovery-card {
+    padding-bottom: 1rem !important;
+  }
+  
+  .card-content {
+    margin-bottom: 0 !important;
+  }
+  
+  .apod-description,
+  .history-events {
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .discovery-card {
+    padding-bottom: 0.8rem !important;
+  }
+}
       
 </style>
 
