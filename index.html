@@ -1434,6 +1434,7 @@ body.light-theme .thesis-card:hover::before {
   grid-template-columns: 1fr 1fr;
   gap: var(--space-lg);
   margin-top: var(--space-lg);
+  align-items: stretch; /* Ensures equal height for all cards */
 }
 
 @media (max-width: 768px) {
@@ -1452,6 +1453,9 @@ body.light-theme .thesis-card:hover::before {
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Forces each card to fill grid cell */
 }
 
 .discovery-card::before {
@@ -1537,6 +1541,7 @@ body.light-theme .card-header {
 /* Content Areas */
 .card-content {
   position: relative;
+  flex: 1 1 auto;
 }
 
 .loading-state {
