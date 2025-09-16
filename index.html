@@ -1438,8 +1438,9 @@ body.light-theme .thesis-card:hover::before {
 }
 
 @media (max-width: 768px) {
-  /* Discovery grid improvements */
+  /* Discovery grid improvements - FORCE single column */
   .discoveries-grid {
+    grid-template-columns: 1fr !important;
     gap: 3rem;
     margin-top: 3rem;
   }
@@ -1465,12 +1466,13 @@ body.light-theme .thesis-card:hover::before {
 }
 
 @media (max-width: 480px) {
-  .discovery-card {
-    padding: 1.8rem;
+  .discoveries-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem;
   }
   
-  .discoveries-grid {
-    gap: 2.5rem;
+  .discovery-card {
+    padding: 1.8rem;
   }
   
   .card-header {
