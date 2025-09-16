@@ -2236,22 +2236,12 @@ class GitHubIntegration {
     }
   }
 
-  displayLastUpdated(run) {
-    const updatedDate = new Date(run.updated_at);
-    const day = String(updatedDate.getDate()).padStart(2, '0');
-    const month = String(updatedDate.getMonth() + 1).padStart(2, '0');
-    const year = updatedDate.getFullYear();
-    const hours = String(updatedDate.getHours()).padStart(2, '0');
-    const minutes = String(updatedDate.getMinutes()).padStart(2, '0');
-    const username = run.actor?.login || "unknown";
-    
-    this.lastUpdatedElement.textContent =
-      `© Updated on ${day}-${month}-${year} ${hours}:${minutes} by ${username} — work in progress, just like me.`;
-  }
+ displayLastUpdated() {
+    this.lastUpdatedElement.textContent = "© Updated by roccogold — work in progress, just like me.";
+}
 
-  displayFallback() {
-    this.lastUpdatedElement.textContent = "© Site updated recently — work in progress.";
-  }
+displayFallback() {
+    this.lastUpdatedElement.textContent = "© Updated by roccogold — work in progress, just like me.";
 }
 
 // Core Web Vitals monitoring
