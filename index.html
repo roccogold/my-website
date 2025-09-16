@@ -1437,12 +1437,16 @@ body.light-theme .thesis-card:hover::before {
   align-items: stretch; /* Ensures equal height for all cards */
 }
 
+/* Complete Mobile Discovery Cards Spacing Fix */
+
+/* Override the original card-source spacing on mobile */
 @media (max-width: 768px) {
   /* Discovery grid improvements - FORCE single column */
   .discoveries-grid {
     grid-template-columns: 1fr !important;
     gap: 3rem;
     margin-top: 3rem;
+    margin-bottom: 3rem; /* Add space after discoveries section */
   }
   
   .discovery-card {
@@ -1455,12 +1459,13 @@ body.light-theme .thesis-card:hover::before {
   }
   
   .card-content {
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.3rem !important;
   }
   
-  .card-source {
-    margin-top: 0.2rem;
-    padding-top: 0.3rem;
+  /* Override the original card-source margin with !important */
+  .discovery-card .card-source {
+    margin-top: 0.3rem !important;
+    padding-top: 0.4rem;
     border-top: 1px solid rgba(154, 119, 198, 0.1);
   }
 }
@@ -1469,6 +1474,7 @@ body.light-theme .thesis-card:hover::before {
   .discoveries-grid {
     grid-template-columns: 1fr !important;
     gap: 2.5rem;
+    margin-bottom: 2.5rem; /* Add space after discoveries section */
   }
   
   .discovery-card {
@@ -1480,17 +1486,18 @@ body.light-theme .thesis-card:hover::before {
   }
   
   .card-content {
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.3rem !important;
   }
   
-  .card-source {
-    margin-top: 0.2rem;
-    padding-top: 0.3rem;
+  /* Override the original card-source margin with !important */
+  .discovery-card .card-source {
+    margin-top: 0.3rem !important;
+    padding-top: 0.4rem;
   }
 }
 
 /* Light theme mobile adjustments */
-body.light-theme .card-source {
+body.light-theme .discovery-card .card-source {
   border-top-color: rgba(107, 70, 193, 0.1);
 }
 
