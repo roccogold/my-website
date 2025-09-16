@@ -2546,12 +2546,23 @@ class DailyDiscoveries {
     ]);
   }
 
-  async loadNASAAPOD() {
-    const container = document.getElementById('nasa-content');
+ async loadNASAAPOD() {
+  const container = document.getElementById('nasa-content');
+  
+  try {
+    const response = await fetch('/api/nasa');
     
-    try {
-      const response = await fetch('/api/nasa');
-      const data = await response.json();
+    // Check if response is OK first
+    if (!response.ok) {
+      throw new Error(`API failed: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    // Now check if we have valid data
+    if (!data || !data.title) {
+      throw new Error('Invalid API response');
+    }
       
  if (data.media_type === 'image') {
   container.innerHTML = `
