@@ -1869,11 +1869,6 @@ body.light-theme .refresh-discoveries:hover {
       </div>
     </div>
   </div>
-
-  <button class="refresh-discoveries" id="refresh-btn">
-    <i class="fas fa-refresh" aria-hidden="true"></i>
-        refresh discoveries
-  </button>
 </section>
 
 <!-- APOD Modal -->
@@ -2673,15 +2668,6 @@ class DailyDiscoveries {
     });
   }
 
-  setupEventListeners() {
-    const refreshBtn = document.getElementById('refresh-btn');
-    refreshBtn.addEventListener('click', () => {
-      refreshBtn.innerHTML = '<div class="loading-spinner"></div> refreshing...';
-      this.loadDiscoveries().then(() => {
-        refreshBtn.innerHTML = '<i class="fas fa-refresh"></i> refresh discoveries';
-      });
-    });
-  }
 }
 
 </script>
