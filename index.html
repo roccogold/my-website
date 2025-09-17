@@ -2622,15 +2622,17 @@ class DailyDiscoveries {
       
     if (data.media_type === 'image' && data.url) {
       container.innerHTML = `
-        <img src="${data.url}" 
-             alt="${safeTitle}" 
-             class="apod-image" 
-             data-hd="${data.hdurl || data.url}"
-             title="${safeExplanation}"
-             onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${safeTitle}')">
-        <div class="apod-title">${data.title}</div>
-        <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
-      `;
+  <img src="${data.url}" 
+       alt="${safeTitle}" 
+       class="apod-image" 
+       data-hd="${data.hdurl || data.url}"
+       onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${safeTitle}')">
+  <div class="apod-title">${data.title}</div>
+  <div class="tooltip-container">
+    <div class="apod-description">${data.explanation || 'No description available'}</div>
+    <div class="custom-tooltip">${data.explanation || 'No description available'}</div>
+  </div>
+`;
     } else if (data.media_type === 'video' && data.url) {
       container.innerHTML = `
         <div class="apod-title">${data.title}</div>
