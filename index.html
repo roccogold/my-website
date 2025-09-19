@@ -1600,7 +1600,9 @@ body.light-theme .apod-title {
   font-size: var(--font-xs);
   line-height: 1.4;
   opacity: 0.9;
-  max-height: 120px;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
