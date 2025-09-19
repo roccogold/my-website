@@ -921,32 +921,45 @@ body.light-theme ::selection {
   color: white;
 }
 
-/* Lightning bolt cursor */
-.lightning-cursor {
+/* Custom cursor for dark mode - disabled on mobile */
+.dot-cursor,
+.trailing-dot {
   position: fixed;
   top: 0;
   left: 0;
-  width: 20px;
-  height: 20px;
+  border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 10000;
-  transition: all var(--transition-normal);
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%239a77c6" stroke="%23ffffff" stroke-width="1" stroke-linejoin="round" d="M15 3H8L4 14h6l-3 8 13-12h-7.5L15 3z"></path></svg>'), auto;
+  transition: background-color var(--transition-normal);
 }
 
-.lightning-cursor.hover {
-  transform: translate(-50%, -50%) scale(1.2);
-  filter: drop-shadow(0 0 8px rgba(154, 119, 198, 0.6));
+.dot-cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-dark);
 }
 
-body.light-theme .lightning-cursor {
-  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%236b46c1" stroke="%23000000" stroke-width="1" stroke-linejoin="round" d="M15 3H8L4 14h6l-3 8 13-12h-7.5L15 3z"></path></svg>'), auto;
+.trailing-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--accent-dark);
+  opacity: 0.7;
+  z-index: 9999;
+}
+
+body.light-theme .dot-cursor {
+  background: var(--accent-dark);
+}
+
+body.light-theme .trailing-dot {
+  background: var(--accent-dark);
 }
 
 /* Hide custom cursor on mobile and touch devices */
 @media (hover: none), (pointer: coarse) {
-  .lightning-cursor {
+  .dot-cursor,
+  .trailing-dot {
     display: none;
   }
   
@@ -2393,9 +2406,8 @@ body.light-theme .suggestion-btn:hover {
 </footer>
 
 <!-- Enhanced cursor elements -->
-<!-- <div class="dot-cursor" aria-hidden="true"></div>
-<div class="trailing-dot" aria-hidden="true"></div> -->
-<div class="lightning-cursor" aria-hidden="true"></div>
+<div class="dot-cursor" aria-hidden="true"></div>
+<div class="trailing-dot" aria-hidden="true"></div>
 
 <!-- Initialize Daily Discoveries -->
 <script>
@@ -2890,15 +2902,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
-
-// Lightning Cursor Logic
-const lightning = document.querySelector('.lightning-cursor');
-if (lightning) {
-  document.addEventListener('mousemove', e => {
-    lightning.style.left = e.clientX + 'px';
-    lightning.style.top = e.clientY + 'px';
-  });
-}
 });
 
 // Register service worker for PWA functionality
