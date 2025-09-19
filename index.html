@@ -906,6 +906,40 @@ body.light-theme #contactForm textarea:focus {
   overflow: hidden;
 }
 
+.view-nasa-btn {
+  background: transparent;
+  border: 1px solid var(--accent-dark);
+  color: var(--accent-dark);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: var(--font-xs);
+  font-family: var(--main-font);
+  cursor: pointer;
+  margin-top: 0.8rem;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  width: fit-content;
+  font-weight: 500;
+}
+
+.view-nasa-btn:hover {
+  background: var(--accent-dark);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(154, 119, 198, 0.3);
+}
+
+body.light-theme .view-nasa-btn {
+  border-color: var(--accent-light);
+  color: var(--accent-light);
+}
+
+body.light-theme .view-nasa-btn:hover {
+  background: var(--accent-light);
+}
+
 #contactForm button:hover,
 #contactForm button:focus {
   background: var(--accent-dark-hover);
@@ -3051,6 +3085,10 @@ class DailyDiscoveries {
        onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${safeTitle}')">
   <div class="apod-title">${data.title}</div>
   <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
+  <button class="view-nasa-btn" onclick="window.open('https://apod.nasa.gov/', '_blank')">
+  <i class="fas fa-external-link-alt"></i>
+  View on NASA
+</button>
 `;
     } else if (data.media_type === 'video' && data.url) {
       container.innerHTML = `
