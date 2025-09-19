@@ -561,6 +561,18 @@ body.light-theme .typing-effect {
   100% { width: 100%; }
 }
 
+@keyframes pokemon-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}
+
 @keyframes blink-caret {
   0%, 50% { border-color: var(--accent-dark); opacity: 1; }
   51%, 100% { border-color: transparent; opacity: 0.7; }
@@ -2078,8 +2090,8 @@ body.light-theme .pokemon-search-button:hover:not(:disabled) {
   background: transparent;
   transition: transform var(--transition-normal);
   cursor: pointer;
+  animation: pokemon-bounce 2s ease-in-out infinite;
 }
-
 .pokemon-artwork:hover {
   transform: scale(1.05);
 }
