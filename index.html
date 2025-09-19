@@ -127,7 +127,7 @@
 --font-sm: clamp(0.75rem, 1.9vw, 0.85rem);   /* Your body text */
 --font-md: clamp(0.8rem, 2.3vw, 0.9rem);     /* Reduced more */
 --font-lg: clamp(0.95rem, 3.0vw, 1.15rem);   /* Headers smaller */
---font-xl: clamp(1.2rem, 4.2vw, 1.7rem);     /* Main title smaller */
+--font-xl: clamp(1.4rem, 5vw, 2.2rem);     /* Main title smaller */
   
   /* Spacing */
   --space-xs: 0.25rem;
@@ -525,8 +525,11 @@ body.light-theme .back-to-top:hover {
 .top-bar header h1 {
   margin: 0;
   font-size: var(--font-xl);
-  font-weight: 950; /* Made bolder - was 700 */
+  font-weight: 950;
   color: var(--accent-dark);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 4px rgba(154, 119, 198, 0.3);
+  filter: drop-shadow(0 0 8px rgba(154, 119, 198, 0.4));
 }
 
 body.light-theme .top-bar header h1 {
