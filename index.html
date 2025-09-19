@@ -2393,8 +2393,9 @@ body.light-theme .suggestion-btn:hover {
 </footer>
 
 <!-- Enhanced cursor elements -->
-<div class="dot-cursor" aria-hidden="true"></div>
-<div class="trailing-dot" aria-hidden="true"></div>
+<!-- <div class="dot-cursor" aria-hidden="true"></div>
+<div class="trailing-dot" aria-hidden="true"></div> -->
+<div class="lightning-cursor" aria-hidden="true"></div>
 
 <!-- Initialize Daily Discoveries -->
 <script>
@@ -2889,6 +2890,15 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
+// Lightning Cursor Logic
+const lightning = document.querySelector('.lightning-cursor');
+if (lightning) {
+  document.addEventListener('mousemove', e => {
+    lightning.style.left = e.clientX + 'px';
+    lightning.style.top = e.clientY + 'px';
+  });
+}
 });
 
 // Register service worker for PWA functionality
