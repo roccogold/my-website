@@ -2043,6 +2043,7 @@ body.light-theme .pokemon-search-button:hover:not(:disabled) {
   border-radius: 8px;
   background: rgba(154, 119, 198, 0.05);
   transition: transform var(--transition-normal);
+  cursor: pointer;
 }
 
 .pokemon-artwork:hover {
@@ -3174,12 +3175,14 @@ displayPokemon(pokemon) {
                   pokemon.sprites.front_default;
 
   const pokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+  const safeTitle = pokemonName.replace(/"/g, '&quot;');
   
   result.innerHTML = `
     <div class="pokemon-display">
       <img src="${artwork}" 
            alt="${pokemonName}" 
            class="pokemon-artwork"
+           onclick="dailyDiscoveries.showModal('${artwork}', '${safeTitle}')"
            loading="lazy">
       <div class="pokemon-name">${pokemonName}</div>
       <div class="pokemon-id">#${pokemon.id.toString().padStart(3, '0')}</div>
