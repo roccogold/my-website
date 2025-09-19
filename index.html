@@ -107,6 +107,20 @@
   --text-light: #1a1a1a;
   --accent-light: #6b46c1;
   --accent-light-hover: #7c3aed;
+
+ /* Enhanced animation system */
+  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Magnetic effect variables */
+  --magnetic-strength: 8px;
+  --magnetic-scale: 1.05;
+
+  /* Glass effect improvements */
+  --glass-blur: 20px;
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 8px 32px 0 rgba(154, 119, 198, 0.37);
   
 /* Typography Scale */
 --font-xs: clamp(0.65rem, 1.5vw, 0.75rem);   /* Smaller */
@@ -124,7 +138,7 @@
   
   --main-font: 'JetBrains Mono', 'Courier New', monospace;
   --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s ease;
+  --transition-normal: 0.4s var(--ease-out-cubic);
   --transition-slow: 0.6s ease;
 }
 
@@ -409,7 +423,8 @@ body:focus-within {
 .theme-toggle:hover {
   background: var(--accent-dark);
   color: var(--bg-dark);
-  transform: rotate(180deg);
+  transform: rotate(180deg) scale(1.1);
+  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
 }
 
 body.light-theme .theme-toggle {
@@ -469,7 +484,8 @@ body.light-theme .scroll-progress {
 
 .back-to-top:hover {
   background: var(--accent-dark-hover);
-  transform: translateY(-3px);
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
 }
 
 body.light-theme .back-to-top {
@@ -527,9 +543,12 @@ body.light-theme .top-bar header h1 {
 /* Typing effect */
 .typing-effect {
   overflow: hidden;
-  border-right: 2px solid var(--accent-dark);
+  border-right: 3px solid var(--accent-dark);
   white-space: nowrap;
-  animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+  animation: 
+    typing 3s var(--ease-out-cubic), 
+    blink-caret 1s step-end infinite;
+  letter-spacing: 0.05em;
 }
 
 body.light-theme .typing-effect {
@@ -537,13 +556,14 @@ body.light-theme .typing-effect {
 }
 
 @keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+  0% { width: 0; }
+  70% { width: 100%; }
+  100% { width: 100%; }
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent; }
-  50% { border-color: currentColor; }
+  0%, 50% { border-color: var(--accent-dark); opacity: 1; }
+  51%, 100% { border-color: transparent; opacity: 0.7; }
 }
 
 /* Links */
@@ -738,7 +758,8 @@ body.light-theme ul ul li::before {
   border-radius: 6px;
   border: none;
   background: transparent;
-  transition: filter var(--transition-normal), transform var(--transition-normal), color var(--transition-normal);
+  transition: all var(--transition-normal), transform var(--ease-out-expo) 0.3s;
+  cursor: pointer;
 }
 
 body.light-theme .social a {
@@ -747,12 +768,12 @@ body.light-theme .social a {
 
 .social a:hover,
 .social a:focus-visible {
-  filter: drop-shadow(0 0 6px currentColor);
-  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px currentColor);
+  transform: translateY(-4px) scale(var(--magnetic-scale));
   color: var(--accent-dark-hover);
   cursor: pointer;
   outline: 2px solid var(--accent-dark);
-  outline-offset: 2px;
+  outline-offset: 4px;
 }
 
 body.light-theme .social a:hover,
@@ -864,17 +885,20 @@ body.light-theme #contactForm textarea:focus {
   border: none;
   background: var(--accent-dark);
   color: white;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: var(--font-sm);
   font-family: var(--main-font);
-  transition: background-color var(--transition-normal), transform var(--transition-fast);
+  transition: all var(--transition-normal), box-shadow var(--ease-out-expo) 0.3s;
   font-weight: 600;
+  position: relative;
+  overflow: hidden;
 }
 
 #contactForm button:hover,
 #contactForm button:focus {
   background: var(--accent-dark-hover);
-  transform: translateY(-1px);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(154, 119, 198, 0.4);
   outline: 2px solid var(--accent-dark);
   outline-offset: 2px;
 }
@@ -993,15 +1017,22 @@ body.light-theme .trailing-dot {
 
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  transform: translateY(30px);
+  transition: all 0.8s var(--ease-out-expo);
 }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
-  animation: revealUp var(--transition-slow) ease forwards;
 }
+
+/* Staggered animation delays for multiple reveals */
+.reveal:nth-child(1) { transition-delay: 0.1s; }
+.reveal:nth-child(2) { transition-delay: 0.2s; }
+.reveal:nth-child(3) { transition-delay: 0.3s; }
+.reveal:nth-child(4) { transition-delay: 0.4s; }
+.reveal:nth-child(5) { transition-delay: 0.5s; }
+.reveal:nth-child(6) { transition-delay: 0.6s; }
 
 /* Enhanced code styling */
 code, pre {
@@ -1444,15 +1475,18 @@ body.light-theme .thesis-card:hover::before {
 
 /* Discovery Cards */
 .discovery-card {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.1), rgba(181, 140, 217, 0.05));
-  border: 1px solid rgba(154, 119, 198, 0.2);
-  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.15), rgba(181, 140, 217, 0.08));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
   padding: 1.2rem;
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--glass-shadow);
 }
 
 .discovery-card::before {
@@ -1468,10 +1502,10 @@ body.light-theme .thesis-card:hover::before {
 }
 
 .discovery-card:hover {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.2), rgba(181, 140, 217, 0.1));
-  border-color: var(--accent-dark);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(154, 119, 198, 0.15);
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.25), rgba(181, 140, 217, 0.15));
+  border-color: rgba(154, 119, 198, 0.4);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(154, 119, 198, 0.3);
 }
 
 .discovery-card:hover::before {
