@@ -503,7 +503,9 @@ body.light-theme .back-to-top:hover {
   left: 0;
   right: 0;
   z-index: 1001;
-  background: var(--bg-dark);
+  background: transparent;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(154, 119, 198, 0.2);
   padding: 1rem 0;
 }
@@ -552,7 +554,7 @@ body.light-theme .back-to-top:hover {
 
 /* Light theme support */
 body.light-theme .nav-container {
-  background: var(--bg-light);
+  background: transparent;
   border-bottom-color: rgba(107, 70, 193, 0.2);
 }
 
