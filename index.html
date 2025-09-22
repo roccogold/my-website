@@ -3261,10 +3261,6 @@ class DailyDiscoveries {
        onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${safeTitle}')">
   <div class="apod-title">${data.title}</div>
   <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
-  <button class="view-nasa-btn" onclick="window.open('https://apod.nasa.gov/', '_blank')">
-  <i class="fas fa-external-link-alt"></i>
-  View on NASA
-</button>
 `;
     } else if (data.media_type === 'video' && data.url) {
       container.innerHTML = `
