@@ -554,7 +554,9 @@ body.light-theme .back-to-top:hover {
 
 /* Light theme support */
 body.light-theme .nav-container {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom-color: rgba(107, 70, 193, 0.2);
 }
 
@@ -578,7 +580,7 @@ body.light-theme .nav-item::after {
   }
 }
       
-      
+     
       
 /* Container Queries Support */
 .top-bar {
