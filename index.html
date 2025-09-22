@@ -2609,8 +2609,8 @@ class Navigation {
   init() {
     if (window.innerWidth <= 768) return; // Skip on mobile
     
-    this.navItems = document.querySelectorAll('.nav-item');
-    this.sections = document.querySelectorAll('#about, #vibes, #discoveries, #experience, #thesis, #interests, #contact');
+   this.navItems = document.querySelectorAll('.nav-item');
+   this.sections = document.querySelectorAll('#vibes, #discoveries, #experience, #thesis, #interests, #contact');
     
     this.setupSmoothScroll();
     this.setupScrollSpy();
