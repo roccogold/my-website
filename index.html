@@ -403,7 +403,7 @@ body:focus-within {
 /* Theme toggle button */
 .theme-toggle {
   position: fixed;
-  top: 2rem;
+  top: 1rem;
   right: 2rem;
   width: 45px;
   height: 45px;
@@ -2266,6 +2266,20 @@ body.light-theme .suggestion-btn:hover {
 </head>
 
 <body>
+
+<!-- Navigation Bar - Desktop Only -->
+<div class="nav-container">
+  <nav class="nav-bar" role="navigation" aria-label="Main navigation">
+    <a href="#about" class="nav-item active">About</a>
+    <a href="#vibes" class="nav-item">Vibes</a>
+    <a href="#discoveries" class="nav-item">Discoveries</a>
+    <a href="#experience" class="nav-item">Experience</a>
+    <a href="#thesis" class="nav-item">Thesis</a>
+    <a href="#interests" class="nav-item">Interests</a>
+    <a href="#contact" class="nav-item">Contact</a>
+  </nav>
+</div>
+
 <!-- Animated background system -->
 <div class="gradient-background">
   <div class="gradient-sphere sphere-1"></div>
@@ -2292,17 +2306,19 @@ body.light-theme .suggestion-btn:hover {
 
 <!-- ================= HEADER ================= -->
 <div id="topBar" class="top-bar">
-  <header class="reveal">
-    <h1>Ciao, I'm Rocco Goldschmidt</h1>
-    <p class="typing-effect">[Product Manager — from idea to impact]</p>
-  </header>
+  <div id="about"> <!-- Add this wrapper div -->
+    <header class="reveal">
+      <h1>Ciao, I'm Rocco Goldschmidt</h1>
+      <p class="typing-effect">[Product Manager — from idea to impact]</p>
+    </header>
+  </div> <!-- Close the wrapper -->
 </div>
-
+      
 <!-- ================= MAIN CONTENT ================= -->
 <main id="main-content" role="main" aria-label="Portfolio content">
   <p class="work-desc reveal">I work where design, tech and finance meet — turning complicated challenges into smooth solutions.</p>
 
-  <section aria-labelledby="music-heading" class="reveal">
+  <section aria-labelledby="music-heading" class="reveal" id="vibes">
   <h2 id="music-heading">Vibes</h2>
 <div class="spotify-container">
   <iframe data-testid="embed-iframe" 
@@ -2319,7 +2335,7 @@ body.light-theme .suggestion-btn:hover {
 </div>
 </section>   
 
-<section aria-labelledby="discoveries-heading" class="reveal" style="margin-bottom: 4rem;">
+<section aria-labelledby="discoveries-heading" class="reveal" id="discoveries" style="margin-bottom: 4rem;">
   <h2 id="discoveries-heading">Discoveries</h2>
   <p class="work-desc">Here are some examples of API integrations I find interesting — live data from NASA's space photos and interactive pokémon searches.</p>
   
@@ -2388,7 +2404,7 @@ body.light-theme .suggestion-btn:hover {
   </div>
 </div>
       
-  <section aria-labelledby="work-heading" class="reveal">
+  <section aria-labelledby="work-heading" class="reveal" id="experience">
     <h2 id="work-heading">Experience</h2>
     <ul>
       <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make complex third-party risk management data as easy to integrate as possible, combining data sources and building the API workflows that power the next generation of risk management.</li>
@@ -2396,7 +2412,7 @@ body.light-theme .suggestion-btn:hover {
     </ul>
   </section>
 
-<section aria-labelledby="thesis-heading" class="reveal">
+<section aria-labelledby="thesis-heading" class="reveal" id="thesis">
   <h2 id="thesis-heading">Thesis Project</h2>
   <div class="thesis-card">
     <div class="thesis-card-title">
@@ -2405,7 +2421,7 @@ body.light-theme .suggestion-btn:hover {
   </div>
 </section>
 
-<section aria-labelledby="skills-heading" class="reveal">
+<section aria-labelledby="skills-heading" class="reveal" id="interests">
   <h2 id="skills-heading">Interests</h2>
   <div class="minimal-tags">
     <span class="minimal-tag">Product Management</span>
@@ -2421,7 +2437,7 @@ body.light-theme .suggestion-btn:hover {
   </div>
 </section>
   
-  <section aria-labelledby="contact-heading" class="reveal">
+  <section aria-labelledby="contact-heading" class="reveal" id="contact">
     <h2 id="contact-heading">Contact</h2>
     <p class="contact-desc">
       Want the juicy bits? Download my resume <a href="https://drive.google.com/file/d/1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR/view" 
@@ -2495,6 +2511,75 @@ body.light-theme .suggestion-btn:hover {
 <!-- Initialize Daily Discoveries -->
 <script>
 let dailyDiscoveries;
+
+// Navigation functionality
+class Navigation {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    if (window.innerWidth <= 768) return; // Skip on mobile
+    
+    this.navItems = document.querySelectorAll('.nav-item');
+    this.sections = document.querySelectorAll('#about, #vibes, #discoveries, #experience, #thesis, #interests, #contact');
+    
+    this.setupSmoothScroll();
+    this.setupScrollSpy();
+  }
+
+  setupSmoothScroll() {
+    this.navItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = item.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+          const navHeight = document.querySelector('.nav-container').offsetHeight;
+          const targetTop = targetSection.offsetTop - navHeight - 20;
+          
+          window.scrollTo({
+            top: targetTop,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  }
+
+  setupScrollSpy() {
+    const observerOptions = {
+      threshold: 0.3,
+      rootMargin: `-${document.querySelector('.nav-container')?.offsetHeight || 0}px 0px -50% 0px`
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.updateActiveNavItem(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    this.sections.forEach(section => {
+      if (section) observer.observe(section);
+    });
+  }
+
+  updateActiveNavItem(activeId) {
+    this.navItems.forEach(item => {
+      item.classList.remove('active');
+      if (item.getAttribute('href') === `#${activeId}`) {
+        item.classList.add('active');
+      }
+    });
+  }
+}
+
+// Initialize navigation
+new Navigation();
+      
 </script>
 
 <!-- Enhanced JavaScript with modules -->
