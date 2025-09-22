@@ -341,7 +341,7 @@ body {
   color: var(--text-dark);
   font-family: var(--main-font);
   margin: 0;
-  padding: 0;
+  padding: 70px 0 0 0;
   padding-env: safe-area-inset-top env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   font-size: var(--font-sm);
   position: relative;
@@ -498,9 +498,11 @@ body.light-theme .back-to-top:hover {
 
 /* Navigation Bar - Desktop Only */
 .nav-container {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 1001;
   background: var(--bg-dark);
   border-bottom: 1px solid rgba(154, 119, 198, 0.2);
   padding: 1rem 0;
@@ -1181,6 +1183,10 @@ body.light-theme pre {
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
+  body {
+    padding-top: 0; /* Remove padding on mobile since nav is hidden */
+  }
+
   .theme-toggle {
     display: none; /* Hide theme toggle on mobile */
   }
