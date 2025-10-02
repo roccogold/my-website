@@ -870,7 +870,6 @@ p.contact-desc {
 }
 
 /* Spotify embed styling */
-/* Spotify embed styling */
 .spotify-container {
   max-width: 100%;
   margin: var(--space-md) 0;
@@ -1699,6 +1698,40 @@ body.light-theme .apod-title {
   overflow: hidden;
 }
 
+.apod-description.collapsed {
+  display: none;
+}
+
+.apod-expand-btn {
+  background: transparent;
+  border: 1px solid var(--accent-dark);
+  color: var(--accent-dark);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: var(--font-xs);
+  font-family: var(--main-font);
+  cursor: pointer;
+  margin: 0.5rem 0;
+  transition: all var(--transition-normal);
+  font-weight: 500;
+  width: 100%;
+}
+
+.apod-expand-btn:hover {
+  background: var(--accent-dark);
+  color: white;
+}
+
+body.light-theme .apod-expand-btn {
+  border-color: var(--accent-light);
+  color: var(--accent-light);
+}
+
+body.light-theme .apod-expand-btn:hover {
+  background: var(--accent-light);
+  color: white;
+}
+
 /* History Events Specific Styles */
 .history-events {
   max-height: 220px;
@@ -2096,7 +2129,7 @@ body.light-theme .pokemon-search-button:hover:not(:disabled) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  min-height: 60px;  /* Changed from 120px */
   opacity: 1;
   transition: all 0.5s ease;
 }
@@ -3032,15 +3065,16 @@ class DailyDiscoveries {
     const safeExplanation = data.explanation ? data.explanation.replace(/"/g, '&quot;') : '';
     const safeTitle = data.title.replace(/"/g, '&quot;');
       
-    if (data.media_type === 'image' && data.url) {
-      container.innerHTML = `
+if (data.media_type === 'image' && data.url) {
+  container.innerHTML = `
   <img src="${data.url}" 
        alt="${safeTitle}" 
        class="apod-image" 
        data-hd="${data.hdurl || data.url}"
        onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${safeTitle}')">
   <div class="apod-title">${data.title}</div>
-  <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
+  <button class="apod-expand-btn" onclick="dailyDiscoveries.toggleDescription(event)">Read more</button>
+  <div class="apod-description collapsed" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
 `;
     } else if (data.media_type === 'video' && data.url) {
       container.innerHTML = `
@@ -3102,6 +3136,19 @@ hideModal() {
   const modal = document.getElementById('apod-modal');
   modal.classList.remove('active');
   document.body.style.overflow = '';
+}
+
+toggleDescription(event) {
+  const button = event.target;
+  const description = button.nextElementSibling;
+  
+  if (description.classList.contains('collapsed')) {
+    description.classList.remove('collapsed');
+    button.textContent = 'Show less';
+  } else {
+    description.classList.add('collapsed');
+    button.textContent = 'Read more';
+  }
 }
 
 setupModal() {
