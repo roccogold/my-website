@@ -1552,27 +1552,11 @@ body.light-theme .thesis-card:hover::before {
   box-shadow: var(--glass-shadow);
 }
 
-.discovery-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-dark), var(--accent-dark-hover));
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-}
-
 .discovery-card:hover {
   background: linear-gradient(135deg, rgba(154, 119, 198, 0.25), rgba(181, 140, 217, 0.15));
   border-color: rgba(154, 119, 198, 0.4);
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 20px 40px rgba(154, 119, 198, 0.3);
-}
-
-.discovery-card:hover::before {
-  opacity: 1;
 }
 
 .card-source {
