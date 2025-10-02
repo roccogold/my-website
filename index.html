@@ -1664,7 +1664,7 @@ body.light-theme .loading-spinner {
 /* NASA APOD Specific Styles */
 .apod-image {
   width: 100%;
-  height: 100px;
+  height: 180px;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 0.8rem;
@@ -3072,7 +3072,6 @@ if (data.media_type === 'image' && data.url) {
        class="apod-image" 
        data-hd="${data.hdurl || data.url}"
        onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${safeTitle}')">
-  <div class="apod-title">${data.title}</div>
   <button class="apod-expand-btn" onclick="dailyDiscoveries.toggleDescription(event)">Read more</button>
   <div class="apod-description collapsed" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
 `;
