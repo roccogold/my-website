@@ -902,10 +902,34 @@ body.light-theme .spotify-container:hover {
   border-radius: 10px;
 }
 
-/* Enhanced contact form */
 #contactForm {
-  max-width: 400px;
-  margin: var(--space-md) auto;
+  max-width: 100%;
+  margin: var(--space-md) 0;
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.15), rgba(181, 140, 217, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(154, 119, 198, 0.37);
+  transition: all var(--transition-normal);
+}
+
+#contactForm:hover {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.25), rgba(181, 140, 217, 0.15));
+  border-color: rgba(154, 119, 198, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(154, 119, 198, 0.4);
+}
+
+body.light-theme #contactForm {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.1), rgba(124, 58, 237, 0.05));
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(154, 119, 198, 0.37);
+}
+
+body.light-theme #contactForm:hover {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.2), rgba(124, 58, 237, 0.1));
+  border-color: rgba(107, 70, 193, 0.3);
+  box-shadow: 0 12px 35px rgba(107, 70, 193, 0.3);
 }
 
 #contactForm label {
@@ -913,44 +937,51 @@ body.light-theme .spotify-container:hover {
   margin-bottom: var(--space-xs);
   font-weight: 600;
   font-size: var(--font-sm);
+  color: var(--accent-dark);
+}
+
+body.light-theme #contactForm label {
+  color: var(--accent-light);
 }
 
 #contactForm input,
 #contactForm textarea {
   width: 100%;
   padding: var(--space-sm);
-  margin-bottom: var(--space-sm);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 4px;
+  margin-bottom: var(--space-md);
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  border-radius: 8px;
   font-size: var(--font-sm);
   font-family: var(--main-font);
-  background-color: rgba(255,255,255,0.05);
+  background-color: rgba(154, 119, 198, 0.05);
   color: inherit;
-  transition: border-color var(--transition-normal), background-color var(--transition-normal);
+  transition: all var(--transition-normal);
   box-sizing: border-box;
 }
 
 body.light-theme #contactForm input,
 body.light-theme #contactForm textarea {
-  border-color: rgba(0,0,0,0.3);
-  background-color: rgba(0,0,0,0.05);
+  border-color: rgba(107, 70, 193, 0.3);
+  background-color: rgba(107, 70, 193, 0.05);
 }
 
 #contactForm input:focus,
 #contactForm textarea:focus {
   border-color: var(--accent-dark);
   outline: none;
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(154, 119, 198, 0.1);
+  box-shadow: 0 0 0 3px rgba(154, 119, 198, 0.2);
 }
 
 body.light-theme #contactForm input:focus,
 body.light-theme #contactForm textarea:focus {
   border-color: var(--accent-light);
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(107, 70, 193, 0.1);
+  box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.2);
 }
 
 #contactForm button {
-  padding: var(--space-sm) var(--space-md);
+  padding: 0.7rem 1.5rem;
   cursor: pointer;
   border: none;
   background: var(--accent-dark);
@@ -958,70 +989,34 @@ body.light-theme #contactForm textarea:focus {
   border-radius: 8px;
   font-size: var(--font-sm);
   font-family: var(--main-font);
-  transition: all var(--transition-normal), box-shadow var(--ease-out-expo) 0.3s;
-  font-weight: 600;
-  position: relative;
-  overflow: hidden;
-}
-
-.view-nasa-btn {
-  background: transparent;
-  border: 1px solid var(--accent-dark);
-  color: var(--accent-dark);
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-size: var(--font-xs);
-  font-family: var(--main-font);
-  cursor: pointer;
-  margin-top: 0.8rem;
   transition: all var(--transition-normal);
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  width: fit-content;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-.view-nasa-btn:hover {
-  background: var(--accent-dark);
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(154, 119, 198, 0.3);
-}
-
-body.light-theme .view-nasa-btn {
-  border-color: var(--accent-light);
-  color: var(--accent-light);
-}
-
-body.light-theme .view-nasa-btn:hover {
-  background: var(--accent-light);
-}
-
-#contactForm button:hover,
-#contactForm button:focus {
+#contactForm button:hover:not(:disabled) {
   background: var(--accent-dark-hover);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(154, 119, 198, 0.4);
-  outline: 2px solid var(--accent-dark);
-  outline-offset: 2px;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(154, 119, 198, 0.4);
+}
+
+#contactForm button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 body.light-theme #contactForm button {
   background: var(--accent-light);
 }
 
-body.light-theme #contactForm button:hover,
-body.light-theme #contactForm button:focus {
+body.light-theme #contactForm button:hover:not(:disabled) {
   background: var(--accent-light-hover);
-  outline-color: var(--accent-light);
+  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.4);
 }
 
 #formStatus {
   margin-top: var(--space-sm);
-  font-size: var(--font-xs);
+  font-size: var(--font-sm);
   font-weight: 500;
-  opacity: 0.8;
 }
 
 /* Enhanced footer */
