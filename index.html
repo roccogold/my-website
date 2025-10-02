@@ -937,7 +937,7 @@ body.light-theme #contactForm:hover {
   margin-bottom: var(--space-xs);
   font-weight: 600;
   font-size: var(--font-sm);
-  color: var(--accent-dark);
+  color: var(--text-dark);
 }
 
 body.light-theme #contactForm label {
@@ -971,6 +971,16 @@ body.light-theme #contactForm textarea {
   outline: none;
   background-color: rgba(154, 119, 198, 0.1);
   box-shadow: 0 0 0 3px rgba(154, 119, 198, 0.2);
+}
+
+#contactForm input::placeholder,
+#contactForm textarea::placeholder {
+  color: rgba(229, 229, 229, 0.5);
+}
+
+body.light-theme #contactForm input::placeholder,
+body.light-theme #contactForm textarea::placeholder {
+  color: rgba(26, 26, 26, 0.5);
 }
 
 body.light-theme #contactForm input:focus,
