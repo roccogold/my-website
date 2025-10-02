@@ -254,21 +254,6 @@ body.light-theme .grid-overlay {
     linear-gradient(to bottom, rgba(107, 70, 193, 0.08) 1px, transparent 1px);
 }
 
-.noise-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.03;
-  z-index: 3;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-body.light-theme .noise-overlay {
-  opacity: 0.06;
-}
-
 .particles-container {
   position: absolute;
   top: 0;
@@ -277,20 +262,6 @@ body.light-theme .noise-overlay {
   height: 100%;
   z-index: 4;
   pointer-events: none;
-}
-
-.particle {
-  position: absolute;
-  background: var(--accent-dark);
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  box-shadow: 0 0 6px var(--accent-dark);
-}
-
-body.light-theme .particle {
-  background: var(--accent-light);
-  box-shadow: 0 0 6px var(--accent-light);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -345,7 +316,6 @@ body {
   font-size: var(--font-sm);
   position: relative;
   transition: background var(--transition-fast), color var(--transition-fast);
-  cursor: none;
   line-height: 1.5;
   min-height: 100vh;
   min-height: 100dvh;
@@ -1077,53 +1047,6 @@ body.light-theme footer {
 body.light-theme ::selection {
   background: var(--accent-light);
   color: white;
-}
-
-/* Custom cursor for dark mode - disabled on mobile */
-.dot-cursor,
-.trailing-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 10000;
-  transition: background-color var(--transition-normal);
-}
-
-.dot-cursor {
-  width: 8px;
-  height: 8px;
-  background: var(--accent-dark);
-}
-
-.trailing-dot {
-  width: 12px;
-  height: 12px;
-  background: var(--accent-dark);
-  opacity: 0.7;
-  z-index: 9999;
-}
-
-body.light-theme .dot-cursor {
-  background: var(--accent-dark);
-}
-
-body.light-theme .trailing-dot {
-  background: var(--accent-dark);
-}
-
-/* Hide custom cursor on mobile and touch devices */
-@media (hover: none), (pointer: coarse) {
-  .dot-cursor,
-  .trailing-dot {
-    display: none;
-  }
-  
-  body {
-    cursor: auto !important;
-  }
 }
 
 /* Enhanced animations */
@@ -2376,7 +2299,6 @@ body.light-theme .suggestion-btn:hover {
   <div class="glow"></div>
   <div class="grid-overlay"></div>
   <div class="noise-overlay"></div>
-  <div class="particles-container" id="particles-container"></div>
 </div>
       
 <!-- Theme toggle button -->
@@ -2593,10 +2515,6 @@ body.light-theme .suggestion-btn:hover {
   <span id="lastUpdated"></span>
 </footer>
 
-<!-- Enhanced cursor elements -->
-<div class="dot-cursor" aria-hidden="true"></div>
-<div class="trailing-dot" aria-hidden="true"></div>
-
 <!-- Initialize Daily Discoveries -->
 <script>
 let dailyDiscoveries;
@@ -2673,61 +2591,6 @@ new Navigation();
 
 <!-- Enhanced JavaScript with modules -->
 <script type="module">
-// Custom Cursor Module
-class CustomCursor {
-  constructor() {
-    this.isSupported = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    if (this.isSupported) {
-      this.init();
-    }
-  }
-
-  init() {
-    this.dot = document.querySelector('.dot-cursor');
-    this.trail = document.querySelector('.trailing-dot');
-    this.mouseX = window.innerWidth / 2;
-    this.mouseY = window.innerHeight / 2;
-    this.trailX = this.mouseX;
-    this.trailY = this.mouseY;
-
-    this.setupEventListeners();
-    this.animate();
-  }
-
-  setupEventListeners() {
-    document.addEventListener('mousemove', (e) => {
-      this.mouseX = e.clientX;
-      this.mouseY = e.clientY;
-      if (this.dot) {
-        this.dot.style.left = this.mouseX + 'px';
-        this.dot.style.top = this.mouseY + 'px';
-      }
-    });
-
-    // Hide cursor when leaving viewport
-    document.addEventListener('mouseleave', () => {
-      if (this.dot) this.dot.style.opacity = '0';
-      if (this.trail) this.trail.style.opacity = '0';
-    });
-
-    document.addEventListener('mouseenter', () => {
-      if (this.dot) this.dot.style.opacity = '1';
-      if (this.trail) this.trail.style.opacity = '0.7';
-    });
-  }
-
-  animate() {
-    this.trailX += (this.mouseX - this.trailX) * 0.15;
-    this.trailY += (this.mouseY - this.trailY) * 0.15;
-    
-    if (this.trail) {
-      this.trail.style.left = this.trailX + 'px';
-      this.trail.style.top = this.trailY + 'px';
-    }
-    
-    requestAnimationFrame(() => this.animate());
-  }
-}
 
 // Scroll Animations Module
 class ScrollAnimations {
@@ -3061,92 +2924,16 @@ class EnhancedWebsite {
   }
 }
 
-// Animated Background Module
-// Gradient Background Module
-class GradientBackground {
-  constructor() {
-    this.createParticleSystem();
-    this.initMouseTracking();
-  }
 
-  createParticleSystem() {
-    const particlesContainer = document.getElementById('particles-container');
-    if (!particlesContainer) return;
-    
-    const particleCount = window.innerWidth > 768 ? 100 : 60;
-    
-    for (let i = 0; i < particleCount; i++) {
-      this.createParticle(particlesContainer);
-    }
-  }
-
-  createParticle(container) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    
-    const size = Math.random() * 5 + 2.5;
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
-    
-    this.resetParticle(particle);
-    container.appendChild(particle);
-    this.animateParticle(particle);
-  }
-
-  resetParticle(particle) {
-    const posX = Math.random() * 100;
-    const posY = Math.random() * 100;
-    
-    particle.style.left = `${posX}%`;
-    particle.style.top = `${posY}%`;
-    particle.style.opacity = '0';
-    
-    return { x: posX, y: posY };
-  }
-
-  animateParticle(particle) {
-    const pos = this.resetParticle(particle);
-    const duration = Math.random() * 12 + 8;
-    const delay = Math.random() * 3;
-    
-    setTimeout(() => {
-      particle.style.transition = `all ${duration}s linear`;
-      particle.style.opacity = Math.random() * 0.6 + 0.3;
-      
-      const moveX = pos.x + (Math.random() * 50 - 25);
-      const moveY = pos.y - Math.random() * 50;
-      
-      particle.style.left = `${moveX}%`;
-      particle.style.top = `${moveY}%`;
-      
-      setTimeout(() => this.animateParticle(particle), duration * 1000);
-    }, delay * 1000);
-  }
-
-  initMouseTracking() {
-    document.addEventListener('mousemove', (e) => {
-      const spheres = document.querySelectorAll('.gradient-sphere');
-      const moveX = (e.clientX / window.innerWidth - 0.5) * 10;
-      const moveY = (e.clientY / window.innerHeight - 0.5) * 10;
-      
-      spheres.forEach((sphere, index) => {
-        const multiplier = (index + 1) * 0.3;
-        sphere.style.transform = `translate(${moveX * multiplier}px, ${moveY * multiplier}px)`;
-      });
-    });
-  }
-}
       
 // Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize core functionality
-  new CustomCursor();
   new ScrollAnimations();
   new ContactForm();
   new GitHubIntegration();
   new PerformanceMonitor();
   new EnhancedWebsite();
-  new GradientBackground();
   dailyDiscoveries = new DailyDiscoveries();
 
   // Resume download tracking
