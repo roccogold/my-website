@@ -604,9 +604,10 @@ body.light-theme .top-bar header h1 {
   border-right: 3px solid var(--accent-dark);
   white-space: nowrap;
   animation: 
-    typing 3s var(--ease-out-cubic), 
-    blink-caret 1s step-end infinite;
+    typing 2.5s var(--ease-out-cubic) 0.3s forwards, 
+    blink-caret 1s step-end infinite 0.3s;
   letter-spacing: 0.05em;
+  width: 0;
 }
 
 body.light-theme .typing-effect {
