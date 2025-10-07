@@ -601,39 +601,35 @@ body.light-theme .top-bar header h1 {
 /* Typing effect */
 .typing-effect {
   overflow: hidden;
-  border-right: 3px solid var(--accent-dark);
+  border-right: 3px solid transparent;
   white-space: nowrap;
-  animation: 
-    typing 2.5s var(--ease-out-cubic) 0.3s forwards, 
-    blink-caret 1s step-end infinite 0.3s;
-  letter-spacing: 0.05em;
   width: 0;
+  animation: 
+    typing-smooth 3s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+    caret-blink 0.8s step-end infinite;
 }
 
 body.light-theme .typing-effect {
-  border-right-color: var(--accent-light);
+  border-right-color: transparent;
 }
-
-@keyframes typing {
-  0% { width: 0; }
-  100% { width: 100%; }
-}
-
-@keyframes pokemon-bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
+@keyframes typing-smooth {
+  0% { 
+    width: 0;
+    border-right-color: var(--accent-dark);
   }
-  40% {
-    transform: translateY(-8px);
+  95% { 
+    width: 100%;
+    border-right-color: var(--accent-dark);
   }
-  60% {
-    transform: translateY(-4px);
+  100% { 
+    width: 100%;
+    border-right-color: var(--accent-dark);
   }
 }
 
-@keyframes blink-caret {
-  0%, 50% { border-color: var(--accent-dark); opacity: 1; }
-  51%, 100% { border-color: transparent; opacity: 0.7; }
+@keyframes caret-blink {
+  0%, 50% { border-right-color: var(--accent-dark); }
+  51%, 100% { border-right-color: transparent; }
 }
 
 /* Links */
@@ -2915,9 +2911,9 @@ class EnhancedWebsite {
   initTypingEffect() {
     const subtitle = document.querySelector('.typing-effect');
     if (subtitle) {
-      setTimeout(() => {
-        subtitle.classList.remove('typing-effect');
-      }, 4000);
+setTimeout(() => {
+  subtitle.classList.remove('typing-effect');
+}, 4500);
     }
   }
 }
