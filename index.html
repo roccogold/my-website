@@ -2310,7 +2310,7 @@ body.light-theme .suggestion-btn:hover {
 <div class="nav-container">
 <nav class="nav-bar" role="navigation" aria-label="Main navigation">
   <a href="#vibes" class="nav-item active">Vibes</a>
-  <a href="#discoveries" class="nav-item">Discoveries</a>
+  <a href="#projects" class="nav-item">Projects</a>
   <a href="#experience" class="nav-item">Experience</a>
   <a href="#thesis" class="nav-item">Thesis</a>
   <a href="#interests" class="nav-item">Interests</a>
@@ -2372,74 +2372,71 @@ body.light-theme .suggestion-btn:hover {
 </div>
 </section>   
 
-<section aria-labelledby="discoveries-heading" class="reveal" id="discoveries" style="margin-bottom: 4rem;">
-  <h2 id="discoveries-heading">Discoveries</h2>
-  <p class="work-desc">Here some API integrations that hit different — live data from NASA's space photos and interactive Pokémon searches.</p>
+  <section aria-labelledby="projects-heading" class="reveal" id="projects">
+  <h2 id="projects-heading">Projects</h2>
+  <p class="work-desc">Building solutions that make complex systems accessible and performant.</p>
   
   <div class="discoveries-grid">
-    <!-- NASA APOD Card -->
+    <!-- API Documentation Portal Card -->
+    <div class="discovery-card">
+      <div class="card-header">
+        <i class="fas fa-book card-icon" aria-hidden="true"></i>
+        <h3 class="card-title">[API Docs Portal]</h3>
+        <span class="card-date">MaxSight</span>
+      </div>
+      <div class="card-content">
+        <div class="apod-description">
+          Built comprehensive API documentation portal for MaxSight's third-party risk management platform. Created interactive guides, code examples, and integration workflows that reduced developer onboarding time and support tickets. Focused on making complex compliance data accessible through clear, developer-friendly documentation.
+        </div>
+        <div class="card-source">
+          <strong>Tech Stack:</strong> API Design • OpenAPI/Swagger • Technical Writing • Developer Experience
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+          <a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--accent-dark); color: white; border-radius: 8px; text-decoration: none; font-size: var(--font-xs); font-weight: 600; transition: all 0.3s ease;">
+            View MaxSight <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Optimization Card -->
     <div class="discovery-card">
       <div class="card-header">
         <i class="fas fa-rocket card-icon" aria-hidden="true"></i>
-        <h3 class="card-title">[Space photo]</h3>
-        <span class="card-date" id="nasa-date">Today</span>
+        <h3 class="card-title">[Performance Boost]</h3>
+        <span class="card-date">95% faster</span>
       </div>
-      <div class="card-content" id="nasa-content">
-        <div class="loading-state">
-          <div class="loading-spinner"></div>
-          Loading astronomy picture...
+      <div class="card-content">
+        <div class="apod-description">
+          Led performance investigation and optimization of global search endpoint that was bottlenecked by sequential API calls. Implemented request batching strategy that reduced median response time from 91.8s to 4.2s (95% improvement). Coordinated cross-team implementation affecting data enrichment, ID search, and API integration layers.
         </div>
-      </div>
-    </div>
-
-<!-- Pokemon Finder Card -->
-<div class="discovery-card">
-  <div class="card-header">
-   <i class="fas fa-dice card-icon" aria-hidden="true"></i>
-    <h3 class="card-title">[Pokémon finder]</h3>
-    <span class="card-date">Interactive</span>
-  </div>
-  <div class="card-content" id="pokemon-content">
-    <div class="pokemon-search-container">
-      <div class="search-input-container">
-        <input 
-          type="text" 
-          id="pokemonInput" 
-          class="pokemon-search-input" 
-          autocomplete="off"
-        >
-      </div>
-      <button id="pokemonSearchBtn" class="pokemon-search-button">
-        Find Pokémon
-      </button>
-
-        <!-- ADD THE SUGGESTIONS HERE -->
-  <div class="pokemon-suggestions">
-    <div class="suggestions-label">Try these:</div>
-<div class="suggestion-buttons">
-  <button class="suggestion-btn" data-pokemon="squirtle">squirtle</button>
-  <button class="suggestion-btn" data-pokemon="lapras">lapras</button>
-  <button class="suggestion-btn" data-pokemon="snorlax">snorlax</button>
-  <button class="suggestion-btn" data-pokemon="jigglypuff">jigglypuff</button>
-</div>
-  </div>
-          
-      <div id="pokemonResult" class="pokemon-result">
-        <div class="pokemon-placeholder">
+        <button class="apod-expand-btn" onclick="toggleProjectDetails(this)">View metrics</button>
+        <div class="project-details" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(154, 119, 198, 0.2);">
+          <div style="font-size: var(--font-xs); line-height: 1.5;">
+            <strong style="color: var(--accent-dark);">Key Results:</strong>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem; list-style: none;">
+              <li style="margin-bottom: 0.3rem;">→ Response time: 91.8s → 4.2s (sequential)</li>
+              <li style="margin-bottom: 0.3rem;">→ Parallel execution: 246.3s → 4.7s</li>
+              <li style="margin-bottom: 0.3rem;">→ Curated searches: 1-2 seconds</li>
+              <li style="margin-bottom: 0.3rem;">→ 98.3% success rate (59+ tests)</li>
+              <li style="margin-bottom: 0.3rem;">→ Identifier searches 2-4× faster</li>
+            </ul>
+            <strong style="color: var(--accent-dark);">Technical Approach:</strong>
+            <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">
+              Implemented CDS batching (100 entities), parallelized ID searches, and optimized data enrichment pipeline by calling Orbis and CDS directly instead of sequential eData requests.
+            </p>
+          </div>
+        </div>
+        <div class="card-source">
+          <strong>Tech Stack:</strong> Performance Engineering • API Optimization • Request Batching • System Architecture
         </div>
       </div>
     </div>
   </div>
-</div>
-</section>
-
-<!-- APOD Modal -->
-<div class="apod-modal" id="apod-modal">
-  <div class="apod-modal-content">
-    <button class="modal-close" id="modal-close">&times;</button>
-    <img id="modal-image" src="" alt="">
-  </div>
-</div>
+</section>    
       
   <section aria-labelledby="work-heading" class="reveal" id="experience">
     <h2 id="work-heading">Experience</h2>
@@ -2542,9 +2539,9 @@ body.light-theme .suggestion-btn:hover {
   <span id="lastUpdated"></span>
 </footer>
 
-<!-- Initialize Daily Discoveries -->
+<!-- Initialize Navigation -->
 <script>
-let dailyDiscoveries;
+let navigation;
 
 // Navigation functionality
 class Navigation {
@@ -2556,7 +2553,7 @@ class Navigation {
     if (window.innerWidth <= 768) return; // Skip on mobile
     
    this.navItems = document.querySelectorAll('.nav-item');
-   this.sections = document.querySelectorAll('#vibes, #discoveries, #experience, #thesis, #interests, #contact');
+   this.sections = document.querySelectorAll('#vibes, #projects, #experience, #thesis, #interests, #contact');
     
     this.setupSmoothScroll();
     this.setupScrollSpy();
@@ -2612,7 +2609,7 @@ class Navigation {
 }
 
 // Initialize navigation
-new Navigation();
+navigation = new Navigation();
       
 </script>
 
@@ -2961,7 +2958,6 @@ document.addEventListener('DOMContentLoaded', () => {
   new GitHubIntegration();
   new PerformanceMonitor();
   new EnhancedWebsite();
-  dailyDiscoveries = new DailyDiscoveries();
 
   // Resume download tracking
   const resumeLink = document.getElementById('resumeDownload');
@@ -3004,281 +3000,16 @@ if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
   });
 }
 
-// Daily Discoveries API Integration
-class DailyDiscoveries {
-  constructor() {
-    this.init();
-  }
-
-  init() {
-    this.loadDiscoveries();
-    this.setupEventListeners();
-    this.setupModal();
-    this.updateDates();
-  }
-
-  updateDates() {
-    const today = new Date().toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric' 
-    });
-    document.getElementById('nasa-date').textContent = today;
-  }
-
-  async loadDiscoveries() {
-    await Promise.all([
-      this.loadNASAAPOD(),
-      this.loadPokemonFinder()
-    ]);
-  }
-
- async loadNASAAPOD() {
-  const container = document.getElementById('nasa-content');
-  
-  try {
-    const response = await fetch('/api/nasa');
-    
-    // Check for rate limit headers
-    const remainingRequests = response.headers.get('X-RateLimit-Remaining');
-    const rateLimitLimit = response.headers.get('X-RateLimit-Limit');
-    
-    if (remainingRequests !== null) {
-      console.log(`NASA API: ${remainingRequests}/${rateLimitLimit} requests remaining`);
-    }
-    
-    if (!response.ok) {
-      if (response.status === 403) {
-        throw new Error('Rate limit exceeded or invalid API key');
-      } else if (response.status === 429) {
-        throw new Error('Too many requests - try again later');
-      } else {
-        throw new Error(`API failed: ${response.status}`);
-      }
-    }
-    
-    const data = await response.json();
-    
-    // Validate required fields exist
-    if (!data || !data.title) {
-      throw new Error('Invalid API response - missing title');
-    }
-    
-    // Safely handle explanation (might be missing for some content types)
-    const safeExplanation = data.explanation ? data.explanation.replace(/"/g, '&quot;') : '';
-    const safeTitle = data.title.replace(/"/g, '&quot;');
-      
-if (data.media_type === 'image' && data.url) {
-  container.innerHTML = `
-  <img src="${data.url}" 
-       alt="${safeTitle}" 
-       class="apod-image" 
-       data-hd="${data.hdurl || data.url}"
-       onclick="dailyDiscoveries.showModal('${data.hdurl || data.url}', '${safeTitle}')">
-  <button class="apod-expand-btn" onclick="dailyDiscoveries.toggleDescription(event)">Read more</button>
-  <div class="apod-description collapsed" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
-`;
-    } else if (data.media_type === 'video' && data.url) {
-      container.innerHTML = `
-        <div class="apod-title">${data.title}</div>
-        <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
-        <p style="margin-top: 1rem; font-size: var(--font-xs); opacity: 0.7;">
-          <a href="${data.url}" target="_blank" style="color: var(--accent-dark);">
-            View video →
-          </a>
-        </p>
-      `;
-    } else {
-      container.innerHTML = `
-        <div class="apod-title">${data.title}</div>
-        <div class="apod-description" title="${safeExplanation}">${data.explanation || 'No description available'}</div>
-        <p style="margin-top: 1rem; font-size: var(--font-xs); opacity: 0.7;">
-          <em>Content available - check NASA directly</em>
-        </p>
-      `;
-    }
-  } catch (error) {
-    console.error('NASA APOD error:', error);
-    
-    let errorMessage = 'Unable to load space photo';
-    if (error.message.includes('Rate limit')) {
-      errorMessage = 'Rate limit exceeded - try again later';
-    } else if (error.message.includes('Too many requests')) {
-      errorMessage = 'Too many requests - please wait';
-    }
-    
-    container.innerHTML = `
-      <div class="error-state">
-        <p>${errorMessage}</p>
-        <button class="retry-button" onclick="dailyDiscoveries.loadNASAAPOD()">
-          Retry
-        </button>
-      </div>
-    `;
-  }
-}
-
-// Add this method to your DailyDiscoveries class
-setupEventListeners() {
-  // This method can be empty if you removed the refresh button
-  // Or add the refresh button code if you want to keep it
-}
-
-  showModal(imageSrc, title) {
-  const modal = document.getElementById('apod-modal');
-  const modalImage = document.getElementById('modal-image');
-  
-  modalImage.src = imageSrc;
-  modalImage.alt = title;
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-hideModal() {
-  const modal = document.getElementById('apod-modal');
-  modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-toggleDescription(event) {
-  const button = event.target;
-  const description = button.nextElementSibling;
-  
-  if (description.classList.contains('collapsed')) {
-    description.classList.remove('collapsed');
-    button.textContent = 'Show less';
+// Toggle project details function
+function toggleProjectDetails(button) {
+  const details = button.nextElementSibling;
+  if (details.style.display === 'none') {
+    details.style.display = 'block';
+    button.textContent = 'Hide metrics';
   } else {
-    description.classList.add('collapsed');
-    button.textContent = 'Read more';
+    details.style.display = 'none';
+    button.textContent = 'View metrics';
   }
-}
-
-setupModal() {
-  const modal = document.getElementById('apod-modal');
-  const closeBtn = document.getElementById('modal-close');
-  
-  closeBtn.addEventListener('click', () => this.hideModal());
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) this.hideModal();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      this.hideModal();
-    }
-  });
-}
-
-async loadPokemonFinder() {
-  const container = document.getElementById('pokemon-content');
-  if (!container) return;
-  this.setupPokemonSearch();
-}
-
-setupPokemonSearch() {
-  const input = document.getElementById('pokemonInput');
-  const button = document.getElementById('pokemonSearchBtn');
-  const result = document.getElementById('pokemonResult');
-
-  if (!input || !button || !result) return;
-
-  input.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      this.searchPokemon();
-    }
-  });
-
-  button.addEventListener('click', () => {
-    this.searchPokemon();
-  });
-
-  // Add suggestion button listeners
-  const suggestionBtns = document.querySelectorAll('.suggestion-btn');
-  suggestionBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const pokemon = btn.dataset.pokemon;
-      input.value = pokemon;
-      this.searchPokemon();
-    });
-  });
-
-  setTimeout(() => input.focus(), 500);
-}
-
-async searchPokemon() {
-  const input = document.getElementById('pokemonInput');
-  const button = document.getElementById('pokemonSearchBtn');
-  const result = document.getElementById('pokemonResult');
-  
-  const query = input.value.trim().toLowerCase();
-  
-  if (!query) {
-    this.showPokemonError('Please enter a Pokémon name');
-    return;
-  }
-
-  button.disabled = true;
-  button.textContent = 'Searching...';
-  result.innerHTML = `
-    <div class="pokemon-loading">
-      <div class="loading-spinner"></div>
-      Searching for ${query}...
-    </div>
-  `;
-  result.classList.add('loading');
-
-  try {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${query}`);
-    
-    if (!response.ok) {
-      throw new Error('Pokemon not found');
-    }
-
-    const pokemon = await response.json();
-    this.displayPokemon(pokemon);
-    
-  } catch (error) {
-    console.error('Pokemon search error:', error);
-    
-    let errorMessage = 'Something went wrong. Please try again.';
-    if (error.message === 'Pokemon not found') {
-      errorMessage = `"${query}" not found. Check spelling or try another Pokémon.`;
-    }
-    
-    this.showPokemonError(errorMessage);
-    
-  } finally {
-    button.disabled = false;
-    button.textContent = 'Find Pokémon';
-    result.classList.remove('loading');
-  }
-}
-
-displayPokemon(pokemon) {
-  const result = document.getElementById('pokemonResult');
-  
-  const artwork = pokemon.sprites.other['official-artwork'].front_default || 
-                  pokemon.sprites.front_default;
-
-  const pokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-  const safeTitle = pokemonName.replace(/"/g, '&quot;');
-  
-  result.innerHTML = `
-    <div class="pokemon-display">
-      <img src="${artwork}" 
-           alt="${pokemonName}" 
-           class="pokemon-artwork"
-           onclick="dailyDiscoveries.showModal('${artwork}', '${safeTitle}')"
-           loading="lazy">
-      <div class="pokemon-name">${pokemonName}</div>
-      <div class="pokemon-id">#${pokemon.id.toString().padStart(3, '0')}</div>
-    </div>
-  `;
-}
-
-showPokemonError(message) {
-  const result = document.getElementById('pokemonResult');
-  result.innerHTML = `<div class="pokemon-error">${message}</div>`;
-}
-
 }
 
 </script>
