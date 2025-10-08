@@ -766,6 +766,15 @@ ul li::before {
   top: -3px;
 }
 
+/* Hide white logos in light theme, show black logos */
+body.light-theme .company-logo[src*="moodys-logo.png"] {
+  content: url('assets/moodys-logo-light.png');
+}
+
+body.light-theme .company-logo[src*="bitpanda-logo.png"] {
+  content: url('assets/bitpanda-logo-light.png');
+}
+
 ul li:has(.company-logo)::before {
   content: none;
 }
