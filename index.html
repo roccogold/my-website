@@ -766,6 +766,14 @@ ul li::before {
   top: -2px;
 }
 
+ul li:has(.company-logo)::before {
+  content: none;
+}
+
+ul li:has(.company-logo) {
+  padding-left: 0;
+}
+
 body.light-theme ul li::before {
   color: var(--accent-light);
 }
