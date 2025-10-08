@@ -766,6 +766,17 @@ ul li::before {
   top: -1px;
 }
 
+.job-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.job-description {
+  margin-left: 51px; /* 40px logo + 11px spacing to align with text */
+  line-height: 1.6;
+}
+
 /* Hide white logos in light theme, show black logos */
 body.light-theme .company-logo[src*="moodys-logo.png"] {
   content: url('assets/moodys-logo-light.png');
@@ -2405,12 +2416,23 @@ body.light-theme .suggestion-btn:hover {
   <h2 id="work-heading">Experience</h2>
   <ul>
 <li>
-  <img src="assets/moodys-logo.png" alt="Moody's Analytics logo" class="company-logo">
-  <strong>Product Manager</strong> at <u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">Moody's Analytics</a></u> <em>(2023–Present)</em>: currently building APIs that make complex third-party risk management data as easy to integrate as possible, combining data sources and building the API workflows that power the next generation of risk management.
+  <div class="job-title">
+    <img src="assets/moodys-logo.png" alt="Moody's Analytics logo" class="company-logo">
+    <strong>Product Manager</strong> at <u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">Moody's Analytics</a></u> <em>(2023–Present)</em>
+  </div>
+  <div class="job-description">
+    Currently building APIs that make complex third-party risk management data as easy to integrate as possible, combining data sources and building the API workflows that power the next generation of risk management.
+  </div>
 </li>
+
 <li>
-  <img src="assets/bitpanda-logo.png" alt="Bitpanda logo" class="company-logo">
-  <strong>Associate Product Manager</strong> at <u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">Bitpanda</a></u> <em>(2022–2023)</em>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.
+  <div class="job-title">
+    <img src="assets/bitpanda-logo.png" alt="Bitpanda logo" class="company-logo">
+    <strong>Product Manager</strong> at <u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">Bitpanda</a></u> <em>(2022–2023)</em>
+  </div>
+  <div class="job-description">
+    Worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.
+  </div>
 </li>
   </ul>
 </section>
