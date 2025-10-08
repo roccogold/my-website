@@ -15,7 +15,7 @@
                font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
                img-src 'self' data: https:;
                frame-src 'self' https://open.spotify.com;
-               connect-src 'self' https://api.github.com https://region1.google-analytics.com https://api.wikimedia.org https://pokeapi.co;">
+               connect-src 'self' https://api.github.com https://region1.google-analytics.com">
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
@@ -605,8 +605,8 @@ body.light-theme .top-bar header h1 {
   white-space: nowrap;
   width: 0;
   animation: 
-    typing-smooth 3s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-    caret-blink 0.8s step-end infinite;
+        typing-smooth 2s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+        caret-blink 0.8s step-end infinite;
 }
 
 body.light-theme .typing-effect {
@@ -757,6 +757,10 @@ ul li::before {
 
 body.light-theme ul li::before {
   color: var(--accent-light);
+}
+
+body.light-theme ul li i {
+  color: var(--accent-light) !important;
 }
 
 /* Nested sub-list styling */
@@ -2369,13 +2373,19 @@ body.light-theme .suggestion-btn:hover {
 </section>   
 
       
-  <section aria-labelledby="work-heading" class="reveal" id="experience">
-    <h2 id="work-heading">Experience</h2>
-    <ul>
-      <li><u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">[Moody's Analytics]</a></u>: currently building APIs that make complex third-party risk management data as easy to integrate as possible, combining data sources and building the API workflows that power the next generation of risk management.</li>
-      <li><u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">[Bitpanda]</a></u>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.</li>
-    </ul>
-  </section>
+<section aria-labelledby="work-heading" class="reveal" id="experience">
+  <h2 id="work-heading">Experience</h2>
+  <ul>
+    <li>
+      <i class="fas fa-briefcase" style="color: var(--accent-dark); margin-right: 0.5rem;"></i>
+      <strong>Product Manager</strong> at <u><a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">Moody's Analytics</a></u> <em>(2023–Present)</em>: currently building APIs that make complex third-party risk management data as easy to integrate as possible, combining data sources and building the API workflows that power the next generation of risk management.
+    </li>
+    <li>
+      <i class="fas fa-chart-line" style="color: var(--accent-dark); margin-right: 0.5rem;"></i>
+      <strong>Product Manager</strong> at <u><a href="https://www.bitpanda.com/en" target="_blank" rel="noopener noreferrer">Bitpanda</a></u> <em>(2022–2023)</em>: worked on the backend of the broker app to streamline operations, compliance and support processes for smoother trading days.
+    </li>
+  </ul>
+</section>
 
 <section aria-labelledby="projects-heading" class="reveal" id="projects">
   <h2 id="projects-heading">Projects</h2>
@@ -2913,7 +2923,7 @@ class EnhancedWebsite {
     if (subtitle) {
 setTimeout(() => {
   subtitle.classList.remove('typing-effect');
-}, 4500);
+}, 3000);
     }
   }
 }
