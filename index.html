@@ -601,6 +601,36 @@ body.light-theme .top-bar header h1.neon-title {
     0 0 40px rgba(109, 40, 217, 0.4),
     0 0 60px rgba(109, 40, 217, 0.25);
 }
+
+.neon-greeting {
+  font-size: var(--font-sm);
+  font-weight: 400;
+  color: rgba(229, 229, 229, 0.7);
+  margin: 0 0 0.5rem 0;
+  font-family: var(--main-font);
+  letter-spacing: 0.02em;
+}
+
+body.light-theme .neon-greeting {
+  color: rgba(26, 26, 26, 0.7);
+}
+
+.neon-tagline {
+  font-size: var(--font-sm);
+  margin-top: 0.5rem;
+  opacity: 0.8;
+  font-family: var(--main-font);
+  color: var(--text-dark);
+  font-weight: 400;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.light-theme .neon-tagline {
+  color: var(--text-light);
+}
+
       
 .top-bar header p.neon-subtitle {
   font-size: var(--font-md);
@@ -2382,8 +2412,10 @@ body.light-theme .suggestion-btn:hover {
 <div id="topBar" class="top-bar">
   <div id="about"> <!-- Add this wrapper div -->
 <header class="reveal">
+  <p class="neon-greeting">Ciao, I'm</p>
   <h1 class="neon-title">ROCCO<br>GOLDSCHMIDT</h1>
-  <p class="neon-subtitle">[Product Manager — from idea to impact]</p>
+  <p class="neon-subtitle">Product Manager blending <span class="highlight">design</span>, <span class="highlight">technology</span> & <span class="highlight">finance</span></p>
+  <p class="neon-tagline">Building simple, impactful solutions at the intersection of innovation and execution</p>
 </header>
   </div> <!-- Close the wrapper -->
 </div>
