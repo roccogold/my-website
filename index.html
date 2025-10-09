@@ -47,6 +47,7 @@
       integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
       crossorigin="anonymous" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -581,28 +582,32 @@ body.light-theme .nav-item::after {
   margin: 0;
   font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 900;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Audiowide', cursive;
   color: #f8fafc;
   letter-spacing: 0.05em;
   line-height: 1.1;
   text-shadow: 
-    2px 2px 0px #e2e8f0,
-    4px 4px 0px #cbd5e1,
-    6px 6px 0px #94a3b8,
-    8px 8px 0px #64748b,
-    10px 10px 20px rgba(0,0,0,0.5);
-  transform: rotateX(5deg) rotateY(-5deg);
+    0 0 10px rgba(103, 232, 249, 0.8),
+    0 0 20px rgba(103, 232, 249, 0.6),
+    0 0 40px rgba(103, 232, 249, 0.4),
+    3px 3px 0px #e2e8f0,
+    6px 6px 0px #cbd5e1,
+    9px 9px 0px #94a3b8,
+    12px 12px 20px rgba(0,0,0,0.6);
+  transform: perspective(400px) rotateX(15deg);
 }
 
 body.light-theme .top-bar header h1.neon-title {
   color: #8b5cf6;
   text-shadow: 
-    2px 2px 0px #a78bfa,
-    4px 4px 0px #8b5cf6,
+    0 0 10px rgba(139, 92, 246, 0.8),
+    0 0 20px rgba(124, 58, 237, 0.6),
+    0 0 40px rgba(109, 40, 217, 0.4),
+    3px 3px 0px #a78bfa,
     6px 6px 0px #7c3aed,
-    8px 8px 0px #6d28d9,
-    10px 10px 20px rgba(107, 70, 193, 0.3);
-  transform: rotateX(5deg) rotateY(-5deg);
+    9px 9px 0px #6d28d9,
+    12px 12px 20px rgba(107, 70, 193, 0.4);
+  transform: perspective(400px) rotateX(15deg);
 }
 
 .neon-greeting {
