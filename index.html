@@ -586,29 +586,25 @@ body.light-theme .nav-item::after {
   color: #f8fafc;
   letter-spacing: 0.05em;
   line-height: 1.1;
-  text-shadow: 
-    0 0 10px rgba(167, 139, 250, 0.8),
-    0 0 20px rgba(139, 92, 246, 0.6),
-    0 0 40px rgba(124, 58, 237, 0.4),
+  text-shadow:
+    0 0 6px rgba(167, 139, 250, 0.5),   /* lower blur, softer color */
+    0 0 14px rgba(139, 92, 246, 0.3),   /* lower blur and opacity */
     3px 3px 0px #e2e8f0,
-    6px 6px 0px #cbd5e1,
-    9px 9px 0px #94a3b8,
-    12px 12px 20px rgba(0,0,0,0.6);
+    6px 6px 0px #cbd5e1;
   transform: perspective(400px) rotateX(15deg);
 }
 
+/* Light theme, softened */
 body.light-theme .top-bar header h1.neon-title {
   color: #8b5cf6;
-  text-shadow: 
-    0 0 10px rgba(139, 92, 246, 0.8),
-    0 0 20px rgba(124, 58, 237, 0.6),
-    0 0 40px rgba(109, 40, 217, 0.4),
+  text-shadow:
+    0 0 6px rgba(139, 92, 246, 0.5),
+    0 0 14px rgba(124, 58, 237, 0.25),
     3px 3px 0px #a78bfa,
-    6px 6px 0px #7c3aed,
-    9px 9px 0px #6d28d9,
-    12px 12px 20px rgba(107, 70, 193, 0.4);
+    6px 6px 0px #7c3aed;
   transform: perspective(400px) rotateX(15deg);
 }
+
 
 .neon-greeting {
   font-size: var(--font-sm);
