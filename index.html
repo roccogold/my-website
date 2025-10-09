@@ -2100,265 +2100,31 @@ body.light-theme [title]:hover {
   color: var(--accent-light);
 }
 
-/* Pokémon Finder Specific Styles */
-.pokemon-search-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: 0.8rem;
-}
-
-.search-input-container {
-  position: relative;
-}
-
-.pokemon-search-input {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid rgba(154, 119, 198, 0.3);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-dark);
-  font-family: var(--main-font);
-  font-size: var(--font-xs);
-  transition: all var(--transition-normal);
-  box-sizing: border-box;
-}
-
-.pokemon-search-input:focus {
-  outline: none;
-  border-color: var(--accent-dark);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 2px rgba(154, 119, 198, 0.2);
-}
-
-.pokemon-search-input::placeholder {
-  color: rgba(229, 229, 229, 0.5);
-}
-
-body.light-theme .pokemon-search-input {
-  border-color: rgba(107, 70, 193, 0.3);
-  background: rgba(0, 0, 0, 0.05);
-  color: var(--text-light);
-}
-
-body.light-theme .pokemon-search-input:focus {
-  border-color: var(--accent-light);
-  background: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 0 2px rgba(107, 70, 193, 0.2);
-}
-
-body.light-theme .pokemon-search-input::placeholder {
-  color: rgba(26, 26, 26, 0.5);
-}
-
-.pokemon-search-button {
-  background: var(--accent-dark);
-  border: none;
-  border-radius: 6px;
-  color: white;
-  padding: 0.6rem 1rem;
-  font-family: var(--main-font);
-  font-size: var(--font-xs);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-normal);
-  width: 100%;
-}
-
-.pokemon-search-button:hover:not(:disabled) {
-  background: var(--accent-dark-hover);
-  transform: translateY(-1px);
-}
-
-.pokemon-search-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-body.light-theme .pokemon-search-button {
-  background: var(--accent-light);
-}
-
-body.light-theme .pokemon-search-button:hover:not(:disabled) {
-  background: var(--accent-light-hover);
-}
-
-.pokemon-result {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60px;  /* Changed from 120px */
-  opacity: 1;
-  transition: all 0.5s ease;
-}
-
-.pokemon-result.loading {
-  opacity: 0.7;
-}
-
-.pokemon-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+/* Closing section title */
+.closing-section-title {
+  font-family: 'Audiowide', cursive;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: #d4b5f7;
+  text-shadow: 
+    0 0 10px rgba(167, 139, 250, 0.8),
+    0 0 20px rgba(139, 92, 246, 0.6),
+    0 0 40px rgba(124, 58, 237, 0.4),
+    2px 2px 0px #b18cd9,
+    4px 4px 0px #9a77c6,
+    6px 6px 0px #8859b8,
+    8px 8px 15px rgba(0,0,0,0.5);
+  transform: perspective(300px) rotateX(10deg);
   text-align: center;
-  height: 100%;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
 }
 
-.pokemon-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 100%;
-}
-
-.pokemon-artwork {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  margin-bottom: 0.5rem;
-  border-radius: 8px;
-  background: transparent;
-  transition: transform var(--transition-normal);
-  cursor: pointer;
-  animation: pokemon-bounce 2s ease-in-out infinite;
-}
-.pokemon-artwork:hover {
-  transform: scale(1.05);
-}
-
-body.light-theme .pokemon-artwork {
-  background: transparent;
-}
-
-.pokemon-name {
-  font-size: var(--font-sm);
-  font-weight: 700;
-  color: var(--accent-dark);
-  margin-bottom: 0.2rem;
-}
-
-body.light-theme .pokemon-name {
-  color: var(--accent-light);
-}
-
-.pokemon-id {
-  font-size: var(--font-xs);
-  opacity: 0.7;
-  margin-bottom: 0.4rem;
-}
-
-.pokemon-types {
-  display: flex;
-  justify-content: center;
-  gap: 0.3rem;
-  flex-wrap: wrap;
-}
-
-.type-badge {
-  background: rgba(154, 119, 198, 0.3);
-  color: var(--text-dark);
-  padding: 0.2rem 0.5rem;
-  border-radius: 12px;
-  font-size: var(--font-xs);
-  font-weight: 500;
-  text-transform: capitalize;
-}
-
-body.light-theme .type-badge {
-  background: rgba(107, 70, 193, 0.3);
-  color: var(--text-light);
-}
-
-.pokemon-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.5rem;
-  color: var(--accent-dark);
-  font-size: var(--font-xs);
-}
-
-body.light-theme .pokemon-loading {
-  color: var(--accent-light);
-}
-
-.pokemon-error {
-  color: #ff6b6b;
-  font-size: var(--font-xs);
-  text-align: center;
-  padding: 0.5rem;
-  background: rgba(255, 107, 107, 0.1);
-  border-radius: 6px;
-  border: 1px solid rgba(255, 107, 107, 0.3);
-}
-
-/* Mobile adjustments for Pokemon */
 @media (max-width: 768px) {
-  .pokemon-search-container {
-    gap: 0.6rem;
+  .closing-section-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    margin-bottom: 1.5rem;
   }
-  
-  .pokemon-artwork {
-    width: 85px;
-    height: 85px;
-  }
-  
-  .pokemon-result {
-    min-height: 100px;
-  }
-}
-
-.pokemon-suggestions {
-  margin-top: 0.8rem;
-  text-align: center;
-}
-
-.suggestions-label {
-  font-size: 0.7rem;
-  opacity: 0.7;
-  margin-bottom: 0.5rem;
-}
-
-.suggestion-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  justify-content: center;
-}
-
-.suggestion-btn {
-  background: transparent;
-  border: 1px solid var(--accent-dark);
-  color: var(--accent-dark);
-  padding: 0.3rem 0.6rem;
-  border-radius: 16px;
-  font-size: var(--font-xs);
-  font-family: var(--main-font);
-  cursor: pointer;
-  transition: all var(--transition-normal);
-}
-
-.suggestion-btn:hover {
-  background: var(--accent-dark);
-  color: white;
-  border-color: var(--accent-dark);
-}
-
-body.light-theme .suggestion-btn {
-  color: var(--accent-light);
-  border-color: var(--accent-light);
-}
-
-body.light-theme .suggestion-btn:hover {
-  background: rgba(107, 70, 193, 0.2);
-  border-color: var(--accent-light);
 }
 
 </style>
@@ -2526,6 +2292,7 @@ body.light-theme .suggestion-btn:hover {
 </section>
   
   <section aria-labelledby="contact-heading" class="reveal" id="contact">
+    <h1 class="closing-section-title">Let's Build Something Amazing</h1>
     <h2 id="contact-heading">Contact</h2>
     <p class="contact-desc">
       Want the juicy bits? Download my resume <a href="https://drive.google.com/uc?export=download&id=1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR" 
