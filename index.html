@@ -642,6 +642,24 @@ body.light-theme .top-bar header p.neon-subtitle {
   color: var(--accent-light);
 }
 
+/* Hero intro section */
+.hero-intro {
+  max-width: 700px;
+  margin: 2rem auto 3rem;
+  text-align: center;
+}
+
+.hero-description {
+  font-size: var(--font-md);
+  line-height: 1.8;
+  color: var(--text-dark);
+  opacity: 0.95;
+}
+
+body.light-theme .hero-description {
+  color: var(--text-light);
+}
+
 
 /* Links */
 a {
@@ -2241,8 +2259,10 @@ body.light-theme .closing-section-title {
       
 <!-- ================= MAIN CONTENT ================= -->
 <main id="main-content" role="main" aria-label="Portfolio content">
-  <p class="work-desc reveal">I work where <b>design</b>, <b>tech</b> and <b>finance</b> meet — turning complicated challenges into smooth solutions. Currently, bringing fintech products to life through APIs and user-centered workflows.</p>
-
+  <div class="hero-intro reveal">
+    <p class="hero-description">I transform complex challenges into elegant solutions at the intersection of <b>design</b>, <b>technology</b>, and <b>finance</b>. Currently bringing fintech products to life through APIs and user-centered workflows.</p>
+  </div>
+      
   <section aria-labelledby="music-heading" class="reveal" id="vibes">
   <h2 id="music-heading">Vibes</h2>
 <div class="spotify-container">
