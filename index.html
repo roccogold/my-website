@@ -739,48 +739,6 @@ body.light-theme h2 {
   border-bottom-color: rgba(0,0,0,0.2);
 }
 
-/* Modern section headers */
-.section-header-modern {
-  text-align: center;
-  margin-bottom: var(--space-xl);
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.section-label {
-  font-size: var(--font-xs);
-  color: var(--accent-dark);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  margin-bottom: var(--space-sm);
-  opacity: 0.9;
-}
-
-body.light-theme .section-label {
-  color: var(--accent-light);
-}
-
-.section-header-modern h2 {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 900;
-  margin: 0 0 var(--space-md) 0;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
-.section-description {
-  font-size: var(--font-md);
-  color: var(--text-dark);
-  opacity: 0.8;
-  line-height: 1.6;
-  margin: 0;
-}
-
-body.light-theme .section-description {
-  color: var(--text-light);
-}
 
 /* Enhanced list styling */
 ul {
@@ -2306,10 +2264,7 @@ body.light-theme .closing-section-title {
 
       
 <section aria-labelledby="work-heading" class="reveal" id="experience">
-  <div class="section-header-modern">
-    <p class="section-label">MY JOURNEY</p>
-    <h2 id="work-heading">Experience</h2>
-  </div>
+  <h2 id="work-heading">Experience</h2>
   <ul>
 <li>
   <div class="job-title">
@@ -2334,10 +2289,8 @@ body.light-theme .closing-section-title {
 </section>
 
 <section aria-labelledby="projects-heading" class="reveal" id="projects">
-  <div class="section-header-modern">
-    <p class="section-label">WHAT I'VE BUILT</p>
-    <h2 id="projects-heading">Projects</h2>
-  </div>
+  <h2 id="projects-heading">Projects</h2>
+  <p class="work-desc">Here are some projects and features I've been working on lately.</p>
   
   <div class="discoveries-grid">
     <!-- API Documentation Portal Card -->
@@ -2375,10 +2328,7 @@ body.light-theme .closing-section-title {
 </section>
 
 <section aria-labelledby="thesis-heading" class="reveal" id="thesis">
-  <div class="section-header-modern">
-    <p class="section-label">ACADEMIC WORK</p>
-    <h2 id="thesis-heading">Thesis</h2>
-  </div>
+  <h2 id="thesis-heading">Thesis</h2>
   <div class="thesis-card">
     <div class="thesis-card-title">
       <u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[Insurtrain]</a></u>: blockchain-powered insurance automation for train delays using smart contracts and real-time data. See the full thesis <u><a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><b>here</b></a></u>.
