@@ -642,24 +642,6 @@ body.light-theme .top-bar header p.neon-subtitle {
   color: var(--accent-light);
 }
 
-/* Hero intro section */
-.hero-intro {
-  max-width: 700px;
-  margin: 2rem auto 3rem;
-  text-align: center;
-}
-
-.hero-description {
-  font-size: var(--font-md);
-  line-height: 1.8;
-  color: var(--text-dark);
-  opacity: 0.95;
-}
-
-body.light-theme .hero-description {
-  color: var(--text-light);
-}
-
 
 /* Links */
 a {
@@ -755,6 +737,49 @@ h2 {
 
 body.light-theme h2 {
   border-bottom-color: rgba(0,0,0,0.2);
+}
+
+/* Modern section headers */
+.section-header-modern {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-label {
+  font-size: var(--font-xs);
+  color: var(--accent-dark);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: var(--space-sm);
+  opacity: 0.9;
+}
+
+body.light-theme .section-label {
+  color: var(--accent-light);
+}
+
+.section-header-modern h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  margin: 0 0 var(--space-md) 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.section-description {
+  font-size: var(--font-md);
+  color: var(--text-dark);
+  opacity: 0.8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+body.light-theme .section-description {
+  color: var(--text-light);
 }
 
 /* Enhanced list styling */
@@ -2258,10 +2283,9 @@ body.light-theme .closing-section-title {
 </div>
       
 <!-- ================= MAIN CONTENT ================= -->
-<main id="main-content" role="main" aria-label="Portfolio content">
-  <div class="hero-intro reveal">
-    <p class="hero-description">I transform complex challenges into elegant solutions at the intersection of <b>design</b>, <b>technology</b>, and <b>finance</b>. Currently bringing fintech products to life through APIs and user-centered workflows.</p>
-  </div>
+<div class="hero-intro reveal">
+  <p class="hero-description">I transform complex challenges into elegant solutions at the intersection of <b>design</b>, <b>technology</b>, and <b>finance</b>. Currently bringing fintech products to life through APIs and user-centered workflows.</p>
+</div>
       
   <section aria-labelledby="music-heading" class="reveal" id="vibes">
   <h2 id="music-heading">Vibes</h2>
@@ -2282,7 +2306,10 @@ body.light-theme .closing-section-title {
 
       
 <section aria-labelledby="work-heading" class="reveal" id="experience">
-  <h2 id="work-heading">Experience</h2>
+  <div class="section-header-modern">
+    <p class="section-label">MY JOURNEY</p>
+    <h2 id="work-heading">Experience</h2>
+  </div>
   <ul>
 <li>
   <div class="job-title">
@@ -2307,8 +2334,10 @@ body.light-theme .closing-section-title {
 </section>
 
 <section aria-labelledby="projects-heading" class="reveal" id="projects">
-  <h2 id="projects-heading">Projects</h2>
-  <p class="work-desc">Here are some projects and features I've been working on lately.</p>
+  <div class="section-header-modern">
+    <p class="section-label">WHAT I'VE BUILT</p>
+    <h2 id="projects-heading">Projects</h2>
+  </div>
   
   <div class="discoveries-grid">
     <!-- API Documentation Portal Card -->
@@ -2346,7 +2375,10 @@ body.light-theme .closing-section-title {
 </section>
 
 <section aria-labelledby="thesis-heading" class="reveal" id="thesis">
-  <h2 id="thesis-heading">Thesis</h2>
+  <div class="section-header-modern">
+    <p class="section-label">ACADEMIC WORK</p>
+    <h2 id="thesis-heading">Thesis</h2>
+  </div>
   <div class="thesis-card">
     <div class="thesis-card-title">
       <u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">[Insurtrain]</a></u>: blockchain-powered insurance automation for train delays using smart contracts and real-time data. See the full thesis <u><a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><b>here</b></a></u>.
