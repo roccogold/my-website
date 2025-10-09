@@ -2100,7 +2100,6 @@ body.light-theme [title]:hover {
   color: var(--accent-light);
 }
 
-/* Closing section title */
 .closing-section-title {
   font-family: 'Audiowide', cursive;
   font-size: clamp(2rem, 5vw, 3.5rem);
@@ -2117,15 +2116,23 @@ body.light-theme [title]:hover {
   text-align: center;
   margin-bottom: 2rem;
   letter-spacing: 0.05em;
-  line-height: 1.2;
+  line-height: 1.1;               /* Slightly reduced */
+  max-width: 900px;               /* Control width */
+  margin-left: auto;
+  margin-right: auto;
+  white-space: normal;            /* allow wrapping */
+  overflow-wrap: anywhere;        /* break long words if needed */
 }
 
 @media (max-width: 768px) {
   .closing-section-title {
     font-size: clamp(1.5rem, 6vw, 2.5rem);
     margin-bottom: 1.5rem;
+    max-width: 98vw;              /* nearly full width on mobile */
+    line-height: 1.05;
   }
 }
+
 
 </style>
 
