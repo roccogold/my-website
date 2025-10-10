@@ -268,7 +268,7 @@ body.light-theme .grid-overlay::after {
   background-size: cover;
   background-position: center center;  /* Center the grid */
   background-repeat: no-repeat;
-  opacity: 0;
+  opacity: 1;
   z-index: 0;
   pointer-events: none;
   transition: opacity var(--transition-normal);
@@ -276,18 +276,18 @@ body.light-theme .grid-overlay::after {
 
 /* Light theme - even more subtle */
 body.light-theme .tron-grid-background {
-  opacity: 0;
+  opacity: 1;
 }
 
 /* Mobile: Full screen with subtle fade */
 @media (max-width: 768px) {
   .tron-grid-background {
     height: 100%;
-    opacity: 0;  /* Lighter on mobile dark mode */
+    opacity: 1;  /* Lighter on mobile dark mode */
   }
   
   body.light-theme .tron-grid-background {
-    opacity: 0;  /* Even lighter on mobile light mode */
+    opacity: 1;  /* Even lighter on mobile light mode */
   }
   
   /* Stronger top fade for better readability */
