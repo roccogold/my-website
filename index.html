@@ -269,7 +269,7 @@ body.light-theme .grid-overlay::after {
   background-position: center bottom;
   background-repeat: no-repeat;
   opacity: 0.6;  /* Changed from 0.75 - more subtle */
-  z-index: 3;
+  z-index: 0;
   pointer-events: none;
   transition: opacity var(--transition-normal);
 }
@@ -516,8 +516,8 @@ body.light-theme .back-to-top:hover {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1001;
-  background: rgba(17, 17, 17, 0.3);  /* Semi-transparent dark background */
+  z-index: 1001;  /* This is already correct */
+  background: rgba(17, 17, 17, 0.5);  /* Increased opacity */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(154, 119, 198, 0.2);
@@ -568,11 +568,11 @@ body.light-theme .back-to-top:hover {
 
 /* Light theme support */
 body.light-theme .nav-container {
-  background: rgba(255, 255, 255, 0.7);  /* More opaque white background */
+  background: rgba(255, 255, 255, 0.8);  /* More opaque */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom-color: rgba(107, 70, 193, 0.3);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);  /* Add subtle shadow */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 body.light-theme .nav-item {
