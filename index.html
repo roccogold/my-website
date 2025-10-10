@@ -279,6 +279,35 @@ body.light-theme .tron-grid-background {
   opacity: 0.75;
 }
 
+/* Mobile: Full screen with subtle fade */
+@media (max-width: 768px) {
+  .tron-grid-background {
+    height: 100%;  /* Full screen height */
+    opacity: 0.5;  /* More subtle on mobile */
+  }
+  
+  /* Optional: Add top fade for better text readability */
+  .tron-grid-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 25%;
+    background: linear-gradient(to bottom, 
+      var(--bg-dark) 0%, 
+      transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  body.light-theme .tron-grid-background::before {
+    background: linear-gradient(to bottom, 
+      var(--bg-light) 0%, 
+      transparent 100%);
+  }
+}
+
 
 /* Enhanced Accessibility - Respect user preferences */
 @media (prefers-reduced-motion: reduce) {
