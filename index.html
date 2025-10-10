@@ -800,15 +800,11 @@ body.light-theme h2 {
 .tron-header h2 {
   font-family: 'Audiowide', cursive;
   font-size: clamp(1.0rem, 3.0vw, 1.15rem);
-  color: #d4b5f7;  /* ← Changed to match ROCCO */
+  color: #d4b5f7;
   text-shadow:
     0 0 10px rgba(167, 139, 250, 0.8),
-    0 0 20px rgba(139, 92, 246, 0.6),
-    0 0 40px rgba(124, 58, 237, 0.4),
-    2px 2px 0px #b18cd9,
-    4px 4px 0px #9a77c6,
-    6px 6px 0px #8859b8,
-    8px 8px 15px rgba(0,0,0,0.5);  /* ← Same glow as ROCCO */
+    0 0 20px rgba(139, 92, 246, 0.5),
+    0 0 35px rgba(124, 58, 237, 0.3);
   margin: 0 0 1rem 0;
   letter-spacing: 0.15em;
   font-weight: 900;
@@ -819,13 +815,9 @@ body.light-theme h2 {
 body.light-theme .tron-header h2 {
   color: #8b5cf6;
   text-shadow:
-    0 0 10px rgba(139, 92, 246, 0.4),    /* ← Same layers, */
-    0 0 20px rgba(124, 58, 237, 0.3),    /* ← but reduced */
-    0 0 40px rgba(109, 40, 217, 0.2),    /* ← opacity values */
-    2px 2px 0px #a78bfa,
-    4px 4px 0px #7c3aed,
-    6px 6px 0px #6d28d9,
-    8px 8px 15px rgba(107, 70, 193, 0.2);  /* ← Less glow */
+    0 0 10px rgba(139, 92, 246, 0.6),
+    0 0 20px rgba(124, 58, 237, 0.4),
+    0 0 35px rgba(109, 40, 217, 0.25);
 }
       
 .grid-breakdown {
@@ -2421,24 +2413,20 @@ body.light-theme .closing-section-title {
     margin-bottom: 1.5rem;
   }
   
-  /* Reduce glow on section headers for mobile - 3 layers */
-  .tron-header h2 {
-    text-shadow:
-      0 0 8px rgba(167, 139, 250, 0.4),
-      0 0 15px rgba(139, 92, 246, 0.3),
-      2px 2px 0px #b18cd9,
-      4px 4px 0px #9a77c6,
-      6px 6px 10px rgba(0,0,0,0.3);
-  }
-  
-  body.light-theme .tron-header h2 {
-    text-shadow:
-      0 0 8px rgba(139, 92, 246, 0.3),
-      0 0 15px rgba(124, 58, 237, 0.2),
-      2px 2px 0px #a78bfa,
-      4px 4px 0px #7c3aed,
-      6px 6px 10px rgba(107, 70, 193, 0.2);
-  }
+/* 3-layer glow for section headers - mobile */
+.tron-header h2 {
+  text-shadow:
+    0 0 8px rgba(167, 139, 250, 0.6),
+    0 0 15px rgba(139, 92, 246, 0.4),
+    0 0 25px rgba(124, 58, 237, 0.2);
+}
+
+body.light-theme .tron-header h2 {
+  text-shadow:
+    0 0 8px rgba(139, 92, 246, 0.5),
+    0 0 15px rgba(124, 58, 237, 0.3),
+    0 0 25px rgba(109, 40, 217, 0.2);
+}
   
   /* Reduce glow on mobile - 3 layers */
   .top-bar header h1.neon-title {
