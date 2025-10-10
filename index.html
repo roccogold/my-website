@@ -236,97 +236,71 @@ body.light-theme .glow {
   100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
 }
 
-.grid-overlay {
+/* Full 3D Tron Space */
+.tron-3d-space {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 50%;
+  height: 100%;
+  overflow: hidden;
+  perspective: 1000px;
+  perspective-origin: 50% 30%;
+}
+
+/* Main 3D grid floor */
+.grid-floor {
+  position: absolute;
+  bottom: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
   background-size: 100px 100px;
   background-image: 
-    linear-gradient(to right, rgba(154, 119, 198, 0.25) 2px, transparent 2px),
-    linear-gradient(to bottom, rgba(154, 119, 198, 0.25) 2px, transparent 2px);
-  background-position: center top;
-  transform: perspective(500px) rotateX(76deg);
-  transform-origin: center top;
-  z-index: 2;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+    linear-gradient(to right, rgba(154, 119, 198, 0.3) 2px, transparent 2px),
+    linear-gradient(to bottom, rgba(154, 119, 198, 0.3) 2px, transparent 2px);
+  transform: rotateX(75deg) translateZ(-200px);
+  transform-origin: center center;
+  animation: grid-move 20s linear infinite;
 }
 
-/* Back layer for depth */
-.grid-overlay::after {
-  content: '';
+/* Secondary grid layer for more depth */
+.grid-floor-secondary {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: 50px 50px;
+  bottom: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-size: 60px 60px;
   background-image: 
-    linear-gradient(to right, rgba(154, 119, 198, 0.12) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(154, 119, 198, 0.12) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
+    linear-gradient(to right, rgba(154, 119, 198, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(154, 119, 198, 0.15) 1px, transparent 1px);
+  transform: rotateX(75deg) translateZ(-400px);
+  transform-origin: center center;
+  animation: grid-move 15s linear infinite;
 }
 
-body.light-theme .grid-overlay {
-  background-image: 
-    linear-gradient(to right, rgba(107, 70, 193, 0.25) 2px, transparent 2px),
-    linear-gradient(to bottom, rgba(107, 70, 193, 0.25) 2px, transparent 2px);
-}
-
-body.light-theme .grid-overlay::after {
-  background-image: 
-    linear-gradient(to right, rgba(107, 70, 193, 0.12) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(107, 70, 193, 0.12) 1px, transparent 1px);
-}
-
-/* Horizon glow line */
-.horizon-line {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(154, 119, 198, 0.8) 20%,
-    rgba(154, 119, 198, 0.8) 80%,
-    transparent
-  );
-  box-shadow: 
-    0 0 20px rgba(154, 119, 198, 0.6),
-    0 0 40px rgba(154, 119, 198, 0.3);
-  z-index: 3;
-}
-
-body.light-theme .horizon-line {
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(107, 70, 193, 0.8) 20%,
-    rgba(107, 70, 193, 0.8) 80%,
-    transparent
-  );
-  box-shadow: 
-    0 0 20px rgba(107, 70, 193, 0.6),
-    0 0 40px rgba(107, 70, 193, 0.3);
-}
-
-.particles-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 4;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gradient-sphere, .glow {
-    animation: none !important;
+/* Animation - grid moving toward you */
+@keyframes grid-move {
+  0% {
+    transform: rotateX(75deg) translateZ(-200px) translateY(0);
   }
+  100% {
+    transform: rotateX(75deg) translateZ(-200px) translateY(100px);
+  }
+}
+
+/* Light theme version */
+body.light-theme .grid-floor {
+  background-image: 
+    linear-gradient(to right, rgba(107, 70, 193, 0.3) 2px, transparent 2px),
+    linear-gradient(to bottom, rgba(107, 70, 193, 0.3) 2px, transparent 2px);
+}
+
+body.light-theme .grid-floor-secondary {
+  background-image: 
+    linear-gradient(to right, rgba(107, 70, 193, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(107, 70, 193, 0.15) 1px, transparent 1px);
 }
 
 /* Enhanced Accessibility - Respect user preferences */
@@ -2504,15 +2478,19 @@ body.light-theme .closing-section-title {
 </nav>
 </div>
 
-<!-- Animated background system -->
+<!-- Full 3D Tron Background -->
 <div class="gradient-background">
+  <!-- Ambient glow spheres -->
   <div class="gradient-sphere sphere-1"></div>
   <div class="gradient-sphere sphere-2"></div>
   <div class="gradient-sphere sphere-3"></div>
   <div class="glow"></div>
-  <div class="grid-overlay"></div>
-  <div class="noise-overlay"></div>
-  <div class="horizon-line"></div>
+  
+  <!-- 3D perspective grid container -->
+  <div class="tron-3d-space">
+    <div class="grid-floor"></div>
+    <div class="grid-floor-secondary"></div>
+  </div>
 </div>
       
 <!-- Theme toggle button -->
