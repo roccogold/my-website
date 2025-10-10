@@ -268,34 +268,39 @@ body.light-theme .grid-overlay::after {
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
-  opacity: 0.75;
+  opacity: 0.6;  /* Changed from 0.75 - more subtle */
   z-index: 3;
   pointer-events: none;
   transition: opacity var(--transition-normal);
 }
 
-/* Light theme - same image, no changes */
+/* Light theme - even more subtle */
 body.light-theme .tron-grid-background {
-  opacity: 0.75;
+  opacity: 0.35;  /* Much lighter in light mode */
 }
 
 /* Mobile: Full screen with subtle fade */
 @media (max-width: 768px) {
   .tron-grid-background {
-    height: 100%;  /* Full screen height */
-    opacity: 0.5;  /* More subtle on mobile */
+    height: 100%;
+    opacity: 0.4;  /* Lighter on mobile dark mode */
   }
   
-  /* Optional: Add top fade for better text readability */
+  body.light-theme .tron-grid-background {
+    opacity: 0.25;  /* Even lighter on mobile light mode */
+  }
+  
+  /* Stronger top fade for better readability */
   .tron-grid-background::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 25%;
+    height: 35%;  /* Taller fade area */
     background: linear-gradient(to bottom, 
       var(--bg-dark) 0%, 
+      rgba(17, 17, 17, 0.8) 40%,
       transparent 100%);
     pointer-events: none;
     z-index: 1;
@@ -304,6 +309,7 @@ body.light-theme .tron-grid-background {
   body.light-theme .tron-grid-background::before {
     background: linear-gradient(to bottom, 
       var(--bg-light) 0%, 
+      rgba(255, 255, 255, 0.8) 40%,
       transparent 100%);
   }
 }
