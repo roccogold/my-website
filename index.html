@@ -2335,49 +2335,60 @@ body.light-theme .closing-section-title {
     margin-bottom: 1.5rem;
   }
   
-  /* Reduce glow on mobile */
-  .top-bar header h1.neon-title {
+  /* Reduce glow on section headers for mobile - 3 layers */
+  .tron-header h2 {
     text-shadow:
-      0 0 5px rgba(167, 139, 250, 0.4),
-      0 0 12px rgba(139, 92, 246, 0.3),
-      0 0 20px rgba(124, 58, 237, 0.2),
+      0 0 8px rgba(167, 139, 250, 0.4),
+      0 0 15px rgba(139, 92, 246, 0.3),
       2px 2px 0px #b18cd9,
       4px 4px 0px #9a77c6,
-      6px 6px 0px #8859b8,
-      8px 8px 10px rgba(0,0,0,0.3);
+      6px 6px 10px rgba(0,0,0,0.3);
+  }
+  
+  body.light-theme .tron-header h2 {
+    text-shadow:
+      0 0 8px rgba(139, 92, 246, 0.3),
+      0 0 15px rgba(124, 58, 237, 0.2),
+      2px 2px 0px #a78bfa,
+      4px 4px 0px #7c3aed,
+      6px 6px 10px rgba(107, 70, 193, 0.2);
+  }
+  
+  /* Reduce glow on mobile - 3 layers */
+  .top-bar header h1.neon-title {
+    text-shadow:
+      0 0 8px rgba(167, 139, 250, 0.4),
+      0 0 15px rgba(139, 92, 246, 0.3),
+      2px 2px 0px #b18cd9,
+      4px 4px 0px #9a77c6,
+      6px 6px 10px rgba(0,0,0,0.3);
   }
   
   body.light-theme .top-bar header h1.neon-title {
     text-shadow:
-      0 0 5px rgba(139, 92, 246, 0.4),
-      0 0 12px rgba(124, 58, 237, 0.3),
-      0 0 20px rgba(109, 40, 217, 0.2),
+      0 0 8px rgba(139, 92, 246, 0.3),
+      0 0 15px rgba(124, 58, 237, 0.2),
       2px 2px 0px #a78bfa,
       4px 4px 0px #7c3aed,
-      6px 6px 0px #6d28d9,
-      8px 8px 10px rgba(107, 70, 193, 0.25);
+      6px 6px 10px rgba(107, 70, 193, 0.2);
   }
   
   .closing-section-title {
     text-shadow: 
-      0 0 5px rgba(167, 139, 250, 0.4),
-      0 0 12px rgba(139, 92, 246, 0.3),
-      0 0 20px rgba(124, 58, 237, 0.2),
+      0 0 8px rgba(167, 139, 250, 0.4),
+      0 0 15px rgba(139, 92, 246, 0.3),
       2px 2px 0px #b18cd9,
       4px 4px 0px #9a77c6,
-      6px 6px 0px #8859b8,
-      8px 8px 10px rgba(0,0,0,0.3);
+      6px 6px 10px rgba(0,0,0,0.3);
   }
   
   body.light-theme .closing-section-title {
     text-shadow: 
-      0 0 5px rgba(139, 92, 246, 0.4),
-      0 0 12px rgba(124, 58, 237, 0.3),
-      0 0 20px rgba(109, 40, 217, 0.2),
+      0 0 8px rgba(139, 92, 246, 0.3),
+      0 0 15px rgba(124, 58, 237, 0.2),
       2px 2px 0px #a78bfa,
       4px 4px 0px #7c3aed,
-      6px 6px 0px #6d28d9,
-      8px 8px 10px rgba(107, 70, 193, 0.25);
+      6px 6px 10px rgba(107, 70, 193, 0.2);
   }
 }
 
