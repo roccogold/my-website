@@ -2192,20 +2192,23 @@ body.light-theme [title]:hover {
   transform: translateX(-50%);
   width: 40%;
   height: 1px;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(154, 119, 198, 0.4) 20%,
-    rgba(154, 119, 198, 0.4) 80%,
-    transparent
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent-dark) 0px,
+    var(--accent-dark) 4px,
+    transparent 4px,
+    transparent 12px
   );
+  opacity: 0.5;
 }
 
 body.light-theme .closing-section-title::before {
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(107, 70, 193, 0.4) 20%,
-    rgba(107, 70, 193, 0.4) 80%,
-    transparent
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent-light) 0px,
+    var(--accent-light) 4px,
+    transparent 4px,
+    transparent 12px
   );
 }
 
