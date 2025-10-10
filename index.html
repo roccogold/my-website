@@ -739,7 +739,7 @@ body.light-theme h2 {
   border-bottom-color: rgba(0,0,0,0.2);
 }
 
-/* Ultra Thin Solid Line Header Style */
+/* Thin Dotted Line Header Style */
 .tron-header {
   text-align: center;
   padding: 1rem 0;
@@ -771,29 +771,32 @@ body.light-theme .tron-header h2 {
 .grid-breakdown {
   position: relative;
   height: 1px;
-  width: 55%;
+  width: 50%;
   margin: 0 auto;
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(154, 119, 198, 0.4) 20%,
-    rgba(154, 119, 198, 0.4) 80%,
-    transparent
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent-dark) 0px,
+    var(--accent-dark) 4px,
+    transparent 4px,
+    transparent 12px
   );
+  opacity: 0.5;
 }
 
 body.light-theme .grid-breakdown {
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(107, 70, 193, 0.4) 20%,
-    rgba(107, 70, 193, 0.4) 80%,
-    transparent
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent-light) 0px,
+    var(--accent-light) 4px,
+    transparent 4px,
+    transparent 12px
   );
 }
 
 /* Mobile optimization */
 @media (max-width: 768px) {
   .grid-breakdown {
-    width: 70%;
+    width: 65%;
   }
 }
 
