@@ -739,7 +739,7 @@ body.light-theme h2 {
   border-bottom-color: rgba(0,0,0,0.2);
 }
 
-/* Tron Grid Breakdown Header Style */
+/* Ultra Thin Solid Line Header Style */
 .tron-header {
   text-align: center;
   padding: 1rem 0;
@@ -752,8 +752,8 @@ body.light-theme h2 {
   font-size: clamp(1.0rem, 3.0vw, 1.15rem);
   color: var(--accent-dark);
   text-shadow:
-    0 0 15px rgba(212, 181, 247, 0.6),
-    0 0 30px rgba(154, 119, 198, 0.4);
+    0 0 15px rgba(212, 181, 247, 0.4),
+    0 0 30px rgba(154, 119, 198, 0.2);
   margin: 0 0 1rem 0;
   letter-spacing: 0.15em;
   font-weight: 900;
@@ -764,67 +764,36 @@ body.light-theme h2 {
 body.light-theme .tron-header h2 {
   color: var(--accent-light);
   text-shadow:
-    0 0 15px rgba(107, 70, 193, 0.6),
-    0 0 30px rgba(107, 70, 193, 0.4);
+    0 0 15px rgba(107, 70, 193, 0.4),
+    0 0 30px rgba(107, 70, 193, 0.2);
 }
 
 .grid-breakdown {
   position: relative;
-  height: 30px;
-  width: 70%;
+  height: 1px;
+  width: 55%;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(15, 1fr);
-  gap: 3px;
-  align-items: center;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(154, 119, 198, 0.4) 20%,
+    rgba(154, 119, 198, 0.4) 80%,
+    transparent
+  );
 }
 
-.grid-cell {
-  height: 3px;
-  background: var(--accent-dark);
-  box-shadow: 0 0 8px var(--accent-dark);
-  animation: cell-breakdown 3s infinite;
-  border-radius: 1px;
-}
-
-body.light-theme .grid-cell {
-  background: var(--accent-light);
-  box-shadow: 0 0 8px var(--accent-light);
-}
-
-.grid-cell:nth-child(3n) { animation-delay: 0.1s; }
-.grid-cell:nth-child(5n) { animation-delay: 0.3s; }
-.grid-cell:nth-child(7n) { animation-delay: 0.5s; }
-
-@keyframes cell-breakdown {
-  0%, 85%, 100% { 
-    opacity: 1; 
-    transform: scaleX(1);
-  }
-  88% { 
-    opacity: 0.2; 
-    transform: scaleX(0.3);
-  }
-  91% {
-    opacity: 0.8;
-    transform: scaleX(1.2);
-  }
-  94% {
-    opacity: 0.5;
-    transform: scaleX(0.6);
-  }
+body.light-theme .grid-breakdown {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(107, 70, 193, 0.4) 20%,
+    rgba(107, 70, 193, 0.4) 80%,
+    transparent
+  );
 }
 
 /* Mobile optimization */
 @media (max-width: 768px) {
   .grid-breakdown {
-    width: 85%;
-    height: 25px;
-    gap: 2px;
-  }
-  
-  .grid-cell {
-    height: 2px;
+    width: 70%;
   }
 }
 
@@ -2336,24 +2305,8 @@ body.light-theme .closing-section-title {
       
   <section aria-labelledby="music-heading" class="reveal" id="vibes">
   <div class="tron-header">
-    <h2 id="music-heading">VIBES</h2>
-    <div class="grid-breakdown">
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell"></div>
-    </div>
+  <h2 id="music-heading">VIBES</h2>
+  <div class="grid-breakdown"></div>
   </div>
 <div class="spotify-container">
   <iframe data-testid="embed-iframe" 
