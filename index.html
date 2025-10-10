@@ -2175,9 +2175,38 @@ body.light-theme [title]:hover {
     8px 8px 15px rgba(0,0,0,0.5);
   transform: perspective(300px) rotateX(10deg);
   text-align: center;
+  margin-top: 4rem;
   margin-bottom: 2rem;
+  padding-top: 3rem;  /* ADD THIS */
   letter-spacing: 0.05em;
   line-height: 1.2;
+  position: relative;  /* ADD THIS */
+}
+
+/* ADD THIS - divider line above */
+.closing-section-title::before {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(154, 119, 198, 0.4) 20%,
+    rgba(154, 119, 198, 0.4) 80%,
+    transparent
+  );
+}
+
+body.light-theme .closing-section-title::before {
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(107, 70, 193, 0.4) 20%,
+    rgba(107, 70, 193, 0.4) 80%,
+    transparent
+  );
 }
 
 body.light-theme .closing-section-title {
