@@ -1740,6 +1740,8 @@ body.light-theme .thesis-card:hover::before {
   display: flex;
   flex-direction: column;
   box-shadow: var(--glass-shadow);
+  position: relative;  /* ← Make sure this is there */
+  overflow: hidden;    /* ← Make sure this is there */
 }
 
 /* Light sweep effect for discovery cards */
@@ -1805,9 +1807,6 @@ body.light-theme .discovery-card:hover {
   box-shadow: 0 8px 25px rgba(107, 70, 193, 0.15);
 }
 
-body.light-theme .discovery-card::before {
-  background: linear-gradient(90deg, var(--accent-light), var(--accent-light-hover));
-}
 
 /* Card Headers */
 .card-header {
