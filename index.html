@@ -236,7 +236,7 @@ body.light-theme .glow {
   100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
 }
 
-/* OPTION 1: CSS 3D Transform Grid - Full Coverage */
+/* OPTION 1: CSS 3D Transform Grid - Full Coverage & Higher */
 .grid-overlay {
   position: absolute;
   bottom: 0;
@@ -244,7 +244,7 @@ body.light-theme .glow {
   transform: translateX(-50%) perspective(500px) rotateX(60deg);
   transform-origin: center bottom;
   width: 200%;  /* Expand beyond viewport */
-  height: 70%;
+  height: 90%;  /* Increased from 70% to 90% */
   background-image: 
     linear-gradient(to right, rgba(154, 119, 198, 0.4) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(154, 119, 198, 0.4) 1px, transparent 1px);
@@ -252,15 +252,15 @@ body.light-theme .glow {
   z-index: 2;
 }
 
-/* Fade to horizon */
+/* Stronger fade to horizon - covers more area */
 .grid-overlay::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 50%;
-  background: linear-gradient(to bottom, var(--bg-dark), transparent);
+  height: 70%;  /* Increased from 50% to 70% for more fade */
+  background: linear-gradient(to bottom, var(--bg-dark) 0%, rgba(17, 17, 17, 0.8) 30%, transparent 100%);
   pointer-events: none;
 }
 
@@ -284,7 +284,7 @@ body.light-theme .grid-overlay {
 }
 
 body.light-theme .grid-overlay::before {
-  background: linear-gradient(to bottom, var(--bg-light), transparent);
+  background: linear-gradient(to bottom, var(--bg-light) 0%, rgba(255, 255, 255, 0.8) 30%, transparent 100%);
 }
 
 body.light-theme .grid-overlay::after {
