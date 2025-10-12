@@ -236,37 +236,35 @@ body.light-theme .glow {
   100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
 }
 
-/* OPTION 1: CSS 3D Transform Grid - Maximum Height Coverage */
+/* OPTION 1: CSS 3D Transform Grid - More Visible, Stops Mid-Page */
 .grid-overlay {
   position: absolute;
-  bottom: -20%;  /* Start even lower */
+  bottom: -10%;
   left: 50%;
   transform: translateX(-50%) perspective(500px) rotateX(60deg);
   transform-origin: center bottom;
-  width: 250%;  /* Wide coverage for all edges */
-  height: 150%;  /* Maximum height coverage */
+  width: 250%;
+  height: 100%;  /* Reduced from 150% to stop mid-page */
   background-image: 
-    linear-gradient(to right, rgba(154, 119, 198, 0.4) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(154, 119, 198, 0.4) 1px, transparent 1px);
+    linear-gradient(to right, rgba(154, 119, 198, 0.6) 1px, transparent 1px),  /* Increased opacity from 0.4 to 0.6 */
+    linear-gradient(to bottom, rgba(154, 119, 198, 0.6) 1px, transparent 1px);  /* Increased opacity from 0.4 to 0.6 */
   background-size: 50px 50px;
   z-index: 2;
 }
 
-/* Strong fade to horizon - covers most of the top */
+/* Lighter fade - so you can see the grid more */
 .grid-overlay::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 85%;  /* Cover 85% with fade */
+  height: 60%;  /* Reduced from 85% - less fade coverage */
   background: linear-gradient(to bottom, 
     var(--bg-dark) 0%, 
-    var(--bg-dark) 15%, 
-    rgba(17, 17, 17, 0.95) 30%, 
-    rgba(17, 17, 17, 0.7) 50%, 
-    rgba(17, 17, 17, 0.3) 70%, 
-    transparent 100%);
+    rgba(17, 17, 17, 0.7) 20%,   /* Less opaque */
+    rgba(17, 17, 17, 0.4) 40%,   /* Less opaque */
+    transparent 80%);             /* Fades out earlier */
   pointer-events: none;
 }
 
@@ -291,18 +289,16 @@ body.light-theme .glow {
 /* Light theme support */
 body.light-theme .grid-overlay {
   background-image: 
-    linear-gradient(to right, rgba(107, 70, 193, 0.4) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(107, 70, 193, 0.4) 1px, transparent 1px);
+    linear-gradient(to right, rgba(107, 70, 193, 0.6) 1px, transparent 1px),  /* Increased opacity */
+    linear-gradient(to bottom, rgba(107, 70, 193, 0.6) 1px, transparent 1px);  /* Increased opacity */
 }
 
 body.light-theme .grid-overlay::before {
   background: linear-gradient(to bottom, 
     var(--bg-light) 0%, 
-    var(--bg-light) 15%, 
-    rgba(255, 255, 255, 0.95) 30%, 
-    rgba(255, 255, 255, 0.7) 50%, 
-    rgba(255, 255, 255, 0.3) 70%, 
-    transparent 100%);
+    rgba(255, 255, 255, 0.7) 20%, 
+    rgba(255, 255, 255, 0.4) 40%, 
+    transparent 80%);
 }
 
 body.light-theme .grid-overlay::after {
