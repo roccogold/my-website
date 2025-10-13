@@ -1359,37 +1359,36 @@ a:hover {
 
 /* Inline Button Styling */
 .inline-button {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background: var(--accent-dark);
-  color: white !important;
+  display: inline-block;
+  background: rgba(154, 119, 198, 0.15);
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  color: var(--text-dark) !important;
   text-decoration: none !important;
-  border-radius: 8px;
+  border-radius: 6px;
   font-weight: 600;
-  font-size: var(--font-sm);
-  transition: all var(--transition-normal);
-  border: 2px solid transparent;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.8rem;
+  transition: all 0.3s ease;
 }
 
 .inline-button:hover,
 .inline-button:focus-visible {
-  background: var(--accent-dark-hover);
+  background: rgba(154, 119, 198, 0.25);
+  border-color: rgba(154, 119, 198, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(154, 119, 198, 0.4);
   outline: none !important;
-  border-color: var(--accent-dark);
 }
 
 body.light-theme .inline-button {
-  background: var(--accent-light);
+  background: rgba(107, 70, 193, 0.15);
+  border-color: rgba(107, 70, 193, 0.3);
+  color: var(--text-light) !important;
 }
 
 body.light-theme .inline-button:hover,
 body.light-theme .inline-button:focus-visible {
-  background: var(--accent-light-hover);
-  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.4);
-  border-color: var(--accent-light);
+  background: rgba(107, 70, 193, 0.25);
+  border-color: rgba(107, 70, 193, 0.5);
 }
 
 .minimal-tags {
