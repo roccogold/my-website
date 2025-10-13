@@ -1357,38 +1357,33 @@ a:hover {
   100% { transform: scale(1); }
 }
 
-/* Inline Button Styling */
-.inline-button {
-  display: inline-block;
-  background: rgba(154, 119, 198, 0.15);
-  border: 1px solid rgba(154, 119, 198, 0.3);
+/* Arrow Link Styling */
+.arrow-link {
   color: var(--text-dark) !important;
   text-decoration: none !important;
-  border-radius: 6px;
   font-weight: 600;
-  font-size: 0.75rem;
-  padding: 0.35rem 0.8rem;
-  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: gap 0.3s ease, color 0.3s ease;
+  font-size: inherit;
 }
 
-.inline-button:hover,
-.inline-button:focus-visible {
-  background: rgba(154, 119, 198, 0.25);
-  border-color: rgba(154, 119, 198, 0.5);
-  transform: translateY(-2px);
-  outline: none !important;
+.arrow-link:hover {
+  gap: 0.7rem;
+  color: var(--accent-dark) !important;
 }
 
-body.light-theme .inline-button {
-  background: rgba(107, 70, 193, 0.15);
-  border-color: rgba(107, 70, 193, 0.3);
+.arrow-link i {
+  font-size: 0.75em;
+}
+
+body.light-theme .arrow-link {
   color: var(--text-light) !important;
 }
 
-body.light-theme .inline-button:hover,
-body.light-theme .inline-button:focus-visible {
-  background: rgba(107, 70, 193, 0.25);
-  border-color: rgba(107, 70, 193, 0.5);
+body.light-theme .arrow-link:hover {
+  color: var(--accent-light) !important;
 }
 
 .minimal-tags {
@@ -2449,14 +2444,10 @@ body.light-theme .tron-header h2 {
 </div>
   <div class="thesis-card">
     <div class="thesis-card-title">
-      <u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">Insurtrain</a></u>: Blockchain-powered insurance automation for train delays using smart contracts and real-time data. 
-      <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
+      <u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">Insurtrain</a></u>: Blockchain-powered insurance automation for train delays using smart contracts and real-time data. <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
          target="_blank" 
          rel="noopener noreferrer"
-         class="inline-button"
-         style="margin-left: 0.5rem;">
-        Read Full Thesis
-      </a>
+         class="arrow-link">Read thesis <i class="fas fa-arrow-right"></i></a>
     </div>
   </div>
 </section>
@@ -2485,15 +2476,12 @@ body.light-theme .tron-header h2 {
     <p class="contact-desc">
       I'm always open to discussing product ideas, new projects or opportunities to be part of your vision. Have a challenge? Let's solve it together.
     </p>
-      <p class="contact-desc" style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-      Want the juicy bits? 
-      <a href="https://drive.google.com/uc?export=download&id=1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR" 
+      <p class="contact-desc">
+      Want the juicy bits? <a href="https://drive.google.com/uc?export=download&id=1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR" 
          target="_blank" 
          rel="noopener noreferrer" 
          id="resumeDownload"
-         class="inline-button">
-        Download Resume
-      </a>
+         class="arrow-link">Download resume <i class="fas fa-arrow-right"></i></a>
     </p>
     
     <nav class="social" aria-label="Social and contact links" role="navigation">
