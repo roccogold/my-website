@@ -2515,7 +2515,11 @@ body.light-theme .tron-header h2 {
     </nav>
     
     <!-- Enhanced Contact Form -->
-    <form id="contactForm" aria-label="Contact form to send a message" novalidate>
+   <form id="contactForm" 
+      action="https://formspree.io/f/mldpoygl"
+      method="POST"
+      aria-label="Contact form to send a message" 
+      novalidate>
       <label for="name">Name</label>
       <input type="text" 
              id="name" 
@@ -2764,37 +2768,38 @@ async handleSubmit(event) {
   }
 
   this.isSubmitting = true;
+  const submitButton = this.form.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
   this.showStatus('Sending message...', 'loading');
 
   try {
     const formData = new FormData(this.form);
-    const response = await fetch('/api/contact', {
+    const response = await fetch(this.form.action, {
       method: 'POST',
+      body: formData,
       headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: formData.get('name'),
-        email: formData.get('email'),
-        message: formData.get('message')
-      })
+        'Accept': 'application/json'
+      }
     });
-    
-    const result = await response.json();
     
     if (response.ok) {
       this.showStatus('Message sent! Thank you for reaching out.', 'success');
       this.form.reset();
     } else {
-      throw new Error(result.error || 'Failed to send message');
+      const data = await response.json();
+      if (data.errors) {
+        this.showStatus(data.errors.map(error => error.message).join(', '), 'error');
+      } else {
+        throw new Error('Failed to send message');
+      }
     }
   } catch (error) {
     console.error('Contact form error:', error);
     this.showStatus('Oops! Something went wrong. Please try again later.', 'error');
   } finally {
     this.isSubmitting = false;
+    submitButton.disabled = false;
   }
-}
 }
 
 // GitHub Integration Module
