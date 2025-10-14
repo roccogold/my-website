@@ -2394,17 +2394,25 @@ body.light-theme .thesis-divider {
 
   .thesis-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .thesis-title {
+    width: 100%;
   }
   
   .thesis-image-container {
     max-width: 100%;
-    padding: 1rem;
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
   }
   
-  .thesis-diagram:hover {
-    transform: scale(1.01); /* Subtle zoom on mobile */
+  .thesis-diagram {
+    max-width: 90%;
+    margin: 0 auto;
   }
   
   .thesis-actions {
