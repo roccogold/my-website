@@ -1108,9 +1108,9 @@ body.light-theme #contactForm textarea:focus {
 #contactForm button {
   padding: 0.7rem 1.5rem;
   cursor: pointer;
-  border: none;
-  background: var(--accent-dark);
-  color: white;
+  border: 2px solid var(--accent-dark);
+  background: transparent;
+  color: var(--accent-dark);
   border-radius: 8px;
   font-size: var(--font-sm);
   font-family: var(--main-font);
@@ -1119,9 +1119,9 @@ body.light-theme #contactForm textarea:focus {
 }
 
 #contactForm button:hover:not(:disabled) {
-  background: var(--accent-dark-hover);
+  background: var(--accent-dark);
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(154, 119, 198, 0.4);
 }
 
 #contactForm button:disabled {
@@ -1130,12 +1130,14 @@ body.light-theme #contactForm textarea:focus {
 }
 
 body.light-theme #contactForm button {
-  background: var(--accent-light);
+  border-color: var(--accent-light);
+  color: var(--accent-light);
+  background: transparent;
 }
 
 body.light-theme #contactForm button:hover:not(:disabled) {
-  background: var(--accent-light-hover);
-  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.4);
+  background: var(--accent-light);
+  color: white;
 }
 
 #formStatus {
@@ -2367,7 +2369,7 @@ body.light-theme .university-badge {
   font-size: 1.1em;
 }
 
-/* Thesis action links - simple text links */
+/* Thesis action links - outlined button style */
 .thesis-actions {
   display: flex;
   align-items: center;
@@ -2375,6 +2377,37 @@ body.light-theme .university-badge {
   flex-wrap: wrap;
   justify-content: center;
   font-size: var(--font-sm);
+}
+
+.thesis-actions a {
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  color: var(--accent-dark) !important;
+  border: 2px solid var(--accent-dark);
+  border-radius: 8px;
+  text-decoration: none !important;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  outline: none !important;
+}
+
+.thesis-actions a:hover {
+  background: var(--accent-dark);
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+body.light-theme .thesis-actions a {
+  color: var(--accent-light) !important;
+  border-color: var(--accent-light);
+}
+
+body.light-theme .thesis-actions a:hover {
+  background: var(--accent-light);
+  color: white !important;
 }
 
 .thesis-divider {
@@ -2586,7 +2619,7 @@ body.light-theme .thesis-divider {
 
 <section aria-labelledby="thesis-heading" class="reveal" id="thesis">
   <div class="tron-header">
-    <h2 id="thesis-heading">Master's Thesis</h2>
+    <h2 id="thesis-heading">Thesis</h2>
     <div class="grid-breakdown"></div>
   </div>
   
