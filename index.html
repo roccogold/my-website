@@ -1816,7 +1816,9 @@ body.light-theme .thesis-card:hover::before {
 
 /* Discovery Cards */
 .discovery-card {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.15), rgba(181, 140, 217, 0.08));
+  background: rgba(154, 119, 198, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 1rem;
@@ -1826,8 +1828,6 @@ body.light-theme .thesis-card:hover::before {
   display: flex;
   flex-direction: column;
   box-shadow: var(--glass-shadow);
-  position: relative;  /* ← Make sure this is there */
-  overflow: hidden;    /* ← Make sure this is there */
 }
 
 /* Light sweep effect for discovery cards */
@@ -1883,8 +1883,10 @@ body.light-theme .card-source {
 }
       
 body.light-theme .discovery-card {
-  background: linear-gradient(135deg, rgba(107, 70, 193, 0.1), rgba(124, 58, 237, 0.05));
- border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(107, 70, 193, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 body.light-theme .discovery-card:hover {
