@@ -1020,29 +1020,35 @@ body.light-theme .spotify-container:hover {
 #contactForm {
   max-width: 100%;
   margin: var(--space-md) 0;
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.15), rgba(181, 140, 217, 0.08));
+  background: rgba(154, 119, 198, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 8px 32px 0 rgba(154, 119, 198, 0.37);
   transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
 }
 
 #contactForm:hover {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.25), rgba(181, 140, 217, 0.15));
+  background: rgba(154, 119, 198, 0.15);
   border-color: rgba(154, 119, 198, 0.4);
   transform: translateY(-2px);
   box-shadow: 0 12px 35px rgba(154, 119, 198, 0.4);
 }
 
 body.light-theme #contactForm {
-  background: linear-gradient(135deg, rgba(107, 70, 193, 0.1), rgba(124, 58, 237, 0.05));
+  background: rgba(107, 70, 193, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-color: rgba(0, 0, 0, 0.1);
   box-shadow: 0 8px 32px 0 rgba(154, 119, 198, 0.37);
 }
 
 body.light-theme #contactForm:hover {
-  background: linear-gradient(135deg, rgba(107, 70, 193, 0.2), rgba(124, 58, 237, 0.1));
+  background: rgba(107, 70, 193, 0.15);
   border-color: rgba(107, 70, 193, 0.3);
   box-shadow: 0 12px 35px rgba(107, 70, 193, 0.3);
 }
