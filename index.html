@@ -2289,6 +2289,198 @@ body.light-theme .tron-header h2 {
   }
 }
 
+/* Enhanced Thesis Section - Option 2 */
+.thesis-card-expanded {
+  padding: 1.5rem;
+}
+
+.thesis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.thesis-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin: 0;
+  color: var(--accent-dark);
+}
+
+.thesis-title a {
+  color: var(--accent-dark);
+  text-decoration: underline;
+}
+
+body.light-theme .thesis-title,
+body.light-theme .thesis-title a {
+  color: var(--accent-light);
+}
+
+.thesis-description {
+  margin-bottom: 1.5rem;
+  font-size: var(--font-sm);
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* Thesis image container */
+.thesis-image-container {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(154, 119, 198, 0.05);
+  padding: 1.5rem;
+  border: 1px solid rgba(154, 119, 198, 0.2);
+}
+
+.thesis-diagram {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  transition: transform var(--transition-normal);
+}
+
+.thesis-diagram:hover {
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+/* Light theme */
+body.light-theme .thesis-image-container {
+  background: rgba(107, 70, 193, 0.05);
+  border-color: rgba(107, 70, 193, 0.2);
+}
+
+/* University badge */
+.university-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(154, 119, 198, 0.15);
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  color: var(--accent-dark);
+  white-space: nowrap;
+}
+
+body.light-theme .university-badge {
+  background: rgba(107, 70, 193, 0.15);
+  border-color: rgba(107, 70, 193, 0.3);
+  color: var(--accent-light);
+}
+
+.university-badge i {
+  font-size: 1.1em;
+}
+
+/* Thesis action buttons */
+.thesis-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.thesis-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: var(--font-sm);
+  font-family: var(--main-font);
+  text-decoration: none !important;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+.thesis-button.primary {
+  background: var(--accent-dark);
+  color: white !important;
+  border: 2px solid var(--accent-dark);
+}
+
+.thesis-button.primary:hover {
+  background: var(--accent-dark-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(154, 119, 198, 0.4);
+}
+
+.thesis-button.secondary {
+  background: transparent;
+  color: var(--accent-dark) !important;
+  border: 2px solid var(--accent-dark);
+}
+
+.thesis-button.secondary:hover {
+  background: var(--accent-dark);
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(154, 119, 198, 0.4);
+}
+
+body.light-theme .thesis-button.primary {
+  background: var(--accent-light);
+  border-color: var(--accent-light);
+}
+
+body.light-theme .thesis-button.primary:hover {
+  background: var(--accent-light-hover);
+  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.4);
+}
+
+body.light-theme .thesis-button.secondary {
+  color: var(--accent-light) !important;
+  border-color: var(--accent-light);
+}
+
+body.light-theme .thesis-button.secondary:hover {
+  background: var(--accent-light);
+  color: white !important;
+  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.4);
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  .thesis-card-expanded {
+    padding: 1rem;
+  }
+
+  .thesis-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .thesis-image-container {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .thesis-diagram:hover {
+    transform: none; /* Disable zoom on mobile */
+  }
+  
+  .thesis-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .thesis-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+      
 </style>
 
 </head>
@@ -2453,15 +2645,43 @@ body.light-theme .tron-header h2 {
 
 <section aria-labelledby="thesis-heading" class="reveal" id="thesis">
   <div class="tron-header">
-  <h2 id="thesis-heading">Thesis</h2>
-  <div class="grid-breakdown"></div>
-</div>
-  <div class="thesis-card">
-    <div class="thesis-card-title">
-      <u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">Insurtrain</a></u>: Blockchain-powered insurance automation for train delays using smart contracts and real-time data. <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
+    <h2 id="thesis-heading">Master's Thesis</h2>
+    <div class="grid-breakdown"></div>
+  </div>
+  
+  <div class="thesis-card thesis-card-expanded">
+    <div class="thesis-header">
+      <h3 class="thesis-title">
+        <u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">Insurtrain</a></u>
+      </h3>
+      <span class="university-badge">
+        <i class="fas fa-graduation-cap"></i> University of Bologna
+      </span>
+    </div>
+    
+    <p class="thesis-description">
+      Blockchain-powered insurance automation for train delays using smart contracts and real-time data. Automated payouts triggered by Oracle-verified delay data.
+    </p>
+    
+    <div class="thesis-image-container">
+      <img src="assets/insurtrain-diagram.png" 
+           alt="Insurtrain system architecture showing smart contract connecting Oracle network with train data to automated insurance payouts" 
+           class="thesis-diagram">
+    </div>
+    
+    <div class="thesis-actions">
+      <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
          target="_blank" 
          rel="noopener noreferrer"
-         class="arrow-link">Read thesis <i class="fas fa-arrow-right"></i></a>
+         class="thesis-button primary">
+         <i class="fas fa-file-pdf"></i> Read Full Thesis
+      </a>
+      <a href="https://github.com/roccogold/insurtrain" 
+         target="_blank" 
+         rel="noopener noreferrer"
+         class="thesis-button secondary">
+         <i class="fab fa-github"></i> View Code
+      </a>
     </div>
   </div>
 </section>
