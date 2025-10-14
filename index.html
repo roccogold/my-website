@@ -1111,23 +1111,29 @@ body.light-theme #contactForm textarea:focus {
   box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.2);
 }
 
+/* Glassmorphism Button Style for Contact Form */
 #contactForm button {
-  padding: 0.6rem 1.2rem;  /* Changed from 0.7rem 1.5rem */
-  cursor: pointer;
-  border: 2px solid var(--accent-dark);
-  background: transparent;
-  color: var(--accent-dark);
-  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  background: rgba(154, 119, 198, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--text-dark);
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  border-radius: 12px;
   font-size: var(--font-sm);
   font-family: var(--main-font);
-  transition: all var(--transition-normal);
+  transition: all 0.3s ease;
   font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.2);
 }
 
 #contactForm button:hover:not(:disabled) {
-  background: var(--accent-dark);
-  color: white;
+  background: rgba(154, 119, 198, 0.3);
+  border-color: var(--accent-dark-hover);
+  color: var(--text-dark);
   transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(154, 119, 198, 0.4);
 }
 
 #contactForm button:disabled {
@@ -1136,14 +1142,16 @@ body.light-theme #contactForm textarea:focus {
 }
 
 body.light-theme #contactForm button {
-  border-color: var(--accent-light);
-  color: var(--accent-light);
-  background: transparent;
+  background: rgba(107, 70, 193, 0.15);
+  border-color: rgba(107, 70, 193, 0.3);
+  color: var(--text-light);
 }
 
 body.light-theme #contactForm button:hover:not(:disabled) {
-  background: var(--accent-light);
-  color: white;
+  background: rgba(107, 70, 193, 0.3);
+  border-color: var(--accent-light-hover);
+  color: var(--text-light);
+  box-shadow: 0 12px 40px rgba(107, 70, 193, 0.4);
 }
 
 #formStatus {
@@ -2387,37 +2395,42 @@ body.light-theme .university-badge {
   font-size: var(--font-sm);
 }
 
+/* Glassmorphism Button Style for Thesis */
 .thesis-actions a {
-  padding: 0.5rem 1rem;  /* Changed from 0.6rem 1.2rem */
-  background: transparent;
-  color: var(--accent-dark) !important;
-  border: 2px solid var(--accent-dark);
-  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  background: rgba(154, 119, 198, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--text-dark) !important;
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  border-radius: 12px;
   text-decoration: none !important;
   font-weight: 600;
-  transition: all var(--transition-normal);
+  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;  /* Changed from 0.5rem */
+  gap: 0.4rem;
+  cursor: pointer;
+  font-size: var(--font-sm);
+  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.2);
   outline: none !important;
-  font-size: var(--font-sm);  /* Add this line to make text slightly smaller */
 }
 
 .thesis-actions a:hover {
-  background: var(--accent-dark);
-  color: white !important;
+  background: rgba(154, 119, 198, 0.3);
+  border-color: var(--accent-dark-hover);
+  color: var(--text-dark) !important;
   transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(154, 119, 198, 0.4);
 }
 
 body.light-theme .thesis-actions a {
-  color: var(--accent-light) !important;
-  border-color: var(--accent-light);
+  background: rgba(107, 70, 193, 0.15);
+  border-color: rgba(107, 70, 193, 0.3);
+  color: var(--text-light) !important;
 }
 
-body.light-theme .thesis-actions a:hover {
-  background: var(--accent-light);
-  color: white !important;
-}
+body.light-theme .the
 
 .thesis-divider {
   color: var(--accent-dark);
