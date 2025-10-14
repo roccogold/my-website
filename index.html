@@ -2304,19 +2304,13 @@ body.light-theme .tron-header h2 {
 }
 
 .thesis-title {
-  font-size: var(--font-lg);
+  font-size: var(--font-md);
   font-weight: 700;
   margin: 0;
   color: var(--accent-dark);
 }
 
-.thesis-title a {
-  color: var(--accent-dark);
-  text-decoration: underline;
-}
-
-body.light-theme .thesis-title,
-body.light-theme .thesis-title a {
+body.light-theme .thesis-title {
   color: var(--accent-light);
 }
 
@@ -2341,7 +2335,6 @@ body.light-theme .thesis-title a {
   display: block;
   border-radius: 8px;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
-  cursor: pointer;
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.2);
 }
 
@@ -2601,9 +2594,7 @@ body.light-theme .thesis-divider {
   
   <div class="thesis-card thesis-card-expanded">
     <div class="thesis-header">
-      <h3 class="thesis-title">
-        <u><a href="https://github.com/roccogold/insurtrain" target="_blank" rel="noopener noreferrer">Insurtrain</a></u>
-      </h3>
+      <h3 class="thesis-title">Insurtrain</h3>
       <span class="university-badge">
         <i class="fas fa-graduation-cap"></i> University of Bologna
       </span>
@@ -2615,9 +2606,8 @@ body.light-theme .thesis-divider {
     
     <div class="thesis-image-container">
       <img src="assets/insurtrain-diagram.png" 
-           alt="Insurtrain system architecture showing smart contract connecting Oracle network with train data to automated insurance payouts" 
-           class="thesis-diagram"
-           onclick="window.open(this.src, '_blank')">
+     alt="Insurtrain system architecture showing smart contract connecting Oracle network with train data to automated insurance payouts" 
+     class="thesis-diagram">
     </div>
     
     <div class="thesis-actions">
