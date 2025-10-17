@@ -433,18 +433,7 @@ body.light-theme .back-to-top:hover {
 }
 
 /* Navigation Bar - Desktop Only */
-.nav-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1001;
-  background: transparent;  /* Fully transparent to show Tron grid */
-  backdrop-filter: blur(10px);  /* Subtle blur for text readability */
-  -webkit-backdrop-filter: blur(10px);
-  padding: 1rem 0;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);  /* Subtle depth */
-}
+nav-container { position: fixed; top: 0; left: 0; right: 0; z-index: 1001; background: transparent; /* Fully transparent */ padding: 1.5rem 0 0.5rem 0; /* Removed backdrop-filter and box-shadow for seamless integration */ }
 
 .nav-bar {
   display: flex;
