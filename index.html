@@ -93,17 +93,6 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-VKN0MXTZ4Q');
-
-// Navigation appears on scroll
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('.nav-container');
-  if (window.scrollY > 100) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
-  }
-});
-      
 </script>
 
 <style>
@@ -156,14 +145,13 @@ window.addEventListener('scroll', () => {
 
 /* Gradient background system */
 .gradient-background {
-  position: absolute;  /* Use absolute instead of fixed */
-  top: 100vh;
+  position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - 100vh);  /* Cover rest of page */
+  height: 100%;
   z-index: -1;
   overflow: hidden;
-  opacity: 0.3;
 }
 
 .gradient-sphere {
@@ -286,7 +274,7 @@ html {
 }
 
 body {
-  background: white;
+  background: var(--bg-dark);
   color: var(--text-dark);
   font-family: var(--main-font);
   margin: 0;
@@ -456,9 +444,6 @@ body.light-theme .back-to-top:hover {
   -webkit-backdrop-filter: blur(10px);
   padding: 1rem 0;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);  /* Subtle depth */
-  opacity: 1;
-  transition: opacity 0.3s ease, background 0.3s ease;
-
 }
 
 .nav-bar {
@@ -694,12 +679,11 @@ header p {
 /* Enhanced main content with container queries */
 main {
   max-width: 650px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-  background: white;
+  margin: auto;
+  padding: var(--space-md) var(--space-lg) var(--space-xl);
+  line-height: 1.6;
   position: relative;
   z-index: 1;
-  line-height: 1.6;
   font-size: var(--font-sm);
   container-type: inline-size;
 }
@@ -2512,113 +2496,12 @@ body.light-theme .thesis-divider {
     width: 100%;
   }
 }
-
-/* Hero Background Section */
-.hero-section {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  min-height: 600px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.hero-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.hero-background img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* Gradient overlay that fades to white */
-.hero-background::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 55%,  /* Keep image clear longer */
-    rgba(255, 255, 255, 0.2) 70%,
-    rgba(255, 255, 255, 0.5) 80%,
-    rgba(255, 255, 255, 0.8) 90%,
-    rgba(255, 255, 255, 0.95) 95%,
-    white 100%
-  );
-  z-index: 2;
-}
-
-.hero-content {
-  position: absolute;
-  bottom: 15vh;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  text-align: center;
-  padding: 0 2rem;
-  max-width: 650px;
-  width: 100%;
-}
-
-/* Show nav when scrolled */
-.nav-container.scrolled {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .hero-content {
-    bottom: 10vh;
-  }
-  
-  .hero-background::after {
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.2) 70%,
-      rgba(255, 255, 255, 0.5) 80%,
-      rgba(255, 255, 255, 0.8) 90%,
-      white 98%
-    );
-  }
-}
       
 </style>
 
 </head>
 
 <body>
-
-<!-- Hero Section with Background -->
-<div class="hero-section">
-  <div class="hero-background">
-    <img src="assets/mountain-landscape.jpg" alt="Mountain landscape with serene water">
-  </div>
-<div class="hero-content">
-  <p class="neon-greeting">Ciao, I'm</p>
-  <h1 class="neon-title">ROCCO</h1>
-  <p class="neon-subtitle"><b>< Product Manager — from idea to impact ></b></p>
-</div>
-</div>
 
 <!-- Navigation Bar - Desktop Only -->
 <div class="nav-container">
@@ -2653,6 +2536,16 @@ body.light-theme .thesis-divider {
   <i class="fas fa-arrow-up"></i>
 </button>
 
+<!-- ================= HEADER ================= -->
+<div id="topBar" class="top-bar">
+  <div id="about"> <!-- Add this wrapper div -->
+<header class="reveal">
+  <p class="neon-greeting">Ciao, I'm</p>
+  <h1 class="neon-title">ROCCO</h1>
+  <p class="neon-subtitle"><b>< Product Manager — from idea to impact ></b></p>
+</header>
+  </div> <!-- Close the wrapper -->
+</div>
       
 <!-- ================= MAIN CONTENT ================= -->
 <main id="main-content" role="main" aria-label="Portfolio content">
