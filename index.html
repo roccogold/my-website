@@ -156,13 +156,14 @@ window.addEventListener('scroll', () => {
 
 /* Gradient background system */
 .gradient-background {
-  position: fixed;
-  top: 0;
+  position: absolute;  /* Use absolute instead of fixed */
+  top: 100vh;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 100vh);  /* Cover rest of page */
   z-index: -1;
   overflow: hidden;
+  opacity: 0.3;
 }
 
 .gradient-sphere {
@@ -455,7 +456,7 @@ body.light-theme .back-to-top:hover {
   -webkit-backdrop-filter: blur(10px);
   padding: 1rem 0;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);  /* Subtle depth */
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease, background 0.3s ease;
 
 }
@@ -2551,11 +2552,11 @@ body.light-theme .thesis-divider {
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    transparent 60%,
-    rgba(255, 255, 255, 0.1) 75%,
-    rgba(255, 255, 255, 0.3) 85%,
-    rgba(255, 255, 255, 0.6) 92%,
-    rgba(255, 255, 255, 0.85) 96%,
+    transparent 55%,  /* Keep image clear longer */
+    rgba(255, 255, 255, 0.2) 70%,
+    rgba(255, 255, 255, 0.5) 80%,
+    rgba(255, 255, 255, 0.8) 90%,
+    rgba(255, 255, 255, 0.95) 95%,
     white 100%
   );
   z-index: 2;
@@ -2612,11 +2613,11 @@ body.light-theme .thesis-divider {
   <div class="hero-background">
     <img src="assets/mountain-landscape.jpg" alt="Mountain landscape with serene water">
   </div>
-  <div class="hero-content">
-    <p class="neon-greeting">Ciao, I'm</p>
-    <h1 class="neon-title">ROCCO</h1>
-    <p class="neon-subtitle"><b>< Product Manager — from idea to impact ></b></p>
-  </div>
+<div class="hero-content">
+  <p class="neon-greeting">Ciao, I'm</p>
+  <h1 class="neon-title">ROCCO</h1>
+  <p class="neon-subtitle"><b>< Product Manager — from idea to impact ></b></p>
+</div>
 </div>
 
 <!-- Navigation Bar - Desktop Only -->
