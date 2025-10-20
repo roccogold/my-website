@@ -1898,15 +1898,18 @@ body.light-theme .thesis-icon-btn:focus-visible {
 
 @media (max-width: 768px) {
   .thesis-header {
-    text-align: center;
+    text-align: left;           /* ← LEFT aligned */
+    justify-content: flex-start; /* ← LEFT aligned */
   }
   
   .thesis-title {
-    width: 100%;
+    width: auto;                /* ← Not full width */
+    text-align: left;           /* ← LEFT aligned */
   }
   
   .thesis-actions {
     gap: 1rem;
+    justify-content: center;    /* ← Icons stay centered */
   }
 
   .thesis-icon-btn {
