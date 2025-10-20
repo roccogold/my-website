@@ -2533,14 +2533,16 @@ body.light-theme .thesis-divider {
   }
 
   .thesis-header {
-    flex-direction: column;
+    flex-direction: row;  /* CHANGED from 'column' */
     align-items: center;
-    text-align: center;
+    text-align: left;     /* CHANGED from 'center' */
     gap: 0.5rem;
+    justify-content: space-between;  /* ADD this */
   }
   
   .thesis-title {
-    width: 100%;
+    width: auto;          /* CHANGED from '100%' */
+    text-align: left;     /* ADD this */
   }
   
   .thesis-image-container {
