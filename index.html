@@ -2,6 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<!-- ADD THIS SCRIPT IMMEDIATELY HERE -->
+<script>
+  // Apply theme immediately to prevent flash
+  (function() {
+    const savedTheme = localStorage.getItem('rocco-theme') || 'dark';
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark-theme');
+    } else {
+      document.documentElement.classList.add('light-theme');
+    }
+  })();
+</script>
+<!-- Rest of your head content -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
 <title>Rocco Goldschmidt — Product Manager</title>
 <meta name="description" content="Rocco Goldschmidt — Product Manager blending design, technology & finance to build simple, impactful solutions. Explore my projects and get in touch." />
