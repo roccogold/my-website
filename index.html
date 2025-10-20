@@ -1388,42 +1388,38 @@ body.light-theme .arrow-link:hover {
 
 /* Glassmorphism style for resume button */
 #resumeDownload {
-  padding: 0.4rem 0.9rem !important;
-  background: rgba(154, 119, 198, 0.15) !important;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  color: var(--text-dark) !important;
-  border: 1px solid rgba(154, 119, 198, 0.3) !important;
-  border-radius: 12px;
+  color: var(--accent-dark) !important;
   text-decoration: none !important;
   font-weight: 600;
-  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.2);
+  transition: all 0.3s ease;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
 }
 
 #resumeDownload:hover {
-  background: rgba(154, 119, 198, 0.3) !important;
-  border-color: var(--accent-dark-hover) !important;
-  color: var(--text-dark) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(154, 119, 198, 0.4);
+  color: var(--accent-dark-hover) !important;
+  transform: translateY(-2px) scale(1.05);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   outline: none !important;
 }
 
 body.light-theme #resumeDownload {
-  background: rgba(107, 70, 193, 0.15) !important;
-  border-color: rgba(107, 70, 193, 0.3) !important;
-  color: var(--text-light) !important;
+  color: var(--accent-light) !important;
 }
 
 body.light-theme #resumeDownload:hover {
-  background: rgba(107, 70, 193, 0.3) !important;
-  border-color: var(--accent-light-hover) !important;
-  color: var(--text-light) !important;
-  box-shadow: 0 12px 40px rgba(107, 70, 193, 0.4);
+  color: var(--accent-light-hover) !important;
+}
+
+#resumeDownload i {
+  font-size: 1.2em;
 }
 
 /* Purple text for specific keywords */
@@ -2735,11 +2731,12 @@ body.light-theme .thesis-divider {
     </p>
       <p class="contact-desc">
       Want the juicy bits? 
-      <a href="https://drive.google.com/file/d/1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR/view" 
+<a href="https://drive.google.com/file/d/1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR/view" 
    target="_blank" 
    rel="noopener noreferrer" 
-   id="resumeDownload"
-   class="arrow-link">View resume <i class="fas fa-arrow-right"></i></a>
+   id="resumeDownload">
+   <i class="fas fa-file-pdf"></i> View resume
+</a>
     </p>
     
     <nav class="social" aria-label="Social and contact links" role="navigation">
