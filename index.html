@@ -1832,6 +1832,71 @@ body.light-theme .thesis-card:hover::before {
   }
 }
 
+/* Thesis icon buttons */
+.thesis-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.thesis-header .thesis-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.thesis-header .btn-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(154, 119, 198, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  color: var(--accent-dark);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.2);
+}
+
+.thesis-header .btn-icon:hover {
+  background: rgba(154, 119, 198, 0.3);
+  border-color: var(--accent-dark-hover);
+  transform: translateY(-2px) scale(1.1);
+  color: var(--accent-dark-hover);
+  box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
+}
+
+body.light-theme .thesis-header .btn-icon {
+  background: rgba(107, 70, 193, 0.15);
+  border-color: rgba(107, 70, 193, 0.3);
+  color: var(--accent-light);
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.2);
+}
+
+body.light-theme .thesis-header .btn-icon:hover {
+  background: rgba(107, 70, 193, 0.3);
+  border-color: var(--accent-light-hover);
+  color: var(--accent-light-hover);
+  box-shadow: 0 8px 20px rgba(107, 70, 193, 0.4);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .thesis-header .btn-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
+  }
+}
+
 /* Daily Discoveries Section */
 .discoveries-grid {
   display: grid;
@@ -2659,8 +2724,26 @@ body.light-theme .thesis-divider {
   </div>
   
   <div class="thesis-card thesis-card-expanded">
-<div class="thesis-header">
-  <h3 class="thesis-title"><i class="fas fa-train"></i> Insurtrain</h3>
+    <div class="thesis-header">
+      <h3 class="thesis-title"><i class="fas fa-train"></i> Insurtrain</h3>
+      <div class="thesis-actions">
+        <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="btn-icon"
+           aria-label="Download thesis PDF"
+           title="Download thesis PDF">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a href="https://github.com/roccogold/insurtrain" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="btn-icon"
+           aria-label="View GitHub repository"
+           title="View GitHub repository">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
     </div>
     
     <p class="thesis-description">
@@ -2669,24 +2752,8 @@ body.light-theme .thesis-divider {
     
     <div class="thesis-image-container">
       <img src="assets/insurtrain-diagram.png" 
-     alt="Insurtrain system architecture showing smart contract connecting Oracle network with train data to automated insurance payouts" 
-     class="thesis-diagram">
-    </div>
-    
-    <div class="thesis-actions">
-      <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
-         target="_blank" 
-         rel="noopener noreferrer"
-         class="arrow-link">
-         Read full thesis <i class="fas fa-arrow-right"></i>
-      </a>
-      <span class="thesis-divider">•</span>
-      <a href="https://github.com/roccogold/insurtrain" 
-         target="_blank" 
-         rel="noopener noreferrer"
-         class="arrow-link">
-         View code <i class="fas fa-arrow-right"></i>
-      </a>
+           alt="Insurtrain system architecture showing smart contract connecting Oracle network with train data to automated insurance payouts" 
+           class="thesis-diagram">
     </div>
   </div>
 </section>
