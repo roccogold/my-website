@@ -1832,68 +1832,88 @@ body.light-theme .thesis-card:hover::before {
   }
 }
 
-/* Thesis icon buttons */
+/* Thesis header - simplified without actions */
 .thesis-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
-  flex-wrap: wrap;
-  gap: 1rem;
+  text-align: center;
 }
 
-.thesis-header .thesis-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.thesis-header .btn-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba(154, 119, 198, 0.15);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(154, 119, 198, 0.3);
+.thesis-title {
+  font-size: var(--font-md);
+  font-weight: 700;
+  margin: 0;
   color: var(--accent-dark);
-  border-radius: 50%;
-  display: inline-flex;
+}
+
+body.light-theme .thesis-title {
+  color: var(--accent-light);
+}
+
+/* Thesis actions - centered like social icons */
+.thesis-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.thesis-icon-btn {
+  width: 50px;
+  height: 50px;
+  font-size: 26px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  transition: all 0.3s ease;
   text-decoration: none;
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.2);
+  color: var(--accent-dark);
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  transition: all var(--transition-normal), transform var(--ease-out-expo) 0.3s;
+  cursor: pointer;
 }
 
-.thesis-header .btn-icon:hover {
-  background: rgba(154, 119, 198, 0.3);
-  border-color: var(--accent-dark-hover);
-  transform: translateY(-2px) scale(1.1);
-  color: var(--accent-dark-hover);
-  box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
-}
-
-body.light-theme .thesis-header .btn-icon {
-  background: rgba(107, 70, 193, 0.15);
-  border-color: rgba(107, 70, 193, 0.3);
+body.light-theme .thesis-icon-btn {
   color: var(--accent-light);
-  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.2);
 }
 
-body.light-theme .thesis-header .btn-icon:hover {
-  background: rgba(107, 70, 193, 0.3);
-  border-color: var(--accent-light-hover);
+.thesis-icon-btn:hover,
+.thesis-icon-btn:focus-visible {
+  color: var(--accent-dark-hover);
+  transform: translateY(-2px) scale(1.05);
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+
+body.light-theme .thesis-icon-btn:hover,
+body.light-theme .thesis-icon-btn:focus-visible {
   color: var(--accent-light-hover);
-  box-shadow: 0 8px 20px rgba(107, 70, 193, 0.4);
+  outline-color: var(--accent-light);
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-  .thesis-header .btn-icon {
-    width: 35px;
-    height: 35px;
-    font-size: 16px;
+  .thesis-header {
+    text-align: center;
+  }
+  
+  .thesis-title {
+    width: 100%;
+  }
+  
+  .thesis-actions {
+    gap: 1rem;
+  }
+
+  .thesis-icon-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
   }
 }
 
@@ -2728,24 +2748,6 @@ body.light-theme .thesis-divider {
   <div class="thesis-card thesis-card-expanded">
     <div class="thesis-header">
       <h3 class="thesis-title"><i class="fas fa-train"></i> Insurtrain</h3>
-      <div class="thesis-actions">
-        <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="btn-icon"
-           aria-label="Download thesis PDF"
-           title="Download thesis PDF">
-          <i class="fas fa-file-pdf"></i>
-        </a>
-        <a href="https://github.com/roccogold/insurtrain" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="btn-icon"
-           aria-label="View GitHub repository"
-           title="View GitHub repository">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
     </div>
     
     <p class="thesis-description">
@@ -2756,6 +2758,26 @@ body.light-theme .thesis-divider {
       <img src="assets/insurtrain-diagram.png" 
            alt="Insurtrain system architecture showing smart contract connecting Oracle network with train data to automated insurance payouts" 
            class="thesis-diagram">
+    </div>
+    
+    <!-- Move actions to bottom, centered like social icons -->
+    <div class="thesis-actions">
+      <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
+         target="_blank" 
+         rel="noopener noreferrer"
+         class="thesis-icon-btn"
+         aria-label="Download thesis PDF"
+         title="Download thesis PDF">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a href="https://github.com/roccogold/insurtrain" 
+         target="_blank" 
+         rel="noopener noreferrer"
+         class="thesis-icon-btn"
+         aria-label="View GitHub repository"
+         title="View GitHub repository">
+        <i class="fab fa-github"></i>
+      </a>
     </div>
   </div>
 </section>
