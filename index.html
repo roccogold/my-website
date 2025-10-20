@@ -3125,19 +3125,13 @@ class EnhancedWebsite {
     const toggle = document.querySelector('.theme-toggle');
     let savedTheme = localStorage.getItem('rocco-theme') || 'dark';
     
-    // Force dark mode on mobile devices
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-if (isMobile) {
-  savedTheme = 'dark';
-  localStorage.setItem('rocco-theme', 'dark');
-  document.body.classList.remove('light-theme');
+// Apply saved theme or default dark
+if (savedTheme === 'light') {
+  document.body.classList.add('light-theme');
+  toggle.innerHTML = '<i class="far fa-lightbulb"></i>';
+} else {
   toggle.innerHTML = '<i class="fas fa-lightbulb"></i>';
 }
-    
-    if (savedTheme === 'light' && !isMobile) {
-      document.body.classList.add('light-theme');
-      toggle.innerHTML = '<i class="far fa-lightbulb"></i>';
-    }
 
     toggle.addEventListener('click', () => {
       // Disable transitions temporarily on mobile
