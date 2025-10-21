@@ -2,28 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<!-- ADD THIS SCRIPT IMMEDIATELY HERE -->
-<script>
-  // Immediately apply theme to prevent flash
-  (function() {
-    const savedTheme = localStorage.getItem('rocco-theme') || 'dark';
-    if (savedTheme === 'light') {
-      document.documentElement.classList.add('light-theme');
-    }
-    // Note: We don't set backgroundColor here to preserve gradient effects
-  })();
-</script>
-<style>
-  /* Base theme - allow gradient background to show */
-  html {
-    background-color: #111;
-    color: #e5e5e5;
-  }
-  html.light-theme {
-    background-color: #ffffff;
-    color: #1a1a1a;
-  }
-</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
 <title>Rocco Goldschmidt — Product Manager</title>
 <meta name="description" content="Rocco Goldschmidt — Product Manager blending design, technology & finance to build simple, impactful solutions. Explore my projects and get in touch." />
