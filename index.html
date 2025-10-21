@@ -4,25 +4,24 @@
 <meta charset="UTF-8" />
 <!-- ADD THIS SCRIPT IMMEDIATELY HERE -->
 <script>
-  // Immediately apply dark background to prevent flash
+  // Immediately apply theme to prevent flash
   (function() {
     const savedTheme = localStorage.getItem('rocco-theme') || 'dark';
-    // Set background immediately
-    if (savedTheme !== 'light') {
-      document.documentElement.style.backgroundColor = '#111';
-      document.documentElement.style.color = '#e5e5e5';
-    } else {
+    if (savedTheme === 'light') {
       document.documentElement.classList.add('light-theme');
-      document.documentElement.style.backgroundColor = '#ffffff';
-      document.documentElement.style.color = '#1a1a1a';
     }
+    // Note: We don't set backgroundColor here to preserve gradient effects
   })();
 </script>
 <style>
-  /* Prevent any flash of white */
+  /* Base theme - allow gradient background to show */
   html {
-    background-color: #111 !important;
-    color: #e5e5e5 !important;
+    background-color: #111;
+    color: #e5e5e5;
+  }
+  html.light-theme {
+    background-color: #ffffff;
+    color: #1a1a1a;
   }
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
