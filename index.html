@@ -3124,17 +3124,10 @@ class EnhancedWebsite {
 
   initThemeToggle() {
     const toggle = document.querySelector('.theme-toggle');
-    let savedTheme = localStorage.getItem('rocco-theme') || 'dark';
-    
-// Apply saved theme or default dark
-if (savedTheme === 'light') {
-  document.body.classList.add('light-theme');
-  toggle.innerHTML = '<i class="far fa-lightbulb"></i>';
-} else {
-  toggle.innerHTML = '<i class="fas fa-lightbulb"></i>';
-}
+    // Always start with dark theme (solid bulb icon)
+    toggle.innerHTML = '<i class="fas fa-lightbulb"></i>';
 
-    toggle.addEventListener('click', () => {
+     toggle.addEventListener('click', () => {
       // Disable transitions temporarily on mobile
       const isMobile = window.matchMedia('(hover: none)').matches;
       if (isMobile) {
@@ -3146,7 +3139,7 @@ if (savedTheme === 'light') {
       const isLight = document.body.classList.contains('light-theme');
       
       toggle.innerHTML = isLight ? '<i class="far fa-lightbulb"></i>' : '<i class="fas fa-lightbulb"></i>';
-      localStorage.setItem('rocco-theme', isLight ? 'light' : 'dark');
+      // No localStorage - theme resets to dark on page reload
       
       // Update theme color meta tag immediately
       const themeColor = document.querySelector('meta[name="theme-color"]');
