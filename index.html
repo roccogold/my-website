@@ -3122,12 +3122,12 @@ class EnhancedWebsite {
     this.initTypingEffect();
   }
 
-  initThemeToggle() {
+ initThemeToggle() {
     const toggle = document.querySelector('.theme-toggle');
     // Always start with dark theme (solid bulb icon)
     toggle.innerHTML = '<i class="fas fa-lightbulb"></i>';
-
-     toggle.addEventListener('click', () => {
+    
+    toggle.addEventListener('click', () => {
       // Disable transitions temporarily on mobile
       const isMobile = window.matchMedia('(hover: none)').matches;
       if (isMobile) {
