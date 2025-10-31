@@ -1141,157 +1141,6 @@ body.light-theme #contactForm button:hover:not(:disabled) {
   font-weight: 500;
 }
 
-/* Contact Container - Two Column Layout */
-.contact-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin: var(--space-md) 0;
-  max-width: 100%;
-  align-items: stretch;
-}
-
-/* Direct Contact Box - matches form styling */
-.direct-contact-box {
-  background: rgba(154, 119, 198, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 8px 32px 0 rgba(154, 119, 198, 0.37);
-  height: 100%;  
-  transition: all var(--transition-normal);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.direct-contact-box:hover {
-  background: rgba(154, 119, 198, 0.15);
-  border-color: rgba(154, 119, 198, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 35px rgba(154, 119, 198, 0.4);
-}
-
-body.light-theme .direct-contact-box {
-  background: rgba(107, 70, 193, 0.1);
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-body.light-theme .direct-contact-box:hover {
-  background: rgba(107, 70, 193, 0.15);
-  border-color: rgba(107, 70, 193, 0.3);
-  box-shadow: 0 12px 35px rgba(107, 70, 193, 0.3);
-}
-
-.direct-contact-title {
-  font-size: var(--font-md);
-  font-weight: 700;
-  color: var(--text-dark);
-  margin: 0 0 1rem 0;
-}
-
-body.light-theme .direct-contact-title {
-  color: var(--text-light);
-}
-
-/* Contact Links */
-.contact-link {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 0.6rem 0;
-  color: var(--text-dark) !important;
-  text-decoration: none !important;
-  font-size: var(--font-sm);
-  font-weight: 500;
-  transition: all var(--transition-normal);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.contact-link:last-of-type {
-  border-bottom: none;
-}
-
-.contact-link i {
-  font-size: 1.2em;
-  color: var(--accent-dark);
-  width: 24px;
-  text-align: center;
-}
-
-.contact-link:hover {
-  color: var(--accent-dark) !important;
-  transform: translateX(4px);
-  outline: none !important;
-}
-
-body.light-theme .contact-link {
-  color: var(--text-light) !important;
-  border-bottom-color: rgba(0, 0, 0, 0.05);
-}
-
-body.light-theme .contact-link i {
-  color: var(--accent-light);
-}
-
-body.light-theme .contact-link:hover {
-  color: var(--accent-light) !important;
-}
-
-/* Download Resume Button */
-.download-resume-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  padding: 0.7rem 1.2rem;
-  margin-top: 0.5rem;
-  background: transparent;
-  border: 2px solid var(--accent-dark);
-  border-radius: 12px;
-  color: var(--accent-dark) !important;
-  text-decoration: none !important;
-  font-size: var(--font-sm);
-  font-weight: 600;
-  transition: all var(--transition-normal);
-  cursor: pointer;
-}
-
-.download-resume-btn:hover {
-  background: rgba(154, 119, 198, 0.15);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
-  outline: none !important;
-}
-
-body.light-theme .download-resume-btn {
-  border-color: var(--accent-light);
-  color: var(--accent-light) !important;
-}
-
-body.light-theme .download-resume-btn:hover {
-  background: rgba(107, 70, 193, 0.15);
-  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
-}
-
-/* Mobile - Stack Vertically */
-@media (max-width: 768px) {
-  .contact-container {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .direct-contact-box {
-    order: 1; /* Show contact box first on mobile */
-  }
-  
-  #contactForm {
-    order: 2;
-  }
-}
-
 /* Enhanced footer */
 footer {
   text-align: center;
@@ -2863,73 +2712,75 @@ body.light-theme .thesis-divider {
   </div>
 </section>
   
-<section aria-labelledby="contact-heading" class="reveal" id="contact">
-  <h1 class="closing-section-title">let's build something amazing</h1>
-  <p class="contact-desc">
-    Always up for discussing about product concepts, new projects or the best ping pong serve. Have a problem to solve? Let's team up.
-  </p>
-  
-  <!-- NEW: Two-column container -->
-  <div class="contact-container">
+  <section aria-labelledby="contact-heading" class="reveal" id="contact">
+      <h1 class="closing-section-title">let's build something amazing</h1>
+    <p class="contact-desc">
+      Always up for discussing about product concepts, new projects or the best ping pong serve. Have a problem to solve? Let's team up.
+    </p>
+      <p class="contact-desc">
+      Want the juicy bits? 
+<a href="https://drive.google.com/file/d/1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR/view" 
+   target="_blank" 
+   rel="noopener noreferrer" 
+   id="resumeDownload">
+   <i class="fas fa-file-pdf"></i> view resume
+</a>
+    </p>
     
-    <!-- LEFT: Contact Form -->
-    <form id="contactForm" 
-          action="https://formspree.io/f/mldpoygl"
-          method="POST"
-          aria-label="Contact form to send a message" 
-          novalidate>
-      <label for="name">Your Name</label>
-      <input type="text" id="name" name="name" required placeholder="Your name" aria-describedby="name-error" autocomplete="name" />
+    <nav class="social" aria-label="Social and contact links" role="navigation">
+      <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" target="_blank" rel="noopener noreferrer">
+        <i class="fas fa-envelope" aria-hidden="true"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin" aria-hidden="true"></i>
+      </a>
+      <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
+      <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-twitter" aria-hidden="true"></i>
+      </a>
+    </nav>
+    
+    <!-- Enhanced Contact Form -->
+   <form id="contactForm" 
+      action="https://formspree.io/f/mldpoygl"
+      method="POST"
+      aria-label="Contact form to send a message" 
+      novalidate>
+      <label for="name">Name</label>
+      <input type="text" 
+             id="name" 
+             name="name" 
+             required 
+             placeholder="Your name"
+             aria-describedby="name-error"
+             autocomplete="name" />
       <div id="name-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <label for="email">Your Email</label>
-      <input type="email" id="email" name="email" required placeholder="Your email" aria-describedby="email-error" autocomplete="email" />
+      <label for="email">Email</label>
+      <input type="email" 
+             id="email" 
+             name="email" 
+             required 
+             placeholder="Your email"
+             aria-describedby="email-error"
+             autocomplete="email" />
       <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <label for="message">Your Message</label>
-      <textarea id="message" name="message" rows="4" required placeholder="Your message" aria-describedby="message-error"></textarea>
+      <label for="message">Message</label>
+      <textarea id="message" 
+                name="message" 
+                rows="4" 
+                required 
+                placeholder="Your message"
+                aria-describedby="message-error"></textarea>
       <div id="message-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <button type="submit" aria-describedby="formStatus">Send Message</button>
+      <button type="submit" aria-describedby="formStatus">Send</button>
       <p id="formStatus" aria-live="polite" role="status"></p>
     </form>
-
-    <!-- RIGHT: Direct Contact Box -->
-    <div class="direct-contact-box">
-      <h3 class="direct-contact-title">Direct Contact</h3>
-      
-      <a href="mailto:rocco.goldschmidt@gmail.com" class="contact-link">
-        <i class="fas fa-envelope"></i>
-        <span>rocco.goldschmidt@gmail.com</span>
-      </a>
-      
-      <a href="https://www.linkedin.com/in/roccogoldschmidt/" class="contact-link" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-linkedin"></i>
-        <span>LinkedIn Profile</span>
-      </a>
-      
-      <a href="https://github.com/roccogold" class="contact-link" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-github"></i>
-        <span>GitHub Profile</span>
-      </a>
-      
-      <a href="https://x.com/roccogold_" class="contact-link" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-twitter"></i>
-        <span>Twitter</span>
-      </a>
-      
-      <a href="https://drive.google.com/file/d/1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR/view" 
-         target="_blank" 
-         rel="noopener noreferrer" 
-         class="download-resume-btn">
-        <i class="fas fa-download"></i>
-        Download Resume
-      </a>
-    </div>
-    
-  </div>
-</section>
-      
+  </section>
 </main>
 
 <!-- ================= FOOTER ================= -->
