@@ -1893,26 +1893,28 @@ body.light-theme .thesis-icon-btn:focus-visible {
 
 @media (max-width: 768px) {
   .thesis-header {
-    flex-direction: column;     /* ← Stack vertically */
-    align-items: flex-start;    /* ← Title stays left */
-    gap: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
   }
   
   .thesis-title {
-    width: 100%;
+    flex: 1;
     text-align: left;
+    font-size: var(--font-sm);  /* ← Slightly smaller if needed */
   }
   
   .thesis-actions {
-    width: 100%;                /* ← Full width */
-    justify-content: center;    /* ← Icons centered below */
-    gap: 1.5rem;                /* ← More breathing room */
+    gap: 0.8rem;
+    flex-shrink: 0;  /* ← Prevent icons from squishing */
   }
 
   .thesis-icon-btn {
-    width: 45px;                /* ← Keep decent size */
-    height: 45px;
-    font-size: 22px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
   }
 }
       
