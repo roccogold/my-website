@@ -1893,26 +1893,29 @@ body.light-theme .thesis-icon-btn:focus-visible {
 
 @media (max-width: 768px) {
   .thesis-header {
-    text-align: left;           /* ← LEFT aligned */
-    justify-content: flex-start; /* ← LEFT aligned */
+    flex-direction: column;     /* ← Stack vertically */
+    align-items: flex-start;    /* ← Title stays left */
+    gap: 1rem;
   }
   
   .thesis-title {
-    width: auto;                /* ← Not full width */
-    text-align: left;           /* ← LEFT aligned */
+    width: 100%;
+    text-align: left;
   }
   
   .thesis-actions {
-    gap: 1rem;
-    justify-content: center;    /* ← Icons stay centered */
+    width: 100%;                /* ← Full width */
+    justify-content: center;    /* ← Icons centered below */
+    gap: 1.5rem;                /* ← More breathing room */
   }
 
   .thesis-icon-btn {
-    width: 38px;
-    height: 38px;
-    font-size: 18px;
+    width: 45px;                /* ← Keep decent size */
+    height: 45px;
+    font-size: 22px;
   }
 }
+      
 /* Daily Discoveries Section */
 .discoveries-grid {
   display: grid;
