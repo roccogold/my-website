@@ -1903,12 +1903,16 @@ body.light-theme .thesis-icon-btn:focus-visible {
   .thesis-title {
     flex: 1;
     text-align: left;
-    font-size: var(--font-sm);  /* ← Slightly smaller if needed */
+    font-size: var(--font-sm);
+    white-space: nowrap;  /* ← Keep icon + text on same line */
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
   
   .thesis-actions {
     gap: 0.8rem;
-    flex-shrink: 0;  /* ← Prevent icons from squishing */
+    flex-shrink: 0;
   }
 
   .thesis-icon-btn {
