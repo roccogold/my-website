@@ -943,6 +943,12 @@ body.light-theme .social a:focus-visible {
   color: var(--accent-light-hover);
   filter: drop-shadow(0 0 20px rgba(107, 70, 193, 0.9));
 }
+
+.social a:hover,
+.social a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
       
 /* Floating animation removed per user request */
 @media (prefers-reduced-motion: reduce) {
