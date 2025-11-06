@@ -2177,67 +2177,51 @@ body.light-theme .photo-location {
 }
 
 .view-all-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;  /* ← ADD THIS - centers content inside button */
+  justify-content: center;
   gap: 0.5rem;
   background: transparent;
-  border: none;
-  color: var(--accent-dark);
-  padding: 0.5rem 0;
+  border: 1px solid rgba(154, 119, 198, 0.4);
+  color: var(--text-dark);
+  padding: 0.6rem 1.2rem;
   font-family: var(--main-font);
   font-size: var(--font-sm);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-decoration: none;
-  position: relative;
-  text-align: center;  /* ← ADD THIS for extra centering */
-}
-
-/* Animated underline */
-.view-all-btn::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--accent-dark);
-  transition: width 0.3s ease;
+  border-radius: 8px;
+  width: fit-content;
 }
 
 .view-all-btn:hover {
-  color: var(--accent-dark-hover);
+  background: rgba(154, 119, 198, 0.15);
+  border-color: var(--accent-dark);
+  color: var(--accent-dark);
   transform: translateY(-2px);
-}
-
-.view-all-btn:hover::after {
-  width: 100%;
+  box-shadow: 0 4px 12px rgba(154, 119, 198, 0.3);
 }
 
 .view-all-btn i {
+  font-size: 0.9em;
   transition: transform 0.3s ease;
 }
 
 .view-all-btn:hover i {
-  transform: translateY(3px);
-}
-
-.view-all-btn.hidden {
-  display: none;
+  transform: scale(1.1);
 }
 
 body.light-theme .view-all-btn {
-  color: var(--accent-light);
-}
-
-body.light-theme .view-all-btn::after {
-  background: var(--accent-light);
+  border-color: rgba(107, 70, 193, 0.4);
+  color: var(--text-light);
 }
 
 body.light-theme .view-all-btn:hover {
-  color: var(--accent-light-hover);
+  background: rgba(107, 70, 193, 0.15);
+  border-color: var(--accent-light);
+  color: var(--accent-light);
+  box-shadow: 0 4px 12px rgba(107, 70, 193, 0.3);
 }
       
 /* Daily Discoveries Section */
@@ -3083,10 +3067,10 @@ body.light-theme .thesis-divider {
 
   <!-- Load More Button -->
   <div class="view-all-container">
-    <button class="view-all-btn" id="loadMorePhotos">
-      <span>view all photos</span>
-      <i class="fas fa-chevron-down"></i>
-    </button>
+<button class="view-all-btn" id="loadMorePhotos">
+  <span>View full gallery</span>
+  <i class="fas fa-image"></i>
+</button>
   </div>
         
 </section>
