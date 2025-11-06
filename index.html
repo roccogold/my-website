@@ -2169,15 +2169,13 @@ body.light-theme .photo-location {
 
 /* View All Button - Minimal Text Link Style */
 .view-all-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;  /* ← CHANGED approach */
   margin-top: 2rem;
   width: 100%;
 }
 
 .view-all-btn {
-  display: flex;
+  display: inline-flex;  /* ← CHANGED back to inline-flex! */
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -2192,7 +2190,6 @@ body.light-theme .photo-location {
   transition: all 0.3s ease;
   text-decoration: none;
   border-radius: 8px;
-  width: fit-content;
 }
 
 .view-all-btn:hover {
