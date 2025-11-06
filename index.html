@@ -2154,6 +2154,56 @@ body.light-theme .photo-location {
     right: 1rem;
   }
 }
+
+/* Hidden photos */
+.hidden-photo {
+  display: none;
+}
+
+/* View All Button */
+.view-all-container {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(154, 119, 198, 0.15);
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  color: var(--text-dark);
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  font-family: var(--main-font);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-all-btn:hover {
+  background: rgba(154, 119, 198, 0.3);
+  border-color: var(--accent-dark-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(154, 119, 198, 0.4);
+}
+
+.view-all-btn.hidden {
+  display: none;
+}
+
+body.light-theme .view-all-btn {
+  background: rgba(107, 70, 193, 0.15);
+  border-color: rgba(107, 70, 193, 0.3);
+  color: var(--text-light);
+}
+
+body.light-theme .view-all-btn:hover {
+  background: rgba(107, 70, 193, 0.3);
+  border-color: var(--accent-light-hover);
+  box-shadow: 0 12px 40px rgba(107, 70, 193, 0.4);
+}
       
 /* Daily Discoveries Section */
 .discoveries-grid {
@@ -2919,7 +2969,7 @@ body.light-theme .thesis-divider {
   </p>
 
   <div class="photo-grid">
-    <!-- Photo 1 -->
+    <!-- Photo 1 - VISIBLE -->
     <div class="photo-card" data-photo="assets/photos/athens-urban.jpg" data-location="Athens, Greece">
       <img src="assets/photos/athens-urban.jpg" alt="Athens urban view" loading="lazy">
       <div class="photo-overlay">
@@ -2930,9 +2980,9 @@ body.light-theme .thesis-divider {
       </div>
     </div>
 
-    <!-- Photo 2 -->
+    <!-- Photo 2 - VISIBLE -->
     <div class="photo-card" data-photo="assets/photos/blaunca-snow.jpg" data-location="Sils im Engadin, Switzerland">
-      <img src="assets/photos/blaunca-snow.jpg" alt="Blaunca snow landscape" loading="lazy">
+      <img src="assets/photos/blaunca-snow.jpg" alt="Sils im Engadin snow landscape" loading="lazy">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -2941,7 +2991,7 @@ body.light-theme .thesis-divider {
       </div>
     </div>
 
-    <!-- Photo 3 -->
+    <!-- Photo 3 - VISIBLE -->
     <div class="photo-card" data-photo="assets/photos/madeira-beach.jpg" data-location="Madeira, Portugal">
       <img src="assets/photos/madeira-beach.jpg" alt="Madeira beach" loading="lazy">
       <div class="photo-overlay">
@@ -2952,7 +3002,7 @@ body.light-theme .thesis-divider {
       </div>
     </div>
 
-    <!-- Photo 4 -->
+    <!-- Photo 4 - VISIBLE -->
     <div class="photo-card" data-photo="assets/photos/madeira-sea.jpg" data-location="Madeira, Portugal">
       <img src="assets/photos/madeira-sea.jpg" alt="Madeira sea view" loading="lazy">
       <div class="photo-overlay">
@@ -2963,7 +3013,7 @@ body.light-theme .thesis-divider {
       </div>
     </div>
 
-    <!-- Photo 5 -->
+    <!-- Photo 5 - VISIBLE -->
     <div class="photo-card" data-photo="assets/photos/madeira-tuna.jpg" data-location="Madeira, Portugal">
       <img src="assets/photos/madeira-tuna.jpg" alt="Madeira tuna fishing" loading="lazy">
       <div class="photo-overlay">
@@ -2974,8 +3024,8 @@ body.light-theme .thesis-divider {
       </div>
     </div>
 
-    <!-- Photo 6 -->
-    <div class="photo-card" data-photo="assets/photos/nepal-rocco.jpg" data-location="Khumbu, Nepal ">
+    <!-- Photo 6 - VISIBLE -->
+    <div class="photo-card" data-photo="assets/photos/nepal-rocco.jpg" data-location="Khumbu, Nepal">
       <img src="assets/photos/nepal-rocco.jpg" alt="Nepal adventure" loading="lazy">
       <div class="photo-overlay">
         <div class="photo-location">
@@ -2985,8 +3035,8 @@ body.light-theme .thesis-divider {
       </div>
     </div>
 
-    <!-- Photo 7 -->
-    <div class="photo-card" data-photo="assets/photos/toronto-park.jpg" data-location="Toronto, Canada">
+    <!-- Photo 7 - HIDDEN initially -->
+    <div class="photo-card hidden-photo" data-photo="assets/photos/toronto-park.jpg" data-location="Toronto, Canada">
       <img src="assets/photos/toronto-park.jpg" alt="Toronto park" loading="lazy">
       <div class="photo-overlay">
         <div class="photo-location">
@@ -2995,7 +3045,15 @@ body.light-theme .thesis-divider {
         </div>
       </div>
     </div>
+
+  <!-- Load More Button -->
+  <div class="view-all-container">
+    <button class="view-all-btn" id="loadMorePhotos">
+      <span>View all photos</span>
+      <i class="fas fa-chevron-down"></i>
+    </button>
   </div>
+        
 </section>
 
 <!-- Lightbox structure -->
@@ -3682,6 +3740,29 @@ class PhotoLightbox {
     this.showPhoto();
   }
 }
+
+// Load More Photos functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const loadMoreBtn = document.getElementById('loadMorePhotos');
+  
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+      // Show all hidden photos
+      const hiddenPhotos = document.querySelectorAll('.hidden-photo');
+      hiddenPhotos.forEach(photo => {
+        photo.classList.remove('hidden-photo');
+      });
+      
+      // Hide the button
+      loadMoreBtn.classList.add('hidden');
+      
+      // Reinitialize lightbox to include new photos
+      if (window.photoLightbox) {
+        window.photoLightbox = new PhotoLightbox();
+      }
+    });
+  }
+});
 
 // Initialize photo lightbox when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
