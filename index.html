@@ -1898,7 +1898,6 @@ body.light-theme .thesis-icon-btn:focus-visible {
   box-shadow: none !important;
 }
 
-
 @media (max-width: 768px) {
   .thesis-header {
     display: flex;
@@ -1927,6 +1926,232 @@ body.light-theme .thesis-icon-btn:focus-visible {
     width: 40px;
     height: 40px;
     font-size: 20px;
+  }
+}
+
+/* Photography Section Styles */
+.photography-section {
+  margin: 3rem 0;
+}
+
+.photos-intro {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  font-size: var(--font-sm);
+  opacity: 0.9;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.photo-card {
+  position: relative;
+  aspect-ratio: 4/3;
+  background: rgba(154, 119, 198, 0.1);
+  border: 1px solid rgba(154, 119, 198, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 8px 32px 0 rgba(154, 119, 198, 0.37);
+}
+
+.photo-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--accent-dark);
+  box-shadow: 0 20px 40px rgba(154, 119, 198, 0.4);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.photo-card:hover img {
+  transform: scale(1.1);
+}
+
+.photo-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(17, 17, 17, 0.95), transparent);
+  padding: 1.5rem 1rem 1rem;
+  transform: translateY(100%);
+  transition: transform var(--transition-normal);
+}
+
+.photo-card:hover .photo-overlay {
+  transform: translateY(0);
+}
+
+.photo-location {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text-dark);
+}
+
+/* Light theme support */
+body.light-theme .photo-card {
+  background: rgba(107, 70, 193, 0.1);
+  border-color: rgba(107, 70, 193, 0.2);
+}
+
+body.light-theme .photo-card:hover {
+  border-color: var(--accent-light);
+  box-shadow: 0 20px 40px rgba(107, 70, 193, 0.4);
+}
+
+body.light-theme .photo-overlay {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95), transparent);
+}
+
+body.light-theme .photo-location {
+  color: var(--text-light);
+}
+
+/* Lightbox styles */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.lightbox-location {
+  color: white;
+  font-size: var(--font-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.9;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  background: rgba(154, 119, 198, 0.3);
+  border: 2px solid var(--accent-dark);
+  border-radius: 50%;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.lightbox-close:hover {
+  background: var(--accent-dark);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background: rgba(154, 119, 198, 0.3);
+  border: 2px solid var(--accent-dark);
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.lightbox-nav:hover {
+  background: var(--accent-dark);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-prev {
+  left: 2rem;
+}
+
+.lightbox-next {
+  right: 2rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .photo-overlay {
+    transform: translateY(0);
+    background: linear-gradient(to top, rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.4));
+  }
+  
+  body.light-theme .photo-overlay {
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+  }
+  
+  .lightbox-close,
+  .lightbox-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .lightbox-close {
+    top: 1rem;
+    right: 1rem;
+  }
+  
+  .lightbox-prev {
+    left: 1rem;
+  }
+  
+  .lightbox-next {
+    right: 1rem;
   }
 }
       
@@ -2540,6 +2765,7 @@ body.light-theme .thesis-divider {
   <a href="#vibes" class="nav-item active">Vibes</a>
   <a href="#experience" class="nav-item">Experience</a>
   <a href="#projects" class="nav-item">Projects</a>
+  <a href="#photos" class="nav-item">Photos</a>
   <a href="#thesis" class="nav-item">Thesis</a>
   <a href="#interests" class="nav-item">Interests</a>
   <a href="#contact" class="nav-item">Contact</a>
@@ -2713,6 +2939,113 @@ body.light-theme .thesis-divider {
   </div>
 </section>
 
+<section aria-labelledby="photos-heading" class="reveal" id="photos">
+  <div class="tron-header">
+    <h2 id="photos-heading">photos</h2>
+    <div class="grid-breakdown"></div>
+  </div>
+  
+  <p class="photos-intro">
+    Capturing moments through my sony a6000 16-50, 55-210 and olympus mju 1 35
+  </p>
+
+  <div class="photo-grid">
+    <!-- Photo 1 -->
+    <div class="photo-card" data-photo="assets/photos/athens-urban.jpg" data-location="Athens, Greece">
+      <img src="assets/photos/athens-urban.jpg" alt="Athens urban view" loading="lazy">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Athens, Greece
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 2 -->
+    <div class="photo-card" data-photo="assets/photos/blaunca-snow.jpg" data-location="Blaunca">
+      <img src="assets/photos/blaunca-snow.jpg" alt="Blaunca snow landscape" loading="lazy">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Sils im Engadin, Switzerland
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 3 -->
+    <div class="photo-card" data-photo="assets/photos/madeira-beach.jpg" data-location="Madeira">
+      <img src="assets/photos/madeira-beach.jpg" alt="Madeira beach" loading="lazy">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Madeira, Portugal
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 4 -->
+    <div class="photo-card" data-photo="assets/photos/madeira-sea.jpg" data-location="Madeira">
+      <img src="assets/photos/madeira-sea.jpg" alt="Madeira sea view" loading="lazy">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Madeira, Portugal
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 5 -->
+    <div class="photo-card" data-photo="assets/photos/madeira-tuna.jpg" data-location="Madeira">
+      <img src="assets/photos/madeira-tuna.jpg" alt="Madeira tuna fishing" loading="lazy">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Madeira, Portugal
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 6 -->
+    <div class="photo-card" data-photo="assets/photos/nepal-rocco.jpg" data-location="Nepal">
+      <img src="assets/photos/nepal-rocco.jpg" alt="Nepal adventure" loading="lazy">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Khumbu, Nepal 
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 7 -->
+    <div class="photo-card" data-photo="assets/photos/toronto-park.jpg" data-location="Toronto, Canada">
+      <img src="assets/photos/toronto-park.jpg" alt="Toronto park" loading="lazy">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Toronto, Canada
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox structure -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" aria-label="Close lightbox">
+    <i class="fas fa-times"></i>
+  </button>
+  <button class="lightbox-nav lightbox-prev" aria-label="Previous photo">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <div class="lightbox-content">
+    <img src="" alt="" id="lightbox-img">
+    <div class="lightbox-location" id="lightbox-location">
+      <i class="fas fa-map-marker-alt"></i>
+      <span></span>
+    </div>
+  </div>
+  <butto
+
 <section aria-labelledby="skills-heading" class="reveal" id="interests">
 <div class="tron-header">
   <h2 id="skills-heading">interests</h2>
@@ -2822,7 +3155,7 @@ class Navigation {
     if (window.innerWidth <= 768) return; // Skip on mobile
     
    this.navItems = document.querySelectorAll('.nav-item');
-   this.sections = document.querySelectorAll('#vibes, #projects, #experience, #thesis, #interests, #contact');
+   this.sections = document.querySelectorAll('#vibes, #experience, #projects, #photos, #thesis, #interests, #contact');
     
     this.setupSmoothScroll();
     this.setupScrollSpy();
@@ -3265,6 +3598,93 @@ function toggleProjectDetails(button) {
     button.textContent = 'View metrics';
   }
 }
+
+// Photography Lightbox functionality
+class PhotoLightbox {
+  constructor() {
+    this.lightbox = document.getElementById('lightbox');
+    this.lightboxImg = document.getElementById('lightbox-img');
+    this.lightboxLocation = document.querySelector('#lightbox-location span');
+    this.photoCards = document.querySelectorAll('.photo-card');
+    this.currentIndex = 0;
+    this.photos = [];
+    
+    this.init();
+  }
+
+  init() {
+    // Collect all photos data
+    this.photoCards.forEach((card, index) => {
+      this.photos.push({
+        src: card.dataset.photo,
+        location: card.dataset.location,
+        alt: card.querySelector('img').alt
+      });
+      
+      // Add click event to open lightbox
+      card.addEventListener('click', () => this.openLightbox(index));
+    });
+
+    // Close button
+    this.lightbox.querySelector('.lightbox-close').addEventListener('click', () => this.closeLightbox());
+    
+    // Navigation buttons
+    this.lightbox.querySelector('.lightbox-prev').addEventListener('click', () => this.prevPhoto());
+    this.lightbox.querySelector('.lightbox-next').addEventListener('click', () => this.nextPhoto());
+    
+    // Click outside image to close
+    this.lightbox.addEventListener('click', (e) => {
+      if (e.target === this.lightbox) {
+        this.closeLightbox();
+      }
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!this.lightbox.classList.contains('active')) return;
+      
+      if (e.key === 'Escape') this.closeLightbox();
+      if (e.key === 'ArrowLeft') this.prevPhoto();
+      if (e.key === 'ArrowRight') this.nextPhoto();
+    });
+  }
+
+  openLightbox(index) {
+    this.currentIndex = index;
+    this.showPhoto();
+    this.lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+
+  closeLightbox() {
+    this.lightbox.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
+  }
+
+  showPhoto() {
+    const photo = this.photos[this.currentIndex];
+    this.lightboxImg.src = photo.src;
+    this.lightboxImg.alt = photo.alt;
+    this.lightboxLocation.textContent = photo.location;
+  }
+
+  nextPhoto() {
+    this.currentIndex = (this.currentIndex + 1) % this.photos.length;
+    this.showPhoto();
+  }
+
+  prevPhoto() {
+    this.currentIndex = (this.currentIndex - 1 + this.photos.length) % this.photos.length;
+    this.showPhoto();
+  }
+}
+
+// Initialize photo lightbox when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.querySelector('.photo-grid')) {
+    new PhotoLightbox();
+  }
+});
 
 </script>
 </body>
