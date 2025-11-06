@@ -2177,7 +2177,7 @@ body.light-theme .photo-location {
 }
 
 .view-all-btn {
-  display: flex;  /* ← CHANGED from inline-flex */
+  display: inline-flex;  /* ← CHANGED back to inline-flex */
   align-items: center;
   gap: 0.5rem;
   background: transparent;
@@ -2191,6 +2191,7 @@ body.light-theme .photo-location {
   transition: all 0.3s ease;
   text-decoration: none;
   position: relative;
+  margin: 0 auto;  /* ← ADD THIS to center the button itself */
 }
 
 /* Animated underline */
