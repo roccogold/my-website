@@ -2085,11 +2085,11 @@ body.light-theme .photo-location {
   color: white;
   font-size: 24px;
   cursor: pointer;
-  display: none; /* Changed from flex to none */
+  display: flex; /* ← CHANGE THIS LINE from "display: none" */
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  z-index: 100001; /* HIGHER than navigation's 1001 */
+  z-index: 100001; /* ← MAKE SURE this is 100001 */
 }
       
 .lightbox-close:hover {
@@ -2109,11 +2109,11 @@ body.light-theme .photo-location {
   color: white;
   font-size: 20px;
   cursor: pointer;
-  display: none; /* Changed from flex to none */
+  display: flex; /* ← CHANGE THIS LINE from "display: none" */
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  z-index: 100001; /* HIGHER than navigation's 1001 */
+  z-index: 100001; /* ← MAKE SURE this is 100001 */
 }
 
 .lightbox-nav:hover {
@@ -3245,13 +3245,13 @@ body.light-theme .thesis-divider {
 </section>
 
 <!-- Lightbox structure -->
-<button class="lightbox-close" aria-label="Close lightbox" style="display: none;">
+<button class="lightbox-close" aria-label="Close lightbox">
   <i class="fas fa-times"></i>
 </button>
-<button class="lightbox-nav lightbox-prev" aria-label="Previous photo" style="display: none;">
+<button class="lightbox-nav lightbox-prev" aria-label="Previous photo">
   <i class="fas fa-chevron-left"></i>
 </button>
-<button class="lightbox-nav lightbox-next" aria-label="Next photo" style="display: none;">
+<button class="lightbox-nav lightbox-next" aria-label="Next photo">
   <i class="fas fa-chevron-right"></i>
 </button>
 
