@@ -3913,7 +3913,12 @@ openLightbox(index) {
   const themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle) themeToggle.style.display = 'none';
   
-  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  // SHOW the lightbox buttons
+  document.querySelector('.lightbox-close').style.display = 'flex';
+  document.querySelector('.lightbox-prev').style.display = 'flex';
+  document.querySelector('.lightbox-next').style.display = 'flex';
+  
+  document.body.style.overflow = 'hidden';
 }
 
 closeLightbox() {
@@ -3927,7 +3932,12 @@ closeLightbox() {
   const themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle) themeToggle.style.display = 'flex';
   
-  document.body.style.overflow = ''; // Restore scrolling
+  // HIDE the lightbox buttons
+  document.querySelector('.lightbox-close').style.display = 'none';
+  document.querySelector('.lightbox-prev').style.display = 'none';
+  document.querySelector('.lightbox-next').style.display = 'none';
+  
+  document.body.style.overflow = '';
 }
 
   showPhoto() {
