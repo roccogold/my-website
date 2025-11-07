@@ -728,13 +728,6 @@ main {
   box-shadow: 0 2px 8px rgba(154, 119, 198, 0.3);
 }
 
-.hero-btn-primary:hover {
-  background: linear-gradient(135deg, rgba(181, 140, 217, 0.95), rgba(154, 119, 198, 0.85));
-  transform: translateY(-3px);
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.4);
-  outline: none;
-}
-
 /* Secondary button - Outlined pill */
 .hero-btn-secondary {
   background: rgba(154, 119, 198, 0.12);
@@ -754,10 +747,13 @@ main {
   box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15);
 }
 
+.hero-btn-primary:hover,
 .hero-btn-secondary:hover {
   background: rgba(154, 119, 198, 0.25);
   transform: translateY(-3px);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
+  border-color: rgba(154, 119, 198, 0.4);
+  transition: all 0.3s ease;
   outline: none;
 }
 
