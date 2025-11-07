@@ -699,6 +699,96 @@ main {
   }
 }
 
+/* Hero CTA Buttons */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.hero-btn-primary {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.9), rgba(181, 140, 217, 0.8));
+  color: white;
+  border: none;
+  padding: 0.9rem 2rem;
+  fontSize: 0.85rem;
+  font-family: var(--main-font);
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.4);
+  text-decoration: none;
+}
+
+.hero-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(154, 119, 198, 0.6);
+  color: white;
+  outline: none;
+}
+
+.hero-btn-secondary {
+  background: transparent;
+  color: var(--text-dark);
+  border: 2px solid rgba(154, 119, 198, 0.5);
+  padding: 0.85rem 2rem;
+  font-size: 0.85rem;
+  font-family: var(--main-font);
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  text-decoration: none;
+}
+
+.hero-btn-secondary:hover {
+  background: rgba(154, 119, 198, 0.15);
+  border-color: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(154, 119, 198, 0.3);
+  color: var(--text-dark);
+  outline: none;
+}
+
+body.light-theme .hero-btn-secondary {
+  color: var(--text-light);
+  border-color: rgba(107, 70, 193, 0.5);
+}
+
+body.light-theme .hero-btn-secondary:hover {
+  background: rgba(107, 70, 193, 0.15);
+  border-color: var(--accent-light);
+  color: var(--text-light);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
 /* Enhanced typography */
 h2 {
   font-weight: 900;
@@ -2877,6 +2967,21 @@ body.light-theme .thesis-divider {
 <main id="main-content" role="main" aria-label="Portfolio content">
 <div class="hero-intro reveal">
   <p class="hero-description">Transforming complex challenges into elegant solutions at the intersection of <b class="purple-text">design</b>, <b class="purple-text">technology</b> and <b class="purple-text">finance</b>. Currently bringing fintech products to life through APIs and user-centered workflows.</p>
+  
+  <!-- Hero CTA Buttons -->
+  <div class="hero-buttons">
+    <a href="#experience" class="hero-btn-primary">
+      View My Work
+      <span style="font-size: 1.1em;">→</span>
+    </a>
+    <a href="https://drive.google.com/file/d/1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR/view" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="hero-btn-secondary">
+      <i class="fas fa-file-pdf"></i>
+      Download Resume
+    </a>
+  </div>
 </div>
       
   <section aria-labelledby="music-heading" class="reveal" id="vibes">
@@ -3318,18 +3423,6 @@ body.light-theme .thesis-divider {
   
   <section aria-labelledby="contact-heading" class="reveal" id="contact">
       <h1 class="closing-section-title">let's build something amazing</h1>
-    <p class="contact-desc">
-      Always up for discussing about product concepts, new projects or the best ping pong serve. Have a problem to solve? Let's team up.
-    </p>
-      <p class="contact-desc">
-      Want the juicy bits? 
-<a href="https://drive.google.com/file/d/1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR/view" 
-   target="_blank" 
-   rel="noopener noreferrer" 
-   id="resumeDownload">
-   <i class="fas fa-file-pdf"></i> view resume
-</a>
-    </p>
     
     <nav class="social" aria-label="Social and contact links" role="navigation">
       <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" target="_blank" rel="noopener noreferrer">
