@@ -699,7 +699,7 @@ main {
   }
 }
 
-/* Hero CTA Buttons */
+/* Hero CTA Buttons - Updated Option 2 Style */
 .hero-buttons {
   display: flex;
   gap: 1rem;
@@ -709,67 +709,51 @@ main {
   flex-wrap: wrap;
 }
 
-.hero-btn-primary {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.9), rgba(181, 140, 217, 0.8));
-  color: white;
-  border: none;
-  padding: 0.9rem 2rem;
-  fontSize: 0.85rem;
-  font-family: var(--main-font);
-  font-weight: 600;
-  border-radius: 12px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.4);
-  text-decoration: none;
-}
-
-.hero-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(154, 119, 198, 0.6);
-  color: white;
-  outline: none;
-}
-
-.hero-btn-secondary {
+.hero-btn,
+.view-all-btn {
   background: transparent;
-  color: var(--text-dark);
-  border: 2px solid rgba(154, 119, 198, 0.5);
-  padding: 0.85rem 2rem;
-  font-size: 0.85rem;
+  color: var(--accent-dark);
+  border: 2px solid var(--accent-dark);
+  padding: 0.6rem 1.4rem;
+  font-size: 0.8rem;
   font-family: var(--main-font);
-  font-weight: 600;
-  border-radius: 12px;
+  font-weight: 700;
+  border-radius: 10px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  letter-spacing: 0.5px;
   text-decoration: none;
 }
 
-.hero-btn-secondary:hover {
-  background: rgba(154, 119, 198, 0.15);
-  border-color: var(--accent-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(154, 119, 198, 0.3);
-  color: var(--text-dark);
+.hero-btn:hover,
+.view-all-btn:hover {
+  background: var(--accent-dark);
+  color: white;
+  transform: translateX(3px);
+  box-shadow: -4px 4px 0px rgba(154, 119, 198, 0.4);
   outline: none;
 }
 
-body.light-theme .hero-btn-secondary {
-  color: var(--text-light);
-  border-color: rgba(107, 70, 193, 0.5);
+body.light-theme .hero-btn,
+body.light-theme .view-all-btn {
+  color: var(--accent-light);
+  border-color: var(--accent-light);
 }
 
-body.light-theme .hero-btn-secondary:hover {
-  background: rgba(107, 70, 193, 0.15);
-  border-color: var(--accent-light);
-  color: var(--text-light);
+body.light-theme .hero-btn:hover,
+body.light-theme .view-all-btn:hover {
+  background: var(--accent-light);
+  color: white;
+  box-shadow: -4px 4px 0px rgba(107, 70, 193, 0.4);
+}
+
+.view-all-container {
+  text-align: center;
+  margin-top: 2rem;
+  width: 100%;
 }
 
 /* Mobile responsive */
@@ -782,8 +766,8 @@ body.light-theme .hero-btn-secondary:hover {
     margin-bottom: 2rem;
   }
   
-  .hero-btn-primary,
-  .hero-btn-secondary {
+  .hero-btn,
+  .view-all-btn {
     justify-content: center;
     width: 100%;
   }
@@ -2260,59 +2244,6 @@ body.light-theme .photo-location {
   display: none;
 }
 
-/* View All Button - Minimal Text Link Style */
-.view-all-container {
-  text-align: center;  /* ← CHANGED approach */
-  margin-top: 2rem;
-  width: 100%;
-}
-
-.view-all-btn {
-  display: inline-flex;  /* ← CHANGED back to inline-flex! */
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: transparent;
-  border: 1px solid rgba(154, 119, 198, 0.4);
-  color: var(--text-dark);
-  padding: 0.6rem 1.2rem;
-  font-family: var(--main-font);
-  font-size: var(--font-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  border-radius: 8px;
-}
-
-.view-all-btn:hover {
-  background: rgba(154, 119, 198, 0.15);
-  border-color: var(--accent-dark);
-  color: var(--accent-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(154, 119, 198, 0.3);
-}
-
-.view-all-btn i {
-  font-size: 0.9em;
-  transition: transform 0.3s ease;
-}
-
-.view-all-btn:hover i {
-  transform: scale(1.1);
-}
-
-body.light-theme .view-all-btn {
-  border-color: rgba(107, 70, 193, 0.4);
-  color: var(--text-light);
-}
-
-body.light-theme .view-all-btn:hover {
-  background: rgba(107, 70, 193, 0.15);
-  border-color: var(--accent-light);
-  color: var(--accent-light);
-  box-shadow: 0 4px 12px rgba(107, 70, 193, 0.3);
-}
       
 /* Daily Discoveries Section */
 .discoveries-grid {
@@ -2970,14 +2901,14 @@ body.light-theme .thesis-divider {
   
   <!-- Hero CTA Buttons -->
   <div class="hero-buttons">
-    <a href="#experience" class="hero-btn-primary">
+    <a href="#experience" class="hero-btn">
+      <i class="fas fa-briefcase"></i>
       View My Work
-      <span style="font-size: 1.1em;">→</span>
     </a>
     <a href="https://drive.google.com/file/d/1R2aLGSk6xr20UCiFOa60Cq2tOcW2xLoR/view" 
        target="_blank" 
        rel="noopener noreferrer" 
-       class="hero-btn-secondary">
+       class="hero-btn">
       <i class="fas fa-file-pdf"></i>
       Download Resume
     </a>
@@ -3340,12 +3271,12 @@ body.light-theme .thesis-divider {
   </div>
   
   <!-- Load More Button - MOVED OUTSIDE GRID -->
-  <div class="view-all-container">
-    <button class="view-all-btn" id="loadMorePhotos">
-      <span>View full gallery</span>
-      <i class="fas fa-image"></i>
-    </button>
-  </div>
+  html<div class="view-all-container">
+  <button class="view-all-btn" id="loadMorePhotos">
+    <i class="fas fa-camera"></i>
+    View more photos
+  </button>
+</div>
         
 </section>
 
