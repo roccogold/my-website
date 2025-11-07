@@ -760,7 +760,7 @@ body.light-theme .view-all-btn:hover {
 @media (max-width: 768px) {
   .hero-buttons {
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 0.8rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -768,8 +768,16 @@ body.light-theme .view-all-btn:hover {
   
   .hero-btn,
   .view-all-btn {
-    justify-content: center;
-    width: 100%;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    border-radius: 8px;
+    width: auto;
+    max-width: 200px;
+  }
+  
+  .hero-btn i,
+  .view-all-btn i {
+    font-size: 0.9em;
   }
 }
 
