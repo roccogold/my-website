@@ -3904,20 +3904,30 @@ openLightbox(index) {
   this.currentIndex = index;
   this.showPhoto();
   this.lightbox.classList.add('active');
-  // Show the buttons
-  document.querySelector('.lightbox-close').style.display = 'flex';
-  document.querySelector('.lightbox-prev').style.display = 'flex';
-  document.querySelector('.lightbox-next').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  
+  // HIDE the navigation bar
+  const navContainer = document.querySelector('.nav-container');
+  if (navContainer) navContainer.style.display = 'none';
+  
+  // HIDE the theme toggle
+  const themeToggle = document.querySelector('.theme-toggle');
+  if (themeToggle) themeToggle.style.display = 'none';
+  
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
 }
 
 closeLightbox() {
   this.lightbox.classList.remove('active');
-  // Hide the buttons
-  document.querySelector('.lightbox-close').style.display = 'none';
-  document.querySelector('.lightbox-prev').style.display = 'none';
-  document.querySelector('.lightbox-next').style.display = 'none';
-  document.body.style.overflow = '';
+  
+  // SHOW the navigation bar again
+  const navContainer = document.querySelector('.nav-container');
+  if (navContainer) navContainer.style.display = 'block';
+  
+  // SHOW the theme toggle again
+  const themeToggle = document.querySelector('.theme-toggle');
+  if (themeToggle) themeToggle.style.display = 'flex';
+  
+  document.body.style.overflow = ''; // Restore scrolling
 }
 
   showPhoto() {
