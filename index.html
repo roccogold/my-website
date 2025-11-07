@@ -2061,6 +2061,8 @@ body.light-theme .photo-location {
   max-height: 85vh;
   object-fit: contain;
   border-radius: 8px;
+  position: relative;  /* ← ADD THIS */
+  z-index: 1;          /* ← ADD THIS */
 }
 
 .lightbox-location {
@@ -2088,7 +2090,7 @@ body.light-theme .photo-location {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  z-index: 10000; /* ← ADD THIS - ensures it's above everything */
+  z-index: 10001; /* ← INCREASE THIS even higher */
 }
 
 .lightbox-close:hover {
