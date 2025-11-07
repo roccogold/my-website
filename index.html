@@ -2053,6 +2053,7 @@ body.light-theme .photo-location {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  z-index: 1; /* ← ADD THIS - keeps it below controls */
 }
 
 .lightbox-content img {
@@ -2111,6 +2112,7 @@ body.light-theme .photo-location {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  z-index: 10000; /* ← ADD THIS */
 }
 
 .lightbox-nav:hover {
