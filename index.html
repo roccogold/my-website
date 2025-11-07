@@ -3248,10 +3248,10 @@ body.light-theme .thesis-divider {
 <button class="lightbox-close" aria-label="Close lightbox" style="display: none;">
   <i class="fas fa-times"></i>
 </button>
-<button class="lightbox-nav lightbox-prev" style="display: none;">
+<button class="lightbox-nav lightbox-prev" aria-label="Previous photo" style="display: none;">
   <i class="fas fa-chevron-left"></i>
 </button>
-<button class="lightbox-nav lightbox-next" style="display: none;">
+<button class="lightbox-nav lightbox-next" aria-label="Next photo" style="display: none;">
   <i class="fas fa-chevron-right"></i>
 </button>
 
@@ -3900,17 +3900,25 @@ class PhotoLightbox {
     });
   }
 
-  openLightbox(index) {
-    this.currentIndex = index;
-    this.showPhoto();
-    this.lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-  }
+openLightbox(index) {
+  this.currentIndex = index;
+  this.showPhoto();
+  this.lightbox.classList.add('active');
+  // Show the buttons
+  document.querySelector('.lightbox-close').style.display = 'flex';
+  document.querySelector('.lightbox-prev').style.display = 'flex';
+  document.querySelector('.lightbox-next').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
 
-  closeLightbox() {
-    this.lightbox.classList.remove('active');
-    document.body.style.overflow = ''; // Restore scrolling
-  }
+closeLightbox() {
+  this.lightbox.classList.remove('active');
+  // Hide the buttons
+  document.querySelector('.lightbox-close').style.display = 'none';
+  document.querySelector('.lightbox-prev').style.display = 'none';
+  document.querySelector('.lightbox-next').style.display = 'none';
+  document.body.style.overflow = '';
+}
 
   showPhoto() {
     const photo = this.photos[this.currentIndex];
