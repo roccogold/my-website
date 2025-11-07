@@ -2053,7 +2053,7 @@ body.light-theme .photo-location {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  z-index: 1; /* ← ADD THIS - keeps it below controls */
+  z-index: 9998; /* ← Just change this line */
 }
 
 .lightbox-content img {
@@ -2061,8 +2061,7 @@ body.light-theme .photo-location {
   max-height: 85vh;
   object-fit: contain;
   border-radius: 8px;
-  position: relative;  /* ← ADD THIS */
-  z-index: 1;          /* ← ADD THIS */
+  /* Remove position and z-index from here */
 }
 
 .lightbox-location {
@@ -2099,7 +2098,7 @@ body.light-theme .photo-location {
 }
 
 .lightbox-nav {
-  position: absolute;
+  position: fixed; /* ← Just change this line */
   top: 50%;
   transform: translateY(-50%);
   width: 50px;
