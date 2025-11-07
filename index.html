@@ -796,10 +796,6 @@ body.light-theme .hero-btn-primary {
   box-shadow: 0 2px 8px rgba(107, 70, 193, 0.3);
 }
 
-body.light-theme .hero-btn-primary:hover {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.95), rgba(107, 70, 193, 0.85));
-  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.4);
-}
 
 body.light-theme .hero-btn-secondary,
 body.light-theme .view-all-btn {
@@ -809,12 +805,15 @@ body.light-theme .view-all-btn {
   box-shadow: 0 2px 8px rgba(107, 70, 193, 0.15);
 }
 
-body.light-theme .hero-btn-secondary:hover,
-body.light-theme .view-all-btn:hover {
+body.light-theme .hero-btn-primary:hover,
+body.light-theme .hero-btn-secondary:hover {
   background: rgba(107, 70, 193, 0.25);
+  transform: translateY(-3px);
   box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3);
+  border-color: rgba(107, 70, 193, 0.4);
+  transition: all 0.3s ease;
 }
-
+      
 /* Mobile responsive */
 @media (max-width: 768px) {
   .hero-buttons {
