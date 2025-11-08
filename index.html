@@ -699,7 +699,7 @@ main {
   }
 }
 
-/* Hero CTA Buttons - Style B: Soft Pill Shadow */
+/* Hero CTA Buttons - Fixed morphing issue */
 .hero-buttons {
   display: flex;
   gap: 1rem;
@@ -777,23 +777,19 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15);
 }
 
 .view-all-btn:hover {
   background: rgba(154, 119, 198, 0.25);
+  border: 1px solid rgba(154, 119, 198, 0.3);
   transform: translateY(-3px);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
   outline: none;
 }
 
-.view-all-container {
-  text-align: center;
-  margin-top: 2rem;
-  width: 100%;
-}
 
 /* Light theme */
 body.light-theme .hero-btn-primary {
