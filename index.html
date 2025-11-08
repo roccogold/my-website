@@ -259,8 +259,8 @@ body.light-theme .glow {
   }
 }
 
-/* Theme transitions */
-* {
+/* Theme transitions - exclude buttons */
+*:not(button):not(a) {
   transition: background-color var(--transition-normal), color var(--transition-normal), border-color var(--transition-normal);
 }
 
