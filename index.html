@@ -4067,8 +4067,8 @@ document.addEventListener('DOMContentLoaded', () => {
         photo.classList.remove('hidden-photo');
       });
       
-      // Hide the button
-      loadMoreBtn.classList.add('hidden');
+      // Hide the button completely
+      loadMoreBtn.style.display = 'none';
       
       // Reinitialize lightbox to include new photos
       if (window.photoLightbox) {
