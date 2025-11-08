@@ -633,6 +633,21 @@ a:focus-visible {
   border-radius: 2px;
 }
 
+/* Remove link styles from buttons */
+a.hero-btn-primary,
+a.hero-btn-secondary,
+a.view-all-btn {
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+
+a.hero-btn-primary:hover,
+a.hero-btn-secondary:hover,
+a.view-all-btn:hover {
+  text-decoration: none !important;
+  outline: none !important;
+}
+
 body.light-theme a {
   color: var(--accent-light);
   text-decoration-color: var(--accent-light);
