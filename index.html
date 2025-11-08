@@ -723,7 +723,7 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(154, 119, 198, 0.3);
 }
@@ -742,25 +742,25 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15);
 }
 
 .hero-btn-primary:hover {
   background: linear-gradient(135deg, rgba(181, 140, 217, 0.95), rgba(154, 119, 198, 0.85));
+  border: 1px solid rgba(154, 119, 198, 0.3);
   transform: translateY(-3px);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.4);
   outline: none;
-  border: 1px solid rgba(154, 119, 198, 0.3);
 }
 
 .hero-btn-secondary:hover {
   background: rgba(154, 119, 198, 0.25);
+  border: 1px solid rgba(154, 119, 198, 0.3);
   transform: translateY(-3px);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
   outline: none;
-  border: 1px solid rgba(154, 119, 198, 0.3);
 }
 
 /* View More Photos button - Outlined pill (same as secondary) */
