@@ -2028,7 +2028,8 @@ body.light-theme .thesis-card:hover::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;  /* ← REDUCED from 1rem */
+  gap: 1rem;  /* ← ADD THIS - controls space between title and icons */
   text-align: left;
 }
 
@@ -2036,7 +2037,8 @@ body.light-theme .thesis-card:hover::before {
   font-size: var(--font-md);
   font-weight: 700;
   margin: 0;
-  color: var(--accent-dark);  /* ← PURPLE! */
+  color: var(--accent-dark);
+  flex-shrink: 1;  /* ← ADD THIS - allows title to shrink if needed */
 }
 
 body.light-theme .thesis-title {
