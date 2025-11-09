@@ -2015,30 +2015,19 @@ body.light-theme .thesis-card:hover::before {
   }
 }
 
-/* Thesis actions - top right of card */
-.thesis-actions {
-  display: flex;
-  gap: 0.8rem;
-  position: relative;
-  z-index: 1;
-}
-
-/* Thesis header - title styling */
-.thesis-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;  /* ← REDUCED from 1rem */
-  gap: 1rem;  /* ← ADD THIS - controls space between title and icons */
-  text-align: left;
-}
-
 .thesis-title {
   font-size: var(--font-md);
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 0.8rem 0;  /* ← Add bottom margin */
   color: var(--accent-dark);
-  flex-shrink: 1;  /* ← ADD THIS - allows title to shrink if needed */
+  text-align: left;  /* ← ADD THIS */
+}
+
+.thesis-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;  /* ← Center the icons */
+  margin-top: 1.2rem;  /* ← Space above icons */
 }
 
 body.light-theme .thesis-title {
@@ -3417,24 +3406,26 @@ body.light-theme .thesis-divider {
     <div class="grid-breakdown"></div>
   </div>
   
-  <div class="thesis-card thesis-card-expanded">
-    <div class="thesis-header">
-      <h3 class="thesis-title"><i class="fas fa-train"></i> Insurtrain</h3>
-      <div class="thesis-actions">
-        <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="thesis-icon-btn">
-          <i class="fas fa-file-pdf"></i>
-        </a>
-        <a href="https://github.com/roccogold/insurtrain" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="thesis-icon-btn">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
-    </div>
+ <h3 class="thesis-title"><i class="fas fa-train"></i> Insurtrain</h3>
+
+<p class="thesis-description">
+  Tired of trains running late? This blockchain solution automatically compensates you when they do — no paperwork, no runaround. Smart contracts handle everything while insurers and railway operators collaborate without human intervention.
+</p>
+
+<div class="thesis-actions">
+  <a href="https://drive.google.com/file/d/1Y17kg6e8B-GHol5b1ggEjnOPHZWaem6P/view?usp=drive_link" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     class="thesis-icon-btn">
+    <i class="fas fa-file-pdf"></i>
+  </a>
+  <a href="https://github.com/roccogold/insurtrain" 
+     target="_blank" 
+     rel="noopener noreferrer"
+     class="thesis-icon-btn">
+    <i class="fab fa-github"></i>
+  </a>
+</div>
     
     <p class="thesis-description">
       Tired of trains running late? This blockchain solution automatically compensates you when they do — no paperwork, no runaround. Smart contracts handle everything while insurers and railway operators collaborate without human intervention.
