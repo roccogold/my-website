@@ -237,6 +237,21 @@ body.light-theme .glow {
   100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
 }
 
+/* Tron Grid Canvas */
+#tron-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  opacity: 0.4;
+}
+
+body.light-theme #tron-grid {
+  opacity: 0.3;
+}
+
       
 /* Enhanced Accessibility - Respect user preferences */
 @media (prefers-reduced-motion: reduce) {
@@ -2948,6 +2963,9 @@ body.light-theme .thesis-divider {
 
 <body>
 
+<!-- Tron Grid Background -->
+<canvas id="tron-grid"></canvas>
+
 <!-- Navigation Bar - Desktop Only -->
 <div class="nav-container">
 <nav class="nav-bar" role="navigation" aria-label="Main navigation">
@@ -4110,6 +4128,128 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.photo-grid')) {
     new PhotoLightbox();
   }
+});
+
+// Tron Grid Animation
+class TronGrid {
+  constructor() {
+    this.canvas = document.getElementById('tron-grid');
+    this.ctx = this.canvas.getContext('2d');
+    this.lines = [];
+    this.init();
+  }
+
+  init() {
+    this.resize();
+    this.createLines();
+    this.animate();
+    
+    window.addEventListener('resize', () => this.resize());
+    
+    // Update colors when theme changes
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', () => {
+        setTimeout(() => this.updateColors(), 50);
+      });
+    }
+  }
+
+  resize() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+  }
+
+  getColors() {
+    const isLight = document.body.classList.contains('light-theme');
+    return {
+      line: isLight ? 'rgba(107, 70, 193, 0.15)' : 'rgba(154, 119, 198, 0.2)',
+      glow: isLight ? 'rgba(107, 70, 193, 0.3)' : 'rgba(154, 119, 198, 0.4)'
+    };
+  }
+
+  createLines() {
+    this.lines = [];
+    const spacing = 50;
+    const colors = this.getColors();
+
+    // Vertical lines
+    for (let x = 0; x < this.canvas.width; x += spacing) {
+      this.lines.push({
+        type: 'vertical',
+        x: x,
+        offset: Math.random() * 100,
+        speed: 0.3 + Math.random() * 0.5
+      });
+    }
+
+    // Horizontal lines
+    for (let y = 0; y < this.canvas.height; y += spacing) {
+      this.lines.push({
+        type: 'horizontal',
+        y: y,
+        offset: Math.random() * 100,
+        speed: 0.3 + Math.random() * 0.5
+      });
+    }
+  }
+
+  updateColors() {
+    // Just trigger a redraw with new colors
+    this.draw();
+  }
+
+  draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    const colors = this.getColors();
+
+    this.lines.forEach(line => {
+      this.ctx.strokeStyle = colors.line;
+      this.ctx.lineWidth = 1;
+      this.ctx.beginPath();
+
+      if (line.type === 'vertical') {
+        this.ctx.moveTo(line.x, 0);
+        this.ctx.lineTo(line.x, this.canvas.height);
+      } else {
+        this.ctx.moveTo(0, line.y);
+        this.ctx.lineTo(this.canvas.width, line.y);
+      }
+
+      this.ctx.stroke();
+
+      // Animated glow pulses
+      const pulse = Math.sin(line.offset) * 0.5 + 0.5;
+      this.ctx.strokeStyle = colors.glow;
+      this.ctx.lineWidth = 2;
+      this.ctx.globalAlpha = pulse * 0.3;
+
+      this.ctx.beginPath();
+      if (line.type === 'vertical') {
+        const glowY = (line.offset % this.canvas.height);
+        this.ctx.moveTo(line.x, glowY - 50);
+        this.ctx.lineTo(line.x, glowY + 50);
+      } else {
+        const glowX = (line.offset % this.canvas.width);
+        this.ctx.moveTo(glowX - 50, line.y);
+        this.ctx.lineTo(glowX + 50, line.y);
+      }
+      this.ctx.stroke();
+      this.ctx.globalAlpha = 1;
+
+      line.offset += line.speed;
+    });
+  }
+
+  animate() {
+    this.draw();
+    requestAnimationFrame(() => this.animate());
+  }
+}
+
+// Initialize Tron Grid
+document.addEventListener('DOMContentLoaded', () => {
+  new TronGrid();
 });
 
 </script>
