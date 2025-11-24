@@ -4069,9 +4069,19 @@ document.addEventListener('DOMContentLoaded', () => {
       // Hide the button completely
       loadMoreBtn.style.display = 'none';
       
-      // Reinitialize lightbox to include new photos
+      // ✅ ADD LISTENERS ONLY TO NEW PHOTOS (not all photos again)
       if (window.photoLightbox) {
-        window.photoLightbox = new PhotoLightbox();
+        const newPhotos = document.querySelectorAll('.photo-card:not([data-lightbox-initialized])');
+        newPhotos.forEach((card) => {
+          const absoluteIndex = window.photoLightbox.photos.length;
+          window.photoLightbox.photos.push({
+            src: card.dataset.photo,
+            location: card.dataset.location,
+            alt: card.querySelector('img').alt
+          });
+          card.setAttribute('data-lightbox-initialized', 'true');
+          card.addEventListener('click', () => window.photoLightbox.openLightbox(absoluteIndex));
+        });
       }
     });
   }
@@ -4080,7 +4090,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initialize photo lightbox when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.photo-grid')) {
-    new PhotoLightbox();
+    window.photoLightbox = new PhotoLightbox(); // ✅ Store in window.photoLightbox
   }
 });
 
