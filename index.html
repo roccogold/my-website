@@ -3967,7 +3967,9 @@ class PhotoLightbox {
       location: card.dataset.location,
       alt: card.querySelector('img').alt
     });
-    
+
+   // ✅ MARK AS INITIALIZED to prevent duplicate listeners
+    card.setAttribute('data-lightbox-initialized', 'true');
     // Add click event to open lightbox
     card.addEventListener('click', () => this.openLightbox(index));
   });
