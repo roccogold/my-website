@@ -1622,7 +1622,7 @@ body.light-theme pre {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   body {
-    padding-top: 70px;   /* ← REDUCED from 100px to 70px */
+    padding-top: 70px;
     padding-bottom: 0;
   }
 
@@ -1631,21 +1631,26 @@ body.light-theme pre {
   }
 
   .top-bar {
-    min-height: 50vh;  /* ← CHANGED from 85vh to 50vh */
+    min-height: 40vh;  /* ← CHANGED from 50vh to 40vh */
     padding: 0 1rem;
-    margin-bottom: 0;   /* Optional: ensures no extra margin pushes content down */
-    justify-content: center; /* Keeps vertical centering */
+    margin-bottom: 0;
+    justify-content: center;
   }
   
   .top-bar header h1.neon-title {
     font-size: clamp(3rem, 12vw, 5rem);
   }
   
- .scroll-indicator {
-      /* display: none;  <-- DELETE THIS LINE */
-      display: flex;  /* Add this if you want to be safe, or just removing the line above is enough */
-      bottom: 3.5rem;   /* Optional: move it up slightly so it doesn't overlap text on small screens */
-    }
+  .scroll-indicator {
+    display: flex;
+    bottom: 1.5rem;  /* ← CHANGED from 3.5rem to 1.5rem */
+  }
+  
+  /* Reduce space between hero and main content */
+  main {
+    padding: var(--space-sm) var(--space-md) var(--space-lg);
+    margin-top: -2rem;  /* ← ADD THIS to pull content up closer */
+  }
       
   .job-title {
     font-size: 0.65rem;
