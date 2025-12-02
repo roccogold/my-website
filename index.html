@@ -2966,31 +2966,60 @@ body.light-theme [title]:hover {
   font-size: clamp(2rem, 5vw, 3.5rem);
   transform: perspective(300px) rotateX(10deg);
   text-align: center;
-  margin-top: 2rem;  /* CHANGED from 4rem */
+  margin-top: 2rem;
   margin-bottom: 2rem;
-  padding-top: 2rem;  /* CHANGED from 3rem */
+  padding-top: 2rem;
   letter-spacing: 0.05em;
   line-height: 1.2;
   position: relative;
+  
+  /* ADD NEON GLOW - DARK MODE */
+  color: #d4b5f7;
+  text-shadow:
+    0 0 10px rgba(167, 139, 250, 0.8),
+    0 0 20px rgba(139, 92, 246, 0.6),
+    0 0 40px rgba(124, 58, 237, 0.4),
+    2px 2px 0px #b18cd9,
+    4px 4px 0px #9a77c6,
+    6px 6px 0px #8859b8;
 }
 
-body.light-theme .closing-section-title::before {
-  background: linear-gradient(90deg,
-    transparent,
-    rgba(107, 70, 193, 0.4) 20%,
-    rgba(107, 70, 193, 0.4) 80%,
-    transparent
-  );
-}
-
+/* LIGHT THEME VERSION */
 body.light-theme .closing-section-title {
   transform: perspective(300px) rotateX(10deg);
+  color: #8b5cf6;
+  text-shadow:
+    0 0 10px rgba(139, 92, 246, 0.4),
+    0 0 20px rgba(124, 58, 237, 0.3),
+    0 0 40px rgba(109, 40, 217, 0.2),
+    2px 2px 0px #a78bfa,
+    4px 4px 0px #7c3aed,
+    6px 6px 0px #6d28d9;
 }
 
 @media (max-width: 768px) {
   .closing-section-title {
     font-size: clamp(1.5rem, 6vw, 2.5rem);
     margin-bottom: 1.5rem;
+  }
+  
+  /* Reduce glow on mobile - same as other titles */
+  .closing-section-title {
+    text-shadow:
+      0 0 8px rgba(167, 139, 250, 0.4),
+      0 0 15px rgba(139, 92, 246, 0.3),
+      2px 2px 0px #b18cd9,
+      4px 4px 0px #9a77c6,
+      6px 6px 10px rgba(0,0,0,0.3);
+  }
+  
+  body.light-theme .closing-section-title {
+    text-shadow:
+      0 0 8px rgba(139, 92, 246, 0.3),
+      0 0 15px rgba(124, 58, 237, 0.2),
+      2px 2px 0px #a78bfa,
+      4px 4px 0px #7c3aed,
+      6px 6px 10px rgba(107, 70, 193, 0.2);
   }
   
 .tron-header h2 {
