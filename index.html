@@ -1409,8 +1409,10 @@ body.light-theme pre {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   body {
-    padding-top: 0; /* Remove padding on mobile since nav is hidden */
+    padding-top: 100px;   /* Add space at the top */
+    padding-bottom: 0;    /* Remove the space at the bottom */
   }
+}
 
   .theme-toggle {
     display: none; /* Hide theme toggle on mobile */
@@ -2924,7 +2926,8 @@ body.light-theme .thesis-divider {
 .mobile-nav {
   display: none; /* Hidden on desktop */
   position: fixed;
-  bottom: 20px;
+  top: 20px;
+  bottom: auto;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
