@@ -515,10 +515,167 @@ body.light-theme .nav-item::after {
   background: var(--accent-light);
 }
 
-/* Hide navigation on mobile */
+/* Hide desktop navigation on mobile */
 @media (max-width: 768px) {
   .nav-container {
     display: none !important;
+  }
+}
+
+/* ===============================================
+   MOBILE NAVIGATION - MINIMAL DROPDOWN
+   =============================================== */
+
+/* Mobile hamburger button */
+.mobile-nav-toggle {
+  display: none; /* Hidden on desktop */
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 45px;
+  height: 45px;
+  background: rgba(154, 119, 198, 0.2);
+  border: 2px solid var(--accent-dark);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1003;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.mobile-nav-toggle:hover {
+  background: rgba(154, 119, 198, 0.4);
+  transform: scale(1.1);
+}
+
+.mobile-nav-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--accent-dark);
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.mobile-nav-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(7px);
+}
+
+.mobile-nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-nav-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-7px);
+}
+
+body.light-theme .mobile-nav-toggle {
+  background: rgba(107, 70, 193, 0.2);
+  border-color: var(--accent-light);
+}
+
+body.light-theme .mobile-nav-toggle span {
+  background: var(--accent-light);
+}
+
+body.light-theme .mobile-nav-toggle:hover {
+  background: rgba(107, 70, 193, 0.4);
+}
+
+/* Mobile dropdown menu */
+.mobile-nav-menu {
+  display: none; /* Hidden on desktop */
+  position: fixed;
+  top: 5rem;
+  right: 1.5rem;
+  background: rgba(154, 119, 198, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 1rem;
+  min-width: 200px;
+  transform: translateY(-20px) scale(0.95);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1002;
+  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.4);
+}
+
+.mobile-nav-menu.active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+body.light-theme .mobile-nav-menu {
+  background: rgba(107, 70, 193, 0.15);
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(107, 70, 193, 0.3);
+}
+
+/* Mobile menu items */
+.mobile-nav-item {
+  padding: 0.8rem 1rem;
+  color: var(--text-dark);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.mobile-nav-item:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-nav-item i {
+  font-size: 1.1rem;
+  color: var(--accent-dark);
+  width: 20px;
+  text-align: center;
+}
+
+.mobile-nav-item:hover,
+.mobile-nav-item:active {
+  background: rgba(154, 119, 198, 0.3);
+  padding-left: 1.3rem;
+  transform: translateX(-5px);
+}
+
+body.light-theme .mobile-nav-item {
+  color: var(--text-light);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .mobile-nav-item i {
+  color: var(--accent-light);
+}
+
+body.light-theme .mobile-nav-item:hover,
+body.light-theme .mobile-nav-item:active {
+  background: rgba(107, 70, 193, 0.3);
+}
+
+/* Show mobile nav only on mobile */
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    display: flex;
+  }
+  
+  .mobile-nav-menu {
+    display: block;
   }
 }
       
@@ -3139,6 +3296,43 @@ body.light-theme .card-date {
 </nav>
 </div>
 
+<!-- Mobile Navigation - Minimal Dropdown -->
+<button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+<nav class="mobile-nav-menu" role="navigation" aria-label="Mobile navigation">
+  <a href="#experience" class="mobile-nav-item">
+    <i class="fas fa-laptop-code"></i>
+    Work
+  </a>
+  <a href="#projects" class="mobile-nav-item">
+    <i class="fas fa-rocket"></i>
+    Projects
+  </a>
+  <a href="#thesis" class="mobile-nav-item">
+    <i class="fas fa-graduation-cap"></i>
+    Thesis
+  </a>
+  <a href="#vibes" class="mobile-nav-item">
+    <i class="fas fa-music"></i>
+    Vibes
+  </a>
+  <a href="#photos" class="mobile-nav-item">
+    <i class="fas fa-camera"></i>
+    Perspectives
+  </a>
+  <a href="#interests" class="mobile-nav-item">
+    <i class="fas fa-star"></i>
+    Interests
+  </a>
+  <a href="#contact" class="mobile-nav-item">
+    <i class="fas fa-envelope"></i>
+    Contact
+  </a>
+</nav>
 
 <!-- Animated background system -->
 <div class="gradient-background">
@@ -3785,6 +3979,51 @@ class Navigation {
 
 // Initialize navigation
 navigation = new Navigation();
+
+// Mobile Navigation Toggle
+const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+const mobileNavMenu = document.querySelector('.mobile-nav-menu');
+const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+
+if (mobileNavToggle && mobileNavMenu) {
+  mobileNavToggle.addEventListener('click', () => {
+    mobileNavToggle.classList.toggle('active');
+    mobileNavMenu.classList.toggle('active');
+  });
+
+  // Close menu when clicking on a nav item
+  mobileNavItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = item.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      
+      // Close the menu
+      mobileNavToggle.classList.remove('active');
+      mobileNavMenu.classList.remove('active');
+      
+      // Smooth scroll to section
+      if (targetSection) {
+        const navHeight = 100;
+        const elementPosition = targetSection.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!mobileNavMenu.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+      mobileNavToggle.classList.remove('active');
+      mobileNavMenu.classList.remove('active');
+    }
+  });
+}
 
 // NEW: Scroll indicator functionality
 const scrollIndicator = document.querySelector('.scroll-indicator');
