@@ -3695,24 +3695,24 @@ class Navigation {
   }
 
   setupSmoothScroll() {
-    this.navItems.forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = item.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
+  this.navItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = item.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      
+      if (targetSection) {
+        const navHeight = 100; // Fixed offset for pill nav
+        const targetTop = targetSection.offsetTop - navHeight;
         
-        if (targetSection) {
-          const navHeight = document.querySelector('.nav-container').offsetHeight;
-          const targetTop = targetSection.offsetTop - navHeight - 20;
-          
-          window.scrollTo({
-            top: targetTop,
-            behavior: 'smooth'
-          });
-        }
-      });
+        window.scrollTo({
+          top: targetTop,
+          behavior: 'smooth'
+        });
+      }
     });
-  }
+  });
+}
 
   setupScrollSpy() {
     const observerOptions = {
