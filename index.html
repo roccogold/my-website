@@ -691,11 +691,11 @@ body.light-theme .mobile-nav-item:active {
   padding: 0 2rem;
   text-align: center;
   container-type: inline-size;
-  min-height: 75vh;  /* ADD THIS LINE */
-  display: flex;  /* ADD THIS LINE */
-  flex-direction: column;  /* ADD THIS LINE */
-  align-items: center;  /* ADD THIS LINE */
-  justify-content: center;  /* ADD THIS LINE */
+  min-height: 65vh;  /* ← CHANGED from 75vh to 65vh */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @container (max-width: 480px) {
@@ -785,7 +785,7 @@ body.light-theme .top-bar header p.neon-subtitle {
 /* NEW: Scroll indicator */
 .scroll-indicator {
   position: absolute;
-  bottom: 2rem;
+  bottom: 3rem;  /* ← CHANGED from 2rem to 3rem (pushes it down more) */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
