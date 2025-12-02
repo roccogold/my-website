@@ -531,7 +531,7 @@ body.light-theme .nav-item::after {
   display: none; /* Hidden on desktop */
   position: fixed;
   top: 1.5rem;
-  right: 1.5rem;
+  right: 1.5rem;  /* ← Keep this, not left! */
   width: 50px;
   height: 50px;
   background: var(--accent-dark);
@@ -539,12 +539,10 @@ body.light-theme .nav-item::after {
   border-radius: 50%;
   cursor: pointer;
   z-index: 1003;
-  display: flex;
-  align-items: center;
+  align-items: center;  /* ← Removed duplicate display:flex */
   justify-content: center;
   transition: all var(--transition-normal);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
-  position: relative;
 }
 
 .mobile-nav-toggle:hover {
@@ -555,7 +553,7 @@ body.light-theme .nav-item::after {
 
 .mobile-nav-toggle i {
   color: white;
-  font-size: 20px;
+  font-size: 18px;  /* ← CHANGED from 20px to 18px to match back-to-top */
   position: absolute;
   transition: all 0.3s ease;
 }
@@ -1714,6 +1712,17 @@ body.light-theme pre {
     height: 38px;
     font-size: 14px;
   }
+
+  .mobile-nav-toggle {
+  width: 38px;
+  height: 38px;
+  top: 1rem;
+  right: 1rem;
+}
+
+.mobile-nav-toggle i {
+  font-size: 14px;  /* Match mobile back-to-top size */
+}
 
   .social {
     gap: 1rem;
