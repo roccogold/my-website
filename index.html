@@ -1466,8 +1466,10 @@ body.light-theme pre {
   }
 
   .top-bar {
-    min-height: 85vh;
+    min-height: 50vh;  /* ← CHANGED from 85vh to 50vh */
     padding: 0 1rem;
+    margin-bottom: 0;   /* Optional: ensures no extra margin pushes content down */
+    justify-content: center; /* Keeps vertical centering */
   }
   
   .top-bar header h1.neon-title {
