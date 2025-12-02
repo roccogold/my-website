@@ -906,21 +906,19 @@ body.light-theme .view-all-btn:hover {
   justify-content: center;
   gap: 1.5rem;
 }
-
+      
 .tron-header h2 {
-  font-family: 'Audiowide', cursive;
-  font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+  font-family: 'JetBrains Mono', monospace; /* The Change */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.05em; /* Tighter tracking looks more modern */
+  font-size: clamp(1.5rem, 5vw, 2rem);
   color: #d4b5f7;
-  text-shadow:
-    0 0 10px rgba(167, 139, 250, 0.8),
-    0 0 20px rgba(139, 92, 246, 0.6),
-    0 0 40px rgba(124, 58, 237, 0.4),
-    2px 2px 0px #b18cd9,
-    4px 4px 0px #9a77c6,
-    6px 6px 0px #8859b8;
   margin: 0;
-  letter-spacing: 0.15em;
-  font-weight: 900;
+  /* Reduced shadow for a cleaner look */
+  text-shadow:
+    0 0 10px rgba(167, 139, 250, 0.5),
+    2px 2px 0px #b18cd9;
 }
 
 body.light-theme .tron-header h2 {
