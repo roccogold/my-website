@@ -526,16 +526,16 @@ body.light-theme .nav-item::after {
    MOBILE NAVIGATION - MINIMAL DROPDOWN
    =============================================== */
 
-/* Mobile hamburger button */
+/* Mobile hamburger button - matches back-to-top style */
 .mobile-nav-toggle {
   display: none; /* Hidden on desktop */
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
-  width: 45px;
-  height: 45px;
-  background: rgba(154, 119, 198, 0.2);
-  border: 2px solid var(--accent-dark);
+  width: 50px;
+  height: 50px;
+  background: var(--accent-dark);
+  border: none;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1003;
@@ -543,20 +543,20 @@ body.light-theme .nav-item::after {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
 }
 
 .mobile-nav-toggle:hover {
-  background: rgba(154, 119, 198, 0.4);
-  transform: scale(1.1);
+  background: var(--accent-dark-hover);
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
 }
 
 .mobile-nav-toggle span {
   width: 20px;
   height: 2px;
-  background: var(--accent-dark);
+  background: white;
   transition: all 0.3s ease;
   border-radius: 2px;
 }
@@ -574,16 +574,15 @@ body.light-theme .nav-item::after {
 }
 
 body.light-theme .mobile-nav-toggle {
-  background: rgba(107, 70, 193, 0.2);
-  border-color: var(--accent-light);
-}
-
-body.light-theme .mobile-nav-toggle span {
   background: var(--accent-light);
 }
 
 body.light-theme .mobile-nav-toggle:hover {
-  background: rgba(107, 70, 193, 0.4);
+  background: var(--accent-light-hover);
+}
+
+body.light-theme .mobile-nav-toggle span {
+  background: white;
 }
 
 /* Mobile dropdown menu */
