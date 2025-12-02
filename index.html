@@ -3085,6 +3085,60 @@ body.light-theme .metric-number {
 .metric:nth-child(1) .metric-number { animation-delay: 0s; }
 .metric:nth-child(2) .metric-number { animation-delay: 0.5s; }
 .metric:nth-child(3) .metric-number { animation-delay: 1s; }
+
+/* ================= SCROLL TEXT REVEAL ================= */
+
+/* 1. Base State (The "Off" Tube) */
+/* The glow is ALWAYS there (Static), but the text is Grey */
+.closing-section-title span.char {
+  color: rgba(255, 255, 255, 0.2); /* Grey / Dimmed Core */
+  transition: color 0.1s linear;   /* Quick snap for the color change */
+  
+  /* STATIC GLOW - Always visible */
+  text-shadow:
+    0 0 10px rgba(167, 139, 250, 0.4),
+    0 0 20px rgba(139, 92, 246, 0.3),
+    2px 2px 0px #b18cd9;
+}
+
+/* 2. Active State (The "On" Tube) */
+/* The text turns Purple/White, increasing the perceived brightness */
+.closing-section-title span.char.active {
+  color: #d4b5f7; /* Bright Neon Purple Core */
+  
+  /* Optional: Slightly intensify the glow when active */
+  text-shadow:
+    0 0 10px rgba(167, 139, 250, 0.9),
+    0 0 20px rgba(139, 92, 246, 0.7),
+    0 0 40px rgba(124, 58, 237, 0.5),
+    2px 2px 0px #b18cd9,
+    4px 4px 0px #9a77c6;
+}
+
+/* === Light Theme Support === */
+
+/* Base State (Light Mode) */
+body.light-theme .closing-section-title span.char {
+  color: rgba(0, 0, 0, 0.2); /* Dark Grey Core */
+  
+  /* Static Glow for Light Mode */
+  text-shadow:
+    0 0 10px rgba(139, 92, 246, 0.4),
+    0 0 20px rgba(124, 58, 237, 0.3),
+    2px 2px 0px #a78bfa;
+}
+
+/* Active State (Light Mode) */
+body.light-theme .closing-section-title span.char.active {
+  color: #8b5cf6; /* Deep Purple Core */
+  
+  text-shadow:
+    0 0 10px rgba(139, 92, 246, 0.8),
+    0 0 20px rgba(124, 58, 237, 0.6),
+    0 0 40px rgba(109, 40, 217, 0.4),
+    2px 2px 0px #a78bfa,
+    4px 4px 0px #7c3aed;
+}
       
 </style>
 </head>
