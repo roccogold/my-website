@@ -588,18 +588,20 @@ body.light-theme .top-bar header h1.neon-title {
 
 
 .neon-greeting {
-  font-size: var(--font-sm);
-  font-weight: 500;
-  color: var(--text-dark);
-  opacity: 0.9;
-  margin: 0 0 0.5rem 0;
-  font-family: var(--main-font);
+  font-family: var(--main-font); /* JetBrains Mono */
+  font-size: var(--font-md);     /* Matches subtitle size */
+  font-weight: 500;              /* Matches subtitle weight */
   letter-spacing: 0.02em;
+  margin: 0 0 0.5rem 0;          /* Space between this and ROCCO */
+  
+  /* "Dark White Mode" Colors */
+  color: var(--text-dark);       /* White in Dark Mode */
+  opacity: 1;                    /* Full visibility */
 }
 
 body.light-theme .neon-greeting {
-  color: var(--text-light);
-  opacity: 0.9;
+  color: var(--text-light);      /* Black in Light Mode */
+  opacity: 1;
 }
 
       
@@ -3146,6 +3148,7 @@ body.light-theme .closing-section-title span.char.active {
 <div id="topBar" class="top-bar">
   <div id="about">
     <header class="reveal">
+      <p class="neon-greeting"><b>Ciao, I'm</b></p>
       <h1 class="neon-title">ROCCO</h1>
       <p class="neon-subtitle"><b>&lt; Product Manager — from idea to impact &gt;</b></p>
     </header>
