@@ -3106,6 +3106,21 @@ body.light-theme .closing-section-title span.char.active {
     2px 2px 0px #a78bfa,
     4px 4px 0px #7c3aed;
 }
+
+/* ================= DATE COLOR FIX ================= */
+
+/* DARK MODE: Force dates to be White */
+.year-badge,
+.card-date {
+  color: #ffffff !important; /* Pure White */
+  opacity: 0.9;
+}
+
+/* LIGHT MODE: Keep them Purple (so they are visible on white) */
+body.light-theme .year-badge,
+body.light-theme .card-date {
+  color: var(--accent-light) !important;
+}
       
 </style>
 </head>
