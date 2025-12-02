@@ -587,20 +587,22 @@ body.light-theme .top-bar header h1.neon-title {
 }
 
 
+/* Now exactly the same color as the subtitle */
 .neon-greeting {
-  font-family: var(--main-font); /* JetBrains Mono */
-  font-size: var(--font-md);     /* Matches subtitle size */
-  font-weight: 500;              /* Matches subtitle weight */
+  font-family: var(--main-font);
+  font-size: var(--font-md);
+  font-weight: 500;
   letter-spacing: 0.02em;
-  margin: 0 0 0.5rem 0;          /* Space between this and ROCCO */
+  margin: 0 0 0.5rem 0;
   
-  /* "Dark White Mode" Colors */
-  color: var(--text-dark);       /* White in Dark Mode */
-  opacity: 1;                    /* Full visibility */
+  /* PURPLE (Dark Mode) */
+  color: var(--accent-dark); 
+  opacity: 1;
 }
 
+/* PURPLE (Light Mode) */
 body.light-theme .neon-greeting {
-  color: var(--text-light);      /* Black in Light Mode */
+  color: var(--accent-light);
   opacity: 1;
 }
 
