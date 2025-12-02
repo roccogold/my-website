@@ -1622,7 +1622,7 @@ body.light-theme pre {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   body {
-    padding-top: 70px;
+    padding-top: 40px;  /* ← CHANGED from 70px to 40px */
     padding-bottom: 0;
   }
 
@@ -1631,10 +1631,11 @@ body.light-theme pre {
   }
 
   .top-bar {
-    min-height: 40vh;  /* ← CHANGED from 50vh to 40vh */
-    padding: 0 1rem;
+    min-height: 40vh;
+    padding: 2rem 1rem 0 1rem;  /* ← CHANGED: added 2rem top padding */
     margin-bottom: 0;
-    justify-content: center;
+    justify-content: flex-start;  /* ← CHANGED from center to flex-start */
+    padding-top: 3rem;  /* ← ADD THIS: push content down from very top */
   }
   
   .top-bar header h1.neon-title {
@@ -1643,13 +1644,13 @@ body.light-theme pre {
   
   .scroll-indicator {
     display: flex;
-    bottom: 1.5rem;  /* ← CHANGED from 3.5rem to 1.5rem */
+    bottom: 1.5rem;
   }
   
   /* Reduce space between hero and main content */
   main {
     padding: var(--space-sm) var(--space-md) var(--space-lg);
-    margin-top: -2rem;  /* ← ADD THIS to pull content up closer */
+    margin-top: -2rem;
   }
       
   .job-title {
