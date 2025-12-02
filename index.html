@@ -2786,15 +2786,6 @@ body.light-theme [title]:hover {
 .closing-section-title {
   font-family: 'Audiowide', cursive;
   font-size: clamp(2rem, 5vw, 3.5rem);
-  color: #d4b5f7;
-  text-shadow: 
-    0 0 10px rgba(167, 139, 250, 0.8),
-    0 0 20px rgba(139, 92, 246, 0.6),
-    0 0 40px rgba(124, 58, 237, 0.4),
-    2px 2px 0px #b18cd9,
-    4px 4px 0px #9a77c6,
-    6px 6px 0px #8859b8,
-    8px 8px 15px rgba(0,0,0,0.5);
   transform: perspective(300px) rotateX(10deg);
   text-align: center;
   margin-top: 2rem;  /* CHANGED from 4rem */
@@ -2815,15 +2806,6 @@ body.light-theme .closing-section-title::before {
 }
 
 body.light-theme .closing-section-title {
-  color: #8b5cf6;
-  text-shadow: 
-    0 0 10px rgba(139, 92, 246, 0.8),
-    0 0 20px rgba(124, 58, 237, 0.6),
-    0 0 40px rgba(109, 40, 217, 0.4),
-    2px 2px 0px #a78bfa,
-    4px 4px 0px #7c3aed,
-    6px 6px 0px #6d28d9,
-    8px 8px 15px rgba(107, 70, 193, 0.4);
   transform: perspective(300px) rotateX(10deg);
 }
 
@@ -4152,7 +4134,52 @@ initTypingEffect() {
 }
 }
 
+// Scroll-linked Text Reveal Module
+class ScrollTextReveal {
+  constructor(selector) {
+    this.element = document.querySelector(selector);
+    if (!this.element) return;
+    this.init();
+  }
 
+  init() {
+    // 1. Split text into characters
+    const text = this.element.innerText;
+    this.element.innerHTML = text
+      .split('')
+      .map(char => char === ' ' ? ' ' : `<span class="char">${char}</span>`)
+      .join('');
+      
+    this.chars = this.element.querySelectorAll('.char');
+    
+    // 2. Bind scroll event
+    window.addEventListener('scroll', () => this.onScroll());
+    this.onScroll(); // Trigger once on load
+  }
+
+  onScroll() {
+    const rect = this.element.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    // 0% (start) when element enters bottom of screen
+    // 100% (end) when element is near the top third
+    const start = windowHeight * 0.9; 
+    const end = windowHeight * 0.3; 
+    
+    let progress = (start - rect.top) / (start - end);
+    progress = Math.min(Math.max(progress, 0), 1); // Clamp between 0 and 1
+
+    const charsToReveal = Math.floor(progress * this.chars.length);
+
+    this.chars.forEach((char, index) => {
+      if (index < charsToReveal) {
+        char.classList.add('active');
+      } else {
+        char.classList.remove('active');
+      }
+    });
+  }
+}
       
 // Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -4162,6 +4189,9 @@ document.addEventListener('DOMContentLoaded', () => {
   new GitHubIntegration();
   new PerformanceMonitor();
   new EnhancedWebsite();
+
+  // ADD THIS LINE:
+  new ScrollTextReveal('.closing-section-title');
 
   // Resume download tracking
   const resumeLink = document.getElementById('resumeDownload');
