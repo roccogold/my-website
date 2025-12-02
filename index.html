@@ -2851,24 +2851,7 @@ body.light-theme .tron-header h2 {
       4px 4px 0px #7c3aed,
       6px 6px 10px rgba(107, 70, 193, 0.2);
   }
-  
-  .closing-section-title {
-    text-shadow: 
-      0 0 8px rgba(167, 139, 250, 0.4),
-      0 0 15px rgba(139, 92, 246, 0.3),
-      2px 2px 0px #b18cd9,
-      4px 4px 0px #9a77c6,
-      6px 6px 10px rgba(0,0,0,0.3);
-  }
-  
-  body.light-theme .closing-section-title {
-    text-shadow: 
-      0 0 8px rgba(139, 92, 246, 0.3),
-      0 0 15px rgba(124, 58, 237, 0.2),
-      2px 2px 0px #a78bfa,
-      4px 4px 0px #7c3aed,
-      6px 6px 10px rgba(107, 70, 193, 0.2);
-  }
+
 }
 
 .thesis-description {
@@ -3073,25 +3056,24 @@ body.light-theme .metric-number {
 
 /* ================= SCROLL TEXT REVEAL ================= */
 
-/* 1. Base State (The "Off" Tube) */
-/* The glow is ALWAYS there (Static), but the text is Grey */
+/* --- DARK MODE (Default) --- */
+/* 1. Base State: Starts WHITE */
 .closing-section-title span.char {
-  color: rgba(255, 255, 255, 0.2); /* Grey / Dimmed Core */
-  transition: color 0.1s linear;   /* Quick snap for the color change */
+  color: rgba(255, 255, 255, 0.5); /* Visible White (50% opacity) */
+  transition: color 0.1s linear;
   
-  /* STATIC GLOW - Always visible */
+  /* Static Purple Glow (Always visible) */
   text-shadow:
     0 0 10px rgba(167, 139, 250, 0.4),
     0 0 20px rgba(139, 92, 246, 0.3),
     2px 2px 0px #b18cd9;
 }
 
-/* 2. Active State (The "On" Tube) */
-/* The text turns Purple/White, increasing the perceived brightness */
+/* 2. Active State: Turns PURPLE */
 .closing-section-title span.char.active {
-  color: #d4b5f7; /* Bright Neon Purple Core */
+  color: #d4b5f7; /* Bright Neon Purple */
   
-  /* Optional: Slightly intensify the glow when active */
+  /* Intensified Glow */
   text-shadow:
     0 0 10px rgba(167, 139, 250, 0.9),
     0 0 20px rgba(139, 92, 246, 0.7),
@@ -3100,23 +3082,23 @@ body.light-theme .metric-number {
     4px 4px 0px #9a77c6;
 }
 
-/* === Light Theme Support === */
-
-/* Base State (Light Mode) */
+/* --- LIGHT MODE --- */
+/* 1. Base State: Starts BLACK */
 body.light-theme .closing-section-title span.char {
-  color: rgba(0, 0, 0, 0.2); /* Dark Grey Core */
+  color: rgba(0, 0, 0, 0.65); /* Visible Black (65% opacity) */
   
-  /* Static Glow for Light Mode */
+  /* Static Purple Glow for Light Mode */
   text-shadow:
-    0 0 10px rgba(139, 92, 246, 0.4),
-    0 0 20px rgba(124, 58, 237, 0.3),
+    0 0 10px rgba(139, 92, 246, 0.3),
+    0 0 20px rgba(124, 58, 237, 0.2),
     2px 2px 0px #a78bfa;
 }
 
-/* Active State (Light Mode) */
+/* 2. Active State: Turns PURPLE */
 body.light-theme .closing-section-title span.char.active {
-  color: #8b5cf6; /* Deep Purple Core */
+  color: #8b5cf6; /* Deep Purple */
   
+  /* Intensified Glow */
   text-shadow:
     0 0 10px rgba(139, 92, 246, 0.8),
     0 0 20px rgba(124, 58, 237, 0.6),
