@@ -539,12 +539,12 @@ body.light-theme .nav-item::after {
   border-radius: 50%;
   cursor: pointer;
   z-index: 1003;
-  flex-direction: column;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
   transition: all var(--transition-normal);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
+  position: relative;
 }
 
 .mobile-nav-toggle:hover {
@@ -553,24 +553,31 @@ body.light-theme .nav-item::after {
   box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
 }
 
-.mobile-nav-toggle span {
-  width: 20px;
-  height: 2px;
-  background: white;
+.mobile-nav-toggle i {
+  color: white;
+  font-size: 20px;
+  position: absolute;
   transition: all 0.3s ease;
-  border-radius: 2px;
 }
 
-.mobile-nav-toggle.active span:nth-child(1) {
-  transform: rotate(45deg) translateY(7px);
+.mobile-nav-toggle .fa-bars {
+  opacity: 1;
+  transform: rotate(0deg);
 }
 
-.mobile-nav-toggle.active span:nth-child(2) {
+.mobile-nav-toggle .fa-times {
   opacity: 0;
+  transform: rotate(-90deg);
 }
 
-.mobile-nav-toggle.active span:nth-child(3) {
-  transform: rotate(-45deg) translateY(-7px);
+.mobile-nav-toggle.active .fa-bars {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.mobile-nav-toggle.active .fa-times {
+  opacity: 1;
+  transform: rotate(0deg);
 }
 
 body.light-theme .mobile-nav-toggle {
@@ -581,8 +588,8 @@ body.light-theme .mobile-nav-toggle:hover {
   background: var(--accent-light-hover);
 }
 
-body.light-theme .mobile-nav-toggle span {
-  background: white;
+body.light-theme .mobile-nav-toggle i {
+  color: white;
 }
 
 /* Mobile dropdown menu */
@@ -3297,9 +3304,8 @@ body.light-theme .card-date {
 
 <!-- Mobile Navigation - Minimal Dropdown -->
 <button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
-  <span></span>
-  <span></span>
-  <span></span>
+  <i class="fas fa-bars"></i>
+  <i class="fas fa-times"></i>
 </button>
 
 <nav class="mobile-nav-menu" role="navigation" aria-label="Mobile navigation">
