@@ -3947,39 +3947,41 @@ class EnhancedWebsite {
   }
 
  initThemeToggle() {
-    const toggle = document.querySelector('.theme-toggle');
-    // Always start with dark theme (solid bulb icon)
-    toggle.innerHTML = '<i class="fas fa-lightbulb"></i>';
+  const toggle = document.querySelector('.theme-toggle');
+  
+  // Always start with light theme (hollow bulb icon)
+  document.body.classList.add('light-theme');
+  toggle.innerHTML = '<i class="far fa-lightbulb"></i>';
+  
+  toggle.addEventListener('click', () => {
+    // Disable transitions temporarily on mobile
+    const isMobile = window.matchMedia('(hover: none)').matches;
+    if (isMobile) {
+      document.body.style.transition = 'none';
+      document.documentElement.style.transition = 'none';
+    }
     
-    toggle.addEventListener('click', () => {
-      // Disable transitions temporarily on mobile
-      const isMobile = window.matchMedia('(hover: none)').matches;
-      if (isMobile) {
-        document.body.style.transition = 'none';
-        document.documentElement.style.transition = 'none';
-      }
-      
-      document.body.classList.toggle('light-theme');
-      const isLight = document.body.classList.contains('light-theme');
-      
-      toggle.innerHTML = isLight ? '<i class="far fa-lightbulb"></i>' : '<i class="fas fa-lightbulb"></i>';
-      // No localStorage - theme resets to dark on page reload
-      
-      // Update theme color meta tag immediately
-      const themeColor = document.querySelector('meta[name="theme-color"]');
-      if (themeColor) {
-        themeColor.content = isLight ? '#ffffff' : '#111111';
-      }
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    
+    toggle.innerHTML = isLight ? '<i class="far fa-lightbulb"></i>' : '<i class="fas fa-lightbulb"></i>';
+    // No localStorage - theme resets to light on page reload
+    
+    // Update theme color meta tag immediately
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) {
+      themeColor.content = isLight ? '#ffffff' : '#111111';
+    }
 
-      // Re-enable transitions after a short delay
-      if (isMobile) {
-        setTimeout(() => {
-          document.body.style.transition = '';
-          document.documentElement.style.transition = '';
-        }, 50);
-      }
-    });
-  }
+    // Re-enable transitions after a short delay
+    if (isMobile) {
+      setTimeout(() => {
+        document.body.style.transition = '';
+        document.documentElement.style.transition = '';
+      }, 50);
+    }
+  });
+}
 
   initScrollProgress() {
     const progressBar = document.querySelector('.scroll-progress');
