@@ -3026,6 +3026,19 @@ body.light-theme .metric-number {
     font-size: 0.65rem;
   }
 }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.metric-number {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.metric:nth-child(1) .metric-number { animation-delay: 0s; }
+.metric:nth-child(2) .metric-number { animation-delay: 0.5s; }
+.metric:nth-child(3) .metric-number { animation-delay: 1s; }
       
 </style>
 </head>
