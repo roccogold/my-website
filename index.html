@@ -3702,13 +3702,18 @@ class Navigation {
       const targetSection = document.querySelector(targetId);
       
       if (targetSection) {
-        const navHeight = 100; // Fixed offset for pill nav
+        const navHeight = 120; // Increased offset
         const targetTop = targetSection.offsetTop - navHeight;
         
         window.scrollTo({
           top: targetTop,
           behavior: 'smooth'
         });
+        
+        // Force update active state after scrolling
+        setTimeout(() => {
+          this.updateActiveNavItem(targetSection.id);
+        }, 100);
       }
     });
   });
