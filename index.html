@@ -702,6 +702,16 @@ main {
   margin-top: 1rem;
 }
 
+.hero-description {
+  text-align: left;  /* ← Makes intro text left-aligned */
+  max-width: 100%;
+  margin: 0 0 var(--space-md) 0;
+  font-size: var(--font-sm);
+  font-weight: 500;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
 @container (max-width: 480px) {
   main {
     padding: var(--space-md) var(--space-md) var(--space-xl);
@@ -2099,11 +2109,12 @@ body.light-theme .thesis-icon-btn:focus-visible {
 }
 
 .photos-intro {
-  text-align: center;
-  max-width: 600px;
+  text-align: left;  /* ← CHANGED from center to left */
+  max-width: 100%;  /* ← CHANGED from 600px to 100% */
   margin: 0 auto 2rem;
   font-size: var(--font-sm);
   opacity: 0.9;
+  line-height: 1.6;
 }
 
 .photo-grid {
