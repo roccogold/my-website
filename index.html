@@ -3695,29 +3695,27 @@ class Navigation {
   }
 
   setupSmoothScroll() {
-  this.navItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = item.getAttribute('href');
-      const targetSection = document.querySelector(targetId);
-      
-      if (targetSection) {
-        const navHeight = 180; // Even more offset for better positioning
-        const targetTop = targetSection.offsetTop - navHeight;
+    this.navItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = item.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
         
-        window.scrollTo({
-          top: targetTop,
-          behavior: 'smooth'
-        });
-        
-        // Force update active state after scrolling
-        setTimeout(() => {
-          this.updateActiveNavItem(targetSection.id);
-        }, 100);
-      }
+        if (targetSection) {
+          const navHeight = 100; // Fixed offset for pill nav
+          
+          // FIX: Calculate position relative to the document, not the parent container
+          const elementPosition = targetSection.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
     });
-  });
-}
+  }
 
   setupScrollSpy() {
     const observerOptions = {
