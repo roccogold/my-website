@@ -3267,7 +3267,7 @@ body.light-theme .metric-number {
 /* 1. Base State: DIM PURPLE (The "Off" state) */
 .closing-section-title span.char {
   color: rgba(154, 119, 198, 0.3); /* Dim Purple */
-  transition: color 0.1s linear;
+  transition: all 0.3s ease;  /* ← CHANGED from 0.1s linear to 0.3s ease */
   
   /* Faint Purple Glow (Subtle) */
   text-shadow: 0 0 5px rgba(154, 119, 198, 0.2);
@@ -4430,8 +4430,17 @@ class ScrollTextReveal {
       
     this.chars = this.element.querySelectorAll('.char');
     
-    // 2. Bind scroll event
-    window.addEventListener('scroll', () => this.onScroll());
+    // 2. Bind scroll event with throttling for smoother performance
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          this.onScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
     this.onScroll(); // Trigger once on load
   }
 
@@ -4439,10 +4448,11 @@ class ScrollTextReveal {
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // 0% (start) when element enters bottom of screen
-    // 100% (end) when element is near the top third
-    const start = windowHeight * 0.9; 
-    const end = windowHeight * 0.3; 
+    // MUCH SLOWER REVEAL - Starts earlier, ends later
+    // Starts when element is 80% up the screen (more scroll needed)
+    // Ends when element reaches 10% from top (much more gradual)
+    const start = windowHeight * 1.2;  // Changed from 0.9 to 1.2 (starts earlier)
+    const end = windowHeight * 0.1;    // Changed from 0.3 to 0.1 (ends later)
     
     let progress = (start - rect.top) / (start - end);
     progress = Math.min(Math.max(progress, 0), 1); // Clamp between 0 and 1
