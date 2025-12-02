@@ -3057,23 +3057,20 @@ body.light-theme .metric-number {
 /* ================= SCROLL TEXT REVEAL ================= */
 
 /* --- DARK MODE (Default) --- */
-/* 1. Base State: Starts WHITE */
+/* 1. Base State: DIM PURPLE (The "Off" state) */
 .closing-section-title span.char {
-  color: rgba(255, 255, 255, 0.5); /* Visible White (50% opacity) */
+  color: rgba(154, 119, 198, 0.3); /* Dim Purple */
   transition: color 0.1s linear;
   
-  /* Static Purple Glow (Always visible) */
-  text-shadow:
-    0 0 10px rgba(167, 139, 250, 0.4),
-    0 0 20px rgba(139, 92, 246, 0.3),
-    2px 2px 0px #b18cd9;
+  /* Faint Purple Glow (Subtle) */
+  text-shadow: 0 0 5px rgba(154, 119, 198, 0.2);
 }
 
-/* 2. Active State: Turns PURPLE */
+/* 2. Active State: BRIGHT NEON PURPLE (The "On" state) */
 .closing-section-title span.char.active {
-  color: #d4b5f7; /* Bright Neon Purple */
+  color: #d4b5f7; /* Your Main Neon Color */
   
-  /* Intensified Glow */
+  /* Full Power Glow */
   text-shadow:
     0 0 10px rgba(167, 139, 250, 0.9),
     0 0 20px rgba(139, 92, 246, 0.7),
@@ -3083,22 +3080,19 @@ body.light-theme .metric-number {
 }
 
 /* --- LIGHT MODE --- */
-/* 1. Base State: Starts BLACK */
+/* 1. Base State: PALE PURPLE (The "Off" state) */
 body.light-theme .closing-section-title span.char {
-  color: rgba(0, 0, 0, 0.65); /* Visible Black (65% opacity) */
+  color: rgba(107, 70, 193, 0.3); /* Dim Purple */
   
-  /* Static Purple Glow for Light Mode */
-  text-shadow:
-    0 0 10px rgba(139, 92, 246, 0.3),
-    0 0 20px rgba(124, 58, 237, 0.2),
-    2px 2px 0px #a78bfa;
+  /* Faint Glow */
+  text-shadow: 0 0 5px rgba(107, 70, 193, 0.2);
 }
 
-/* 2. Active State: Turns PURPLE */
+/* 2. Active State: DEEP ELECTRIC PURPLE (The "On" state) */
 body.light-theme .closing-section-title span.char.active {
-  color: #8b5cf6; /* Deep Purple */
+  color: #7c3aed; /* Strong, Deep Purple */
   
-  /* Intensified Glow */
+  /* Full Power Glow */
   text-shadow:
     0 0 10px rgba(139, 92, 246, 0.8),
     0 0 20px rgba(124, 58, 237, 0.6),
