@@ -1474,9 +1474,11 @@ body.light-theme pre {
     font-size: clamp(3rem, 12vw, 5rem);
   }
   
-  .scroll-indicator {
-    display: none;
-  }  
+ .scroll-indicator {
+      /* display: none;  <-- DELETE THIS LINE */
+      display: flex;  /* Add this if you want to be safe, or just removing the line above is enough */
+      bottom: 6rem;   /* Optional: move it up slightly so it doesn't overlap text on small screens */
+    }
       
   .job-title {
     font-size: 0.65rem;
@@ -1553,6 +1555,7 @@ body.light-theme pre {
     height: 38px;
     font-size: 18px;
   }
+      
 }
 
 /* Screen reader only styles */
