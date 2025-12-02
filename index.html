@@ -433,26 +433,31 @@ body.light-theme .back-to-top:hover {
   background: var(--accent-light-hover);
 }
 
-/* Navigation Bar - Desktop Only */
+/* Navigation Bar - Pill Style - Desktop Only */
 .nav-container {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1001;
-  background: transparent;  /* Fully transparent to show Tron grid */
-  backdrop-filter: blur(10px);  /* Subtle blur for text readability */
-  -webkit-backdrop-filter: blur(10px);
-  padding: 1rem 0;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);  /* Subtle depth */
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
 }
 
 .nav-bar {
+  background: rgba(17, 17, 17, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
   display: flex;
-  justify-content: center;
-  gap: 3rem;
-  max-width: 650px;
-  margin: 0 auto;
+  gap: 2rem;
+  align-items: center;
+  pointer-events: all;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .nav-item {
@@ -460,12 +465,11 @@ body.light-theme .back-to-top:hover {
   color: var(--text-dark);
   text-decoration: none;
   font-size: var(--font-sm);
-  font-weight: 600;  /* Slightly bolder for better readability */
-  padding: 0.8rem 0;
+  font-weight: 600;
+  padding: 0.5rem 0;
   transition: all var(--transition-normal);
   cursor: pointer;
   font-family: var(--main-font);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);  /* Text shadow for contrast */
 }
 
 .nav-item::after {
@@ -490,18 +494,16 @@ body.light-theme .back-to-top:hover {
   width: 100%;
 }
 
-/* Light theme support */
-body.light-theme .nav-container {
-  background: transparent;  /* Also transparent in light mode */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-}
 
+/* Light theme support */
+body.light-theme .nav-bar {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}      
+      
 body.light-theme .nav-item {
   color: var(--text-light);
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);  /* White shadow for light mode */
 }
 
 body.light-theme .nav-item:hover,
@@ -520,8 +522,6 @@ body.light-theme .nav-item::after {
   }
 }
       
-     
-      
 /* Container Queries Support */
 .top-bar {
   position: relative;
@@ -530,6 +530,11 @@ body.light-theme .nav-item::after {
   padding: 0 2rem;
   text-align: center;
   container-type: inline-size;
+  min-height: 75vh;  /* ADD THIS LINE */
+  display: flex;  /* ADD THIS LINE */
+  flex-direction: column;  /* ADD THIS LINE */
+  align-items: center;  /* ADD THIS LINE */
+  justify-content: center;  /* ADD THIS LINE */
 }
 
 @container (max-width: 480px) {
@@ -550,7 +555,7 @@ body.light-theme .nav-item::after {
 
 .top-bar header h1.neon-title {
   margin: 0;
-  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-size: clamp(4rem, 15vw, 8rem);  /* UPDATED: bigger! */
   font-weight: 900;
   font-family: 'Audiowide', cursive;
   color: #d4b5f7;
@@ -600,7 +605,7 @@ body.light-theme .neon-greeting {
       
 .top-bar header p.neon-subtitle {
   font-size: var(--font-md);
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   opacity: 1;
   font-family: var(--main-font);
   color: var(--accent-dark);  /* ← Use the purple variable */
@@ -611,6 +616,45 @@ body.light-theme .neon-greeting {
 body.light-theme .top-bar header p.neon-subtitle {
   color: var(--accent-light);
 }
+
+/* NEW: Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-dark);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  opacity: 0.7;
+  z-index: 10;
+}
+
+.scroll-indicator:hover {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+.scroll-indicator i {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+body.light-theme .scroll-indicator {
+  color: var(--accent-light);
+}    
 
 
 /* Links */
@@ -1420,6 +1464,20 @@ body.light-theme pre {
   .theme-toggle {
     display: none;
   }
+
+  .top-bar {
+    min-height: 85vh;
+    padding: 0 1rem;
+  }
+  
+  .top-bar header h1.neon-title {
+    font-size: clamp(3rem, 12vw, 5rem);
+  }
+  
+  .scroll-indicator {
+    display: none;
+  }  
+      
   .job-title {
     font-size: 0.65rem;
     line-height: 1.4;
@@ -3069,13 +3127,19 @@ body.light-theme .metric-number {
 
 <!-- ================= HEADER ================= -->
 <div id="topBar" class="top-bar">
-  <div id="about"> <!-- Add this wrapper div -->
-<header class="reveal">
-  <h1 class="neon-title">ROCCO</h1>
-  <p class="neon-subtitle"><b>< Product Manager — from idea to impact ></b></p>
-</header>
-  </div> <!-- Close the wrapper -->
-</div>
+  <div id="about">
+    <header class="reveal">
+      <h1 class="neon-title">ROCCO</h1>
+      <p class="neon-subtitle"><b>&lt; Product Manager — from idea to impact &gt;</b></p>
+    </header>
+  </div> <!-- Close the #about wrapper -->
+  
+  <!-- NEW: Scroll indicator -->
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <i class="fas fa-arrow-down"></i>
+  </div>
+</div> <!-- Close the .top-bar -->
       
 <!-- ================= MAIN CONTENT ================= -->
 <main id="main-content" role="main" aria-label="Portfolio content">
@@ -3681,7 +3745,29 @@ class Navigation {
 
 // Initialize navigation
 navigation = new Navigation();
-      
+
+// NEW: Scroll indicator functionality
+const scrollIndicator = document.querySelector('.scroll-indicator');
+if (scrollIndicator) {
+  scrollIndicator.addEventListener('click', () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  });
+  
+  // Hide on scroll
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+      scrollIndicator.style.opacity = '0';
+      scrollIndicator.style.pointerEvents = 'none';
+    } else {
+      scrollIndicator.style.opacity = '0.7';
+      scrollIndicator.style.pointerEvents = 'all';
+    }
+  });
+}
+
 </script>
 
 <!-- Enhanced JavaScript with modules -->
