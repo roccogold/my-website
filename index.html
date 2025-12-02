@@ -679,12 +679,6 @@ body.light-theme header h1 {
   color: var(--accent-light);
 }
 
-@media (max-width: 480px) {
-  header {
-    padding-top: 3.5rem;
-  }
-}
-
 header p {
   margin-top: var(--space-sm);
   font-size: var(--font-sm); /* Changed from var(--font-xs) to match body text */
@@ -1409,12 +1403,12 @@ body.light-theme pre {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   body {
-    padding-top: 100px;   /* Add space at the top */
-    padding-bottom: 0;    /* Remove the space at the bottom */
+    padding-top: 70px;   /* ← REDUCED from 100px to 70px */
+    padding-bottom: 0;
   }
 
   .theme-toggle {
-    display: none; /* Hide theme toggle on mobile */
+    display: none;
   }
   .job-title {
     font-size: 0.65rem;
