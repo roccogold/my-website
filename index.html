@@ -295,6 +295,15 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* ADD THIS NEW CODE BLOCK: Force immediate solid background */
+html {
+  background: var(--bg-dark);
+}
+
+html.light-theme {
+  background: var(--bg-light);
+}
+
 /* Force immediate background on page load */
 body::before {
   content: '';
@@ -308,8 +317,10 @@ body::before {
   pointer-events: none;
 }
 
-body.light-theme::before {
-  background: var(--bg-light);
+/* Update the light theme body */
+body.light-theme {
+  background: var(--bg-light) !important;
+  color: var(--text-light) !important;
 }
 
 /* Better mobile viewport handling */
@@ -428,7 +439,8 @@ body.light-theme .scroll-progress {
   transform: translateY(20px);
   transition: all var(--transition-normal);
   z-index: 1000;
-  will-change: transform, opacity; /* ← ADD THIS LINE */
+  will-change: transform, opacity; /* ← ADD for smoother scrolling */
+  backface-visibility: hidden; /* ← ADD to prevent flickering */
 }
 
 .back-to-top.visible {
@@ -1741,10 +1753,10 @@ body.light-theme pre {
     margin: 0.5rem 0;
   }
   
-.minimal-tag {
+  .minimal-tag {
   padding: 0.25rem 0.5rem;
   font-size: 0.7rem;
-}
+  }
   
   .spotify-container {
     margin: var(--space-sm) 0;
@@ -1754,13 +1766,14 @@ body.light-theme pre {
     margin: var(--space-sm) auto;
   }
   
-  .back-to-top {
-    bottom: max(1rem, env(safe-area-inset-bottom, 1rem)); /* ← CHANGED: respect safe area */
+   .back-to-top {
+    bottom: calc(1rem + env(safe-area-inset-bottom)); /* ← CHANGED: better safe area handling */
     right: 1rem;
     width: 38px;
     height: 38px;
     font-size: 14px;
-  }
+    transform: translateY(20px) translateZ(0); /* ← ADD translateZ */
+   }
 
   .mobile-nav-toggle {
   width: 38px;
