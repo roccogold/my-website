@@ -558,7 +558,7 @@ body.light-theme .nav-item::after {
   transition: all 0.3s ease;
 }
 
-.mobile-nav-toggle .fa-bars {
+.mobile-nav-toggle .fa-hamburger {
   opacity: 1;
   transform: rotate(0deg);
 }
@@ -568,7 +568,7 @@ body.light-theme .nav-item::after {
   transform: rotate(-90deg);
 }
 
-.mobile-nav-toggle.active .fa-bars {
+.mobile-nav-toggle.active .fa-hamburger {
   opacity: 0;
   transform: rotate(90deg);
 }
@@ -1622,12 +1622,20 @@ body.light-theme pre {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   body {
-    padding-top: 40px;  /* ← CHANGED from 70px to 40px */
+    padding-top: 40px;
     padding-bottom: 0;
   }
 
   .theme-toggle {
-    display: none;
+    display: flex;        /* ← CHANGE from display: none; to display: flex; */
+    top: 1rem;           /* ← ADD this line */
+    left: 1.5rem;        /* ← CHANGE from right: 2rem; to left: 1.5rem; */
+    width: 38px;         /* ← ADD this line */
+    height: 38px;        /* ← ADD this line */
+  }
+  
+  .theme-toggle i {
+    font-size: 14px;     /* ← ADD this line to match hamburger size */
   }
 
   .top-bar {
