@@ -4608,6 +4608,10 @@ openLightbox(index) {
   const themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle) themeToggle.style.display = 'none';
   
+  // HIDE the mobile hamburger menu
+  const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+  if (mobileNavToggle) mobileNavToggle.style.display = 'none';
+  
   // SHOW the lightbox buttons
   document.querySelector('.lightbox-close').style.display = 'flex';
   document.querySelector('.lightbox-prev').style.display = 'flex';
@@ -4626,6 +4630,10 @@ closeLightbox() {
   // SHOW the theme toggle again
   const themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle) themeToggle.style.display = 'flex';
+  
+  // SHOW the mobile hamburger menu again
+  const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+  if (mobileNavToggle) mobileNavToggle.style.display = 'flex';
   
   // HIDE the lightbox buttons
   document.querySelector('.lightbox-close').style.display = 'none';
