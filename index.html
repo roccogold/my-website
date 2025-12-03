@@ -423,11 +423,11 @@ body.light-theme .scroll-progress {
   font-size: 18px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px);
+  transform: translateY(20px) translateZ(0); /* ← ADD translateZ for GPU */
   transition: all var(--transition-normal);
   z-index: 1000;
-  will-change: transform, opacity; /* ← ADD for smoother scrolling */
-  backface-visibility: hidden; /* ← ADD to prevent flickering */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 .back-to-top.visible {
@@ -1753,14 +1753,14 @@ body.light-theme pre {
     margin: var(--space-sm) auto;
   }
   
-   .back-to-top {
-    bottom: calc(1rem + env(safe-area-inset-bottom)); /* ← CHANGED: better safe area handling */
+  .back-to-top {
+    bottom: 1.5rem; /* ← CHANGED from calc() formula to fixed value */
     right: 1rem;
     width: 38px;
     height: 38px;
     font-size: 14px;
-    transform: translateY(20px) translateZ(0); /* ← ADD translateZ */
-   }
+    transform: translateY(20px) translateZ(0);
+  }
 
   .mobile-nav-toggle {
   width: 38px;
