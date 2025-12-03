@@ -4453,15 +4453,15 @@ class ScrollTextReveal {
     this.onScroll(); // Trigger once on load
   }
 
-  onScroll() {
+ onScroll() {
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // MUCH SLOWER REVEAL - Starts earlier, ends later
-    // Starts when element is 80% up the screen (more scroll needed)
-    // Ends when element reaches 10% from top (much more gradual)
-    const start = windowHeight * 1.2;  // Changed from 0.9 to 1.2 (starts earlier)
-    const end = windowHeight * 0.1;    // Changed from 0.3 to 0.1 (ends later)
+    // EXTREMELY SLOW REVEAL - Much more gradual
+    // Starts when element is way up the screen (much more scroll needed)
+    // Ends when element is very high (incredibly gradual)
+    const start = windowHeight * 1.8;  // ← CHANGED from 1.2 to 1.8 (starts much earlier)
+    const end = windowHeight * -0.2;   // ← CHANGED from 0.1 to -0.2 (ends much later, even above viewport)
     
     let progress = (start - rect.top) / (start - end);
     progress = Math.min(Math.max(progress, 0), 1); // Clamp between 0 and 1
