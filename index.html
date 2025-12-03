@@ -4474,15 +4474,15 @@ class ScrollTextReveal {
     this.onScroll(); // Trigger once on load
   }
 
- onScroll() {
+onScroll() {
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // EXTREMELY SLOW REVEAL - Starts later, ends much later
-    // Starts when user reaches the section (later)
-    // Ends way after (incredibly slow reveal)
-    const start = windowHeight * 0.8;  // ← CHANGED to 0.8 (starts LATER, when section is closer)
-    const end = windowHeight * -0.3;   // ← CHANGED to -0.3 (ends much later for very slow reveal)
+    // SLOW REVEAL - Adjusted for mobile completion
+    // Starts when user reaches the section
+    // Ends earlier so it completes on mobile
+    const start = windowHeight * 0.9;  // ← CHANGED from 0.8 to 0.9 (starts a bit earlier)
+    const end = windowHeight * 0.1;    // ← CHANGED from -0.3 to 0.1 (ends much earlier so it completes)
     
     let progress = (start - rect.top) / (start - end);
     progress = Math.min(Math.max(progress, 0), 1); // Clamp between 0 and 1
