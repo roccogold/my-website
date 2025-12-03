@@ -4616,14 +4616,20 @@ openLightbox(index) {
   const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
   if (mobileNavToggle) mobileNavToggle.style.display = 'none';
   
+  // HIDE the scroll indicator  ← ADD THESE 3 LINES
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  if (scrollIndicator) scrollIndicator.style.display = 'none';
+  
   // SHOW the lightbox buttons
   document.querySelector('.lightbox-close').style.display = 'flex';
   document.querySelector('.lightbox-prev').style.display = 'flex';
   document.querySelector('.lightbox-next').style.display = 'flex';
   
+  // PREVENT SCROLLING on both mobile and desktop
   document.body.style.overflow = 'hidden';
-  document.body.style.position = 'fixed'; /* ← ADD THIS LINE */
-  document.body.style.width = '100%'; /* ← ADD THIS LINE */
+  document.body.style.position = 'fixed';
+  document.body.style.width = '100%';
+  document.body.style.top = `-${window.scrollY}px`;
 }
 
 closeLightbox() {
@@ -4641,14 +4647,22 @@ closeLightbox() {
   const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
   if (mobileNavToggle) mobileNavToggle.style.display = 'flex';
   
+  // SHOW the scroll indicator again  ← ADD THESE 3 LINES
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  if (scrollIndicator) scrollIndicator.style.display = 'flex';
+  
   // HIDE the lightbox buttons
   document.querySelector('.lightbox-close').style.display = 'none';
   document.querySelector('.lightbox-prev').style.display = 'none';
   document.querySelector('.lightbox-next').style.display = 'none';
   
+  // RESTORE SCROLLING and position
+  const scrollY = document.body.style.top;
   document.body.style.overflow = '';
-  document.body.style.position = ''; /* ← ADD THIS LINE */
-  document.body.style.width = ''; /* ← ADD THIS LINE */
+  document.body.style.position = '';
+  document.body.style.width = '';
+  document.body.style.top = '';
+  window.scrollTo(0, parseInt(scrollY || '0') * -1);
 }
 
   showPhoto() {
