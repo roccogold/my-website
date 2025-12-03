@@ -806,22 +806,19 @@ body.light-theme .top-bar header p.neon-subtitle {
 
 /* NEW: Scroll indicator - Pulsing Dots */
 .scroll-indicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
   transition: var(--transition-normal);
   opacity: 0.7;
-  z-index: 10;
+  margin: 2rem auto;
+  padding: 0;
 }
 
 .scroll-indicator:hover {
   opacity: 1;
-  transform: translateX(-50%) translateY(-5px);
 }
 
 .scroll-dots {
@@ -3483,7 +3480,12 @@ body.light-theme .card-date {
     </header>
   </div> <!-- Close the #about wrapper -->
   
-  <!-- NEW: Scroll indicator - Pulsing Dots -->
+</div> <!-- Close the .top-bar -->
+      
+<!-- ================= MAIN CONTENT ================= -->
+<main id="main-content" role="main" aria-label="Portfolio content">
+
+<!-- NEW: Scroll indicator - Pulsing Dots -->
   <div class="scroll-indicator">
     <div class="scroll-dots">
       <span></span>
@@ -3491,10 +3493,7 @@ body.light-theme .card-date {
       <span></span>
     </div>
   </div>
-</div> <!-- Close the .top-bar -->
       
-<!-- ================= MAIN CONTENT ================= -->
-<main id="main-content" role="main" aria-label="Portfolio content">
 <div class="hero-intro reveal">
   <p class="hero-description">
     Product Manager at the intersection of <span class="keyword">design</span>, <span class="keyword">technology</span> & <span class="keyword">finance</span>. Building APIs that make compliance teams' lives easier at Moody's.
