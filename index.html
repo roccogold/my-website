@@ -4394,6 +4394,7 @@ class EnhancedWebsite {
   
   // Always start with light theme (hollow bulb icon)
   document.body.classList.add('light-theme');
+  document.documentElement.classList.add('light-theme'); // ← ADD THIS LINE
   toggle.innerHTML = '<i class="far fa-lightbulb"></i>';
   
   toggle.addEventListener('click', () => {
@@ -4405,6 +4406,7 @@ class EnhancedWebsite {
     }
     
     document.body.classList.toggle('light-theme');
+    document.documentElement.classList.toggle('light-theme'); // ← ADD THIS LINE
     const isLight = document.body.classList.contains('light-theme');
     
     toggle.innerHTML = isLight ? '<i class="far fa-lightbulb"></i>' : '<i class="fas fa-lightbulb"></i>';
