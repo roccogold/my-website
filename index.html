@@ -2463,10 +2463,14 @@ body.light-theme .photo-location {
   left: 0;
   width: 100%;
   height: 100%;
+  width: 100vw;  /* ← ADD THIS LINE */
+  height: 100vh; /* ← ADD THIS LINE */
+  height: 100dvh; /* ← ADD THIS LINE for better mobile support */
   background: rgba(0, 0, 0, 0.95);
-  z-index: 99999; /* ← CHANGE from 9999 to 99999 */
+  z-index: 99999;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* ← ADD THIS LINE to prevent scrolling */
 }
 
 .lightbox.active {
@@ -4618,6 +4622,8 @@ openLightbox(index) {
   document.querySelector('.lightbox-next').style.display = 'flex';
   
   document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed'; /* ← ADD THIS LINE */
+  document.body.style.width = '100%'; /* ← ADD THIS LINE */
 }
 
 closeLightbox() {
@@ -4641,6 +4647,8 @@ closeLightbox() {
   document.querySelector('.lightbox-next').style.display = 'none';
   
   document.body.style.overflow = '';
+  document.body.style.position = ''; /* ← ADD THIS LINE */
+  document.body.style.width = ''; /* ← ADD THIS LINE */
 }
 
   showPhoto() {
