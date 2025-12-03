@@ -1539,7 +1539,7 @@ body.light-theme #contactForm button:hover:not(:disabled) {
 /* Enhanced footer */
 footer {
   text-align: center;
-  padding: var(--space-md);
+  padding: 2rem var(--space-md) var(--space-md);
   color: rgba(255,255,255,0.6);
   font-size: var(--font-xs);
   position: relative;
@@ -1548,6 +1548,19 @@ footer {
 
 body.light-theme footer {
   color: rgba(0,0,0,0.6);
+}
+
+/* Footer divider line */
+.footer-divider {
+  width: 100%;
+  max-width: 650px;
+  height: 1px;
+  background: rgba(154, 119, 198, 0.2);
+  margin: 0 auto 2rem;
+}
+
+body.light-theme .footer-divider {
+  background: rgba(107, 70, 193, 0.2);
 }
 
 /* Enhanced selection styling */
@@ -3898,21 +3911,6 @@ More
         Always up for discussing about product concepts, new projects or the best ping pong serve. Have a problem to solve? Let's team up.
         </p>
     
-    <nav class="social" aria-label="Social and contact links" role="navigation">
-      <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" target="_blank" rel="noopener noreferrer">
-        <i class="fas fa-envelope" aria-hidden="true"></i>
-      </a>
-      <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-linkedin" aria-hidden="true"></i>
-      </a>
-      <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-github" aria-hidden="true"></i>
-      </a>
-      <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank" rel="noopener noreferrer">
-        <i class="fab fa-twitter" aria-hidden="true"></i>
-      </a>
-    </nav>
-    
     <!-- Enhanced Contact Form -->
    <form id="contactForm" 
       action="https://formspree.io/f/mldpoygl"
@@ -3956,6 +3954,21 @@ More
 
 <!-- ================= FOOTER ================= -->
 <footer role="contentinfo">
+  <div class="footer-divider"></div>
+  <nav class="social" aria-label="Social and contact links" role="navigation">
+    <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" target="_blank" rel="noopener noreferrer">
+      <i class="fas fa-envelope" aria-hidden="true"></i>
+    </a>
+    <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-linkedin" aria-hidden="true"></i>
+    </a>
+    <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-github" aria-hidden="true"></i>
+    </a>
+    <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank" rel="noopener noreferrer">
+      <i class="fab fa-twitter" aria-hidden="true"></i>
+    </a>
+  </nav>
   <span id="lastUpdated"></span>
 </footer>
 
