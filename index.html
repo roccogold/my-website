@@ -1619,7 +1619,7 @@ body.light-theme pre {
   background-color: rgba(0,0,0,0.1);
 }
 
-/* Mobile adjustments */
+
 @media (max-width: 768px) {
   body {
     padding-top: 40px;
@@ -1627,23 +1627,23 @@ body.light-theme pre {
   }
 
   .theme-toggle {
-    display: flex;        /* ← CHANGE from display: none; to display: flex; */
-    top: 1rem;           /* ← ADD this line */
-    left: 1.5rem;        /* ← CHANGE from right: 2rem; to left: 1.5rem; */
-    width: 38px;         /* ← ADD this line */
-    height: 38px;        /* ← ADD this line */
+    display: flex;
+    top: 1rem;
+    left: 1.5rem;
+    width: 38px;
+    height: 38px;
   }
   
   .theme-toggle i {
-    font-size: 14px;     /* ← ADD this line to match hamburger size */
+    font-size: 14px;
   }
 
   .top-bar {
     min-height: 40vh;
-    padding: 2rem 1rem 0 1rem;  /* ← CHANGED: added 2rem top padding */
+    padding: 1rem 1rem 0 1rem;  /* ← CHANGED from 2rem to 1rem */
     margin-bottom: 0;
-    justify-content: flex-start;  /* ← CHANGED from center to flex-start */
-    padding-top: 3rem;  /* ← ADD THIS: push content down from very top */
+    justify-content: flex-start;
+    padding-top: 1.5rem;  /* ← CHANGED from 3rem to 1.5rem */
   }
   
   .top-bar header h1.neon-title {
