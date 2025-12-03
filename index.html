@@ -1926,6 +1926,17 @@ body.light-theme .purple-text {
   color: var(--accent-light);
 }
 
+/* Keyword highlighting - design, technology, finance */
+.keyword {
+  color: var(--accent-light);
+  font-weight: 900;
+  font-size: 1.05em;
+}
+
+body.dark-theme .keyword {
+  color: var(--accent-dark);
+}
+
 .minimal-tags {
   display: flex;
   flex-wrap: wrap;
@@ -3486,21 +3497,21 @@ body.light-theme .card-date {
 <main id="main-content" role="main" aria-label="Portfolio content">
 <div class="hero-intro reveal">
   <p class="hero-description">
-    Product Manager at the intersection of design, technology & finance. Building APIs that make compliance teams' lives easier at Moody's.
+    Product Manager at the intersection of <span class="keyword">design</span>, <span class="keyword">technology</span> & <span class="keyword">finance</span>. Building APIs that make compliance teams' lives easier at Moody's.
   </p>
   
   <!-- Hero CTA Buttons -->
   <div class="hero-buttons">
     <a href="#contact" class="hero-btn-primary">
       <i class="fa-solid fa-envelope fa-beat-fade"></i>
-      Contact
+      Let's Talk
     </a>
     <a href="assets/cv-rocco.pdf" 
      target="_blank" 
      rel="noopener noreferrer" 
      class="hero-btn-secondary">
       <i class="fa-solid fa-file-pdf fa-beat-fade"></i>
-      Resume
+      View Resume
     </a>
   </div>
 </div>
