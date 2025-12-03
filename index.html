@@ -295,6 +295,23 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Force immediate background on page load */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-dark);
+  z-index: 0;
+  pointer-events: none;
+}
+
+body.light-theme::before {
+  background: var(--bg-light);
+}
+
 /* Better mobile viewport handling */
 @supports (height: 100dvh) {
   body {
@@ -411,6 +428,7 @@ body.light-theme .scroll-progress {
   transform: translateY(20px);
   transition: all var(--transition-normal);
   z-index: 1000;
+  will-change: transform, opacity; /* ← ADD THIS LINE */
 }
 
 .back-to-top.visible {
