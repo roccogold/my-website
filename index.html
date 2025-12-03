@@ -295,26 +295,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* ADD THIS NEW CODE BLOCK: Force immediate solid background */
+/* Force immediate solid background on HTML element */
 html {
   background: var(--bg-dark);
 }
 
 html.light-theme {
   background: var(--bg-light);
-}
-
-/* Force immediate background on page load */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--bg-dark);
-  z-index: 0;
-  pointer-events: none;
 }
 
 /* Update the light theme body */
