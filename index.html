@@ -151,9 +151,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;  /* ← CHANGED from -1 to 1 */
+  width: 100vw;  /* ← ADD THIS */
+  height: 100vh; /* ← ADD THIS */
+  height: 100dvh; /* ← ADD THIS for better mobile support */
+  z-index: 1;
   overflow: hidden;
-  pointer-events: none;  /* ← ADDED so clicks pass through */
+  pointer-events: none;
 }
 
 .gradient-sphere {
@@ -298,6 +301,8 @@ body {
 /* Force immediate solid background on HTML element */
 html {
   background: var(--bg-dark);
+  width: 100%;
+  min-height: 100%;
 }
 
 html.light-theme {
