@@ -545,15 +545,15 @@ body.light-theme .nav-item::after {
 }
 
 /* ===============================================
-   MOBILE NAVIGATION - MINIMAL DROPDOWN
+   MOBILE NAVIGATION - BOTTOM SHEET
    =============================================== */
 
-/* Mobile hamburger button - matches back-to-top style */
+/* Mobile hamburger button */
 .mobile-nav-toggle {
-  display: none; /* Hidden on desktop */
+  display: none;
   position: fixed;
   top: 1.5rem;
-  right: 1.5rem;  /* ← Keep this, not left! */
+  right: 1.5rem;
   width: 50px;
   height: 50px;
   background: var(--accent-dark);
@@ -561,7 +561,7 @@ body.light-theme .nav-item::after {
   border-radius: 50%;
   cursor: pointer;
   z-index: 1003;
-  align-items: center;  /* ← Removed duplicate display:flex */
+  align-items: center;
   justify-content: center;
   transition: all var(--transition-normal);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
@@ -569,18 +569,18 @@ body.light-theme .nav-item::after {
 
 .mobile-nav-toggle:hover {
   background: var(--accent-dark-hover);
-  transform: translateY(-4px) scale(1.1);
+  transform: scale(1.1);
   box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
 }
 
 .mobile-nav-toggle i {
   color: white;
-  font-size: 18px;  /* ← CHANGED from 20px to 18px to match back-to-top */
+  font-size: 18px;
   position: absolute;
   transition: all 0.3s ease;
 }
 
-.mobile-nav-toggle .fa-hamburger {
+.mobile-nav-toggle .fa-bars {
   opacity: 1;
   transform: rotate(0deg);
 }
@@ -590,7 +590,7 @@ body.light-theme .nav-item::after {
   transform: rotate(-90deg);
 }
 
-.mobile-nav-toggle.active .fa-hamburger {
+.mobile-nav-toggle.active .fa-bars {
   opacity: 0;
   transform: rotate(90deg);
 }
@@ -612,53 +612,64 @@ body.light-theme .mobile-nav-toggle i {
   color: white;
 }
 
-/* Mobile dropdown menu */
+/* Bottom Sheet Menu */
 .mobile-nav-menu {
-  display: none; /* Hidden on desktop */
+  display: none;
   position: fixed;
-  top: 5rem;
-  right: 1.5rem;
-  background: rgba(154, 119, 198, 0.15);
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  background: rgba(17, 17, 17, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 1rem;
-  min-width: 200px;
-  transform: translateY(-20px) scale(0.95);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-top: 1px solid rgba(154, 119, 198, 0.3);
+  border-radius: 24px 24px 0 0;
+  padding: 1.5rem;
+  transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   z-index: 1002;
-  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.4);
+  max-height: 70vh;
+  overflow-y: auto;
+  box-shadow: 0 -8px 32px rgba(154, 119, 198, 0.4);
 }
 
 .mobile-nav-menu.active {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  visibility: visible;
+  bottom: 0;
 }
 
 body.light-theme .mobile-nav-menu {
-  background: rgba(107, 70, 193, 0.15);
-  border-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 0 8px 32px rgba(107, 70, 193, 0.3);
+  background: rgba(255, 255, 255, 0.98);
+  border-top-color: rgba(107, 70, 193, 0.3);
+  box-shadow: 0 -8px 32px rgba(107, 70, 193, 0.3);
 }
 
-/* Mobile menu items */
+/* Menu handle at top */
+.menu-handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(154, 119, 198, 0.5);
+  border-radius: 2px;
+  margin: 0 auto 1.5rem;
+}
+
+body.light-theme .menu-handle {
+  background: rgba(107, 70, 193, 0.5);
+}
+
+/* Menu items */
 .mobile-nav-item {
-  padding: 0.8rem 1rem;
+  padding: 1rem 1.2rem;
   color: var(--text-dark);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  gap: 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
   font-size: 0.9rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.8rem;
+  background: rgba(154, 119, 198, 0.08);
+  border: 1px solid rgba(154, 119, 198, 0.2);
   cursor: pointer;
 }
 
@@ -669,20 +680,45 @@ body.light-theme .mobile-nav-menu {
 .mobile-nav-item i {
   font-size: 1.1rem;
   color: var(--accent-dark);
-  width: 20px;
+  width: 24px;
   text-align: center;
 }
 
 .mobile-nav-item:hover,
 .mobile-nav-item:active {
-  background: rgba(154, 119, 198, 0.3);
-  padding-left: 1.3rem;
-  transform: translateX(-5px);
+  background: rgba(154, 119, 198, 0.2);
+  transform: scale(1.02);
+  border-color: rgba(154, 119, 198, 0.4);
 }
 
+/* Menu divider */
+.menu-divider {
+  height: 1px;
+  background: rgba(154, 119, 198, 0.3);
+  margin: 1.5rem 0;
+}
+
+body.light-theme .menu-divider {
+  background: rgba(107, 70, 193, 0.3);
+}
+
+/* Contact item special styling */
+.mobile-nav-item.contact {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.25), rgba(181, 140, 217, 0.15));
+  border-color: rgba(154, 119, 198, 0.4);
+}
+
+.mobile-nav-item.contact:hover,
+.mobile-nav-item.contact:active {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.35), rgba(181, 140, 217, 0.25));
+  border-color: rgba(154, 119, 198, 0.5);
+}
+
+/* Light theme support */
 body.light-theme .mobile-nav-item {
   color: var(--text-light);
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(107, 70, 193, 0.08);
+  border-color: rgba(107, 70, 193, 0.2);
 }
 
 body.light-theme .mobile-nav-item i {
@@ -691,7 +727,19 @@ body.light-theme .mobile-nav-item i {
 
 body.light-theme .mobile-nav-item:hover,
 body.light-theme .mobile-nav-item:active {
-  background: rgba(107, 70, 193, 0.3);
+  background: rgba(107, 70, 193, 0.2);
+  border-color: rgba(107, 70, 193, 0.4);
+}
+
+body.light-theme .mobile-nav-item.contact {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.25), rgba(124, 58, 237, 0.15));
+  border-color: rgba(107, 70, 193, 0.4);
+}
+
+body.light-theme .mobile-nav-item.contact:hover,
+body.light-theme .mobile-nav-item.contact:active {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.35), rgba(124, 58, 237, 0.25));
+  border-color: rgba(107, 70, 193, 0.5);
 }
 
 /* Show mobile nav only on mobile */
@@ -702,6 +750,20 @@ body.light-theme .mobile-nav-item:active {
   
   .mobile-nav-menu {
     display: block;
+  }
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    width: 38px;
+    height: 38px;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .mobile-nav-toggle i {
+    font-size: 14px;
   }
 }
       
@@ -3416,13 +3478,14 @@ body.light-theme .card-date {
 </nav>
 </div>
 
-<!-- Mobile Navigation - Minimal Dropdown -->
+<!-- Mobile Navigation - Bottom Sheet -->
 <button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
-  <i class="fas fa-hamburger"></i>
+  <i class="fas fa-bars"></i>
   <i class="fas fa-times"></i>
 </button>
 
 <nav class="mobile-nav-menu" role="navigation" aria-label="Mobile navigation">
+  <div class="menu-handle"></div>
   <a href="#experience" class="mobile-nav-item">
     <i class="fas fa-laptop-code"></i>
     Work
@@ -3446,6 +3509,11 @@ body.light-theme .card-date {
   <a href="#interests" class="mobile-nav-item">
     <i class="fas fa-star"></i>
     Interests
+  </a>
+  <div class="menu-divider"></div>
+  <a href="#contact" class="mobile-nav-item contact">
+    <i class="fas fa-envelope"></i>
+    Contact
   </a>
 </nav>
 
@@ -4100,15 +4168,22 @@ class Navigation {
 // Initialize navigation
 navigation = new Navigation();
 
-// Mobile Navigation Toggle
+// Mobile Navigation Toggle - Bottom Sheet
 const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
 const mobileNavMenu = document.querySelector('.mobile-nav-menu');
 const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 
 if (mobileNavToggle && mobileNavMenu) {
   mobileNavToggle.addEventListener('click', () => {
-    mobileNavToggle.classList.toggle('active');
+    const isActive = mobileNavToggle.classList.toggle('active');
     mobileNavMenu.classList.toggle('active');
+    
+    // Prevent body scroll when menu is open
+    if (isActive) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
   });
 
   // Close menu when clicking on a nav item
@@ -4121,6 +4196,7 @@ if (mobileNavToggle && mobileNavMenu) {
       // Close the menu
       mobileNavToggle.classList.remove('active');
       mobileNavMenu.classList.remove('active');
+      document.body.style.overflow = '';
       
       // Smooth scroll to section
       if (targetSection) {
@@ -4136,13 +4212,38 @@ if (mobileNavToggle && mobileNavMenu) {
     });
   });
 
-  // Close menu when clicking outside
+  // Close menu when clicking outside (on backdrop)
   document.addEventListener('click', (e) => {
-    if (!mobileNavMenu.contains(e.target) && !mobileNavToggle.contains(e.target)) {
+    if (mobileNavMenu.classList.contains('active') && 
+        !mobileNavMenu.contains(e.target) && 
+        !mobileNavToggle.contains(e.target)) {
       mobileNavToggle.classList.remove('active');
       mobileNavMenu.classList.remove('active');
+      document.body.style.overflow = '';
     }
   });
+  
+  // Optional: Close menu on swipe down (native mobile gesture)
+  let touchStartY = 0;
+  let touchEndY = 0;
+  
+  mobileNavMenu.addEventListener('touchstart', (e) => {
+    touchStartY = e.changedTouches[0].screenY;
+  }, { passive: true });
+  
+  mobileNavMenu.addEventListener('touchend', (e) => {
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+  }, { passive: true });
+  
+  function handleSwipe() {
+    // If swiped down more than 100px, close menu
+    if (touchEndY - touchStartY > 100) {
+      mobileNavToggle.classList.remove('active');
+      mobileNavMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
 }
 
 // NEW: Scroll indicator functionality
