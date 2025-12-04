@@ -399,12 +399,12 @@ body.light-theme .theme-toggle:hover {
   position: fixed;
   top: 0;
   left: 0;
-  width: 0%;
+  width: 100%;  /* ← Start at full width */
   height: 3px;
   background: linear-gradient(90deg, var(--accent-dark), var(--accent-dark-hover));
   z-index: 1002;
-  transition: none; /* ← REMOVE transition, we'll use transform instead */
-  transform-origin: left center;
+  transform: scaleX(0);  /* ← Scale from 0 */
+  transform-origin: left center;  /* ← Scale from left side */
   will-change: transform;
 }
 
