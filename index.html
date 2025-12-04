@@ -655,22 +655,19 @@ body.light-theme .menu-handle {
   background: rgba(107, 70, 193, 0.5);
 }
 
-/* Menu items */
 .mobile-nav-item {
-  padding: 1rem 1rem;  /* ← CHANGED: Reduced horizontal padding */
+  padding: 1rem;
   color: var(--text-dark);
   text-decoration: none;
   display: flex;
   align-items: center;
-  justify-content: flex-start;  /* ← ADD: Align to start */
-  gap: 0.8rem;  /* ← CHANGED: Reduced gap from 1rem to 0.8rem */
+  justify-content: center;  /* ← CHANGED from flex-start to center */
+  gap: 0;  /* ← CHANGED from 0.8rem to 0 since we use margin now */
   border-radius: 12px;
   transition: all 0.3s ease;
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 0.8rem;
-  margin-left: 0;  /* ← ADD: Ensure no left margin */
-  margin-right: 0;  /* ← ADD: Ensure no right margin */
   background: rgba(154, 119, 198, 0.08);
   border: 1px solid rgba(154, 119, 198, 0.2);
   cursor: pointer;
@@ -683,10 +680,9 @@ body.light-theme .menu-handle {
 .mobile-nav-item i {
   font-size: 1.1rem;
   color: var(--accent-dark);
-  width: 20px;  /* ← CHANGED: Reduced from 24px to 20px */
-  min-width: 20px;  /* ← ADD: Prevent shrinking */
   text-align: center;
-  flex-shrink: 0;  /* ← ADD: Keep icon size fixed */
+  flex-shrink: 0;
+  margin-right: 0.8rem;  /* ← ADD: Space between icon and text */
 }
 
 .mobile-nav-item:hover,
