@@ -545,7 +545,7 @@ body.light-theme .nav-item::after {
 }
 
 /* ===============================================
-   MOBILE NAVIGATION - SIDE PANEL (FULL HEIGHT)
+   MOBILE NAVIGATION - DROPDOWN
    =============================================== */
 
 /* Mobile hamburger button */
@@ -612,63 +612,50 @@ body.light-theme .mobile-nav-toggle i {
   color: white;
 }
 
-/* Side Panel - Full Height Column */
+/* Dropdown Menu */
 .mobile-nav-menu {
   display: none;
   position: fixed;
-  top: 0;
-  right: 0;
-  width: 75%;
-  max-width: 320px;
-  height: 100vh;
-  height: 100dvh;
+  top: 5rem;
+  right: 1.5rem;
   background: rgba(154, 119, 198, 0.15);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border-left: 1px solid rgba(154, 119, 198, 0.3);
-  padding: 5rem 1.5rem 2rem 1.5rem;
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  border-radius: 16px;
+  padding: 1rem;
   z-index: 1002;
-  box-shadow: -8px 0 32px rgba(154, 119, 198, 0.4);
-  opacity: 0;
-  transform: translateX(100%);
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  pointer-events: none;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.4);
+  min-width: 200px;
 }
 
 .mobile-nav-menu.active {
-  display: flex;
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: all;
+  display: block;
 }
 
 body.light-theme .mobile-nav-menu {
   background: rgba(107, 70, 193, 0.15);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border-left-color: rgba(107, 70, 193, 0.3);
-  box-shadow: -8px 0 32px rgba(107, 70, 193, 0.3);
+  border-color: rgba(107, 70, 193, 0.3);
+  box-shadow: 0 8px 32px rgba(107, 70, 193, 0.3);
 }
 
-/* Menu items with gradient backgrounds */
+/* Menu items */
 .mobile-nav-item {
-  padding: 1rem 1.2rem;
+  padding: 0.75rem 1rem;
   color: var(--text-dark);
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  border-radius: 12px;
+  border-radius: 8px;
   transition: all 0.3s ease;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  margin-bottom: 0.75rem;
-  background: rgba(154, 119, 198, 0.15);
-  border: 1px solid rgba(154, 119, 198, 0.25);
+  margin-bottom: 0.5rem;
+  background: rgba(154, 119, 198, 0.1);
+  border: 1px solid rgba(154, 119, 198, 0.2);
 }
 
 .mobile-nav-item:last-child {
@@ -676,24 +663,47 @@ body.light-theme .mobile-nav-menu {
 }
 
 .mobile-nav-item i {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--accent-dark);
-  width: 22px;
+  width: 20px;
   text-align: center;
 }
 
 .mobile-nav-item:hover,
 .mobile-nav-item:active {
+  background: rgba(154, 119, 198, 0.25);
+  transform: translateX(4px);
+  border-color: rgba(154, 119, 198, 0.3);
+}
+
+/* Divider line before Contact */
+.menu-divider {
+  height: 1px;
   background: rgba(154, 119, 198, 0.3);
-  transform: translateX(-4px);
+  margin: 0.75rem 0;
+}
+
+body.light-theme .menu-divider {
+  background: rgba(107, 70, 193, 0.3);
+}
+
+/* Contact item - special gradient styling */
+.mobile-nav-item.contact {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.25), rgba(181, 140, 217, 0.15));
+  border-color: rgba(154, 119, 198, 0.3);
+}
+
+.mobile-nav-item.contact:hover,
+.mobile-nav-item.contact:active {
+  background: linear-gradient(135deg, rgba(154, 119, 198, 0.35), rgba(181, 140, 217, 0.25));
   border-color: rgba(154, 119, 198, 0.4);
 }
 
 /* Light theme support */
 body.light-theme .mobile-nav-item {
   color: var(--text-light);
-  background: rgba(107, 70, 193, 0.15);
-  border-color: rgba(107, 70, 193, 0.25);
+  background: rgba(107, 70, 193, 0.1);
+  border-color: rgba(107, 70, 193, 0.2);
 }
 
 body.light-theme .mobile-nav-item i {
@@ -702,7 +712,18 @@ body.light-theme .mobile-nav-item i {
 
 body.light-theme .mobile-nav-item:hover,
 body.light-theme .mobile-nav-item:active {
-  background: rgba(107, 70, 193, 0.3);
+  background: rgba(107, 70, 193, 0.25);
+  border-color: rgba(107, 70, 193, 0.3);
+}
+
+body.light-theme .mobile-nav-item.contact {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.25), rgba(124, 58, 237, 0.15));
+  border-color: rgba(107, 70, 193, 0.3);
+}
+
+body.light-theme .mobile-nav-item.contact:hover,
+body.light-theme .mobile-nav-item.contact:active {
+  background: linear-gradient(135deg, rgba(107, 70, 193, 0.35), rgba(124, 58, 237, 0.25));
   border-color: rgba(107, 70, 193, 0.4);
 }
 
@@ -727,9 +748,8 @@ body.light-theme .mobile-nav-item:active {
   }
   
   .mobile-nav-menu {
-    width: 85%;
-    max-width: 340px;
-    padding: 5rem 1.25rem 2rem 1.25rem;
+    top: 4rem;
+    right: 1rem;
   }
 }
       
