@@ -4711,11 +4711,13 @@ closeLightbox() {
   const themeToggle = document.querySelector('.theme-toggle');
   if (themeToggle) themeToggle.style.display = 'flex';
   
-  // SHOW the mobile hamburger menu again
+  // SHOW the mobile hamburger menu again ONLY on mobile
   const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-  if (mobileNavToggle) mobileNavToggle.style.display = 'flex';
+  if (mobileNavToggle && window.innerWidth <= 768) {
+    mobileNavToggle.style.display = 'flex';
+  }
   
-  // SHOW the scroll indicator again  ← ADD THESE 3 LINES
+  // SHOW the scroll indicator again
   const scrollIndicator = document.querySelector('.scroll-indicator');
   if (scrollIndicator) scrollIndicator.style.display = 'flex';
   
