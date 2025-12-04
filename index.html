@@ -4703,9 +4703,9 @@ openLightbox(index) {
 closeLightbox() {
   this.lightbox.classList.remove('active');
   
-  // SHOW the navigation bar again
+  // SHOW the navigation bar again with FLEX (not block)
   const navContainer = document.querySelector('.nav-container');
-  if (navContainer) navContainer.style.display = 'block';
+  if (navContainer) navContainer.style.display = 'flex';
   
   // SHOW the theme toggle again
   const themeToggle = document.querySelector('.theme-toggle');
