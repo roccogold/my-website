@@ -657,7 +657,7 @@ body.light-theme .menu-handle {
 
 /* Menu items */
 .mobile-nav-item {
-  padding: 1rem 0.8rem;  /* ← CHANGED: Reduced horizontal padding */
+  padding: 1rem 1rem;  /* ← CHANGED: Reduced horizontal padding */
   color: var(--text-dark);
   text-decoration: none;
   display: flex;
@@ -683,8 +683,10 @@ body.light-theme .menu-handle {
 .mobile-nav-item i {
   font-size: 1.1rem;
   color: var(--accent-dark);
-  width: 24px;
+  width: 20px;  /* ← CHANGED: Reduced from 24px to 20px */
+  min-width: 20px;  /* ← ADD: Prevent shrinking */
   text-align: center;
+  flex-shrink: 0;  /* ← ADD: Keep icon size fixed */
 }
 
 .mobile-nav-item:hover,
