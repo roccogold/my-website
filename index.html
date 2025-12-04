@@ -403,7 +403,9 @@ body.light-theme .theme-toggle:hover {
   height: 3px;
   background: linear-gradient(90deg, var(--accent-dark), var(--accent-dark-hover));
   z-index: 1002;
-  transition: width 0.3s ease;
+  transition: none; /* ← REMOVE transition, we'll use transform instead */
+  transform-origin: left center;
+  will-change: transform;
 }
 
 body.light-theme .scroll-progress {
