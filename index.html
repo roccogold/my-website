@@ -6,6 +6,10 @@
 <title>Rocco Goldschmidt — Product Manager</title>
 <meta name="description" content="Rocco Goldschmidt — Product Manager blending design, technology & finance to build simple, impactful solutions. Explore my projects and get in touch." />
 <meta name="robots" content="index, follow" />
+<meta name="author" content="Rocco Goldschmidt" />
+<meta name="keywords" content="Product Manager, API Development, Fintech, Risk Management, Moody's Analytics, Bitpanda, Milan, Blockchain" />
+
+<link rel="canonical" href="https://roccogold.com/" />
 
 <!-- Enhanced Security Headers -->
 <meta http-equiv="Content-Security-Policy" 
@@ -54,10 +58,13 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://roccogold.com/" />
 <meta property="og:title" content="Rocco Goldschmidt" />
-<meta property="og:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
+<meta property="og:description" content="Product Manager at Moody's Analytics specializing in API development, third-party risk management and fintech solutions. Previously at Bitpanda." />
+<meta property="og:locale" content="en_US" />
+<meta property="og:site_name" content="Rocco Goldschmidt Portfolio" />
 <meta property="og:image" content="https://roccogold.com/og-color.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Rocco Goldschmidt Portfolio" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
@@ -65,6 +72,11 @@
 <meta name="twitter:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
 <meta name="twitter:image" content="https://roccogold.com/og-color.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
+
+<meta name="geo.region" content="IT-25" />
+<meta name="geo.placename" content="Milan" />
+<meta name="geo.position" content="45.464664;9.188540" />
+<meta name="ICBM" content="45.464664, 9.188540" />
 
 <!-- Structured Data for SEO -->
 <script type="application/ld+json">
@@ -74,7 +86,15 @@
   "name": "Rocco Goldschmidt",
   "jobTitle": "Product Manager",
   "url": "https://roccogold.com",
-  "description": "Product Manager blending design, technology & finance to build simple, impactful solutions",
+  "image": "https://roccogold.com/og-color.png",
+  "description": "Product Manager at Moody's Analytics specializing in API development, third-party risk management and fintech solutions",
+  "email": "roccogold23@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Vienna",
+    "addressRegion": "Vienna",
+    "addressCountry": "AT"
+  },
   "sameAs": [
     "https://www.linkedin.com/in/roccogoldschmidt/",
     "https://github.com/roccogold",
@@ -82,8 +102,54 @@
   ],
   "worksFor": {
     "@type": "Organization",
-    "name": "Moody's Analytics"
+    "name": "Moody's Analytics",
+    "url": "https://www.moodys.com"
+  },
+  "alumniOf": {
+    "@type": "Organization",
+    "name": "University of Bologna (UNIBO)"
+  },
+  "knowsAbout": [
+    "Product Management",
+    "API Development",
+    "Third Party Risk Management",
+    "Fintech",
+    "Blockchain",
+    "Process Automation",
+    "Developer Experience"
+  ]
+}
+</script>
+
+<!-- ADD THIS NEW SCHEMA FOR YOUR WEBSITE -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Rocco Goldschmidt Portfolio",
+  "url": "https://roccogold.com",
+  "description": "Product Manager portfolio showcasing work in API development, risk management and fintech",
+  "author": {
+    "@type": "Person",
+    "name": "Rocco Goldschmidt"
   }
+}
+</script>
+
+<!-- ADD THIS SCHEMA FOR YOUR THESIS PROJECT -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Insurtrain - Blockchain Train Delay Insurance",
+  "description": "Automated train delay compensation using blockchain smart contracts",
+  "author": {
+    "@type": "Person",
+    "name": "Rocco Goldschmidt"
+  },
+  "datePublished": "2022",
+  "url": "https://github.com/roccogold/insurtrain",
+  "keywords": "Blockchain, Smart Contracts, Insurance, Automation"
 }
 </script>
 
@@ -93,7 +159,15 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-VKN0MXTZ4Q');
+  
+  // Enhanced configuration
+  gtag('config', 'G-VKN0MXTZ4Q', {
+    'send_page_view': true,
+    'page_title': 'Rocco Goldschmidt Portfolio',
+    'user_properties': {
+      'visitor_type': 'portfolio_visitor'
+    }
+  });
 </script>
 
 <style>
@@ -4871,5 +4945,249 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
+
+<script>
+// ============================================
+// CUSTOM GOOGLE ANALYTICS TRACKING
+// ============================================
+
+(function() {
+  'use strict';
+
+  // 1. TRACK CTA BUTTON CLICKS
+  function trackCTAButtons() {
+    // Hero buttons
+    document.querySelectorAll('.hero-btn-primary, .hero-btn-secondary').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const btnText = this.textContent.trim();
+        const btnType = this.classList.contains('hero-btn-primary') ? 'Primary CTA' : 'Secondary CTA';
+        
+        gtag('event', 'cta_button_click', {
+          'event_category': 'User Engagement',
+          'event_label': btnText,
+          'button_type': btnType,
+          'button_location': 'Hero Section'
+        });
+      });
+    });
+
+    // Resume download
+    const resumeLink = document.querySelector('a[href*="cv-rocco.pdf"]');
+    if (resumeLink) {
+      resumeLink.addEventListener('click', function() {
+        gtag('event', 'resume_download', {
+          'event_category': 'Conversions',
+          'event_label': 'Resume PDF Download',
+          'value': 10
+        });
+      });
+    }
+  }
+
+  // 2. TRACK SCROLL DEPTH
+  function trackScrollDepth() {
+    const milestones = [25, 50, 75, 100];
+    const reached = new Set();
+
+    window.addEventListener('scroll', function() {
+      const scrollPercent = Math.round(
+        (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      );
+
+      milestones.forEach(milestone => {
+        if (scrollPercent >= milestone && !reached.has(milestone)) {
+          reached.add(milestone);
+          
+          gtag('event', 'scroll_depth', {
+            'event_category': 'Engagement',
+            'event_label': milestone + '% Scrolled',
+            'value': milestone,
+            'non_interaction': true
+          });
+        }
+      });
+    });
+  }
+
+  // 3. TRACK SECTION VIEWS
+  function trackSectionViews() {
+    const sections = document.querySelectorAll('[id]');
+    const observerOptions = {
+      threshold: 0.5,
+      rootMargin: '0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.target.id) {
+          const sectionName = entry.target.id;
+          
+          gtag('event', 'section_view', {
+            'event_category': 'Content Engagement',
+            'event_label': sectionName,
+            'section_name': sectionName
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+  }
+
+  // 4. TRACK NAVIGATION CLICKS
+  function trackNavigation() {
+    document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(link => {
+      link.addEventListener('click', function() {
+        const linkText = this.textContent.trim();
+        const linkHref = this.getAttribute('href');
+        
+        gtag('event', 'navigation_click', {
+          'event_category': 'Navigation',
+          'event_label': linkText,
+          'link_destination': linkHref
+        });
+      });
+    });
+  }
+
+  // 5. TRACK EXTERNAL LINKS
+  function trackExternalLinks() {
+    document.querySelectorAll('a[href^="http"]').forEach(link => {
+      if (!link.href.includes(window.location.hostname)) {
+        link.addEventListener('click', function() {
+          const linkUrl = this.href;
+          const linkText = this.textContent.trim() || 'External Link';
+          
+          gtag('event', 'outbound_link', {
+            'event_category': 'Outbound Links',
+            'event_label': linkText,
+            'link_url': linkUrl
+          });
+        });
+      }
+    });
+  }
+
+  // 6. TRACK FORM INTERACTIONS
+  function trackFormInteractions() {
+    const form = document.getElementById('contactForm');
+    if (!form) return;
+
+    let formStarted = false;
+
+    // Track form start
+    form.querySelectorAll('input, textarea').forEach(field => {
+      field.addEventListener('focus', function() {
+        if (!formStarted) {
+          formStarted = true;
+          
+          gtag('event', 'form_start', {
+            'event_category': 'Form Interaction',
+            'event_label': 'Contact Form Started'
+          });
+        }
+      });
+    });
+
+    // Track form submission
+    form.addEventListener('submit', function() {
+      gtag('event', 'form_submit', {
+        'event_category': 'Conversions',
+        'event_label': 'Contact Form Submitted',
+        'value': 20
+      });
+    });
+  }
+
+  // 7. TRACK PHOTO GALLERY INTERACTIONS
+  function trackPhotoGallery() {
+    // Track "View More Photos" click
+    const viewMoreBtn = document.getElementById('loadMorePhotos');
+    if (viewMoreBtn) {
+      viewMoreBtn.addEventListener('click', function() {
+        gtag('event', 'photo_gallery_expand', {
+          'event_category': 'Content Engagement',
+          'event_label': 'View More Photos Clicked'
+        });
+      });
+    }
+
+    // Track individual photo clicks
+    document.querySelectorAll('.photo-card').forEach((card, index) => {
+      card.addEventListener('click', function() {
+        const location = this.dataset.location || 'Unknown';
+        
+        gtag('event', 'photo_view', {
+          'event_category': 'Content Engagement',
+          'event_label': location,
+          'photo_index': index + 1
+        });
+      });
+    });
+  }
+
+  // 8. TRACK PROJECT CLICKS
+  function trackProjectClicks() {
+    // Track thesis links
+    document.querySelectorAll('.thesis-icon-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const href = this.href;
+        const type = href.includes('github') ? 'GitHub' : 'PDF';
+        
+        gtag('event', 'thesis_link_click', {
+          'event_category': 'Project Engagement',
+          'event_label': 'Insurtrain Thesis - ' + type,
+          'link_type': type
+        });
+      });
+    });
+
+    // Track work experience links
+    document.querySelectorAll('#experience a').forEach(link => {
+      link.addEventListener('click', function() {
+        const company = this.textContent.trim();
+        
+        gtag('event', 'company_link_click', {
+          'event_category': 'Work Experience',
+          'event_label': company
+        });
+      });
+    });
+  }
+
+  // 9. TRACK TIME ON PAGE
+  function trackTimeOnPage() {
+    let startTime = Date.now();
+
+    window.addEventListener('beforeunload', function() {
+      const timeSpent = Math.round((Date.now() - startTime) / 1000);
+      
+      gtag('event', 'time_on_page', {
+        'event_category': 'Engagement',
+        'event_label': 'Total Time Spent',
+        'value': timeSpent,
+        'non_interaction': true
+      });
+    });
+  }
+
+  // INITIALIZE ALL TRACKING
+  document.addEventListener('DOMContentLoaded', function() {
+    trackCTAButtons();
+    trackScrollDepth();
+    trackSectionViews();
+    trackNavigation();
+    trackExternalLinks();
+    trackFormInteractions();
+    trackPhotoGallery();
+    trackProjectClicks();
+    trackTimeOnPage();
+
+    console.log('✅ Enhanced Analytics Tracking Initialized');
+  });
+
+})();
+</script>
+      
 </body>
 </html>
