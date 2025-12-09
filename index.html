@@ -628,7 +628,7 @@ body.light-theme .nav-item::after {
   right: 1.5rem;
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #9a77c6, #b18cd9);
+  background: var(--accent-dark);  /* ← ADD THIS - same as back-to-top */
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -642,8 +642,17 @@ body.light-theme .nav-item::after {
 }
 
 .mobile-nav-toggle:hover {
+  background: var(--accent-dark-hover);  /* ← CHANGED */
   transform: scale(1.1);
   box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
+}
+
+body.light-theme .mobile-nav-toggle {
+  background: var(--accent-light);
+}
+
+body.light-theme .mobile-nav-toggle:hover {
+  background: var(--accent-light-hover);
 }
 
 /* Hamburger to X transition */
