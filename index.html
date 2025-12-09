@@ -4314,9 +4314,16 @@ const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 if (mobileNavToggle && mobileNavMenu) {
   
 const toggleMenu = (isOpen) => {
+  const backToTop = document.querySelector('.back-to-top');
+  const themeToggle = document.querySelector('.theme-toggle');
+  
   if (isOpen) {
       mobileNavToggle.classList.add('active');
       mobileNavMenu.classList.add('active');
+      
+      // HIDE back-to-top and theme toggle
+      if (backToTop) backToTop.style.display = 'none';
+      if (themeToggle) themeToggle.style.display = 'none';
       
       // STRONGER LOCK - Save scroll position and freeze page
       const scrollY = window.scrollY;
@@ -4329,6 +4336,10 @@ const toggleMenu = (isOpen) => {
   } else {
       mobileNavToggle.classList.remove('active');
       mobileNavMenu.classList.remove('active');
+      
+      // SHOW back-to-top and theme toggle again
+      if (backToTop) backToTop.style.display = 'flex';
+      if (themeToggle) themeToggle.style.display = 'flex';
       
       // RESTORE - Get saved scroll position and restore it
       const scrollY = document.body.style.top;
