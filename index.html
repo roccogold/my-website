@@ -621,167 +621,172 @@ body.light-theme .nav-item::after {
 }
 
 /* ===============================================
-   MOBILE NAVIGATION - DROPDOWN
+   FOCUS MODE - FULLSCREEN MENU
    =============================================== */
 
-/* ===============================================
-   MOBILE NAVIGATION - FULLSCREEN FOCUS MODE
-   =============================================== */
-
-/* Mobile hamburger button */
+/* Mobile hamburger button - UPDATED for Focus Mode */
 .mobile-nav-toggle {
-  display: none; /* Hidden on desktop */
+  display: none;
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
   width: 50px;
   height: 50px;
-  background: var(--accent-dark);
+  background: linear-gradient(135deg, #9a77c6, #b18cd9);
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 10005; /* Must be higher than the menu overlay */
+  z-index: 1003;
   align-items: center;
   justify-content: center;
   transition: all var(--transition-normal);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
+  color: white;
+  font-size: 18px;
 }
 
 .mobile-nav-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 8px 25px rgba(154, 119, 198, 0.5);
+  box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
 }
 
 .mobile-nav-toggle i {
-  color: white;
-  font-size: 18px;
-  position: absolute;
   transition: all 0.3s ease;
 }
 
-.mobile-nav-toggle .fa-bars { opacity: 1; transform: rotate(0deg); }
-.mobile-nav-toggle .fa-times { opacity: 0; transform: rotate(-90deg); }
-
-.mobile-nav-toggle.active .fa-bars { opacity: 0; transform: rotate(90deg); }
-.mobile-nav-toggle.active .fa-times { opacity: 1; transform: rotate(0deg); }
-
-/* Fullscreen Overlay Menu */
+/* Focus Mode - Fullscreen Menu */
 .mobile-nav-menu {
-  display: flex; /* Always flex, visibility handled by opacity */
+  display: none;
+  position: fixed;
+  inset: 0; /* top/left/right/bottom: 0 */
+  width: 100vw;
+  height: 100vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  inset: 0; /* Top, Right, Bottom, Left = 0 */
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  
-  /* Deep Dark Glass Effect */
-  background: rgba(17, 17, 17, 0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  
-  z-index: 10004; /* Just below the toggle button */
+  gap: 0.5rem;
+  background: rgba(17, 17, 17, 0.98);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  z-index: 1002;
   opacity: 0;
-  pointer-events: none; /* Allows clicking through when closed */
-  visibility: hidden;   /* Hides from screen readers when closed */
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
 .mobile-nav-menu.active {
+  display: flex;
   opacity: 1;
-  pointer-events: all;
   visibility: visible;
 }
 
-/* Light Theme Support for Background */
+/* Light theme version */
 body.light-theme .mobile-nav-menu {
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.98);
 }
 
-/* Large Menu Items */
+/* Menu items - LARGE and centered */
 .mobile-nav-item {
-  font-family: 'Audiowide', cursive; /* Using your fancy font for impact */
-  font-size: 2rem;
-  font-weight: 500;
-  color: var(--text-dark);
-  text-decoration: none;
-  padding: 1rem;
-  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
   background: transparent;
   border: none;
-  border-radius: 0;
-  
-  /* Animation Setup */
-  transform: translateY(30px);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 1rem 2rem;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   opacity: 0;
-  transition: transform 0.4s ease, opacity 0.4s ease, color 0.2s;
+  transform: translateY(30px);
+  cursor: pointer;
+  text-align: center;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-decoration: none;
+  font-family: var(--main-font);
+  margin: 0;
 }
 
-/* Active State Animation (Staggered Entrance) */
+body.light-theme .mobile-nav-item {
+  color: rgba(26, 26, 26, 0.6);
+}
+
+/* Staggered slide-up animation */
 .mobile-nav-menu.active .mobile-nav-item {
-  transform: translateY(0);
   opacity: 1;
+  transform: translateY(0);
 }
 
-/* Staggered Delays for links */
 .mobile-nav-menu.active .mobile-nav-item:nth-child(1) { transition-delay: 0.1s; }
 .mobile-nav-menu.active .mobile-nav-item:nth-child(2) { transition-delay: 0.15s; }
 .mobile-nav-menu.active .mobile-nav-item:nth-child(3) { transition-delay: 0.2s; }
 .mobile-nav-menu.active .mobile-nav-item:nth-child(4) { transition-delay: 0.25s; }
 .mobile-nav-menu.active .mobile-nav-item:nth-child(5) { transition-delay: 0.3s; }
 .mobile-nav-menu.active .mobile-nav-item:nth-child(6) { transition-delay: 0.35s; }
-.mobile-nav-menu.active .mobile-nav-item:nth-child(7) { transition-delay: 0.4s; } /* Contact button */
+.mobile-nav-menu.active .mobile-nav-item:nth-child(7) { transition-delay: 0.4s; }
+.mobile-nav-menu.active .mobile-nav-item:nth-child(8) { transition-delay: 0.45s; }
 
-/* Icon Styling inside links */
-.mobile-nav-item i {
-  display: none; /* Hide icons in fullscreen mode for cleaner look */
-}
-
-/* Hover Effects */
-.mobile-nav-item:hover,
-.mobile-nav-item:active {
+.mobile-nav-item:hover {
   color: var(--accent-dark);
-  background: transparent;
-  transform: scale(1.1) !important; /* Override the translate transform */
-}
-
-/* The Divider - Hide it in fullscreen, or make it subtle */
-.menu-divider {
-  width: 50px;
-  height: 2px;
-  background: var(--accent-dark);
-  margin: 2rem 0;
-  opacity: 0.3;
-}
-
-/* Contact Item Special Styling */
-.mobile-nav-item.contact {
-  color: var(--accent-dark);
-  font-size: 2.2rem;
-  margin-top: 1rem;
-  background: transparent;
-  border: none;
-}
-
-/* Light Theme Text Colors */
-body.light-theme .mobile-nav-item {
-  color: var(--text-light);
+  transform: scale(1.1) translateY(0);
+  text-shadow: 0 0 20px rgba(154, 119, 198, 0.8);
 }
 
 body.light-theme .mobile-nav-item:hover {
   color: var(--accent-light);
+  text-shadow: 0 0 20px rgba(107, 70, 193, 0.8);
 }
 
-body.light-theme .mobile-nav-item.contact {
-  color: var(--accent-light);
+.mobile-nav-item i {
+  font-size: 1.5rem;
 }
 
-/* Show mobile toggle only on mobile */
+/* Divider in Focus Mode */
+.menu-divider {
+  width: 200px;
+  height: 1px;
+  background: rgba(154, 119, 198, 0.3);
+  margin: 0.5rem 0;
+  opacity: 0;
+  transition: opacity 0.3s ease 0.4s;
+}
+
+.mobile-nav-menu.active .menu-divider {
+  opacity: 1;
+}
+
+body.light-theme .menu-divider {
+  background: rgba(107, 70, 193, 0.3);
+}
+
+/* Show mobile nav only on mobile */
 @media (max-width: 768px) {
   .mobile-nav-toggle {
     display: flex;
+  }
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 768px) {
+  .mobile-nav-toggle {
+    width: 38px;
+    height: 38px;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .mobile-nav-toggle i {
+    font-size: 14px;
+  }
+  
+  .mobile-nav-item {
+    font-size: 1.5rem;
+    padding: 0.8rem 1.5rem;
+  }
+  
+  .mobile-nav-item i {
+    font-size: 1.2rem;
   }
 }
       
