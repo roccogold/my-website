@@ -4328,12 +4328,16 @@ const toggleScrollLock = (shouldLock) => {
     document.body.style.left = '0';
     
     // 3. Hide floating elements
-    if (backToTopBtn) backToTopBtn.style.display = 'none';
+    if (backToTopBtn) {
+      backToTopBtn.style.display = 'none';
+      backToTopBtn.classList.remove('visible');  // ← ADD THIS
+    }
     if (themeToggleBtn) themeToggleBtn.style.display = 'none';
     
   } else {
     // 1. Retrieve the scroll position from the body's negative top
     const scrollY = document.body.style.top;
+    const currentScroll = parseInt(scrollY || '0') * -1;
     
     // 2. Remove styles to unlock
     document.body.style.position = '';
@@ -4342,18 +4346,20 @@ const toggleScrollLock = (shouldLock) => {
     document.body.style.left = '';
     
     // 3. Restore scroll position immediately
-    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    window.scrollTo(0, currentScroll);
     
     // 4. Show theme toggle
     if (themeToggleBtn) themeToggleBtn.style.display = 'flex';
     
     // 5. Only show back-to-top if user has scrolled past 300px
     if (backToTopBtn) {
-      const currentScroll = parseInt(scrollY || '0') * -1;
       if (currentScroll > 300) {
         backToTopBtn.style.display = 'flex';
+        backToTopBtn.classList.add('visible');  // ← ADD THIS
+      } else {
+        backToTopBtn.style.display = 'none';    // ← ADD THIS
+        backToTopBtn.classList.remove('visible'); // ← ADD THIS
       }
-      // If not scrolled enough, keep it hidden (don't set display)
     }
   }
 };
