@@ -4310,35 +4310,63 @@ navigation = new Navigation();
 const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
 const mobileNavMenu = document.querySelector('.mobile-nav-menu');
 const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+const backToTopBtn = document.querySelector('.back-to-top');        // ← ADD THIS
+const themeToggleBtn = document.querySelector('.theme-toggle');     // ← ADD THIS
 
 if (mobileNavToggle && mobileNavMenu) {
   
+// Robust Body Lock Function for iOS/Mobile
+const toggleScrollLock = (shouldLock) => {
+  if (shouldLock) {
+    // 1. Calculate current scroll position
+    const scrollY = window.scrollY;
+    
+    // 2. Fix the body position so it doesn't jump
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+    document.body.style.left = '0';
+    
+    // 3. Hide floating elements
+    if (backToTopBtn) backToTopBtn.style.display = 'none';
+    if (themeToggleBtn) themeToggleBtn.style.display = 'none';
+    
+  } else {
+    // 1. Retrieve the scroll position from the body's negative top
+    const scrollY = document.body.style.top;
+    
+    // 2. Remove styles to unlock
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.left = '';
+    
+    // 3. Restore scroll position immediately
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    
+    // 4. Show theme toggle
+    if (themeToggleBtn) themeToggleBtn.style.display = 'flex';
+    
+    // 5. Only show back-to-top if user has scrolled past 300px
+    if (backToTopBtn) {
+      const currentScroll = parseInt(scrollY || '0') * -1;
+      if (currentScroll > 300) {
+        backToTopBtn.style.display = 'flex';
+      }
+      // If not scrolled enough, keep it hidden (don't set display)
+    }
+  }
+};
+
 const toggleMenu = (isOpen) => {
   if (isOpen) {
       mobileNavToggle.classList.add('active');
       mobileNavMenu.classList.add('active');
-      
-      // STRONGER LOCK - Save scroll position and freeze page
-      const scrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
+      toggleScrollLock(true);
   } else {
       mobileNavToggle.classList.remove('active');
       mobileNavMenu.classList.remove('active');
-      
-      // RESTORE - Get saved scroll position and restore it
-      const scrollY = document.body.style.top;
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      toggleScrollLock(false);
   }
 };
 
