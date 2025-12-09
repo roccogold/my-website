@@ -658,12 +658,13 @@ body.light-theme .nav-item::after {
 .mobile-nav-menu {
   display: none;
   position: fixed;
-  inset: 0; /* top/left/right/bottom: 0 */
+  inset: 0;
   width: 100vw;
   height: 100vh;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;  /* ← CHANGED to flex-start for left alignment */
+  padding-left: 2rem;  /* ← ADD padding from left edge */
   gap: 0.5rem;
   background: rgba(17, 17, 17, 0.98);
   backdrop-filter: blur(25px);
@@ -672,6 +673,7 @@ body.light-theme .nav-item::after {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s ease, visibility 0.4s ease;
+  overflow: hidden;  /* ← ADD THIS to prevent scrolling inside menu */
 }
 
 .mobile-nav-menu.active {
@@ -697,11 +699,12 @@ body.light-theme .mobile-nav-menu {
   opacity: 0;
   transform: translateY(30px);
   cursor: pointer;
-  text-align: center;
-  width: auto;
+  text-align: left;  /* ← ADD THIS */
+  width: 100%;  /* ← ADD THIS */
+  max-width: 600px;  /* ← ADD THIS to limit width */
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;  /* ← CHANGED from center to flex-start */
   gap: 1rem;
   text-decoration: none;
   font-family: var(--main-font);
@@ -4288,17 +4291,30 @@ const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 if (mobileNavToggle && mobileNavMenu) {
   
   // Function to toggle menu
-  const toggleMenu = (isOpen) => {
-    if (isOpen) {
-        mobileNavToggle.classList.add('active');
-        mobileNavMenu.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Lock background scroll
-    } else {
-        mobileNavToggle.classList.remove('active');
-        mobileNavMenu.classList.remove('active');
-        document.body.style.overflow = ''; // Restore background scroll
-    }
-  };
+// Enhanced scroll lock
+const toggleMenu = (isOpen) => {
+  if (isOpen) {
+      mobileNavToggle.classList.add('active');
+      mobileNavMenu.classList.add('active');
+      
+      // Lock scrolling completely
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
+  } else {
+      mobileNavToggle.classList.remove('active');
+      mobileNavMenu.classList.remove('active');
+      
+      // Restore scrolling
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+  }
+};
 
   // Toggle button click
   mobileNavToggle.addEventListener('click', () => {
