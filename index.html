@@ -625,7 +625,7 @@ body.light-theme .nav-item::after {
    =============================================== */
 
 /* Mobile hamburger button - UPDATED for Focus Mode */
-.mobile-nav-toggle {
+..mobile-nav-toggle {
   display: none;
   position: fixed;
   top: 1.5rem;
@@ -650,8 +650,25 @@ body.light-theme .nav-item::after {
   box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
 }
 
+/* Hamburger to X transition */
 .mobile-nav-toggle i {
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.mobile-nav-toggle.active i.fa-hamburger {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+.mobile-nav-toggle.active i.fa-times {
+  transform: rotate(0deg);
+  opacity: 1;
+}
+
+.mobile-nav-toggle i.fa-times {
+  position: absolute;
+  transform: rotate(-90deg);
+  opacity: 0;
 }
 
 /* Focus Mode - Fullscreen Menu */
@@ -693,18 +710,18 @@ body.light-theme .mobile-nav-menu {
   font-weight: 700;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--accent-dark);  /* ← PURPLE in dark mode */
   padding: 1rem 2rem;
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   opacity: 0;
   transform: translateY(30px);
   cursor: pointer;
-  text-align: left;  /* ← ADD THIS */
-  width: 100%;  /* ← ADD THIS */
-  max-width: 600px;  /* ← ADD THIS to limit width */
+  text-align: left;
+  width: 100%;
+  max-width: 600px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;  /* ← CHANGED from center to flex-start */
+  justify-content: flex-start;
   gap: 1rem;
   text-decoration: none;
   font-family: var(--main-font);
@@ -712,7 +729,7 @@ body.light-theme .mobile-nav-menu {
 }
 
 body.light-theme .mobile-nav-item {
-  color: rgba(26, 26, 26, 0.6);
+  color: var(--accent-light);  /* ← PURPLE in light mode */
 }
 
 /* Staggered slide-up animation */
@@ -3507,6 +3524,7 @@ body.light-theme .card-date {
 <!-- Mobile Navigation - Focus Mode -->
 <button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
   <i class="fas fa-hamburger"></i>
+  <i class="fas fa-times"></i>
 </button>
 
 <nav class="mobile-nav-menu" role="navigation" aria-label="Mobile navigation">
@@ -4294,11 +4312,17 @@ const toggleMenu = (isOpen) => {
   if (isOpen) {
       mobileNavToggle.classList.add('active');
       mobileNavMenu.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Lock background scroll
+      
+      // Lock scrolling on both body AND html
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
   } else {
       mobileNavToggle.classList.remove('active');
       mobileNavMenu.classList.remove('active');
-      document.body.style.overflow = ''; // Restore background scroll
+      
+      // Restore scrolling
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
   }
 };
 
