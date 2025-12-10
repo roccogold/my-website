@@ -4778,7 +4778,7 @@ onScroll() {
   if (isTopTitle) {
     // ROCCO: Discrete letter-by-letter based on scroll amount
     const scrollFromTop = window.scrollY;
-    const pixelsPerLetter = 18; // Adjust this: smaller = faster, larger = slower
+    const pixelsPerLetter = 15; // Adjust this: smaller = faster, larger = slower
     
     charsToReveal = Math.floor(scrollFromTop / pixelsPerLetter);
     charsToReveal = Math.min(charsToReveal, this.chars.length); // Cap at total letters
