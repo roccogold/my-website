@@ -4774,35 +4774,45 @@ onScroll() {
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // Check if this is the ROCCO title (at top) or closing title (at bottom)
     const isTopTitle = this.element.classList.contains('neon-title');
     
-    let start, end;
-    
-      if (isTopTitle) {
-  // ROCCO: Reveals slowly as you scroll down
-  start = windowHeight * 1.5;  // Start revealing earlier (above viewport)
-  end = windowHeight * -0.5;   // Complete later (below viewport)
-} else {
+    if (isTopTitle) {
+      // ROCCO: Slow reveal based on scroll from page top
+      const scrollFromTop = window.scrollY;
+      const revealDistance = windowHeight * 2; // Adjust this number: bigger = slower
+      
+      let progress = scrollFromTop / revealDistance;
+      progress = Math.min(Math.max(progress, 0), 1);
+      
+      const charsToReveal = Math.floor(progress * this.chars.length);
+      
+      this.chars.forEach((char, index) => {
+        if (index < charsToReveal) {
+          char.classList.add('active');
+        } else {
+          char.classList.remove('active');
+        }
+      });
+      
+    } else {
       // "let's build something amazing": Original behavior
-      start = windowHeight * 0.9;
-      end = windowHeight * 0.1;
-      }
-    
-    let progress = (start - rect.top) / (start - end);
-    progress = Math.min(Math.max(progress, 0), 1);
+      let start = windowHeight * 0.9;
+      let end = windowHeight * 0.1;
+      
+      let progress = (start - rect.top) / (start - end);
+      progress = Math.min(Math.max(progress, 0), 1);
 
-    const charsToReveal = Math.floor(progress * this.chars.length);
+      const charsToReveal = Math.floor(progress * this.chars.length);
 
-    this.chars.forEach((char, index) => {
-      if (index < charsToReveal) {
-        char.classList.add('active');
-      } else {
-        char.classList.remove('active');
-      }
-    });
+      this.chars.forEach((char, index) => {
+        if (index < charsToReveal) {
+          char.classList.add('active');
+        } else {
+          char.classList.remove('active');
+        }
+      });
+    }
   }
-} 
       
 // Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
