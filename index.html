@@ -4776,13 +4776,13 @@ onScroll() {
   let progress;
   
   if (isTopTitle) {
-    // ROCCO: Use viewport-based progression like the other title
+    // ROCCO: Super gradual - one letter per scroll section
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // Start revealing earlier, finish later for more gradual effect
-    const start = windowHeight * 1.2;  // Start when element is 120% down viewport
-    const end = windowHeight * 0.2;    // Finish when element is 20% down viewport
+    // Much longer range for very gradual reveal
+    const start = windowHeight * 1.5;  // Start very early
+    const end = windowHeight * -0.5;   // End when title is above viewport
     
     progress = (start - rect.top) / (start - end);
     progress = Math.min(Math.max(progress, 0), 1);
