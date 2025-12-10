@@ -4773,31 +4773,26 @@ class ScrollTextReveal {
 onScroll() {
   const isTopTitle = this.element.classList.contains('neon-title');
   
-  let progress;
+  let charsToReveal;
   
   if (isTopTitle) {
-    // ROCCO: ULTRA GRADUAL - Much longer scroll distance needed
-    const rect = this.element.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
+    // ROCCO: Discrete letter-by-letter based on scroll amount
+    const scrollFromTop = window.scrollY;
+    const pixelsPerLetter = 100; // Adjust this: smaller = faster, larger = slower
     
-    // MASSIVE range for very slow, gradual reveal
-    const start = windowHeight * 2.5;   // Start much earlier
-    const end = windowHeight * -1.5;    // End much later
-    
-    progress = (start - rect.top) / (start - end);
-    progress = Math.min(Math.max(progress, 0), 1);
+    charsToReveal = Math.floor(scrollFromTop / pixelsPerLetter);
+    charsToReveal = Math.min(charsToReveal, this.chars.length); // Cap at total letters
   } else {
-    // "let's build something amazing": Keep original
+    // "let's build something amazing": Keep original viewport-based
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     const start = windowHeight * 0.9;
     const end = windowHeight * 0.1;
     
-    progress = (start - rect.top) / (start - end);
-    progress = Math.min(Math.max(progress, 0), 1);
+    const progress = (start - rect.top) / (start - end);
+    const clampedProgress = Math.min(Math.max(progress, 0), 1);
+    charsToReveal = Math.floor(clampedProgress * this.chars.length);
   }
-
-  const charsToReveal = Math.floor(progress * this.chars.length);
 
   this.chars.forEach((char, index) => {
     if (index < charsToReveal) {
