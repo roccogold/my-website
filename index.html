@@ -4775,14 +4775,23 @@ onScroll() {
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     
-    // SLOW REVEAL - Adjusted for mobile completion
-    // Starts when user reaches the section
-    // Ends earlier so it completes on mobile
-    const start = windowHeight * 0.9;  // ← CHANGED from 0.8 to 0.9 (starts a bit earlier)
-    const end = windowHeight * 0.1;    // ← CHANGED from -0.3 to 0.1 (ends much earlier so it completes)
+    // Check if this is the ROCCO title (at top) or closing title (at bottom)
+    const isTopTitle = this.element.classList.contains('neon-title');
+    
+    let start, end;
+    
+    if (isTopTitle) {
+      // ROCCO: Starts revealing when user scrolls down from top
+      start = windowHeight * 1.0;  // Starts at very top
+      end = windowHeight * 0.3;     // Completes when scrolled a bit down
+    } else {
+      // "let's build something amazing": Original behavior
+      start = windowHeight * 0.9;
+      end = windowHeight * 0.1;
+    }
     
     let progress = (start - rect.top) / (start - end);
-    progress = Math.min(Math.max(progress, 0), 1); // Clamp between 0 and 1
+    progress = Math.min(Math.max(progress, 0), 1);
 
     const charsToReveal = Math.floor(progress * this.chars.length);
 
@@ -4794,7 +4803,6 @@ onScroll() {
       }
     });
   }
-}
       
 // Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
