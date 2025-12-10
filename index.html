@@ -4771,25 +4771,41 @@ class ScrollTextReveal {
   }
 
 onScroll() {
-    // Remove the isTopTitle check - use same logic for both!
+  const isTopTitle = this.element.classList.contains('neon-title');
+  
+  let progress;
+  
+  if (isTopTitle) {
+    // ROCCO: Use viewport-based progression like the other title
+    const rect = this.element.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    // Start revealing earlier, finish later for more gradual effect
+    const start = windowHeight * 1.2;  // Start when element is 120% down viewport
+    const end = windowHeight * 0.2;    // Finish when element is 20% down viewport
+    
+    progress = (start - rect.top) / (start - end);
+    progress = Math.min(Math.max(progress, 0), 1);
+  } else {
+    // "let's build something amazing": Keep original
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     const start = windowHeight * 0.9;
     const end = windowHeight * 0.1;
     
-    let progress = (start - rect.top) / (start - end);
+    progress = (start - rect.top) / (start - end);
     progress = Math.min(Math.max(progress, 0), 1);
-
-    const charsToReveal = Math.floor(progress * this.chars.length);
-
-    this.chars.forEach((char, index) => {
-      if (index < charsToReveal) {
-        char.classList.add('active');
-      } else {
-        char.classList.remove('active');
-      }
-    });
   }
+
+  const charsToReveal = Math.floor(progress * this.chars.length);
+
+  this.chars.forEach((char, index) => {
+    if (index < charsToReveal) {
+      char.classList.add('active');
+    } else {
+      char.classList.remove('active');
+    }
+  });
 }
       
 // Initialize all modules when DOM is ready
