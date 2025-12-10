@@ -4771,26 +4771,27 @@ class ScrollTextReveal {
   }
 
 onScroll() {
-    const rect = this.element.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-    
-    // Check if this is the ROCCO title (at top) or closing title (at bottom)
     const isTopTitle = this.element.classList.contains('neon-title');
     
-    let start, end;
+    let progress;
     
     if (isTopTitle) {
-      // ROCCO: Reveals slowly as you scroll down
-      start = windowHeight * 1.5;  // Start revealing earlier (above viewport)
-      end = windowHeight * -0.5;   // Complete later (below viewport)
+      // ROCCO: Simple scroll-from-top calculation for LINEAR reveal
+      const scrollFromTop = window.scrollY;
+      const revealDistance = window.innerHeight * 2; // Adjust: bigger = slower
+      
+      progress = scrollFromTop / revealDistance;
+      progress = Math.min(Math.max(progress, 0), 1);
     } else {
       // "let's build something amazing": Original behavior
-      start = windowHeight * 0.9;
-      end = windowHeight * 0.1;
+      const rect = this.element.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const start = windowHeight * 0.9;
+      const end = windowHeight * 0.1;
+      
+      progress = (start - rect.top) / (start - end);
+      progress = Math.min(Math.max(progress, 0), 1);
     }
-    
-    let progress = (start - rect.top) / (start - end);
-    progress = Math.min(Math.max(progress, 0), 1);
 
     const charsToReveal = Math.floor(progress * this.chars.length);
 
@@ -4802,7 +4803,6 @@ onScroll() {
       }
     });
   }
-} // ← ADD THIS CLOSING BRACE FOR ScrollTextReveal CLASS
       
 // Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
