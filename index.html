@@ -4780,15 +4780,15 @@ onScroll() {
     
     let start, end;
     
-    if (isTopTitle) {
-      // ROCCO: Starts revealing when user scrolls down from top
-      start = windowHeight * 1.0;  // Starts at very top
-      end = windowHeight * 0.3;     // Completes when scrolled a bit down
-    } else {
+      if (isTopTitle) {
+        // ROCCO: Reveals as you scroll down from the top
+        start = windowHeight * 0.8;  // Start revealing when ROCCO is 80% up the viewport
+        end = windowHeight * 0.2;    // Complete when ROCCO is 20% up the viewport
+      } else {
       // "let's build something amazing": Original behavior
       start = windowHeight * 0.9;
       end = windowHeight * 0.1;
-    }
+      }
     
     let progress = (start - rect.top) / (start - end);
     progress = Math.min(Math.max(progress, 0), 1);
