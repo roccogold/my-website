@@ -621,10 +621,10 @@ body.light-theme .nav-item::after {
 }
 
 /* ===============================================
-   MOBILE NAVIGATION - DROPDOWN
+   MOBILE NAVIGATION - SIDE DRAWER
    =============================================== */
 
-/* Mobile hamburger button */
+/* Mobile menu toggle button */
 .mobile-nav-toggle {
   display: none;
   position: fixed;
@@ -656,7 +656,7 @@ body.light-theme .nav-item::after {
   transition: all 0.3s ease;
 }
 
-.mobile-nav-toggle .fa-hamburger {
+.mobile-nav-toggle .fa-bars {
   opacity: 1;
   transform: rotate(0deg);
 }
@@ -666,7 +666,7 @@ body.light-theme .nav-item::after {
   transform: rotate(-90deg);
 }
 
-.mobile-nav-toggle.active .fa-hamburger {
+.mobile-nav-toggle.active .fa-bars {
   opacity: 0;
   transform: rotate(90deg);
 }
@@ -684,54 +684,71 @@ body.light-theme .mobile-nav-toggle:hover {
   background: var(--accent-light-hover);
 }
 
-body.light-theme .mobile-nav-toggle i {
-  color: white;
-}
-
-/* Dropdown Menu */
-.mobile-nav-menu {
+/* Backdrop overlay */
+.mobile-nav-backdrop {
   display: none;
   position: fixed;
-  top: 5rem;
-  right: 1.5rem;
-  background: rgba(154, 119, 198, 0.15);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1001;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-nav-backdrop.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Side Drawer Menu */
+.mobile-nav-menu {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  max-width: 85vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(17, 17, 17, 0.98);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(154, 119, 198, 0.3);
-  border-radius: 16px;
-  padding: 1rem;
+  border-left: 1px solid rgba(154, 119, 198, 0.3);
   z-index: 1002;
-  box-shadow: 0 8px 32px rgba(154, 119, 198, 0.4);
-  min-width: 200px;
+  overflow-y: auto;
+  transition: right 0.4s var(--ease-out-cubic);
+  padding: 5rem 1.5rem 2rem 1.5rem;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
 }
 
 .mobile-nav-menu.active {
-  display: block;
+  right: 0;
 }
 
 body.light-theme .mobile-nav-menu {
-  background: rgba(107, 70, 193, 0.15);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-color: rgba(107, 70, 193, 0.3);
-  box-shadow: 0 8px 32px rgba(107, 70, 193, 0.3);
+  background: rgba(255, 255, 255, 0.98);
+  border-left-color: rgba(107, 70, 193, 0.3);
 }
 
 /* Menu items */
 .mobile-nav-item {
-  padding: 0.75rem 1rem;
+  padding: 1rem 1.25rem;
   color: var(--text-dark);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  border-radius: 8px;
+  gap: 1rem;
+  border-radius: 12px;
   transition: all 0.3s ease;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  background: rgba(154, 119, 198, 0.1);
-  border: 1px solid rgba(154, 119, 198, 0.2);
+  margin-bottom: 0.75rem;
+  background: rgba(154, 119, 198, 0.08);
+  border: 1px solid rgba(154, 119, 198, 0.15);
 }
 
 .mobile-nav-item:last-child {
@@ -739,16 +756,16 @@ body.light-theme .mobile-nav-menu {
 }
 
 .mobile-nav-item i {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--accent-dark);
-  width: 20px;
+  width: 24px;
   text-align: center;
 }
 
 .mobile-nav-item:hover,
 .mobile-nav-item:active {
-  background: rgba(154, 119, 198, 0.25);
-  transform: translateX(4px);
+  background: rgba(154, 119, 198, 0.2);
+  transform: translateX(-4px);
   border-color: rgba(154, 119, 198, 0.3);
 }
 
@@ -756,7 +773,7 @@ body.light-theme .mobile-nav-menu {
 .menu-divider {
   height: 1px;
   background: rgba(154, 119, 198, 0.3);
-  margin: 0.75rem 0;
+  margin: 1.5rem 0;
 }
 
 body.light-theme .menu-divider {
@@ -767,6 +784,7 @@ body.light-theme .menu-divider {
 .mobile-nav-item.contact {
   background: linear-gradient(135deg, rgba(154, 119, 198, 0.25), rgba(181, 140, 217, 0.15));
   border-color: rgba(154, 119, 198, 0.3);
+  margin-top: 1rem;
 }
 
 .mobile-nav-item.contact:hover,
@@ -778,8 +796,8 @@ body.light-theme .menu-divider {
 /* Light theme support */
 body.light-theme .mobile-nav-item {
   color: var(--text-light);
-  background: rgba(107, 70, 193, 0.1);
-  border-color: rgba(107, 70, 193, 0.2);
+  background: rgba(107, 70, 193, 0.08);
+  border-color: rgba(107, 70, 193, 0.15);
 }
 
 body.light-theme .mobile-nav-item i {
@@ -788,7 +806,7 @@ body.light-theme .mobile-nav-item i {
 
 body.light-theme .mobile-nav-item:hover,
 body.light-theme .mobile-nav-item:active {
-  background: rgba(107, 70, 193, 0.25);
+  background: rgba(107, 70, 193, 0.2);
   border-color: rgba(107, 70, 193, 0.3);
 }
 
@@ -824,8 +842,7 @@ body.light-theme .mobile-nav-item.contact:active {
   }
   
   .mobile-nav-menu {
-    top: 4rem;
-    right: 1rem;
+    padding: 4rem 1rem 2rem 1rem;
   }
 }
       
@@ -3547,12 +3564,16 @@ body.light-theme .card-date {
 </nav>
 </div>
 
-<!-- Mobile Navigation - Dropdown -->
+<!-- Mobile Navigation Toggle -->
 <button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
-  <i class="fas fa-hamburger"></i>
+  <i class="fas fa-bars"></i>
   <i class="fas fa-times"></i>
 </button>
 
+<!-- Backdrop overlay -->
+<div class="mobile-nav-backdrop"></div>
+
+<!-- Side Drawer Menu -->
 <nav class="mobile-nav-menu" role="navigation" aria-label="Mobile navigation">
   <a href="#experience" class="mobile-nav-item">
     <i class="fas fa-laptop-code"></i>
@@ -4327,15 +4348,33 @@ class Navigation {
 // Initialize navigation
 navigation = new Navigation();
 
-// Mobile Navigation Toggle - Dropdown
+// Mobile Navigation Toggle - Side Drawer
 const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
 const mobileNavMenu = document.querySelector('.mobile-nav-menu');
+const mobileNavBackdrop = document.querySelector('.mobile-nav-backdrop');
 const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 
-if (mobileNavToggle && mobileNavMenu) {
+if (mobileNavToggle && mobileNavMenu && mobileNavBackdrop) {
+  // Toggle menu
   mobileNavToggle.addEventListener('click', () => {
     mobileNavToggle.classList.toggle('active');
     mobileNavMenu.classList.toggle('active');
+    mobileNavBackdrop.classList.toggle('active');
+    
+    // Prevent body scroll when menu is open
+    if (mobileNavMenu.classList.contains('active')) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  });
+
+  // Close menu when clicking backdrop
+  mobileNavBackdrop.addEventListener('click', () => {
+    mobileNavToggle.classList.remove('active');
+    mobileNavMenu.classList.remove('active');
+    mobileNavBackdrop.classList.remove('active');
+    document.body.style.overflow = '';
   });
 
   // Close menu when clicking on a nav item
@@ -4348,6 +4387,8 @@ if (mobileNavToggle && mobileNavMenu) {
       // Close the menu
       mobileNavToggle.classList.remove('active');
       mobileNavMenu.classList.remove('active');
+      mobileNavBackdrop.classList.remove('active');
+      document.body.style.overflow = '';
       
       // Smooth scroll to section
       if (targetSection) {
@@ -4362,17 +4403,7 @@ if (mobileNavToggle && mobileNavMenu) {
       }
     });
   });
-
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (mobileNavMenu.classList.contains('active') && 
-        !mobileNavMenu.contains(e.target) && 
-        !mobileNavToggle.contains(e.target)) {
-      mobileNavToggle.classList.remove('active');
-      mobileNavMenu.classList.remove('active');
-    }
-  });
-}
+} // ← KEEP THIS ONE (closes the if statement)
 
 // NEW: Scroll indicator functionality
 const scrollIndicator = document.querySelector('.scroll-indicator');
