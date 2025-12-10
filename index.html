@@ -4780,10 +4780,10 @@ onScroll() {
     let start, end;
     
       if (isTopTitle) {
-        // ROCCO: Reveals as you scroll down from the top
-        start = windowHeight * 0.8;  // Start revealing when ROCCO is 80% up the viewport
-        end = windowHeight * 0.2;    // Complete when ROCCO is 20% up the viewport
-      } else {
+  // ROCCO: Reveals slowly as you scroll down
+  start = windowHeight * 1.5;  // Start revealing earlier (above viewport)
+  end = windowHeight * -0.5;   // Complete later (below viewport)
+} else {
       // "let's build something amazing": Original behavior
       start = windowHeight * 0.9;
       end = windowHeight * 0.1;
