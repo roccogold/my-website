@@ -431,13 +431,12 @@ body:focus-within {
   }
 }
 
-/* Theme toggle button */
 .theme-toggle {
   position: fixed;
   top: 1.5rem;
   right: 2rem;
-  width: 50px;          /* ← CHANGED from 45px to 50px */
-  height: 50px;         /* ← CHANGED from 45px to 50px */
+  width: 50px;
+  height: 50px;
   border: 2px solid var(--accent-dark);
   border-radius: 50%;
   background: transparent;
@@ -446,9 +445,18 @@ body:focus-within {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;      /* ← CHANGED from 20px to 18px */
+  font-size: 18px;
   transition: all var(--transition-normal);
   z-index: 1002;
+  opacity: 1;  /* ← ADD THIS */
+  visibility: visible;  /* ← ADD THIS */
+}
+
+/* ← ADD THIS NEW RULE */
+.theme-toggle.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .theme-toggle:hover {
@@ -641,6 +649,15 @@ body.light-theme .nav-item::after {
   justify-content: center;
   transition: all var(--transition-normal);
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
+  opacity: 1;  /* ← ADD THIS */
+  visibility: visible;  /* ← ADD THIS */
+}
+
+/* ← ADD THIS NEW RULE */
+.mobile-nav-toggle.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* Hide theme toggle when mobile menu is active */
@@ -4353,6 +4370,28 @@ class Navigation {
 
 // Initialize navigation
 navigation = new Navigation();
+
+// Hide theme toggle and mobile menu on scroll
+let lastScrollY = window.scrollY;
+const themeToggle = document.querySelector('.theme-toggle');
+const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+
+window.addEventListener('scroll', () => {
+  const currentScrollY = window.scrollY;
+  
+  // Hide when scrolling down (past 100px), show when scrolling up or at top
+  if (currentScrollY > 100 && currentScrollY > lastScrollY) {
+    // Scrolling down
+    themeToggle?.classList.add('hidden');
+    mobileNavToggle?.classList.add('hidden');
+  } else {
+    // Scrolling up or at top
+    themeToggle?.classList.remove('hidden');
+    mobileNavToggle?.classList.remove('hidden');
+  }
+  
+  lastScrollY = currentScrollY;
+});
 
 // Mobile Navigation Toggle - Side Drawer
 const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
