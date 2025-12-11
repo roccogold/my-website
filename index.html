@@ -4368,13 +4368,72 @@ if (mobileNavToggle && mobileNavMenu && mobileNavBackdrop) {
     mobileNavMenu.classList.toggle('active');
     mobileNavBackdrop.classList.toggle('active');
     
-    // Prevent body scroll when menu is open
+    // Prevent body scroll when menu is open (improved for mobile)
     if (mobileNavMenu.classList.contains('active')) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
     } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
       document.body.style.overflow = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
   });
+
+  // Close menu when clicking backdrop
+  mobileNavBackdrop.addEventListener('click', () => {
+    mobileNavToggle.classList.remove('active');
+    mobileNavMenu.classList.remove('active');
+    mobileNavBackdrop.classList.remove('active');
+    
+    // Restore scrolling
+    const scrollY = document.body.style.top;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
+  });
+
+  // Close menu when clicking on a nav item
+  mobileNavItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = item.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      
+      // Close the menu first
+      mobileNavToggle.classList.remove('active');
+      mobileNavMenu.classList.remove('active');
+      mobileNavBackdrop.classList.remove('active');
+      
+      // Restore scrolling
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      
+      // Smooth scroll to section
+      if (targetSection) {
+        const navHeight = 100;
+        const elementPosition = targetSection.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+}
 
   // Close menu when clicking backdrop
   mobileNavBackdrop.addEventListener('click', () => {
