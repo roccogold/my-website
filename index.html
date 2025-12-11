@@ -4374,7 +4374,7 @@ navigation = new Navigation();
 // Hide theme toggle and mobile menu on scroll
 let lastScrollY = window.scrollY;
 const themeToggle = document.querySelector('.theme-toggle');
-const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+const mobileNavToggle = document.querySelector('.mobile-nav-toggle');  // ← ONLY ONE DECLARATION
 
 window.addEventListener('scroll', () => {
   const currentScrollY = window.scrollY;
@@ -4394,7 +4394,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Mobile Navigation Toggle - Side Drawer
-const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+// ← REMOVE THE DUPLICATE LINE HERE
 const mobileNavMenu = document.querySelector('.mobile-nav-menu');
 const mobileNavBackdrop = document.querySelector('.mobile-nav-backdrop');
 const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
