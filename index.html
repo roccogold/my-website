@@ -643,6 +643,13 @@ body.light-theme .nav-item::after {
   box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
 }
 
+/* Hide theme toggle when mobile menu is active */
+.mobile-nav-menu.active ~ .theme-toggle {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
 .mobile-nav-toggle:hover {
   background: var(--accent-dark-hover);
   transform: scale(1.1);
