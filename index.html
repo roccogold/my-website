@@ -4848,20 +4848,31 @@ onScroll() {
   if (isTopTitle) {
     // ROCCO: Discrete letter-by-letter based on scroll amount
     const scrollFromTop = window.scrollY;
-    const pixelsPerLetter = 15; // Adjust this: smaller = faster, larger = slower
+    const pixelsPerLetter = 15;
     
     charsToReveal = Math.floor(scrollFromTop / pixelsPerLetter);
-    charsToReveal = Math.min(charsToReveal, this.chars.length); // Cap at total letters
+    charsToReveal = Math.min(charsToReveal, this.chars.length);
   } else {
-    // "let's build something amazing": Keep original viewport-based
+    // "let's build something amazing": Element-relative approach
     const rect = this.element.getBoundingClientRect();
     const windowHeight = window.innerHeight;
-    const start = windowHeight * 0.9;
-    const end = windowHeight * 0.1;
     
-    const progress = (start - rect.top) / (start - end);
-    const clampedProgress = Math.min(Math.max(progress, 0), 1);
-    charsToReveal = Math.floor(clampedProgress * this.chars.length);
+    // Calculate how far element has moved into viewport
+    // 0 = bottom of viewport, 1 = top of viewport
+    const visibilityProgress = (windowHeight - rect.top) / windowHeight;
+    
+    // Start revealing when 30% visible, complete at 80% visible
+    const startThreshold = 0.3;
+    const endThreshold = 0.8;
+    
+    if (visibilityProgress < startThreshold) {
+      charsToReveal = 0;
+    } else if (visibilityProgress > endThreshold) {
+      charsToReveal = this.chars.length;
+    } else {
+      const adjustedProgress = (visibilityProgress - startThreshold) / (endThreshold - startThreshold);
+      charsToReveal = Math.floor(adjustedProgress * this.chars.length);
+    }
   }
 
   this.chars.forEach((char, index) => {
