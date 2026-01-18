@@ -550,6 +550,14 @@ body.light-theme .back-to-top:hover {
   display: flex;
   justify-content: center;
   pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.nav-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-20px);
 }
 
 .nav-bar {
@@ -4473,21 +4481,23 @@ let lastScrollY = window.scrollY;
 const themeToggle = document.querySelector('.theme-toggle');
 const mobileNavToggle = document.querySelector('.mobile-nav-toggle');  // ← ONLY ONE DECLARATION
 
+const navContainer = document.querySelector('.nav-container');
+
 window.addEventListener('scroll', () => {
   // Only run on desktop (screen width > 768px)
   if (window.innerWidth <= 768) return;
   
   const currentScrollY = window.scrollY;
   
-  // Hide when scrolling down (past 100px), show when scrolling up or at top
-  if (currentScrollY > 100 && currentScrollY > lastScrollY) {
-    // Scrolling down
-    themeToggle?.classList.add('hidden');
-    mobileNavToggle?.classList.add('hidden');
-  } else {
-    // Scrolling up or at top
+  // Only show when at the very top, hide otherwise
+  if (currentScrollY <= 50) {
+    // At the top - show everything
     themeToggle?.classList.remove('hidden');
-    mobileNavToggle?.classList.remove('hidden');
+    navContainer?.classList.remove('hidden');
+  } else {
+    // Not at the top - hide everything
+    themeToggle?.classList.add('hidden');
+    navContainer?.classList.add('hidden');
   }
   
   lastScrollY = currentScrollY;
