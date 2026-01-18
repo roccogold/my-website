@@ -1859,6 +1859,30 @@ body.light-theme pre {
   
   .top-bar header h1.neon-title {
     font-size: clamp(3rem, 12vw, 5rem);
+    /* Remove glow, keep only layers on mobile */
+    text-shadow:
+      2px 2px 0px #b18cd9,
+      4px 4px 0px #9a77c6 !important;
+  }
+  
+  body.light-theme .top-bar header h1.neon-title {
+    /* Remove glow, keep only layers on mobile (light theme) */
+    text-shadow:
+      2px 2px 0px #a78bfa,
+      4px 4px 0px #7c3aed !important;
+  }
+  
+  /* Remove glow from section titles on mobile */
+  .tron-header h2 {
+    text-shadow:
+      2px 2px 0px #b18cd9,
+      4px 4px 0px #9a77c6 !important;
+  }
+  
+  body.light-theme .tron-header h2 {
+    text-shadow:
+      2px 2px 0px #a78bfa,
+      4px 4px 0px #7c3aed !important;
   }
   
   .top-bar header p.neon-subtitle {
