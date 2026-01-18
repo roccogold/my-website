@@ -1842,14 +1842,17 @@ body.light-theme pre {
     display: none !important;
   }
 
-  /* Hide scroll indicator (three dots) on mobile */
+  /* Hide scroll indicator (three dots) on mobile - completely remove from layout */
   .scroll-indicator {
     display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .top-bar {
-    min-height: 35vh;
-    padding: 1.5rem 1rem 0.5rem 1rem;  /* Further reduced bottom padding for tighter spacing */
+    min-height: auto;  /* Remove min-height to let content determine height */
+    padding: 1.5rem 1rem 0.5rem 1rem;  /* Minimal bottom padding */
     margin-bottom: 0;
     justify-content: flex-start;
   }
@@ -1864,16 +1867,19 @@ body.light-theme pre {
   
   /* Uniform spacing between hero and main content */
   main {
-    padding: 0 var(--space-md) var(--space-lg);  /* Removed top padding for tighter spacing */
+    padding: 0.5rem var(--space-md) var(--space-lg);  /* Small top padding */
     margin-top: 0;
   }
   
   .hero-intro {
-    margin-top: 0;  /* Remove extra top margin on mobile for tighter spacing */
+    margin-top: 0;
+    padding-top: 0;
   }
   
   .hero-description {
-    margin-top: 0;  /* Remove any top margin on mobile */
+    margin-top: 0 !important;  /* Force remove any top margin on mobile */
+    margin-bottom: 1rem;
+    padding-top: 0 !important;  /* Force remove any padding */
   }
       
   .job-title {
