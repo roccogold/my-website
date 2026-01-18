@@ -964,9 +964,28 @@ body.light-theme .neon-greeting {
   margin-top: 1.5rem;
   opacity: 1;
   font-family: var(--main-font);
-  color: var(--accent-dark);  /* ← Use the purple variable */
+  color: var(--accent-dark);
   font-weight: 500;
   letter-spacing: 0.02em;
+  /* Typewriter animation */
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  animation: typewriter 1.5s ease-out 0.5s forwards;
+}
+
+@keyframes typewriter {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
 }
 
 body.light-theme .top-bar header p.neon-subtitle {
@@ -1895,6 +1914,21 @@ body.light-theme pre {
   
   .top-bar header p.neon-subtitle {
     margin-bottom: 0;  /* Remove bottom margin on mobile for tighter spacing */
+    white-space: normal;  /* Allow wrapping on mobile */
+    width: auto;
+    animation: fadeSlideIn 1s ease-out 0.5s forwards;
+    opacity: 0;
+  }
+  
+  @keyframes fadeSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
   
   /* Uniform spacing between hero and main content */
