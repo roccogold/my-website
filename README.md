@@ -2,7 +2,7 @@
 
 A modern, responsive personal portfolio website showcasing projects, work experience, photography, and more. Built with vanilla HTML, CSS, and JavaScript, featuring PWA support and integrated APIs.
 
-🌐 **Live Site:** [www.roccogold.com](https://www.roccogold.com)
+ 👾 **Live Site:** [www.roccogold.com](https://www.roccogold.com)
 
 ## ✨ Features
 
