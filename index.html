@@ -1832,20 +1832,23 @@ body.light-theme #contactForm button:hover:not(:disabled) {
   font-weight: 500;
 }
 
-/* Form Location Badge */
+/* Form Location Badge - Match View More button style */
 .form-location-badge {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background: rgba(154, 119, 198, 0.1);
-  border: 1px solid rgba(154, 119, 198, 0.2);
+  background: rgba(154, 119, 198, 0.12);
+  border: 1px solid rgba(154, 119, 198, 0.3);
   border-radius: 20px;
   padding: 0.4rem 1rem;
   font-size: var(--font-xs);
-  color: var(--text-dark);
+  font-family: var(--main-font);
+  font-weight: 600;
+  color: var(--accent-dark);
   width: fit-content;
   margin: 0 auto 1.5rem auto;
+  box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15);
 }
 
 .form-location-badge i {
@@ -1854,16 +1857,17 @@ body.light-theme #contactForm button:hover:not(:disabled) {
 }
 
 body.light-theme .form-location-badge {
-  background: rgba(107, 70, 193, 0.08);
-  border-color: rgba(107, 70, 193, 0.2);
-  color: var(--text-light);
+  background: rgba(107, 70, 193, 0.12);
+  border-color: rgba(107, 70, 193, 0.3);
+  color: var(--accent-light);
+  box-shadow: 0 2px 8px rgba(107, 70, 193, 0.15);
 }
 
 body.light-theme .form-location-badge i {
   color: var(--accent-light);
 }
 
-/* Full-width Submit Button */
+/* Full-width Submit Button - Match View More button style */
 .form-submit-btn {
   width: 100%;
   display: flex;
@@ -1871,31 +1875,44 @@ body.light-theme .form-location-badge i {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.9rem 1.5rem !important;
-  background: var(--accent-dark) !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 12px !important;
+  background: rgba(154, 119, 198, 0.12) !important;
+  color: var(--accent-dark) !important;
+  border: 1px solid rgba(154, 119, 198, 0.3) !important;
+  border-radius: 20px !important;
   font-size: var(--font-sm) !important;
   font-weight: 600 !important;
+  font-family: var(--main-font) !important;
   cursor: pointer;
   transition: all 0.3s ease !important;
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15) !important;
+}
+
+.form-submit-btn i {
+  color: var(--accent-dark) !important;
 }
 
 .form-submit-btn:hover:not(:disabled) {
-  background: var(--accent-dark-hover) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 20px rgba(154, 119, 198, 0.4) !important;
+  background: rgba(154, 119, 198, 0.25) !important;
+  border-color: rgba(154, 119, 198, 0.3) !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3) !important;
 }
 
 body.light-theme .form-submit-btn {
-  background: var(--accent-light) !important;
-  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3) !important;
+  background: rgba(107, 70, 193, 0.12) !important;
+  color: var(--accent-light) !important;
+  border-color: rgba(107, 70, 193, 0.3) !important;
+  box-shadow: 0 2px 8px rgba(107, 70, 193, 0.15) !important;
+}
+
+body.light-theme .form-submit-btn i {
+  color: var(--accent-light) !important;
 }
 
 body.light-theme .form-submit-btn:hover:not(:disabled) {
-  background: var(--accent-light-hover) !important;
-  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.4) !important;
+  background: rgba(107, 70, 193, 0.25) !important;
+  border-color: rgba(107, 70, 193, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3) !important;
 }
 
 /* OR CONNECT Divider */
