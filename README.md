@@ -4,6 +4,23 @@ A modern, responsive personal portfolio website showcasing projects, work experi
 
  👾 **Live Site:** [www.roccogold.com](https://www.roccogold.com)
 
+## 🎥 Demo
+
+<!-- Add your video here using one of these methods:
+
+Method 1: Direct video file from repo
+https://github.com/roccogold/my-website/raw/main/assets/demo.mp4
+
+Method 2: GitHub user-images URL (upload via issue/PR)
+https://user-images.githubusercontent.com/YOUR_USER_ID/YOUR_VIDEO_ID.mp4
+
+Method 3: YouTube embed
+[![Portfolio Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+
+Method 4: GIF preview
+![Portfolio Demo](assets/demo.gif)
+-->
+
 ## ✨ Features
 
 - **Responsive Design** - Fully responsive layout optimized for all devices
