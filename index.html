@@ -225,19 +225,34 @@
   left: 0;
   width: 100%;
   height: 100%;
-  width: 100vw;  /* ← ADD THIS */
-  height: 100vh; /* ← ADD THIS */
-  height: 100dvh; /* ← ADD THIS for better mobile support */
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   z-index: 1;
   overflow: hidden;
   pointer-events: none;
+  /* Fix for mobile Safari */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  /* Start invisible - fade in after hero */
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.gradient-background.visible {
+  opacity: 1;
 }
 
 .gradient-sphere {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
+  -webkit-filter: blur(80px);
   transition: all 0.3s ease;
+  /* Force GPU acceleration */
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .sphere-1 {
@@ -265,6 +280,50 @@
   top: 60%;
   left: 20%;
   animation: float-3 20s ease-in-out infinite alternate;
+}
+
+/* Mobile: increase gradient visibility and use smaller blur for better performance */
+@media (max-width: 768px) {
+  .gradient-sphere {
+    filter: blur(60px);
+    -webkit-filter: blur(60px);
+  }
+  
+  .sphere-1 {
+    width: 60vw;
+    height: 60vw;
+    background: linear-gradient(40deg, rgba(154, 119, 198, 0.7), rgba(154, 119, 198, 0.3));
+    top: -15%;
+    left: -20%;
+  }
+  
+  .sphere-2 {
+    width: 55vw;
+    height: 55vw;
+    background: linear-gradient(240deg, rgba(154, 119, 198, 0.6), rgba(181, 140, 217, 0.4));
+    bottom: -10%;
+    right: -15%;
+  }
+  
+  .sphere-3 {
+    width: 45vw;
+    height: 45vw;
+    background: linear-gradient(120deg, rgba(154, 119, 198, 0.5), rgba(181, 140, 217, 0.3));
+    top: 50%;
+    left: 10%;
+  }
+  
+  body.light-theme .sphere-1 {
+    background: linear-gradient(40deg, rgba(107, 70, 193, 0.5), rgba(107, 70, 193, 0.25));
+  }
+  
+  body.light-theme .sphere-2 {
+    background: linear-gradient(240deg, rgba(107, 70, 193, 0.45), rgba(124, 58, 237, 0.3));
+  }
+  
+  body.light-theme .sphere-3 {
+    background: linear-gradient(120deg, rgba(107, 70, 193, 0.4), rgba(124, 58, 237, 0.25));
+  }
 }
 body.light-theme .sphere-1 {
   background: linear-gradient(40deg, rgba(107, 70, 193, 0.4), rgba(107, 70, 193, 0.2));
@@ -877,7 +936,7 @@ body.light-theme .mobile-nav-item.contact:active {
     padding: 4rem 1rem 2rem 1rem;
   }
 }
-      
+
 /* Container Queries Support */
 .top-bar {
   position: relative;
@@ -966,12 +1025,33 @@ body.light-theme .neon-greeting {
   font-family: var(--main-font);
   color: var(--accent-dark);
   font-weight: 500;
-  letter-spacing: 0.02em;
-  /* Typewriter animation */
-  overflow: hidden;
-  white-space: nowrap;
-  width: 0;
-  animation: typewriter 1.5s ease-out 0.5s forwards;
+  min-height: 1.5em; /* Prevent layout shift */
+}
+
+/* Typewriter effect */
+.typewriter {
+  display: inline;
+}
+
+.typewriter::after {
+  content: '|';
+  animation: blink 0.7s infinite;
+  color: var(--accent-dark);
+  font-weight: 400;
+}
+
+.typewriter.done::after {
+  animation: blink 0.7s 3 forwards;
+  opacity: 0;
+}
+
+body.light-theme .typewriter::after {
+  color: var(--accent-light);
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
 
 @keyframes typewriter {
@@ -1500,53 +1580,6 @@ body.light-theme ul ul li::before {
   container-type: inline-size;
 }
 
-/* Social icons inside contact form */
-#contactForm .social {
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-
-/* Form divider with "OR CONNECT" text */
-.form-divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 1.5rem 0;
-  position: relative;
-}
-
-.form-divider::before {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(154, 119, 198, 0.3);
-}
-
-.form-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(154, 119, 198, 0.3);
-}
-
-.divider-text {
-  padding: 0 1rem;
-  font-size: var(--font-xs);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(229, 229, 229, 0.6);
-}
-
-body.light-theme .form-divider::before,
-body.light-theme .form-divider::after {
-  background: rgba(107, 70, 193, 0.3);
-}
-
-body.light-theme .divider-text {
-  color: rgba(26, 26, 26, 0.5);
-}
-
 @container (max-width: 300px) {
   .social {
     flex-direction: column;
@@ -1795,9 +1828,159 @@ body.light-theme #contactForm button:hover:not(:disabled) {
 
 #formStatus {
   margin-top: var(--space-sm);
-  margin-top: var(--space-sm);
   font-size: var(--font-sm);
   font-weight: 500;
+}
+
+/* Form Location Badge */
+.form-location-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(154, 119, 198, 0.1);
+  border: 1px solid rgba(154, 119, 198, 0.2);
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  font-size: var(--font-xs);
+  color: var(--text-dark);
+  width: fit-content;
+  margin: 0 auto 1.5rem auto;
+}
+
+.form-location-badge i {
+  color: var(--accent-dark);
+  font-size: 0.75rem;
+}
+
+body.light-theme .form-location-badge {
+  background: rgba(107, 70, 193, 0.08);
+  border-color: rgba(107, 70, 193, 0.2);
+  color: var(--text-light);
+}
+
+body.light-theme .form-location-badge i {
+  color: var(--accent-light);
+}
+
+/* Full-width Submit Button */
+.form-submit-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem !important;
+  background: var(--accent-dark) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-size: var(--font-sm) !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3) !important;
+}
+
+.form-submit-btn:hover:not(:disabled) {
+  background: var(--accent-dark-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(154, 119, 198, 0.4) !important;
+}
+
+body.light-theme .form-submit-btn {
+  background: var(--accent-light) !important;
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3) !important;
+}
+
+body.light-theme .form-submit-btn:hover:not(:disabled) {
+  background: var(--accent-light-hover) !important;
+  box-shadow: 0 6px 20px rgba(107, 70, 193, 0.4) !important;
+}
+
+/* OR CONNECT Divider */
+.form-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0 1rem 0;
+  gap: 1rem;
+}
+
+.form-divider::before,
+.form-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(154, 119, 198, 0.3);
+}
+
+.form-divider span {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(229, 229, 229, 0.5);
+  text-transform: uppercase;
+}
+
+body.light-theme .form-divider::before,
+body.light-theme .form-divider::after {
+  background: rgba(107, 70, 193, 0.2);
+}
+
+body.light-theme .form-divider span {
+  color: rgba(26, 26, 26, 0.4);
+}
+
+/* Form Social Icons - Exact same styles as thesis-icon-btn */
+.form-social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.form-social-icons a {
+  width: 50px;
+  height: 50px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--accent-dark);
+  background: transparent;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  cursor: pointer;
+  position: relative;
+}
+
+body.light-theme .form-social-icons a {
+  color: var(--accent-light);
+}
+
+.form-social-icons a:hover,
+.form-social-icons a:focus-visible {
+  color: var(--accent-dark-hover);
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 20px rgba(154, 119, 198, 0.9));
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+body.light-theme .form-social-icons a:hover,
+body.light-theme .form-social-icons a:focus-visible {
+  color: var(--accent-light-hover);
+  filter: drop-shadow(0 0 20px rgba(107, 70, 193, 0.9));
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 768px) {
+  .form-social-icons a {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
 }
 
 /* Enhanced footer */
@@ -1934,15 +2117,19 @@ body.light-theme pre {
   
   .top-bar header h1.neon-title {
     font-size: clamp(3rem, 12vw, 5rem);
-    /* Remove glow, keep only layers on mobile */
+    /* Small glow + layers on mobile */
     text-shadow:
+      0 0 8px rgba(167, 139, 250, 0.5),
+      0 0 16px rgba(139, 92, 246, 0.4),
       2px 2px 0px #b18cd9,
       4px 4px 0px #9a77c6 !important;
   }
   
   body.light-theme .top-bar header h1.neon-title {
-    /* Remove glow, keep only layers on mobile (light theme) */
+    /* Small glow + layers on mobile (light theme) */
     text-shadow:
+      0 0 8px rgba(139, 92, 246, 0.4),
+      0 0 16px rgba(124, 58, 237, 0.3),
       2px 2px 0px #a78bfa,
       4px 4px 0px #7c3aed !important;
   }
@@ -1964,19 +2151,6 @@ body.light-theme pre {
     margin-bottom: 0;  /* Remove bottom margin on mobile for tighter spacing */
     white-space: normal;  /* Allow wrapping on mobile */
     width: auto;
-    animation: fadeSlideIn 1s ease-out 0.5s forwards;
-    opacity: 0;
-  }
-  
-  @keyframes fadeSlideIn {
-    0% {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
   }
   
   /* Uniform spacing between hero and main content */
@@ -2242,14 +2416,14 @@ body.light-theme .keyword {
   white-space: nowrap;
   transition: all 0.2s ease;
   opacity: 0;
-  transform: translateY(10px);
-  position: relative;  /* ← ADD this */
-  overflow: hidden;    /* ← ADD this */
+  transform: translateY(15px) scale(0.95);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Animation will be triggered by JavaScript when section is in view */
-#interests .minimal-tag.animate {
-  animation: slideInUp 0.5s ease forwards;
+/* Only animate when parent section is visible */
+.minimal-tags.animate .minimal-tag {
+  animation: tagSlideIn 0.4s ease forwards;
 }
 
 /* Light sweep effect for skill tags */
@@ -2312,23 +2486,35 @@ body.light-theme .thesis-card::after {
   );
 }
 
-/* Animation delays for interests tags (triggered on scroll) */
-#interests .minimal-tag.animate:nth-child(1) { animation-delay: 0.1s; }
-#interests .minimal-tag.animate:nth-child(2) { animation-delay: 0.2s; }
-#interests .minimal-tag.animate:nth-child(3) { animation-delay: 0.3s; }
-#interests .minimal-tag.animate:nth-child(4) { animation-delay: 0.4s; }
-#interests .minimal-tag.animate:nth-child(5) { animation-delay: 0.5s; }
-#interests .minimal-tag.animate:nth-child(6) { animation-delay: 0.6s; }
-#interests .minimal-tag.animate:nth-child(7) { animation-delay: 0.7s; }
-#interests .minimal-tag.animate:nth-child(8) { animation-delay: 0.8s; }
-#interests .minimal-tag.animate:nth-child(9) { animation-delay: 0.9s; }
-#interests .minimal-tag.animate:nth-child(10) { animation-delay: 1.0s; }
-#interests .minimal-tag.animate:nth-child(11) { animation-delay: 1.1s; }
+/* Staggered animation delays - only apply when animating */
+.minimal-tags.animate .minimal-tag:nth-child(1) { animation-delay: 0.05s; }
+.minimal-tags.animate .minimal-tag:nth-child(2) { animation-delay: 0.1s; }
+.minimal-tags.animate .minimal-tag:nth-child(3) { animation-delay: 0.15s; }
+.minimal-tags.animate .minimal-tag:nth-child(4) { animation-delay: 0.2s; }
+.minimal-tags.animate .minimal-tag:nth-child(5) { animation-delay: 0.25s; }
+.minimal-tags.animate .minimal-tag:nth-child(6) { animation-delay: 0.3s; }
+.minimal-tags.animate .minimal-tag:nth-child(7) { animation-delay: 0.35s; }
+.minimal-tags.animate .minimal-tag:nth-child(8) { animation-delay: 0.4s; }
+.minimal-tags.animate .minimal-tag:nth-child(9) { animation-delay: 0.45s; }
+.minimal-tags.animate .minimal-tag:nth-child(10) { animation-delay: 0.5s; }
+.minimal-tags.animate .minimal-tag:nth-child(11) { animation-delay: 0.55s; }
+.minimal-tags.animate .minimal-tag:nth-child(12) { animation-delay: 0.6s; }
 
-@keyframes slideInUp {
+@keyframes tagSlideIn {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Reduced motion - show immediately */
+@media (prefers-reduced-motion: reduce) {
+  .minimal-tag {
+    opacity: 1;
+    transform: none;
+  }
+  .minimal-tags.animate .minimal-tag {
+    animation: none;
   }
 }
 
@@ -2718,6 +2904,138 @@ body.light-theme .thesis-icon-btn:focus-visible {
   margin: 0 auto 2rem;
   font-size: var(--font-sm);
   opacity: 0.9;
+}
+
+/* Photo Filters */
+.photo-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  background: rgba(167, 139, 250, 0.05);
+  color: var(--text-dark);
+  font-family: var(--main-font);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Light sweep effect for filter buttons */
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.filter-btn:hover::after {
+  left: 100%;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent-dark);
+  background: rgba(167, 139, 250, 0.12);
+}
+
+.filter-btn.active {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  color: white;
+}
+
+.filter-btn.active::after {
+  display: none; /* No sweep on active button */
+}
+
+body.light-theme .filter-btn {
+  color: var(--text-light);
+  border-color: rgba(124, 58, 237, 0.25);
+  background: rgba(124, 58, 237, 0.05);
+}
+
+/* Light theme version of sweep */
+body.light-theme .filter-btn::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(124, 58, 237, 0.25),
+    transparent
+  );
+}
+
+body.light-theme .filter-btn:hover {
+  border-color: var(--accent-light);
+  background: rgba(124, 58, 237, 0.12);
+}
+
+body.light-theme .filter-btn.active {
+  background: var(--accent-light);
+  border-color: var(--accent-light);
+  color: white;
+}
+
+/* Filter animation for photos - smoother fade */
+.photo-card.filtered-out {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+}
+
+.photo-card {
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.5s ease;
+}
+
+/* Stagger animation for appearing photos */
+.photo-card:not(.filtered-out) {
+  animation: fadeInPhoto 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeInPhoto {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .photo-filters {
+    gap: 0.35rem;
+    padding: 0 0.25rem;
+  }
+  
+  .filter-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+  }
   line-height: 1.6;
 }
 
@@ -3130,63 +3448,112 @@ body.light-theme .loading-spinner {
 
 /* Experience Card Specific Styles */
 .experience-logo {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
-  margin-right: 0.8rem;
+  object-position: center;
   flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(154, 119, 198, 0.1);
+  padding: 8px;
+}
+
+body.light-theme .experience-logo {
+  background: rgba(107, 70, 193, 0.08);
 }
 
 .experience-title-group {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.25rem;
 }
 
 .experience-title-group .card-title {
   font-size: var(--font-sm);
   font-weight: 700;
   margin: 0;
+  color: var(--text-dark);
+}
+
+body.light-theme .experience-title-group .card-title {
+  color: var(--text-light);
 }
 
 .company-name {
-  font-size: var(--font-xs);
-  opacity: 0.8;
-  margin: 0;
-  font-weight: 500;
-  color: var(--text-dark);  /* ← Same as body text */
+  color: var(--accent-dark);
+  font-weight: 600;
 }
 
 body.light-theme .company-name {
- color: var(--text-light);  /* ← Same as body text */
+  color: var(--accent-light);
 }
       
 .year-badge {
   font-size: 0.75rem !important;
-  font-weight: 700 !important;
-  color: var(--accent-light) !important;
+  font-weight: 500 !important;
+  color: rgba(229, 229, 229, 0.7) !important;
   background: transparent !important;
   padding: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   border: none !important;
-  opacity: 0.8;
 }
 
 body.light-theme .year-badge {
-  color: var(--accent-light) !important;
+  color: rgba(26, 26, 26, 0.5) !important;
   background: transparent !important;
   border: none !important;
+}
+
+/* External link button for experience cards - same hover as thesis icons */
+.external-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--accent-dark);
+  font-size: 0.9rem;
+  background: transparent;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  flex-shrink: 0;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.external-link-btn:hover,
+.external-link-btn:focus-visible {
+  color: var(--accent-dark-hover);
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 20px rgba(154, 119, 198, 0.9));
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+body.light-theme .external-link-btn {
+  color: var(--accent-light);
+}
+
+body.light-theme .external-link-btn:hover,
+body.light-theme .external-link-btn:focus-visible {
+  color: var(--accent-light-hover);
+  filter: drop-shadow(0 0 20px rgba(107, 70, 193, 0.9));
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Update card-header for experience cards */
 #experience .card-header {
   display: flex;
-  align-items: center;
-  gap: 0;
+  align-items: flex-start;
+  gap: 0.8rem;
   margin-bottom: 0.8rem;
-  color: var(--accent-dark);
+}
+
+#experience .external-link-btn {
+  margin-top: 0.15rem; /* Align with title text */
 }
 
 /* Light theme logo swap for experience section */
@@ -3217,22 +3584,29 @@ body.light-theme #experience .experience-logo[src*="bitpanda_white_vertical.png"
   
   /* Experience card mobile styles */
   .experience-logo {
-    width: 35px;
-    height: 35px;
-    margin-right: 0.6rem;
+    width: 40px;
+    height: 40px;
+    margin-right: 0;
+    border-radius: 8px;
   }
   
   .experience-title-group .card-title {
-    font-size: 0.75rem;
-  }
-  
-  .company-name {
-    font-size: 0.65rem;
+    font-size: 0.85rem;
   }
   
   .year-badge {
-    font-size: 0.65rem;
-    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem !important;
+  }
+  
+  .external-link-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+  
+  #experience .external-link-btn {
+    margin-top: 0.1rem; /* Better alignment on mobile */
+    align-self: center;
   }
 }
 
@@ -3372,9 +3746,11 @@ body.light-theme .closing-section-title {
     margin-bottom: 1.5rem;
   }
   
-  /* Remove glow on mobile - keep only layers */
+  /* Small glow + layers on mobile */
   .closing-section-title {
     text-shadow:
+      0 0 8px rgba(167, 139, 250, 0.5),
+      0 0 16px rgba(139, 92, 246, 0.4),
       2px 2px 0px #b18cd9,
       4px 4px 0px #9a77c6,
       6px 6px 0px #8859b8 !important;
@@ -3382,63 +3758,33 @@ body.light-theme .closing-section-title {
   
   body.light-theme .closing-section-title {
     text-shadow:
+      0 0 8px rgba(139, 92, 246, 0.4),
+      0 0 16px rgba(124, 58, 237, 0.3),
       2px 2px 0px #a78bfa,
       4px 4px 0px #7c3aed,
       6px 6px 0px #6d28d9 !important;
   }
   
-  /* Remove glow from scroll reveal chars on mobile */
+  /* Small glow for scroll reveal chars on mobile */
   .closing-section-title span.char {
-    text-shadow: none !important;
+    text-shadow: 0 0 6px rgba(154, 119, 198, 0.2) !important;
   }
   
   .closing-section-title span.char.active {
     text-shadow:
+      0 0 8px rgba(167, 139, 250, 0.5),
+      0 0 16px rgba(139, 92, 246, 0.4),
       2px 2px 0px #b18cd9,
       4px 4px 0px #9a77c6 !important;
   }
   
   body.light-theme .closing-section-title span.char.active {
     text-shadow:
+      0 0 8px rgba(139, 92, 246, 0.4),
+      0 0 16px rgba(124, 58, 237, 0.3),
       2px 2px 0px #a78bfa,
       4px 4px 0px #7c3aed !important;
   }
-  
-.tron-header h2 {
-  text-shadow:
-    0 0 8px rgba(167, 139, 250, 0.4),
-    0 0 15px rgba(139, 92, 246, 0.3),
-    2px 2px 0px #b18cd9,
-    4px 4px 0px #9a77c6;
-}
-
-body.light-theme .tron-header h2 {
-  text-shadow:
-    0 0 8px rgba(139, 92, 246, 0.3),
-    0 0 15px rgba(124, 58, 237, 0.2),
-    2px 2px 0px #a78bfa,
-    4px 4px 0px #7c3aed;
-}
-  
-  /* Reduce glow on mobile - 3 layers */
-  .top-bar header h1.neon-title {
-    text-shadow:
-      0 0 8px rgba(167, 139, 250, 0.4),
-      0 0 15px rgba(139, 92, 246, 0.3),
-      2px 2px 0px #b18cd9,
-      4px 4px 0px #9a77c6,
-      6px 6px 10px rgba(0,0,0,0.3);
-  }
-  
-  body.light-theme .top-bar header h1.neon-title {
-    text-shadow:
-      0 0 8px rgba(139, 92, 246, 0.3),
-      0 0 15px rgba(124, 58, 237, 0.2),
-      2px 2px 0px #a78bfa,
-      4px 4px 0px #7c3aed,
-      6px 6px 10px rgba(107, 70, 193, 0.2);
-  }
-
 }
 
 .thesis-description {
@@ -3712,8 +4058,8 @@ body.light-theme .card-date {
   <a href="#projects" class="nav-item">Projects</a>
   <a href="#thesis" class="nav-item">Thesis</a>
   <a href="#vibes" class="nav-item">Vibes</a>
-  <a href="#interests" class="nav-item">Interests</a>
   <a href="#photos" class="nav-item">Perspectives</a>
+  <a href="#interests" class="nav-item">Interests</a>
 </nav>
 </div>
 
@@ -3744,13 +4090,13 @@ body.light-theme .card-date {
     <i class="fas fa-music"></i>
     Vibes
   </a>
-  <a href="#interests" class="mobile-nav-item">
-    <i class="fas fa-star"></i>
-    Interests
-  </a>
   <a href="#photos" class="mobile-nav-item">
     <i class="fas fa-camera"></i>
     Perspectives
+  </a>
+  <a href="#interests" class="mobile-nav-item">
+    <i class="fas fa-star"></i>
+    Interests
   </a>
   
   <!-- Divider before Contact -->
@@ -3783,26 +4129,16 @@ body.light-theme .card-date {
   <i class="fas fa-arrow-up"></i>
 </button>
 
-<!-- ================= HEADER ================= -->
+<!-- ================= TOP BAR / HERO ================= -->
 <div id="topBar" class="top-bar">
   <div id="about">
     <header class="reveal">
       <p class="neon-greeting"><b>Ciao, I'm</b></p>
       <h1 class="neon-title">ROCCO</h1>
-      <p class="neon-subtitle"><b>&lt; Product Manager — from idea to impact &gt;</b></p>
+      <p class="neon-subtitle"><b><span class="typewriter" data-text="&lt; Product Manager — from idea to impact &gt;"></span></b></p>
     </header>
-  </div> <!-- Close the #about wrapper -->
-  
-  <!-- NEW: Scroll indicator - Pulsing Dots -->
-  <div class="scroll-indicator">
-    <div class="scroll-dots">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
   </div>
-  
-</div> <!-- Close the .top-bar -->
+</div>
       
 <!-- ================= MAIN CONTENT ================= -->
 <main id="main-content" role="main" aria-label="Portfolio content">
@@ -3837,16 +4173,20 @@ body.light-theme .card-date {
     <!-- Moody's Analytics Card -->
     <div class="discovery-card">
       <div class="card-header">
-        <img src="assets/mdy_mngm_rgb_white.png" alt="Moody's Analytics logo" class="experience-logo">
+        <img src="assets/mdy_mngm_rgb_white.png" alt="Moody's logo" class="experience-logo">
         <div class="experience-title-group">
           <h3 class="card-title">
-              Product at
-              <a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" target="_blank" rel="noopener noreferrer">
-                Moody's
-              </a>
-            </h3>
+            Product at <span class="company-name">Moody's</span>
+          </h3>
+          <span class="year-badge">2023 - Present</span>
         </div>
-        <span class="year-badge">2023 - now</span>
+        <a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="external-link-btn"
+           aria-label="Visit Moody's website">
+          <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+        </a>
       </div>
       <div class="card-content">
         <div class="apod-description">
@@ -3861,13 +4201,17 @@ body.light-theme .card-date {
         <img src="assets/bitpanda_white_vertical.png" alt="Bitpanda logo" class="experience-logo">
         <div class="experience-title-group">
           <h3 class="card-title">
-              Product at
-              <a href="https://www.bitpanda.com/de-at" target="_blank" rel="noopener noreferrer">
-                Bitpanda
-              </a>
-            </h3>
+            Product at <span class="company-name">Bitpanda</span>
+          </h3>
+          <span class="year-badge">2022 - 2023</span>
         </div>
-        <span class="year-badge">2022 - 2023</span>
+        <a href="https://www.bitpanda.com/de-at" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="external-link-btn"
+           aria-label="Visit Bitpanda website">
+          <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+        </a>
       </div>
       <div class="card-content">
         <div class="apod-description">
@@ -3966,24 +4310,6 @@ body.light-theme .card-date {
 </div>
 </section> 
 
-<section aria-labelledby="skills-heading" class="reveal" id="interests">
-<div class="tron-header">
-  <h2 id="skills-heading">interests</h2>
-  </div>
-  <div class="minimal-tags">
-    <span class="minimal-tag">Product Management</span>
-    <span class="minimal-tag">APIs & DX</span>
-    <span class="minimal-tag">Ping Pong</span>
-    <span class="minimal-tag">Fly Fishing</span>
-    <span class="minimal-tag">Photography</span>
-    <span class="minimal-tag">Hiking</span>
-    <span class="minimal-tag">Web3</span>
-    <span class="minimal-tag">Fintech</span>
-    <span class="minimal-tag">Process Automation</span>
-    <span class="minimal-tag">Startups</span>
-  </div>
-</section>
-
 <section aria-labelledby="photos-heading" class="reveal" id="photos">
   <div class="tron-header">
     <h2 id="photos-heading">perspectives</h2>
@@ -3993,9 +4319,21 @@ body.light-theme .card-date {
     The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <b>sony a6000</b> [16-50mm & 55-210mm] and <b>olympus mju -1</b> [35mm].
   </p>
 
+  <!-- Country Filters -->
+  <div class="photo-filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="portugal">🇵🇹 Portugal</button>
+    <button class="filter-btn" data-filter="italy">🇮🇹 Italy</button>
+    <button class="filter-btn" data-filter="switzerland">🇨🇭 Switzerland</button>
+    <button class="filter-btn" data-filter="austria">🇦🇹 Austria</button>
+    <button class="filter-btn" data-filter="greece">🇬🇷 Greece</button>
+    <button class="filter-btn" data-filter="canada">🇨🇦 Canada</button>
+    <button class="filter-btn" data-filter="nepal">🇳🇵 Nepal</button>
+  </div>
+
   <div class="photo-grid">
     <!-- Photo 1 - VISIBLE -->
-    <div class="photo-card" data-photo="assets/photos/athens-urban.jpg" data-location="Athens, Greece">
+    <div class="photo-card" data-photo="assets/photos/athens-urban.jpg" data-location="Athens, Greece" data-country="greece">
       <img src="assets/photos/athens-urban.jpg" 
      alt="Urban architecture photography in Athens, Greece - Modern city streets captured by Rocco Goldschmidt" 
      width="1200" 
@@ -4010,7 +4348,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 2 - VISIBLE -->
-    <div class="photo-card" data-photo="assets/photos/blaunca-snow.jpg" data-location="Engadin, Switzerland">
+    <div class="photo-card" data-photo="assets/photos/blaunca-snow.jpg" data-location="Engadin, Switzerland" data-country="switzerland">
       <img src="assets/photos/blaunca-snow.jpg" 
      alt="Winter landscape photography in Engadin, Switzerland - Snow-covered mountains and valleys by Rocco Goldschmidt" 
      width="1200" 
@@ -4025,7 +4363,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 3 - VISIBLE -->
-    <div class="photo-card" data-photo="assets/photos/madeira-beach.jpg" data-location="Madeira, Portugal">
+    <div class="photo-card" data-photo="assets/photos/madeira-beach.jpg" data-location="Madeira, Portugal" data-country="portugal">
    <img src="assets/photos/madeira-beach.jpg" 
      alt="Coastal beach photography in Madeira, Portugal - Atlantic Ocean shoreline by Rocco Goldschmidt" 
      width="1200" 
@@ -4040,7 +4378,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 4 - VISIBLE -->
-    <div class="photo-card" data-photo="assets/photos/madeira-sea.jpg" data-location="Madeira, Portugal">
+    <div class="photo-card" data-photo="assets/photos/madeira-sea.jpg" data-location="Madeira, Portugal" data-country="portugal">
      <img src="assets/photos/madeira-sea.jpg" 
      alt="Seascape photography in Madeira, Portugal - Ocean horizon and coastal cliffs by Rocco Goldschmidt" 
      width="1200" 
@@ -4055,7 +4393,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 5 - VISIBLE -->
-    <div class="photo-card" data-photo="assets/photos/tofino-surfer.jpg" data-location="Tofino, Canada">
+    <div class="photo-card" data-photo="assets/photos/tofino-surfer.jpg" data-location="Tofino, Canada" data-country="canada">
       <img src="assets/photos/tofino-surfer.jpg" 
      alt="Surfing photography in Tofino, Canada - Pacific coast surfer captured by Rocco Goldschmidt" 
      width="1200" 
@@ -4071,7 +4409,7 @@ body.light-theme .card-date {
 
 
     <!-- Photo 6 - VISIBLE -->
-    <div class="photo-card" data-photo="assets/photos/toronto-park.jpg" data-location="Toronto, Canada">
+    <div class="photo-card" data-photo="assets/photos/toronto-park.jpg" data-location="Toronto, Canada" data-country="canada">
       <img src="assets/photos/toronto-park.jpg" 
      alt="Urban park photography in Toronto, Canada - City green space by Rocco Goldschmidt" 
      width="1200" 
@@ -4086,7 +4424,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 7 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/nepal-rocco.jpg" data-location="Khumbu, Nepal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/nepal-rocco.jpg" data-location="Khumbu, Nepal" data-country="nepal">
      <img src="assets/photos/nepal-rocco.jpg" 
      alt="Adventure photography in Khumbu region, Nepal - Himalayan mountain trekking by Rocco Goldschmidt" 
      width="1200" 
@@ -4101,7 +4439,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 8 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/athens-market.jpg" data-location="Athens, Greece">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/athens-market.jpg" data-location="Athens, Greece" data-country="greece">
      <img src="assets/photos/athens-market.jpg" 
      alt="Street market photography in Athens, Greece - Local vendors and daily life by Rocco Goldschmidt" 
      width="1200" 
@@ -4116,7 +4454,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 9 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/ericeira-beach.jpg" data-location="Ericeira, Portugal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/ericeira-beach.jpg" data-location="Ericeira, Portugal" data-country="portugal">
       <img src="assets/photos/ericeira-beach.jpg" 
      alt="Surf beach photography in Ericeira, Portugal - Atlantic surfing destination by Rocco Goldschmidt" 
      width="1200" 
@@ -4131,7 +4469,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 10 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/ericeira-friends.jpg" data-location="Ericeira, Portugal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/ericeira-friends.jpg" data-location="Ericeira, Portugal" data-country="portugal">
      <img src="assets/photos/ericeira-friends.jpg" 
      alt="Travel photography with friends in Ericeira, Portugal - Beach lifestyle by Rocco Goldschmidt" 
      width="1200" 
@@ -4146,7 +4484,7 @@ body.light-theme .card-date {
     </div>
 
        <!-- Photo 11 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/ericeira-sunset.jpg" data-location="Ericeira, Portugal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/ericeira-sunset.jpg" data-location="Ericeira, Portugal" data-country="portugal">
      <img src="assets/photos/ericeira-sunset.jpg" 
      alt="Sunset photography in Ericeira, Portugal - Golden hour over the Atlantic by Rocco Goldschmidt" 
      width="1200" 
@@ -4161,7 +4499,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 12 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/madeira-banana.jpg" data-location="Madeira, Portugal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/madeira-banana.jpg" data-location="Madeira, Portugal" data-country="portugal">
      <img src="assets/photos/madeira-banana.jpg" 
      alt="Agricultural photography in Madeira, Portugal - Tropical banana plantations by Rocco Goldschmidt" 
      width="1200" 
@@ -4176,7 +4514,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 13 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/nepal-mountain.jpg" data-location="Khumbu, Nepal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/nepal-mountain.jpg" data-location="Khumbu, Nepal" data-country="nepal">
      <img src="assets/photos/nepal-mountain.jpg" 
      alt="Mountain landscape photography in Khumbu, Nepal - Himalayan peaks by Rocco Goldschmidt" 
      width="1200" 
@@ -4191,7 +4529,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 14 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/madeira-cliff.jpg" data-location="Madeira, Portugal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/madeira-cliff.jpg" data-location="Madeira, Portugal" data-country="portugal">
      <img src="assets/photos/madeira-cliff.jpg" 
      alt="Dramatic cliff photography in Madeira, Portugal - Coastal rock formations by Rocco Goldschmidt" 
      width="1200" 
@@ -4206,7 +4544,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 15 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/switzlerland-cow.jpg" data-location="Engadin, Switzerland">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/switzlerland-cow.jpg" data-location="Engadin, Switzerland" data-country="switzerland">
      <img src="assets/photos/switzlerland-cow.jpg" 
      alt="Alpine pastoral photography in Engadin, Switzerland - Mountain farming by Rocco Goldschmidt" 
      width="1200" 
@@ -4221,7 +4559,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 16 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/venice-sunset.jpg" data-location="Venice, Italy">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/venice-sunset.jpg" data-location="Venice, Italy" data-country="italy">
      <img src="assets/photos/venice-sunset.jpg" 
      alt="Sunset photography in Venice, Italy - Golden hour over the canals by Rocco Goldschmidt" 
      width="1200" 
@@ -4236,7 +4574,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 17 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/vienna-building.jpg" data-location="Vienna, Austria">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/vienna-building.jpg" data-location="Vienna, Austria" data-country="austria">
      <img src="assets/photos/vienna-building.jpg" 
      alt="Architecture photography of Alterlaa social housing in Vienna, Austria - Modernist design by Rocco Goldschmidt" 
      width="1200" 
@@ -4251,7 +4589,7 @@ body.light-theme .card-date {
     </div>
         
     <!-- Photo 18 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/vienna-view.jpg" data-location="Vienna, Austria">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/vienna-view.jpg" data-location="Vienna, Austria" data-country="austria">
      <img src="assets/photos/vienna-view.jpg" 
      alt="City view photography in Vienna, Austria - Urban panorama by Rocco Goldschmidt" 
      width="1200" 
@@ -4266,7 +4604,7 @@ body.light-theme .card-date {
     </div>
 
        <!-- Photo 19 -  HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/madeira-tuna.jpg" data-location="Madeira, Portugal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/madeira-tuna.jpg" data-location="Madeira, Portugal" data-country="portugal">
      <img src="assets/photos/madeira-tuna.jpg" 
      alt="Traditional fishing photography in Madeira, Portugal - Tuna fishing industry by Rocco Goldschmidt" 
      width="1200" 
@@ -4281,7 +4619,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 20 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/tofino-surf.jpg" data-location="Tofino, Canada">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/tofino-surf.jpg" data-location="Tofino, Canada" data-country="canada">
      <img src="assets/photos/tofino-surf.jpg" 
      alt="Surf culture photography in Tofino, Canada - West coast surfing lifestyle by Rocco Goldschmidt" 
      width="1200" 
@@ -4296,7 +4634,7 @@ body.light-theme .card-date {
     </div>
 
        <!-- Photo 21 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/switzlerland-mountain.jpg" data-location="Engadin, Switzerland">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/switzlerland-mountain.jpg" data-location="Engadin, Switzerland" data-country="switzerland">
      <img src="assets/photos/switzlerland-mountain.jpg" 
      alt="Alpine landscape photography in Engadin, Switzerland - Mountain peaks by Rocco Goldschmidt" 
      width="1200" 
@@ -4311,7 +4649,7 @@ body.light-theme .card-date {
     </div>
 
          <!-- Photo 22 - HIDDEN initially -->
-<div class="photo-card hidden-photo" data-photo="assets/photos/florence-city.jpg" data-location="Florence, Italy">
+<div class="photo-card hidden-photo" data-photo="assets/photos/florence-city.jpg" data-location="Florence, Italy" data-country="italy">
   <img src="assets/photos/florence-city.jpg" 
        alt="Historic tower framed through architecture in Florence, Italy - Urban photography by Rocco Goldschmidt" 
        width="1200" 
@@ -4326,7 +4664,7 @@ body.light-theme .card-date {
 </div>
 
          <!-- Photo 23 - HIDDEN initially -->
-    <div class="photo-card hidden-photo" data-photo="assets/photos/madeira-bar.jpg" data-location="Madeira, Portugal">
+    <div class="photo-card hidden-photo" data-photo="assets/photos/madeira-bar.jpg" data-location="Madeira, Portugal" data-country="portugal">
     <img src="assets/photos/madeira-bar.jpg" 
      alt="Bustling seaside café with ocean view and laundry hanging overhead in Madeira, Portugal - Travel photography by Rocco Goldschmidt" 
      width="1200" 
@@ -4341,7 +4679,7 @@ body.light-theme .card-date {
     </div>
 
     <!-- Photo 24 - Bologna Trees -->
-<div class="photo-card hidden-photo" data-photo="assets/photos/bologna-trees.jpg" data-location="Bologna, Italy">
+<div class="photo-card hidden-photo" data-photo="assets/photos/bologna-trees.jpg" data-location="Bologna, Italy" data-country="italy">
   <img src="assets/photos/bologna-trees.jpg" 
        alt="Canopy view looking up through trees in Bologna, Italy - Nature photography by Rocco Goldschmidt" 
        width="1200" 
@@ -4356,7 +4694,7 @@ body.light-theme .card-date {
 </div>
 
 <!-- Photo 25 - Vienna Art Gallery -->
-<div class="photo-card hidden-photo" data-photo="assets/photos/vienna-art.jpg" data-location="Vienna, Austria">
+<div class="photo-card hidden-photo" data-photo="assets/photos/vienna-art.jpg" data-location="Vienna, Austria" data-country="austria">
   <img src="assets/photos/vienna-art.jpg" 
        alt="Contemporary art exhibition portraits in Vienna gallery - Art photography by Rocco Goldschmidt" 
        width="1200" 
@@ -4371,7 +4709,7 @@ body.light-theme .card-date {
 </div>
 
 <!-- Photo 26 - Madeira Market -->
-<div class="photo-card hidden-photo" data-photo="assets/photos/madeira-market.jpg" data-location="Madeira, Portugal">
+<div class="photo-card hidden-photo" data-photo="assets/photos/madeira-market.jpg" data-location="Madeira, Portugal" data-country="portugal">
   <img src="assets/photos/madeira-market.jpg" 
        alt="Fishmonger with fresh catch at market in Madeira, Portugal - Street photography by Rocco Goldschmidt" 
        width="1200" 
@@ -4386,7 +4724,7 @@ body.light-theme .card-date {
 </div>
 
 <!-- Photo 27 - Florence Sky -->
-<div class="photo-card hidden-photo" data-photo="assets/photos/florency-sky.jpg" data-location="Florence, Italy">
+<div class="photo-card hidden-photo" data-photo="assets/photos/florency-sky.jpg" data-location="Florence, Italy" data-country="italy">
   <img src="assets/photos/florency-sky.jpg" 
        alt="Moon rising over pastel clouds at dusk in Florence, Italy - Sky photography by Rocco Goldschmidt" 
        width="1200" 
@@ -4432,6 +4770,24 @@ View More
     </div>
   </div>
 </div> 
+
+<section aria-labelledby="skills-heading" class="reveal" id="interests">
+<div class="tron-header">
+  <h2 id="skills-heading">interests</h2>
+  </div>
+  <div class="minimal-tags">
+    <span class="minimal-tag">Product Management</span>
+    <span class="minimal-tag">APIs & DX</span>
+    <span class="minimal-tag">Ping Pong</span>
+    <span class="minimal-tag">Fly Fishing</span>
+    <span class="minimal-tag">Photography</span>
+    <span class="minimal-tag">Hiking</span>
+    <span class="minimal-tag">Web3</span>
+    <span class="minimal-tag">Fintech</span>
+    <span class="minimal-tag">Process Automation</span>
+    <span class="minimal-tag">Startups</span>
+  </div>
+</section>
   
   <section aria-labelledby="contact-heading" class="reveal" id="contact">
       <h1 class="closing-section-title">let's build something amazing</h1>
@@ -4445,48 +4801,59 @@ View More
       method="POST"
       aria-label="Contact form to send a message" 
       novalidate>
-      <label for="name">Name</label>
+      
+      <!-- Location Badge -->
+      <div class="form-location-badge">
+        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+        <span>Vienna, Austria</span>
+      </div>
+      
+      <label for="name">Your Name</label>
       <input type="text" 
              id="name" 
              name="name" 
              required 
-             placeholder="Your name"
+             placeholder="What should I call you?"
              aria-describedby="name-error"
              autocomplete="name" />
       <div id="name-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <label for="email">Email</label>
+      <label for="email">Email Address</label>
       <input type="email" 
              id="email" 
              name="email" 
              required 
-             placeholder="Your email"
+             placeholder="Where can I reach you?"
              aria-describedby="email-error"
              autocomplete="email" />
       <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <label for="message">Message</label>
+      <label for="message">Your Message</label>
       <textarea id="message" 
                 name="message" 
-                rows="4" 
+                rows="5" 
                 required 
-                placeholder="Your message"
+                placeholder="Tell me about your idea, project or just say hi..."
                 aria-describedby="message-error"></textarea>
       <div id="message-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <button type="submit" aria-describedby="formStatus">Send</button>
+      <button type="submit" class="form-submit-btn" aria-describedby="formStatus">
+        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+        Send Message
+      </button>
       <p id="formStatus" aria-live="polite" role="status"></p>
       
+      <!-- OR CONNECT divider with social icons -->
       <div class="form-divider">
-        <span class="divider-text">OR CONNECT</span>
+        <span>OR CONNECT</span>
       </div>
       
-      <nav class="social" aria-label="Social and contact links" role="navigation">
+      <div class="form-social-icons">
         <a href="mailto:roccogold23@gmail.com" aria-label="Email Rocco Goldschmidt" target="_blank" rel="noopener noreferrer">
           <i class="fas fa-envelope" aria-hidden="true"></i>
         </a>
         <a href="https://www.linkedin.com/in/roccogoldschmidt/" aria-label="LinkedIn profile" target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-linkedin" aria-hidden="true"></i>
+          <i class="fab fa-linkedin-in" aria-hidden="true"></i>
         </a>
         <a href="https://github.com/roccogold" aria-label="GitHub profile" target="_blank" rel="noopener noreferrer">
           <i class="fab fa-github" aria-hidden="true"></i>
@@ -4494,13 +4861,14 @@ View More
         <a href="https://x.com/roccogold_" aria-label="Twitter profile" target="_blank" rel="noopener noreferrer">
           <i class="fab fa-twitter" aria-hidden="true"></i>
         </a>
-      </nav>
+      </div>
     </form>
   </section>
 </main>
 
 <!-- ================= FOOTER ================= -->
 <footer role="contentinfo">
+  <div class="footer-divider"></div>
   <span id="lastUpdated"></span>
 </footer>
 
@@ -4518,7 +4886,7 @@ class Navigation {
     if (window.innerWidth <= 768) return; // Skip on mobile
     
    this.navItems = document.querySelectorAll('.nav-item');
-   this.sections = document.querySelectorAll('#vibes, #experience, #projects, #interests, #photos, #thesis, #contact');
+   this.sections = document.querySelectorAll('#vibes, #experience, #projects, #photos, #thesis, #interests, #contact');
     
     this.setupSmoothScroll();
     this.setupScrollSpy();
@@ -4720,43 +5088,97 @@ class ScrollAnimations {
   }
 }
 
-// Interests Tags Animation
+// Interests Tags Animation Module
 class InterestsTagsAnimation {
   constructor() {
-    this.interestsSection = document.getElementById('interests');
-    this.tags = document.querySelectorAll('#interests .minimal-tag');
+    this.tagsContainer = document.querySelector('.minimal-tags');
     this.animated = false;
-    if (this.interestsSection && this.tags.length > 0) {
+    if (this.tagsContainer) {
       this.init();
     }
   }
 
   init() {
-    // Tags are already hidden by default CSS (opacity: 0, transform: translateY(10px))
     const observerOptions = {
-      threshold: 0.2, // Start animation when 20% of section is visible
+      threshold: 0.3,
       rootMargin: '0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting && !this.animated) {
-          this.animateTags();
           this.animated = true;
+          this.tagsContainer.classList.add('animate');
           observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    observer.observe(this.interestsSection);
+    observer.observe(this.tagsContainer);
+  }
+}
+
+// Typewriter Effect Module
+class TypewriterEffect {
+  constructor() {
+    this.typewriters = document.querySelectorAll('.typewriter');
+    this.init();
   }
 
-  animateTags() {
-    this.tags.forEach((tag, index) => {
-      setTimeout(() => {
-        tag.classList.add('animate');
-      }, index * 100); // Stagger animation: 100ms delay between each tag
+  init() {
+    this.typewriters.forEach(element => {
+      const text = element.dataset.text;
+      if (!text) return;
+      
+      // Find the parent header with reveal class
+      const header = element.closest('header.reveal');
+      
+      if (header) {
+        // Wait for header to become visible, then start typing
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.target.classList.contains('visible')) {
+              observer.disconnect();
+              // Small delay after header appears before typing starts
+              setTimeout(() => this.type(element, text), 400);
+            }
+          });
+        });
+        
+        observer.observe(header, { attributes: true, attributeFilter: ['class'] });
+        
+        // If header is already visible (e.g., on page refresh with scroll position)
+        if (header.classList.contains('visible')) {
+          observer.disconnect();
+          setTimeout(() => this.type(element, text), 400);
+        }
+      } else {
+        // No reveal parent, start immediately
+        setTimeout(() => this.type(element, text), 500);
+      }
     });
+  }
+
+  type(element, text, index = 0) {
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (prefersReducedMotion) {
+      // Show full text immediately if reduced motion is preferred
+      element.textContent = text;
+      element.classList.add('done');
+      return;
+    }
+    
+    if (index < text.length) {
+      element.textContent = text.substring(0, index + 1);
+      // Vary typing speed slightly for more natural feel
+      const delay = 40 + Math.random() * 30;
+      setTimeout(() => this.type(element, text, index + 1), delay);
+    } else {
+      // Typing complete
+      setTimeout(() => element.classList.add('done'), 1000);
+    }
   }
 }
 
@@ -4994,13 +5416,13 @@ class GitHubIntegration {
   }
 
 displayLastUpdated() {
-    const currentYear = new Date().getFullYear();
-    this.lastUpdatedElement.innerHTML = `© ${currentYear} <a href="https://github.com/roccogold/my-website/blob/main/index.html" target="_blank">designed & built</a> by roccogold — always improving.`;
+    const year = new Date().getFullYear();
+    this.lastUpdatedElement.innerHTML = `© ${year} <a href="https://github.com/roccogold/my-website/blob/main/index.html" target="_blank">designed & built</a> by roccogold — always improving.`;
 }
 
 displayFallback() {
-    const currentYear = new Date().getFullYear();
-    this.lastUpdatedElement.innerHTML = `© ${currentYear} <a href="https://github.com/roccogold/my-website/blob/main/index.html" target="_blank">designed & built</a> by roccogold — always improving.`;
+    const year = new Date().getFullYear();
+    this.lastUpdatedElement.innerHTML = `© ${year} <a href="https://github.com/roccogold/my-website/blob/main/index.html" target="_blank">designed & built</a> by roccogold — always improving.`;
 }
 }
 
@@ -5221,7 +5643,8 @@ onScroll() {
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize core functionality
   new ScrollAnimations();
-  new InterestsTagsAnimation(); // Animate interests tags on scroll
+  new TypewriterEffect();  // Typewriter animation for subtitle
+  new InterestsTagsAnimation();  // Staggered tags animation on scroll
   new ContactForm();
   new GitHubIntegration();
   new PerformanceMonitor();
@@ -5230,6 +5653,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
  // Initialize scroll text reveals
   new ScrollTextReveal('.closing-section-title');
+  
+  // Initialize gradient background visibility
+  const gradientBg = document.querySelector('.gradient-background');
+  if (gradientBg) {
+    // Show gradient background immediately on page load
+    gradientBg.classList.add('visible');
+  }
 
   // Resume download tracking
   const resumeLink = document.getElementById('resumeDownload');
@@ -5461,6 +5891,77 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.photo-grid')) {
     window.photoLightbox = new PhotoLightbox(); // ✅ Store in window.photoLightbox
   }
+});
+
+// Photo Country Filter functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const photoCards = document.querySelectorAll('.photo-card');
+  const loadMoreBtn = document.getElementById('loadMorePhotos');
+  
+  if (filterButtons.length === 0) return;
+  
+  let currentFilter = 'all';
+  
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      
+      // Update active state
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      currentFilter = filter;
+      
+      // When filtering by country, show all photos from that country
+      if (filter !== 'all') {
+        // First, show all hidden photos from this country
+        photoCards.forEach(card => {
+          if (card.dataset.country === filter) {
+            card.classList.remove('hidden-photo');
+          }
+        });
+      }
+      
+      // Apply filter animation
+      photoCards.forEach(card => {
+        if (filter === 'all') {
+          card.classList.remove('filtered-out');
+        } else if (card.dataset.country === filter) {
+          card.classList.remove('filtered-out');
+        } else {
+          card.classList.add('filtered-out');
+        }
+      });
+      
+      // Update load more button visibility
+      if (loadMoreBtn) {
+        if (filter === 'all') {
+          // Check if there are still hidden photos
+          const stillHidden = document.querySelectorAll('.photo-card.hidden-photo:not(.filtered-out)');
+          loadMoreBtn.style.display = stillHidden.length > 0 ? 'inline-flex' : 'none';
+        } else {
+          // Hide load more when filtering by country (all country photos are shown)
+          loadMoreBtn.style.display = 'none';
+        }
+      }
+      
+      // Re-initialize lightbox with filtered photos
+      if (window.photoLightbox) {
+        const visiblePhotos = document.querySelectorAll('.photo-card:not(.filtered-out):not(.hidden-photo)');
+        window.photoLightbox.photos = [];
+        visiblePhotos.forEach((card, index) => {
+          window.photoLightbox.photos.push({
+            src: card.dataset.photo,
+            location: card.dataset.location,
+            alt: card.querySelector('img').alt
+          });
+          // Update click handler with new index
+          card.onclick = () => window.photoLightbox.openLightbox(index);
+        });
+      }
+    });
+  });
 });
 
 </script>
