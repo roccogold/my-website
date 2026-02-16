@@ -620,22 +620,18 @@ body.light-theme .back-to-top:hover {
 }
 
 .nav-bar {
-  background: rgba(154, 119, 198, 0.08);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(154, 119, 198, 0.15);
-  border-radius: 12px;
-  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: none;
+  padding: 0.5rem 0;
   display: flex;
   gap: 2rem;
   align-items: center;
   pointer-events: all;
-  box-shadow: 0 4px 16px rgba(154, 119, 198, 0.15);
 }
 
 .nav-item {
   position: relative;
-  color: var(--text-dark);
+  color: var(--text-dark); /* same as hero description (Product manager at the...) */
   text-decoration: none;
   font-size: var(--font-sm);
   font-weight: 600;
@@ -643,37 +639,55 @@ body.light-theme .back-to-top:hover {
   transition: all var(--transition-normal);
   cursor: pointer;
   font-family: var(--main-font);
-  opacity: 0.7;
+  opacity: 0.6;
+}
+
+/* Dot indicator on hover & active */
+.nav-item::before {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--accent-dark);
+  transition: width var(--transition-normal);
 }
 
 .nav-item:hover {
-  opacity: 1;
+  opacity: 0.9;
   color: var(--accent-dark);
   outline: none;
+}
+
+.nav-item:hover::before {
+  width: 6px;
 }
 
 .nav-item.active {
   opacity: 1;
   color: var(--accent-dark);
-  font-weight: 700;
   outline: none;
 }
 
+.nav-item.active::before {
+  width: 6px;
+}
 
 /* Light theme support */
-body.light-theme .nav-bar {
-  background: rgba(107, 70, 193, 0.08);
-  border-color: rgba(107, 70, 193, 0.15);
-  box-shadow: 0 4px 16px rgba(107, 70, 193, 0.15);
-}      
-      
 body.light-theme .nav-item {
-  color: #000;
+  color: var(--text-light); /* same as hero description in light mode */
 }
 
 body.light-theme .nav-item:hover,
 body.light-theme .nav-item.active {
   color: var(--accent-light);
+}
+
+body.light-theme .nav-item::before {
+  background: var(--accent-light);
 }
 
 /* Hide desktop navigation on mobile */
@@ -5271,6 +5285,12 @@ window.addEventListener('scroll', () => {
     // Not at the top - hide everything
     themeToggle?.classList.add('hidden');
     navContainer?.classList.add('hidden');
+  }
+
+  // When scrolled back to hero/top, clear active state from all nav items
+  const heroThreshold = 200;
+  if (currentScrollY < heroThreshold) {
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
   }
   
   lastScrollY = currentScrollY;
