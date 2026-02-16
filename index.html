@@ -1869,23 +1869,23 @@ body.light-theme .form-location-badge i {
   color: var(--accent-light);
 }
 
-/* Full-width Submit Button - Match View More button style */
+/* Submit Button - Same UI as View More button (outlined pill) */
 .form-submit-btn {
   width: 100%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.9rem 1.5rem !important;
+  padding: 0.5rem 1.2rem !important;
   background: rgba(154, 119, 198, 0.12) !important;
   color: var(--accent-dark) !important;
   border: 1px solid rgba(154, 119, 198, 0.3) !important;
   border-radius: 20px !important;
-  font-size: var(--font-sm) !important;
+  font-size: 0.78rem !important;
   font-weight: 600 !important;
   font-family: var(--main-font) !important;
   cursor: pointer;
-  transition: all 0.3s ease !important;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
   box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15) !important;
 }
 
@@ -5112,7 +5112,7 @@ View More
       aria-label="Contact form to send a message" 
       novalidate>
       
-      <label for="name">Your Name</label>
+      <label for="name">Name</label>
       <input type="text" 
              id="name" 
              name="name" 
@@ -5122,7 +5122,7 @@ View More
              autocomplete="name" />
       <div id="name-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <label for="email">Email Address</label>
+      <label for="email">Email</label>
       <input type="email" 
              id="email" 
              name="email" 
@@ -5132,7 +5132,7 @@ View More
              autocomplete="email" />
       <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
       
-      <label for="message">Your Message</label>
+      <label for="message">Message</label>
       <textarea id="message" 
                 name="message" 
                 rows="5" 
