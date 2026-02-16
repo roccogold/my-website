@@ -4641,18 +4641,6 @@ body.light-theme .card-date {
     The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <b>sony a6000</b> [16-50mm & 55-210mm] and <b>olympus mju -1</b> [35mm].
   </p>
 
-  <!-- Country Filters - Option 4: Minimal chips, no flags -->
-  <div class="photo-filters">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="portugal">Portugal</button>
-    <button class="filter-btn" data-filter="italy">Italy</button>
-    <button class="filter-btn" data-filter="switzerland">Switzerland</button>
-    <button class="filter-btn" data-filter="austria">Austria</button>
-    <button class="filter-btn" data-filter="greece">Greece</button>
-    <button class="filter-btn" data-filter="canada">Canada</button>
-    <button class="filter-btn" data-filter="nepal">Nepal</button>
-  </div>
-
   <div class="photo-grid">
     <!-- Photo 1 - VISIBLE -->
     <div class="photo-card" data-photo="assets/photos/athens-urban.jpg" data-location="Athens, Greece" data-country="greece">
@@ -6213,80 +6201,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.querySelector('.photo-grid')) {
     window.photoLightbox = new PhotoLightbox(); // ✅ Store in window.photoLightbox
   }
-});
-
-// Photo Country Filter functionality
-document.addEventListener('DOMContentLoaded', () => {
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const photoCards = document.querySelectorAll('.photo-card');
-  const loadMoreBtn = document.getElementById('loadMorePhotos');
-  
-  if (filterButtons.length === 0) return;
-  
-  let currentFilter = 'all';
-  
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
-      
-      // Update active state
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      currentFilter = filter;
-      
-      const INITIAL_VISIBLE = 6;
-      
-      // When filtering by country, show only first 6 photos from that country (like initial state)
-      if (filter !== 'all') {
-        const countryCards = Array.from(photoCards).filter(card => card.dataset.country === filter);
-        countryCards.forEach((card, index) => {
-          if (index < INITIAL_VISIBLE) {
-            card.classList.remove('hidden-photo');
-          } else {
-            card.classList.add('hidden-photo');
-          }
-        });
-      }
-      
-      // Apply filter animation
-      photoCards.forEach(card => {
-        if (filter === 'all') {
-          card.classList.remove('filtered-out');
-        } else if (card.dataset.country === filter) {
-          card.classList.remove('filtered-out');
-        } else {
-          card.classList.add('filtered-out');
-        }
-      });
-      
-      // Update load more button visibility
-      if (loadMoreBtn) {
-        if (filter === 'all') {
-          const stillHidden = document.querySelectorAll('.photo-card.hidden-photo:not(.filtered-out)');
-          loadMoreBtn.style.display = stillHidden.length > 0 ? 'inline-flex' : 'none';
-        } else {
-          const countryHidden = document.querySelectorAll('.photo-card.hidden-photo[data-country="' + filter + '"]');
-          loadMoreBtn.style.display = countryHidden.length > 0 ? 'inline-flex' : 'none';
-        }
-      }
-      
-      // Re-initialize lightbox with filtered photos
-      if (window.photoLightbox) {
-        const visiblePhotos = document.querySelectorAll('.photo-card:not(.filtered-out):not(.hidden-photo)');
-        window.photoLightbox.photos = [];
-        visiblePhotos.forEach((card, index) => {
-          window.photoLightbox.photos.push({
-            src: card.dataset.photo,
-            location: card.dataset.location,
-            alt: card.querySelector('img').alt
-          });
-          // Update click handler with new index
-          card.onclick = () => window.photoLightbox.openLightbox(index);
-        });
-      }
-    });
-  });
 });
 
 </script>
