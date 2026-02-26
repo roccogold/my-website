@@ -563,6 +563,31 @@ body.light-theme .cursor-gradient {
   .cursor-gradient { display: none; }
 }
 
+/* Custom cursor — purple dot */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a, button, [role="button"], label, select, input, textarea { cursor: none; }
+}
+
+.cursor-dot {
+  position: fixed;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #9a77c6;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.15s ease;
+  will-change: left, top;
+}
+.cursor-dot.visible { opacity: 1; }
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-dot { display: none; }
+}
+
 /* Status badge */
 .status-badge {
   display: inline-flex;
@@ -4502,6 +4527,7 @@ body.light-theme .card-date {
   <div class="glow"></div>
 </div>
 <div class="cursor-gradient" id="cursorGradient"></div>
+<div class="cursor-dot" id="cursorDot"></div>
       
 <!-- Theme toggle button -->
 <button class="theme-toggle" aria-label="Toggle theme">
@@ -5802,6 +5828,30 @@ displayFallback() {
 }
 
 // Mouse-tracking gradient
+// Custom cursor — purple dot
+(function() {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  const dot = document.getElementById('cursorDot');
+  const hoverTargets = 'a, button, [role="button"], label, select, input, textarea';
+
+  document.addEventListener('mousemove', (e) => {
+    dot.style.left = e.clientX + 'px';
+    dot.style.top = e.clientY + 'px';
+    dot.classList.add('visible');
+  });
+
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(hoverTargets)) dot.classList.add('hovering');
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(hoverTargets)) dot.classList.remove('hovering');
+  });
+
+  document.addEventListener('mouseleave', () => dot.classList.remove('visible'));
+  document.addEventListener('mouseenter', () => dot.classList.add('visible'));
+})();
+
 (function() {
   if (window.matchMedia('(hover: none)').matches) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
