@@ -4606,7 +4606,7 @@ body.light-theme .card-date {
       </div>
       <div class="card-content">
         <div class="apod-description">
-          Drove product evolution of an operations platform used daily by 200+ users across trading, risk, payments, support and compliance teams — reducing operational friction across the broker's core workflows.
+          Drove product evolution of an operations platform used daily by <span class="counter" data-target="200" data-suffix="+">200+</span> users across trading, risk, payments, support and compliance teams — reducing operational friction across the broker's core workflows.
         </div>
       </div>
     </div>
@@ -4640,7 +4640,7 @@ body.light-theme .card-date {
       </div>
       <div class="card-content">
         <div class="apod-description">
-          Redesigned entity search by restructuring how upstream calls are orchestrated across multiple data connectors — cutting response times from ~30s to ~3s and delivering faster, more relevant results.
+          Redesigned entity search by restructuring how upstream calls are orchestrated across multiple data connectors — cutting response times from <span class="counter" data-target="30" data-prefix="~" data-suffix="s">~30s</span> to <span class="counter" data-target="3" data-prefix="~" data-suffix="s">~3s</span> and delivering faster, more relevant results.
         </div>
       </div>
     </div>
@@ -5826,6 +5826,33 @@ displayFallback() {
     requestAnimationFrame(animate);
   }
   animate();
+})();
+
+// Animated counters
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const counters = document.querySelectorAll('.counter');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = +el.dataset.target;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const duration = 1200;
+      const start = performance.now();
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = prefix + Math.round(eased * target) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => observer.observe(c));
 })();
 
 // Core Web Vitals monitoring
