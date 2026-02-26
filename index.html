@@ -535,6 +535,42 @@ body.light-theme .theme-toggle:hover {
   color: var(--bg-light);
 }
 
+/* Status badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  background: rgba(154, 119, 198, 0.08);
+  font-size: var(--font-xs);
+  color: var(--text-dark);
+  margin-top: 1rem;
+  margin-bottom: 0;
+  backdrop-filter: blur(8px);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(74, 222, 128, 0); }
+}
+
+body.light-theme .status-badge {
+  border-color: rgba(107, 70, 193, 0.3);
+  background: rgba(107, 70, 193, 0.06);
+  color: var(--text-light);
+}
+
 /* Scroll progress bar */
 .scroll-progress {
   position: fixed;
@@ -4458,6 +4494,10 @@ body.light-theme .card-date {
       <p class="neon-greeting"><b>Ciao, I'm</b></p>
       <h1 class="neon-title">ROCCO</h1>
       <p class="neon-subtitle"><b><span class="typewriter" data-text="&lt; Product Manager — from idea to impact &gt;"></span></b></p>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Vienna, Austria · PM @ Moody's
+      </div>
     </header>
   </div>
 </div>
