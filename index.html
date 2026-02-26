@@ -535,6 +535,34 @@ body.light-theme .theme-toggle:hover {
   color: var(--bg-light);
 }
 
+/* Mouse-tracking gradient */
+.cursor-gradient {
+  position: fixed;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154, 119, 198, 0.12), transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(70px);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  will-change: left, top;
+}
+
+.cursor-gradient.visible {
+  opacity: 1;
+}
+
+body.light-theme .cursor-gradient {
+  background: radial-gradient(circle, rgba(107, 70, 193, 0.09), transparent 70%);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-gradient { display: none; }
+}
+
 /* Status badge */
 .status-badge {
   display: inline-flex;
@@ -4473,6 +4501,7 @@ body.light-theme .card-date {
   <div class="gradient-sphere sphere-3"></div>
   <div class="glow"></div>
 </div>
+<div class="cursor-gradient" id="cursorGradient"></div>
       
 <!-- Theme toggle button -->
 <button class="theme-toggle" aria-label="Toggle theme">
@@ -5771,6 +5800,33 @@ displayFallback() {
     this.lastUpdatedElement.innerHTML = `© ${year} <a href="https://github.com/roccogold/my-website/blob/main/index.html" target="_blank">designed & built</a> by roccogold — always improving.`;
 }
 }
+
+// Mouse-tracking gradient
+(function() {
+  if (window.matchMedia('(hover: none)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const el = document.getElementById('cursorGradient');
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let currentX = mouseX;
+  let currentY = mouseY;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    el.classList.add('visible');
+  });
+
+  function animate() {
+    currentX += (mouseX - currentX) * 0.06;
+    currentY += (mouseY - currentY) * 0.06;
+    el.style.left = currentX + 'px';
+    el.style.top = currentY + 'px';
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
 
 // Core Web Vitals monitoring
 class PerformanceMonitor {
