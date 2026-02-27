@@ -728,7 +728,7 @@ body.light-theme .back-to-top:hover {
 
 .nav-item {
   position: relative;
-  color: var(--text-dark); /* same as hero description (Product manager at the...) */
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   font-size: var(--font-sm);
   font-weight: 600;
@@ -736,55 +736,26 @@ body.light-theme .back-to-top:hover {
   transition: all var(--transition-normal);
   cursor: pointer;
   font-family: var(--main-font);
-  opacity: 0.6;
-}
-
-/* Dot indicator on hover & active */
-.nav-item::before {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--accent-dark);
-  transition: width var(--transition-normal);
 }
 
 .nav-item:hover {
-  opacity: 0.9;
-  color: var(--accent-dark);
+  color: #ffffff;
   outline: none;
-}
-
-.nav-item:hover::before {
-  width: 6px;
 }
 
 .nav-item.active {
-  opacity: 1;
-  color: var(--accent-dark);
+  color: #ffffff;
   outline: none;
-}
-
-.nav-item.active::before {
-  width: 6px;
 }
 
 /* Light theme support */
 body.light-theme .nav-item {
-  color: var(--text-light); /* same as hero description in light mode */
+  color: rgba(30, 20, 50, 0.75);
 }
 
 body.light-theme .nav-item:hover,
 body.light-theme .nav-item.active {
   color: var(--accent-light);
-}
-
-body.light-theme .nav-item::before {
-  background: var(--accent-light);
 }
 
 /* Hide desktop navigation on mobile */
