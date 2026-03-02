@@ -4629,17 +4629,20 @@ body.light-theme .currently-now-playing-label {
   border: 1px solid rgba(107, 70, 193, 0.3);
   border-radius: 12px;
   padding: 0.3rem 0.6rem;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .interest-tag:hover {
   background-color: rgba(107, 70, 193, 0.3);
   border-color: rgba(107, 70, 193, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(154, 119, 198, 0.25);
 }
 
 body.light-theme .interest-tag {
   color: var(--text-light);
 }
+
 
 </style>
 </head>
@@ -4652,7 +4655,7 @@ body.light-theme .interest-tag {
   <a href="#projects" class="nav-item">Projects</a>
   <a href="#thesis" class="nav-item">Thesis</a>
   <a href="#photos" class="nav-item">Perspectives</a>
-  <a href="#currently" class="nav-item">Currently</a>
+  <a href="#vibes" class="nav-item">Vibes</a>
   <a href="#interests" class="nav-item">Interests</a>
 </nav>
 </div>
@@ -4684,9 +4687,9 @@ body.light-theme .interest-tag {
     <i class="fas fa-camera"></i>
     Perspectives
   </a>
-  <a href="#currently" class="mobile-nav-item">
-    <i class="fas fa-circle-dot"></i>
-    Currently
+  <a href="#vibes" class="mobile-nav-item">
+    <i class="fas fa-music"></i>
+    Vibes
   </a>
   <a href="#interests" class="mobile-nav-item">
     <i class="fas fa-heart"></i>
@@ -5362,30 +5365,13 @@ View More
   </div>
 </div> 
 
-<section aria-labelledby="currently-heading" class="reveal" id="currently">
+<section aria-labelledby="vibes-heading" class="reveal" id="vibes">
   <div class="tron-header">
-    <h2 id="currently-heading">currently</h2>
+    <h2 id="vibes-heading">vibes</h2>
   </div>
-  <div class="currently-rows">
-    <div class="currently-row">
-      <span class="currently-key">building</span>
-      <span class="currently-val">APIs &amp; personal projects for the family farm, turns out home is the best place to start optimizing.</span>
-    </div>
-    <div class="currently-row">
-      <span class="currently-key">reading</span>
-      <span class="currently-val">Un indovino mi disse by Tiziano Terzani, a great book for travelling with the mind.</span>
-    </div>
-    <div class="currently-row">
-      <span class="currently-key">framing</span>
-      <span class="currently-val">Sony a6000 &amp; Olympus Mju-1, Morocco's up next so stay tuned for photos.</span>
-    </div>
+  <div class="spotify-container">
+    <iframe src="https://open.spotify.com/embed/album/79dL7FLiJFOO0EoehUHQBv?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   </div>
-
-  <div class="currently-now-playing">
-    <span class="currently-now-playing-label">now playing</span>
-    <iframe data-testid="embed-iframe" src="https://open.spotify.com/embed/album/79dL7FLiJFOO0EoehUHQBv?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-  </div>
-
 </section>
 
 <section aria-labelledby="interests-heading" class="reveal" id="interests">
@@ -6864,6 +6850,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 })();
 </script>
-      
+
+
 </body>
 </html>
