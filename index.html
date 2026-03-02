@@ -6570,7 +6570,7 @@ class PhotoLightbox {
       this.navPhotos = [...this.photos];
     } else {
       this.navPhotos = [...document.querySelectorAll('.photo-card')]
-        .filter(card => !card.classList.contains('hidden-photo') && card.style.display !== 'none')
+        .filter(card => card.style.display === 'block')
         .map(card => ({
           src:      card.dataset.photo,
           location: card.dataset.location,
