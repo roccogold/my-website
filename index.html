@@ -1494,6 +1494,11 @@ body.light-theme .view-all-btn:hover {
   gap: 1.5rem;
 }
       
+@keyframes section-reveal {
+  from { opacity: 0; transform: scale(0.8) translateY(40px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
 .tron-header h2 {
   font-family: 'Audiowide', cursive;
   font-size: clamp(1.4rem, 4.5vw, 1.8rem);
@@ -1506,6 +1511,10 @@ body.light-theme .view-all-btn:hover {
   margin: 0;
   letter-spacing: 0.15em;
   font-weight: 900;
+  /* Scroll-driven reveal — Chrome 115+, graceful fallback for others */
+  animation: section-reveal linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 25%;
 }
 
 body.light-theme .tron-header h2 {
