@@ -3616,7 +3616,12 @@ body.light-theme .filter-btn.active {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-normal);
+  filter: blur(20px);
+  transition: transform var(--transition-normal), filter 0.4s ease;
+}
+
+.photo-card img.loaded {
+  filter: blur(0);
 }
 
 .photo-card:hover img {
@@ -4989,7 +4994,8 @@ body.light-theme .interest-tag {
      alt="Urban architecture photography in Athens, Greece - Modern city streets captured by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5004,7 +5010,8 @@ body.light-theme .interest-tag {
      alt="Winter landscape photography in Engadin, Switzerland - Snow-covered mountains and valleys by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5019,7 +5026,8 @@ body.light-theme .interest-tag {
      alt="Coastal beach photography in Madeira, Portugal - Atlantic Ocean shoreline by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5034,7 +5042,8 @@ body.light-theme .interest-tag {
      alt="Seascape photography in Madeira, Portugal - Ocean horizon and coastal cliffs by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5049,7 +5058,8 @@ body.light-theme .interest-tag {
      alt="Surfing photography in Tofino, Canada - Pacific coast surfer captured by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5065,7 +5075,8 @@ body.light-theme .interest-tag {
      alt="Urban park photography in Toronto, Canada - City green space by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5080,7 +5091,8 @@ body.light-theme .interest-tag {
      alt="Adventure photography in Khumbu region, Nepal - Himalayan mountain trekking by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5095,7 +5107,8 @@ body.light-theme .interest-tag {
      alt="Street market photography in Athens, Greece - Local vendors and daily life by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5110,7 +5123,8 @@ body.light-theme .interest-tag {
      alt="Surf beach photography in Ericeira, Portugal - Atlantic surfing destination by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5125,7 +5139,8 @@ body.light-theme .interest-tag {
      alt="Travel photography with friends in Ericeira, Portugal - Beach lifestyle by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5140,7 +5155,8 @@ body.light-theme .interest-tag {
      alt="Sunset photography in Ericeira, Portugal - Golden hour over the Atlantic by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5155,7 +5171,8 @@ body.light-theme .interest-tag {
      alt="Agricultural photography in Madeira, Portugal - Tropical banana plantations by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5170,7 +5187,8 @@ body.light-theme .interest-tag {
      alt="Mountain landscape photography in Khumbu, Nepal - Himalayan peaks by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5185,7 +5203,8 @@ body.light-theme .interest-tag {
      alt="Dramatic cliff photography in Madeira, Portugal - Coastal rock formations by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5200,7 +5219,8 @@ body.light-theme .interest-tag {
      alt="Alpine pastoral photography in Engadin, Switzerland - Mountain farming by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5215,7 +5235,8 @@ body.light-theme .interest-tag {
      alt="Sunset photography in Venice, Italy - Golden hour over the canals by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5230,7 +5251,8 @@ body.light-theme .interest-tag {
      alt="Architecture photography of Alterlaa social housing in Vienna, Austria - Modernist design by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5245,7 +5267,8 @@ body.light-theme .interest-tag {
      alt="City view photography in Vienna, Austria - Urban panorama by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5260,7 +5283,8 @@ body.light-theme .interest-tag {
      alt="Traditional fishing photography in Madeira, Portugal - Tuna fishing industry by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5275,7 +5299,8 @@ body.light-theme .interest-tag {
      alt="Surf culture photography in Tofino, Canada - West coast surfing lifestyle by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5290,7 +5315,8 @@ body.light-theme .interest-tag {
      alt="Alpine landscape photography in Engadin, Switzerland - Mountain peaks by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5305,7 +5331,8 @@ body.light-theme .interest-tag {
        alt="Historic tower framed through architecture in Florence, Italy - Urban photography by Rocco Goldschmidt" 
        width="1200" 
        height="800"
-       loading="lazy">
+       loading="lazy"
+     onload="this.classList.add('loaded')">
   <div class="photo-overlay">
     <div class="photo-location">
       <i class="fas fa-map-marker-alt"></i>
@@ -5320,7 +5347,8 @@ body.light-theme .interest-tag {
      alt="Bustling seaside café with ocean view and laundry hanging overhead in Madeira, Portugal - Travel photography by Rocco Goldschmidt" 
      width="1200" 
      height="800"
-     loading="lazy">
+     loading="lazy"
+     onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
@@ -5335,7 +5363,8 @@ body.light-theme .interest-tag {
        alt="Canopy view looking up through trees in Bologna, Italy - Nature photography by Rocco Goldschmidt" 
        width="1200" 
        height="800"
-       loading="lazy">
+       loading="lazy"
+     onload="this.classList.add('loaded')">
   <div class="photo-overlay">
     <div class="photo-location">
       <i class="fas fa-map-marker-alt"></i>
@@ -5350,7 +5379,8 @@ body.light-theme .interest-tag {
        alt="Contemporary art exhibition portraits in Vienna gallery - Art photography by Rocco Goldschmidt" 
        width="1200" 
        height="800"
-       loading="lazy">
+       loading="lazy"
+     onload="this.classList.add('loaded')">
   <div class="photo-overlay">
     <div class="photo-location">
       <i class="fas fa-map-marker-alt"></i>
@@ -5365,7 +5395,8 @@ body.light-theme .interest-tag {
        alt="Fishmonger with fresh catch at market in Madeira, Portugal - Street photography by Rocco Goldschmidt" 
        width="1200" 
        height="800"
-       loading="lazy">
+       loading="lazy"
+     onload="this.classList.add('loaded')">
   <div class="photo-overlay">
     <div class="photo-location">
       <i class="fas fa-map-marker-alt"></i>
@@ -5380,7 +5411,8 @@ body.light-theme .interest-tag {
        alt="Moon rising over pastel clouds at dusk in Florence, Italy - Sky photography by Rocco Goldschmidt" 
        width="1200" 
        height="800"
-       loading="lazy">
+       loading="lazy"
+     onload="this.classList.add('loaded')">
   <div class="photo-overlay">
     <div class="photo-location">
       <i class="fas fa-map-marker-alt"></i>
