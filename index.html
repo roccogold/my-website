@@ -3623,28 +3623,9 @@ body.light-theme .filter-btn.active {
   transform: scale(1.1);
 }
 
-.photo-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to top, rgba(17, 17, 17, 0.95), transparent);
-  padding: 1.5rem 1rem 1rem;
-  transform: translateY(100%);
-  transition: transform var(--transition-normal);
-}
-
-.photo-card:hover .photo-overlay {
-  transform: translateY(0);
-}
-
+.photo-overlay,
 .photo-location {
-  font-size: 0.8rem;
-  opacity: 0.9;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  color: var(--text-dark);
+  display: none;
 }
 
 /* Light theme support */
@@ -3658,13 +3639,6 @@ body.light-theme .photo-card:hover {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-body.light-theme .photo-overlay {
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.95), transparent);
-}
-
-body.light-theme .photo-location {
-  color: var(--text-light);
-}
 
 /* ═══════════════════════════════════════════════
    LIGHTBOX — edge-to-edge, minimal chrome
@@ -3831,14 +3805,6 @@ body.light-theme .photo-location {
     grid-template-columns: 1fr;
   }
 
-  .photo-overlay {
-    transform: translateY(0);
-    background: linear-gradient(to top, rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.4));
-  }
-
-  body.light-theme .photo-overlay {
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
-  }
 
   .lightbox-close  { top: 1rem; right: 1rem; }
   .lightbox-prev   { left: 0.75rem; }
