@@ -177,12 +177,16 @@
   --accent-dark-hover: #b18cd9;
   --bg-dark: #111;
   --text-dark: #e5e5e5;
-  
+
   /* Light theme colors */
   --bg-light: #ffffff;
   --text-light: #1a1a1a;
   --accent-light: #6b46c1;
   --accent-light-hover: #7c3aed;
+
+  /* Neon heading colors */
+  --neon-dark: var(--neon-dark);
+  --neon-light: var(--neon-light);
 
  /* Enhanced animation system */
   --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
@@ -493,6 +497,7 @@ body:focus-within {
 .theme-toggle {
   position: fixed;
   top: 1.5rem;
+  z-index: 1001;
   right: 2rem;
   width: 50px;
   height: 50px;
@@ -506,7 +511,6 @@ body:focus-within {
   justify-content: center;
   font-size: 18px;
   transition: all var(--transition-normal);
-  z-index: 1002;
   opacity: 1;  /* ← ADD THIS */
   visibility: visible;  /* ← ADD THIS */
 }
@@ -1050,7 +1054,7 @@ body.light-theme .mobile-nav-item.contact:active {
 
 /* ROCCO title - ALWAYS ACTIVE NEON GLOW */
 .top-bar header h1.neon-title {
-  color: #d4b5f7;
+  color: var(--neon-dark);
   text-shadow:
     0 0 8px rgba(167, 139, 250, 0.4),
     0 0 15px rgba(139, 92, 246, 0.3),
@@ -1060,7 +1064,7 @@ body.light-theme .mobile-nav-item.contact:active {
 
 /* Light theme */
 body.light-theme .top-bar header h1.neon-title {
-  color: #8b5cf6;
+  color: var(--neon-light);
   text-shadow:
     0 0 8px rgba(139, 92, 246, 0.3),
     0 0 15px rgba(124, 58, 237, 0.2),
@@ -1493,7 +1497,7 @@ body.light-theme .view-all-btn:hover {
 .tron-header h2 {
   font-family: 'Audiowide', cursive;
   font-size: clamp(1.4rem, 4.5vw, 1.8rem);
-  color: #d4b5f7;
+  color: var(--neon-dark);
   text-shadow:
     0 0 8px rgba(167, 139, 250, 0.4),
     0 0 15px rgba(139, 92, 246, 0.3),
@@ -1505,7 +1509,7 @@ body.light-theme .view-all-btn:hover {
 }
 
 body.light-theme .tron-header h2 {
-  color: #8b5cf6;
+  color: var(--neon-light);
   text-shadow:
     0 0 8px rgba(139, 92, 246, 0.3),
     0 0 15px rgba(124, 58, 237, 0.2),
@@ -2590,7 +2594,7 @@ body.light-theme .keyword {
   color: var(--text-dark);
   padding: 0.3rem 0.6rem;
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: var(--font-xs);
   font-weight: 500;
   font-family: var(--main-font);
   cursor: default;
@@ -2744,7 +2748,7 @@ body.light-theme .project-title {
   color: var(--text-dark);
   padding: 0.3rem 0.6rem;
   border-radius: 12px;
-  font-size: 0.75rem;
+  font-size: var(--font-xs);
   font-weight: 500;
   opacity: 0.9;
   transition: all 0.2s ease;
@@ -3105,7 +3109,7 @@ body.light-theme .thesis-icon-btn:focus-visible {
   background: rgba(154, 119, 198, 0.08);
   color: var(--text-dark);
   font-family: var(--main-font);
-  font-size: 0.72rem;
+  font-size: var(--font-xs);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -4205,7 +4209,7 @@ body.light-theme [title]:hover {
   position: relative;
   
   /* ADD NEON GLOW - DARK MODE */
-  color: #d4b5f7;
+  color: var(--neon-dark);
   text-shadow:
     0 0 10px rgba(167, 139, 250, 0.8),
     0 0 20px rgba(139, 92, 246, 0.6),
@@ -4218,7 +4222,7 @@ body.light-theme [title]:hover {
 /* LIGHT THEME VERSION */
 body.light-theme .closing-section-title {
   transform: perspective(300px) rotateX(10deg);
-  color: #8b5cf6;
+  color: var(--neon-light);
   text-shadow:
     0 0 10px rgba(139, 92, 246, 0.4),
     0 0 20px rgba(124, 58, 237, 0.3),
@@ -4489,7 +4493,7 @@ body.light-theme .metric-number {
 
 /* 2. Active State: REDUCED GLOW (The "On" state) */
 .closing-section-title span.char.active {
-  color: #d4b5f7; /* Your Main Neon Color */
+  color: var(--neon-dark); /* Your Main Neon Color */
   
   /* REDUCED Glow - Same as section titles */
   text-shadow:
@@ -4510,7 +4514,7 @@ body.light-theme .closing-section-title span.char {
 
 /* 2. Active State: REDUCED GLOW (The "On" state) */
 body.light-theme .closing-section-title span.char.active {
-  color: #8b5cf6; /* Strong, Deep Purple */
+  color: var(--neon-light); /* Strong, Deep Purple */
   
   /* REDUCED Glow - Same as section titles */
   text-shadow:
@@ -4621,7 +4625,7 @@ body.light-theme .currently-now-playing-label {
 
 .interest-tag {
   font-family: var(--main-font);
-  font-size: 12px;
+  font-size: var(--font-xs);
   font-weight: 500;
   letter-spacing: normal;
   color: var(--text-dark);
