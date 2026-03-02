@@ -3666,146 +3666,183 @@ body.light-theme .photo-location {
   color: var(--text-light);
 }
 
-/* Lightbox styles */
+/* ═══════════════════════════════════════════════
+   LIGHTBOX — edge-to-edge, minimal chrome
+   ═══════════════════════════════════════════════ */
+
 .lightbox {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  width: 100vw;  /* ← ADD THIS LINE */
-  height: 100vh; /* ← ADD THIS LINE */
-  height: 100dvh; /* ← ADD THIS LINE for better mobile support */
-  background: rgba(0, 0, 0, 0.95);
+  inset: 0;
+  background: #000;
   z-index: 99999;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* ← ADD THIS LINE to prevent scrolling */
+  overflow: hidden;
+  cursor: zoom-out;
+  /* Fade state — toggled via .visible class */
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
-.lightbox.active {
-  display: flex;
-}
+.lightbox.active  { display: flex; }
+.lightbox.visible { opacity: 1; }
 
+/* Full-viewport image container */
 .lightbox-content {
-  position: relative;
-  max-width: 90%;
-  max-height: 90%;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  z-index: 9998; /* ← Just change this line */
+  justify-content: center;
+  cursor: default;
 }
 
 .lightbox-content img {
-  max-width: 100%;
-  max-height: 85vh;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 2rem);
+  width: auto;
+  height: auto;
   object-fit: contain;
   border-radius: 8px;
-  /* Remove position and z-index from here */
+  display: block;
+  cursor: default;
 }
 
-.lightbox-location {
-  color: white;
-  font-size: var(--font-sm);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  opacity: 0.9;
-}
-
-.lightbox-close {
-  position: fixed;
-  top: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  background: rgba(154, 119, 198, 0.3);
-  border: 2px solid var(--accent-dark);
-  border-radius: 50%;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  display: none; /* ← CHANGE THIS LINE from "display: none" */
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  z-index: 100001; /* ← MAKE SURE this is 100001 */
-}
-      
-.lightbox-close:hover {
-  background: var(--accent-dark);
-  transform: rotate(90deg) scale(1.1);
-}
-
+/* ── Controls: shared base ────────────────────── */
+.lightbox-close,
 .lightbox-nav {
   position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  background: rgba(154, 119, 198, 0.3);
-  border: 2px solid var(--accent-dark);
-  border-radius: 50%;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  display: none; /* ← CHANGE THIS LINE from "display: none" */
+  display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  z-index: 100001; /* ← MAKE SURE this is 100001 */
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  cursor: pointer;
+  z-index: 100001;
+  /* hidden by default, revealed on hover */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, background 0.2s ease,
+              border-color 0.2s ease, color 0.2s ease;
 }
 
+/* Reveal all controls when hovering the lightbox (desktop) */
+.lightbox.visible:hover .lightbox-close,
+.lightbox.visible:hover .lightbox-nav,
+.lightbox.visible:hover .lightbox-counter,
+.lightbox.visible:hover .lightbox-location {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-close:hover,
 .lightbox-nav:hover {
-  background: var(--accent-dark);
-  transform: translateY(-50%) scale(1.1);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
 }
 
-.lightbox-prev {
-  left: 2rem;
+/* ── Positions ──────────────────────────────────── */
+.lightbox-close { top: 1.4rem; right: 1.4rem; }
+.lightbox-prev  { left: 1.4rem; top: 50%; transform: translateY(-50%); }
+.lightbox-next  { right: 1.4rem; top: 50%; transform: translateY(-50%); }
+
+.lightbox-prev:hover { transform: translateY(-50%); }
+.lightbox-next:hover { transform: translateY(-50%); }
+
+/* ── Counter (top center) ───────────────────────── */
+.lightbox-counter {
+  position: fixed;
+  top: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--main-font);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  z-index: 100001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  /* same pill as location */
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.lightbox-next {
-  right: 2rem;
+/* ── Location label (bottom center) ──────────────── */
+.lightbox-location {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--main-font);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 100001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  /* pill backdrop so it's readable over any photo */
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Mobile responsive */
+/* ── Always show controls on touch devices ────────── */
+@media (hover: none) {
+  .lightbox.visible .lightbox-close,
+  .lightbox.visible .lightbox-nav,
+  .lightbox.visible .lightbox-counter,
+  .lightbox.visible .lightbox-location {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* ── View Transition API morph ────────────────────── */
+::view-transition-old(photo-morph),
+::view-transition-new(photo-morph) {
+  animation-duration: 0.38s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Mobile ─────────────────────────────────────── */
 @media (max-width: 768px) {
   .photo-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .photo-overlay {
     transform: translateY(0);
     background: linear-gradient(to top, rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.4));
   }
-  
+
   body.light-theme .photo-overlay {
     background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
   }
-  
-  .lightbox-close,
-  .lightbox-nav {
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-  }
-  
-  .lightbox-close {
-    top: 1rem;
-    right: 1rem;
-  }
-  
-  .lightbox-prev {
-    left: 1rem;
-  }
-  
-  .lightbox-next {
-    right: 1rem;
-  }
+
+  .lightbox-close  { top: 1rem; right: 1rem; }
+  .lightbox-prev   { left: 0.75rem; }
+  .lightbox-next   { right: 0.75rem; }
 }
 
 /* Hidden photos */
@@ -5398,24 +5435,27 @@ View More
         
 </section>
 
-<!-- Lightbox structure -->
-<button class="lightbox-close" aria-label="Close lightbox">
-  <i class="fas fa-times"></i>
-</button>
-<button class="lightbox-nav lightbox-prev" aria-label="Previous photo">
-  <i class="fas fa-chevron-left"></i>
-</button>
-<button class="lightbox-nav lightbox-next" aria-label="Next photo">
-  <i class="fas fa-chevron-right"></i>
-</button>
-
-<div class="lightbox" id="lightbox">
+<!-- Lightbox — all controls inside so CSS hover works -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
   <div class="lightbox-content">
     <img src="" alt="" id="lightbox-img">
-    <div class="lightbox-location" id="lightbox-location">
-      <i class="fas fa-map-marker-alt"></i>
-      <span></span>
-    </div>
+  </div>
+
+  <button class="lightbox-close" aria-label="Close photo viewer">
+    <i class="fas fa-times"></i>
+  </button>
+  <button class="lightbox-nav lightbox-prev" aria-label="Previous photo">
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <button class="lightbox-nav lightbox-next" aria-label="Next photo">
+    <i class="fas fa-chevron-right"></i>
+  </button>
+
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+
+  <div class="lightbox-location" id="lightbox-location">
+    <i class="fas fa-map-marker-alt"></i>
+    <span></span>
   </div>
 </div> 
 
@@ -6499,142 +6539,161 @@ function toggleProjectDetails(button) {
   }
 }
 
-// Photography Lightbox functionality
+// Photography Lightbox
 class PhotoLightbox {
   constructor() {
-    this.lightbox = document.getElementById('lightbox');
-    this.lightboxImg = document.getElementById('lightbox-img');
-    this.lightboxLocation = document.querySelector('#lightbox-location span');
-    this.photoCards = document.querySelectorAll('.photo-card');
-    this.currentIndex = 0;
-    this.photos = [];
-    
+    this.lightbox      = document.getElementById('lightbox');
+    this.lightboxImg   = document.getElementById('lightbox-img');
+    this.locationSpan  = document.querySelector('#lightbox-location span');
+    this.counter       = document.getElementById('lightbox-counter');
+    this.photos        = [];
+    this.currentIndex  = 0;
+    this.savedScrollY  = 0;   // ← fix: store scroll position at open time
     this.init();
   }
 
- init() {
-  // Collect all photos data
-  this.photoCards.forEach((card, index) => {
-    this.photos.push({
-      src: card.dataset.photo,
-      location: card.dataset.location,
-      alt: card.querySelector('img').alt
+  init() {
+    // Collect initial visible photo cards
+    document.querySelectorAll('.photo-card').forEach((card, index) => {
+      this._registerCard(card, index);
     });
 
-   // ✅ MARK AS INITIALIZED to prevent duplicate listeners
-    card.setAttribute('data-lightbox-initialized', 'true');
-    // Add click event to open lightbox
-    card.addEventListener('click', () => this.openLightbox(index));
-  });
+    // Controls (now inside lightbox div — no display toggling needed)
+    this.lightbox.querySelector('.lightbox-close')
+      .addEventListener('click', (e) => { e.stopPropagation(); this.close(); });
+    this.lightbox.querySelector('.lightbox-prev')
+      .addEventListener('click', (e) => { e.stopPropagation(); this.prev(); });
+    this.lightbox.querySelector('.lightbox-next')
+      .addEventListener('click', (e) => { e.stopPropagation(); this.next(); });
 
-  // Close button - NOW OUTSIDE LIGHTBOX
-  document.querySelector('.lightbox-close').addEventListener('click', () => this.closeLightbox());
-  
-  // Navigation buttons - NOW OUTSIDE LIGHTBOX
-  document.querySelector('.lightbox-prev').addEventListener('click', () => this.prevPhoto());
-  document.querySelector('.lightbox-next').addEventListener('click', () => this.nextPhoto());
-  
-  // Click outside image to close
-  this.lightbox.addEventListener('click', (e) => {
-    if (e.target === this.lightbox) {
-      this.closeLightbox();
+    // Click the dark backdrop to close
+    this.lightbox.addEventListener('click', (e) => {
+      if (e.target === this.lightbox) this.close();
+    });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (!this.lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape')     this.close();
+      if (e.key === 'ArrowLeft')  this.prev();
+      if (e.key === 'ArrowRight') this.next();
+    });
+  }
+
+  _registerCard(card, index) {
+    if (card.dataset.lightboxInit) return;
+    this.photos.push({
+      src:      card.dataset.photo,
+      location: card.dataset.location,
+      alt:      card.querySelector('img')?.alt || ''
+    });
+    card.dataset.lightboxInit = 'true';
+    card.addEventListener('click', () => this.open(index, card));
+  }
+
+  open(index, originCard = null) {
+    this.savedScrollY = window.scrollY;
+
+    // Build nav list from currently VISIBLE cards only (respects active filter)
+    this.navPhotos = [...document.querySelectorAll('.photo-card')]
+      .filter(card => window.getComputedStyle(card).display !== 'none')
+      .map(card => ({
+        src:      card.dataset.photo,
+        location: card.dataset.location,
+        alt:      card.querySelector('img')?.alt || ''
+      }));
+
+    // Find where the clicked photo sits in the visible set
+    const clickedSrc = this.photos[index]?.src;
+    this.currentIndex = this.navPhotos.findIndex(p => p.src === clickedSrc);
+    if (this.currentIndex === -1) this.currentIndex = 0;
+
+    this._renderPhoto();
+
+    const doOpen = () => {
+      this.lightbox.classList.add('active');
+      requestAnimationFrame(() => this.lightbox.classList.add('visible'));
+
+      // Hide chrome
+      const nav = document.querySelector('.nav-container');
+      if (nav) nav.style.display = 'none';
+      const toggle = document.querySelector('.theme-toggle');
+      if (toggle) toggle.style.display = 'none';
+      const mobileToggle = document.querySelector('.mobile-nav-toggle');
+      if (mobileToggle) mobileToggle.style.display = 'none';
+      const scrollInd = document.querySelector('.scroll-indicator');
+      if (scrollInd) scrollInd.style.display = 'none';
+
+      // Lock body scroll
+      document.body.style.overflow  = 'hidden';
+      document.body.style.position  = 'fixed';
+      document.body.style.width     = '100%';
+      document.body.style.top       = `-${this.savedScrollY}px`;
+    };
+
+    // View Transition API morph (progressive enhancement)
+    if ('startViewTransition' in document && originCard) {
+      const thumbImg = originCard.querySelector('img');
+      if (thumbImg) thumbImg.style.viewTransitionName = 'photo-morph';
+
+      const vt = document.startViewTransition(() => {
+        if (thumbImg) thumbImg.style.viewTransitionName = '';
+        this.lightboxImg.style.viewTransitionName = 'photo-morph';
+        doOpen();
+      });
+
+      vt.finished.then(() => {
+        this.lightboxImg.style.viewTransitionName = '';
+      });
+    } else {
+      doOpen();
     }
-  });
-  
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (!this.lightbox.classList.contains('active')) return;
-    
-    if (e.key === 'Escape') this.closeLightbox();
-    if (e.key === 'ArrowLeft') this.prevPhoto();
-    if (e.key === 'ArrowRight') this.nextPhoto();
-  });
-}
-
-openLightbox(index) {
-  this.currentIndex = index;
-  this.showPhoto();
-  this.lightbox.classList.add('active');
-  
-  // HIDE the navigation bar
-  const navContainer = document.querySelector('.nav-container');
-  if (navContainer) navContainer.style.display = 'none';
-  
-  // HIDE the theme toggle
-  const themeToggle = document.querySelector('.theme-toggle');
-  if (themeToggle) themeToggle.style.display = 'none';
-  
-  // HIDE the mobile hamburger menu
-  const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-  if (mobileNavToggle) mobileNavToggle.style.display = 'none';
-  
-  // HIDE the scroll indicator  ← ADD THESE 3 LINES
-  const scrollIndicator = document.querySelector('.scroll-indicator');
-  if (scrollIndicator) scrollIndicator.style.display = 'none';
-  
-  // SHOW the lightbox buttons
-  document.querySelector('.lightbox-close').style.display = 'flex';
-  document.querySelector('.lightbox-prev').style.display = 'flex';
-  document.querySelector('.lightbox-next').style.display = 'flex';
-  
-  // PREVENT SCROLLING on both mobile and desktop
-  document.body.style.overflow = 'hidden';
-  document.body.style.position = 'fixed';
-  document.body.style.width = '100%';
-  document.body.style.top = `-${window.scrollY}px`;
-}
-
-closeLightbox() {
-  this.lightbox.classList.remove('active');
-  
-  // SHOW the navigation bar again with FLEX (not block)
-  const navContainer = document.querySelector('.nav-container');
-  if (navContainer) navContainer.style.display = 'flex';
-  
-  // SHOW the theme toggle again (but keep hidden on mobile)
-  const themeToggle = document.querySelector('.theme-toggle');
-  if (themeToggle && window.innerWidth > 768) {
-    themeToggle.style.display = 'flex';
   }
-  
-  // Keep mobile hamburger menu hidden on mobile (don't show it)
-  // Mobile hamburger menu stays hidden on mobile
-  
-  // SHOW the scroll indicator again (but keep hidden on mobile)
-  const scrollIndicator = document.querySelector('.scroll-indicator');
-  if (scrollIndicator && window.innerWidth > 768) {
-    scrollIndicator.style.display = 'flex';
-  }
-  
-  // HIDE the lightbox buttons
-  document.querySelector('.lightbox-close').style.display = 'none';
-  document.querySelector('.lightbox-prev').style.display = 'none';
-  document.querySelector('.lightbox-next').style.display = 'none';
-  
-  // RESTORE SCROLLING and position
-  const scrollY = document.body.style.top;
-  document.body.style.overflow = '';
-  document.body.style.position = '';
-  document.body.style.width = '';
-  document.body.style.top = '';
-  window.scrollTo(0, parseInt(scrollY || '0') * -1);
-}
 
-  showPhoto() {
-    const photo = this.photos[this.currentIndex];
+  close() {
+    // 1. Fade out
+    this.lightbox.classList.remove('visible');
+
+    // 2. Restore scroll immediately (while lightbox fades — user doesn't see the jump)
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width    = '';
+    document.body.style.top      = '';
+    window.scrollTo({ top: this.savedScrollY, behavior: 'instant' });
+
+    // 3. Show chrome
+    const nav = document.querySelector('.nav-container');
+    if (nav) nav.style.display = 'flex';
+    const toggle = document.querySelector('.theme-toggle');
+    if (toggle && window.innerWidth > 768) toggle.style.display = 'flex';
+    const scrollInd = document.querySelector('.scroll-indicator');
+    if (scrollInd && window.innerWidth > 768) scrollInd.style.display = 'flex';
+
+    // 4. Remove active after fade completes
+    setTimeout(() => this.lightbox.classList.remove('active'), 260);
+  }
+
+  _renderPhoto() {
+    // Use navPhotos (filter-aware) when open, fall back to all photos
+    const list = this.navPhotos || this.photos;
+    const photo = list[this.currentIndex];
+    if (!photo) return;
     this.lightboxImg.src = photo.src;
     this.lightboxImg.alt = photo.alt;
-    this.lightboxLocation.textContent = photo.location;
+    this.locationSpan.textContent = photo.location;
+    this.counter.textContent = `${this.currentIndex + 1} / ${list.length}`;
   }
 
-  nextPhoto() {
-    this.currentIndex = (this.currentIndex + 1) % this.photos.length;
-    this.showPhoto();
+  next() {
+    const list = this.navPhotos || this.photos;
+    this.currentIndex = (this.currentIndex + 1) % list.length;
+    this._renderPhoto();
   }
 
-  prevPhoto() {
-    this.currentIndex = (this.currentIndex - 1 + this.photos.length) % this.photos.length;
-    this.showPhoto();
+  prev() {
+    const list = this.navPhotos || this.photos;
+    this.currentIndex = (this.currentIndex - 1 + list.length) % list.length;
+    this._renderPhoto();
   }
 }
 
@@ -6653,18 +6712,11 @@ document.addEventListener('DOMContentLoaded', () => {
       // Hide the button completely
       loadMoreBtn.style.display = 'none';
       
-      // ✅ ADD LISTENERS ONLY TO NEW PHOTOS (not all photos again)
+      // Register newly revealed photos with lightbox
       if (window.photoLightbox) {
-        const newPhotos = document.querySelectorAll('.photo-card:not([data-lightbox-initialized])');
+        const newPhotos = document.querySelectorAll('.photo-card:not([data-lightbox-init])');
         newPhotos.forEach((card) => {
-          const absoluteIndex = window.photoLightbox.photos.length;
-          window.photoLightbox.photos.push({
-            src: card.dataset.photo,
-            location: card.dataset.location,
-            alt: card.querySelector('img').alt
-          });
-          card.setAttribute('data-lightbox-initialized', 'true');
-          card.addEventListener('click', () => window.photoLightbox.openLightbox(absoluteIndex));
+          window.photoLightbox._registerCard(card, window.photoLightbox.photos.length);
         });
       }
     });
