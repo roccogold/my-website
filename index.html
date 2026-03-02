@@ -2074,54 +2074,104 @@ body.light-theme .form-social-icons a:focus-visible {
   }
 }
 
-/* ================= PHOTO FILTER ================= */
+/* ================= PHOTO FILTER — paco.me merging pills ================= */
 
 .photo-filter-bar {
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  gap: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   justify-content: center;
   margin-bottom: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.photo-filter-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .photo-filter-btn {
+  position: relative;
+  flex-shrink: 0;
   background: transparent;
-  border: 1px solid rgba(154, 119, 198, 0.25);
+  border: 1px solid rgba(154, 119, 198, 0.3);
   border-radius: 999px;
   color: var(--text-dark);
   font-family: var(--main-font);
   font-size: var(--font-xs);
+  font-weight: 500;
   padding: 0.32rem 0.85rem;
+  margin: 0 0.22rem;
   cursor: pointer;
-  opacity: 0.6;
-  transition: all 0.2s ease;
+  opacity: 0.65;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease,
+              border-color 0.15s ease, border-radius 0.15s ease,
+              margin 0.15s ease, opacity 0.15s ease;
 }
 
 .photo-filter-btn:hover {
   opacity: 0.9;
-  border-color: rgba(154, 119, 198, 0.5);
+  border-color: rgba(154, 119, 198, 0.6);
 }
 
+/* ── Active (selected) pill ── */
 .photo-filter-btn.active {
-  background: rgba(154, 119, 198, 0.15);
+  background: var(--accent-dark);
   border-color: var(--accent-dark);
-  color: var(--accent-dark);
+  color: #fff;
   opacity: 1;
+  margin: 0;
+  z-index: 1;
 }
 
+/* ── Merge: flatten RIGHT side of active pill when next sibling is also active ── */
+.photo-filter-btn.active:has(+ .photo-filter-btn.active) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: 0;
+}
+
+/* ── Merge: flatten LEFT side of active pill that follows another active pill ── */
+.photo-filter-btn.active + .photo-filter-btn.active {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+  margin-left: 0;
+}
+
+/* ── Divider line between merged active pills ── */
+.photo-filter-btn.active + .photo-filter-btn.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 22%;
+  height: 56%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+}
+
+/* ── Light theme ── */
 body.light-theme .photo-filter-btn {
   color: var(--text-light);
-  border-color: rgba(107, 70, 193, 0.25);
+  border-color: rgba(107, 70, 193, 0.28);
 }
 
 body.light-theme .photo-filter-btn:hover {
-  border-color: rgba(107, 70, 193, 0.5);
+  border-color: rgba(107, 70, 193, 0.55);
 }
 
 body.light-theme .photo-filter-btn.active {
-  background: rgba(107, 70, 193, 0.1);
+  background: var(--accent-light);
   border-color: var(--accent-light);
-  color: var(--accent-light);
+  color: #fff;
+}
+
+body.light-theme .photo-filter-btn.active + .photo-filter-btn.active::before {
+  background: rgba(255, 255, 255, 0.35);
 }
 
 /* ================= FOOTER UPGRADE ================= */
@@ -6337,36 +6387,54 @@ document.addEventListener('DOMContentLoaded', () => {
   new EnhancedWebsite();
   new ThesisMetricsAnimation(); // Animate thesis metrics numbers
 
-  // ── Photo country filter ─────────────────────────────
+  // ── Photo country filter — multi-select (paco.me style) ──────────────
   const filterBtns  = document.querySelectorAll('.photo-filter-btn');
   const photoCards  = document.querySelectorAll('.photo-card');
   const loadMoreBtn = document.getElementById('loadMorePhotos');
+  const allBtn      = document.querySelector('.photo-filter-btn[data-country="all"]');
+
+  function applyFilter() {
+    const selected = [...filterBtns]
+      .filter(b => b.classList.contains('active') && b.dataset.country !== 'all')
+      .map(b => b.dataset.country);
+
+    const showAll = allBtn.classList.contains('active');
+
+    photoCards.forEach(card => {
+      if (showAll) {
+        card.style.display = '';                // let .hidden-photo CSS handle lazy load
+      } else {
+        card.style.display = selected.includes(card.dataset.country) ? 'block' : 'none';
+      }
+    });
+
+    if (loadMoreBtn) {
+      loadMoreBtn.style.display = showAll ? '' : 'none';
+    }
+  }
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      const isAll = btn.dataset.country === 'all';
 
-      const selected = btn.dataset.country;
+      if (isAll) {
+        // All → clear every country selection, activate All
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      } else {
+        // Country → deactivate All, toggle this country
+        allBtn.classList.remove('active');
+        btn.classList.toggle('active');
 
-      photoCards.forEach(card => {
-        if (selected === 'all') {
-          // Clear inline style — let the .hidden-photo CSS class handle hiding naturally
-          // so the load-more button can still remove that class and reveal cards
-          card.style.display = '';
-        } else {
-          // 'block' overrides the .hidden-photo CSS rule for matching cards
-          card.style.display = card.dataset.country === selected ? 'block' : 'none';
-        }
-      });
-
-      // Hide load-more when a country filter is active
-      if (loadMoreBtn) {
-        loadMoreBtn.style.display = selected === 'all' ? '' : 'none';
+        // If nothing left selected → fall back to All
+        const anyActive = [...filterBtns].some(b => b.classList.contains('active'));
+        if (!anyActive) allBtn.classList.add('active');
       }
+
+      applyFilter();
     });
   });
-  // ─────────────────────────────────────────────────────
+  // ──────────────────────────────────────────────────────────────────────
 
  // Initialize scroll text reveals
   new ScrollTextReveal('.closing-section-title');
