@@ -4841,6 +4841,7 @@ body.light-theme .page-ruler-marker::before {
   white-space: nowrap;
   letter-spacing: 0.02em;
   line-height: 1;
+  transform: translateY(-50%); /* vertically centred on the marker line */
   transition: top 0.08s linear, opacity 0.25s ease;
 }
 
@@ -6452,7 +6453,7 @@ if (scrollIndicator) {
     const y = progress * window.innerHeight;
 
     marker.style.top      = y + 'px';
-    label.style.top       = Math.max(0, y - 22) + 'px';
+    label.style.top       = y + 'px';
     label.textContent     = progress.toFixed(2);
   }
 
