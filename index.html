@@ -7532,6 +7532,8 @@ class PhotoLightbox {
       if (mobileToggle) mobileToggle.style.display = 'none';
       const scrollInd = document.querySelector('.scroll-indicator');
       if (scrollInd) scrollInd.style.display = 'none';
+      document.querySelectorAll('.page-ruler, .page-ruler-marker, .page-ruler-value')
+        .forEach(el => el.style.visibility = 'hidden');
 
       // Lock body scroll
       document.body.style.overflow  = 'hidden';
@@ -7577,6 +7579,8 @@ class PhotoLightbox {
     if (toggle && window.innerWidth > 768) toggle.style.display = 'flex';
     const scrollInd = document.querySelector('.scroll-indicator');
     if (scrollInd && window.innerWidth > 768) scrollInd.style.display = 'flex';
+    document.querySelectorAll('.page-ruler, .page-ruler-marker, .page-ruler-value')
+      .forEach(el => el.style.visibility = '');
 
     // 4. Remove active after fade completes
     setTimeout(() => this.lightbox.classList.remove('active'), 260);
