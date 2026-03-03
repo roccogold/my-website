@@ -2190,79 +2190,122 @@ body.light-theme .photo-filter-btn.active + .photo-filter-btn.active::before {
   background: rgba(255, 255, 255, 0.35);
 }
 
-/* ================= FOOTER UPGRADE ================= */
-
-.footer-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.1rem;
-  padding-top: 2rem;
-}
-
-
-
-.footer-social-links {
-  display: flex;
-  gap: 1.4rem;
-}
-
-.footer-social-links a {
-  color: var(--text-dark);
-  font-size: 1rem;
-  opacity: 0.35;
-  transition: opacity 0.2s ease, color 0.2s ease;
-  text-decoration: none;
-}
-
-.footer-social-links a:hover {
-  opacity: 1;
-  color: var(--accent-dark);
-}
-
-body.light-theme .footer-social-links a {
-  color: var(--text-light);
-}
-
-body.light-theme .footer-social-links a:hover {
-  color: var(--accent-light);
-}
-
-#lastUpdated {
-  font-size: var(--font-xs);
-  opacity: 0.35;
-}
-
-/* Enhanced footer */
-footer a:hover,
-footer a:focus-visible {
-  outline: none;
-}
+/* ================= FOOTER REDESIGN ================= */
 
 footer {
-  text-align: center;
-  padding: 2rem var(--space-md) var(--space-md);
-  color: rgba(255,255,255,0.6);
-  font-size: var(--font-xs);
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 3.5rem var(--space-lg) 2.5rem;
+  border-top: 1px solid rgba(154, 119, 198, 0.15);
+  font-family: var(--main-font);
   position: relative;
   z-index: 1;
 }
 
-footer .social {
-  margin-bottom: 1.5rem;  /* ← ADD THIS LINE */
-}
-
 body.light-theme footer {
-  color: rgba(0,0,0,0.6);
+  border-top-color: rgba(107, 70, 193, 0.15);
 }
 
-/* Footer divider line */
-.footer-divider {
-  display: none;
+/* Big CTA heading */
+.footer-cta {
+  display: block;
+  font-family: var(--main-font);
+  font-size: clamp(2.6rem, 9vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-dark);
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  transition: opacity 0.2s ease;
 }
 
-body.light-theme .footer-divider {
-  display: none;
+.footer-cta:hover { opacity: 0.6; }
+
+body.light-theme .footer-cta { color: var(--accent-light); }
+
+/* Email line */
+.footer-email {
+  display: block;
+  font-family: var(--main-font);
+  font-size: var(--font-sm);
+  color: var(--text-dark);
+  opacity: 0.4;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  transition: opacity 0.2s ease;
+}
+
+.footer-email:hover { opacity: 0.85; }
+
+body.light-theme .footer-email { color: var(--text-light); }
+
+/* Social row */
+.footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.footer-socials a {
+  font-family: var(--main-font);
+  font-size: var(--font-xs);
+  letter-spacing: 0.06em;
+  color: var(--text-dark);
+  opacity: 0.35;
+  text-decoration: none;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.footer-socials a:hover {
+  opacity: 1;
+  color: var(--accent-dark);
+}
+
+body.light-theme .footer-socials a { color: var(--text-light); }
+body.light-theme .footer-socials a:hover { color: var(--accent-light); }
+
+.footer-socials-sep {
+  font-size: var(--font-xs);
+  opacity: 0.18;
+}
+
+/* Bottom meta row */
+.footer-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0;
+  margin-bottom: 0.6rem;
+}
+
+.footer-location,
+.footer-time {
+  font-family: var(--main-font);
+  font-size: var(--font-xs);
+  opacity: 0.28;
+}
+
+/* Tiny copyright */
+.footer-copy {
+  display: block;
+  font-family: var(--main-font);
+  font-size: var(--font-xs);
+  opacity: 0.18;
+  text-align: center;
+}
+
+.footer-copy a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-copy a:hover { opacity: 1; }
+
+/* Mobile: tighten CTA */
+@media (max-width: 480px) {
+  footer { padding: 2.5rem var(--space-md) 1.5rem; }
+  .footer-meta { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
 }
 
 /* Enhanced selection styling */
@@ -5511,7 +5554,7 @@ body.light-theme .scrolly-step-link {
   </div>
   
   <p class="photos-intro">
-    The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <b>Sony A6000</b> [TTArtisan 35mm F0.95, Sigma 18-50mm F2.8 & Sony 55-210mm F4.5] and <b>Olympus Mju -1</b> [35mm].
+    The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <b>sony a6000</b> [TTArtisan 35mm F0.95, Sigma 18-50mm F2.8 & Sony 55-210mm F4.5] and <b>olympus mju -1</b> [35mm].
   </p>
 
   <div class="photo-filter-bar">
@@ -6095,9 +6138,16 @@ View More
 
 <!-- ================= FOOTER ================= -->
 <footer role="contentinfo">
-  <div class="footer-inner">
-    <span id="lastUpdated"></span>
+
+  <div class="footer-meta">
+    <span class="footer-location">Vienna, Austria</span>
+    <span class="footer-time" id="footerTime"></span>
   </div>
+
+  <span class="footer-copy">
+    © 2026 <a href="https://github.com/roccogold/my-website/blob/main/index.html" target="_blank" rel="noopener noreferrer">designed &amp; built</a> by roccogold — always improving.
+  </span>
+
 </footer>
 
 <!-- Initialize Navigation -->
@@ -7260,6 +7310,22 @@ document.addEventListener('DOMContentLoaded', () => {
   new EnhancedWebsite();
   new ThesisMetricsAnimation(); // Animate thesis metrics numbers
   new ScrollytellingWork();     // Sticky work section (desktop only, gracefully ignored on mobile)
+
+  // ── Footer: Vienna local time clock ──────────────────────────────────
+  (function footerClock() {
+    const el = document.getElementById('footerTime');
+    if (!el) return;
+    function tick() {
+      el.textContent = new Date().toLocaleTimeString('en-GB', {
+        timeZone: 'Europe/Vienna',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }) + ' local time';
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
 
   // ── Photo country filter — multi-select (paco.me style) ──────────────
   const filterBtns  = document.querySelectorAll('.photo-filter-btn');
