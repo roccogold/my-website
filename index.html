@@ -6385,6 +6385,7 @@ if (scrollIndicator) {
 
   function _doPlay() {
     try {
+      if (document.getElementById('lightbox')?.classList.contains('active')) return;
       const ctx = _getCtx();
       if (ctx.state !== 'running') return; // not yet unlocked — skip silently
       const src  = ctx.createBufferSource();
