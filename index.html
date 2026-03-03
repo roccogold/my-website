@@ -204,7 +204,7 @@
   
 /* Typography Scale */
 --font-xs: clamp(0.65rem, 1.5vw, 0.75rem);   /* Smaller */
---font-sm: clamp(0.75rem, 1.9vw, 0.85rem);   /* Your body text */
+--font-sm: clamp(0.68rem, 1.6vw, 0.76rem);   /* Your body text */
 --font-md: clamp(0.8rem, 2.3vw, 0.9rem);     /* Reduced more */
 --font-lg: clamp(0.95rem, 3.0vw, 1.15rem);   /* Headers smaller */
 --font-xl: clamp(1.4rem, 5vw, 2.2rem);     /* Main title smaller */
@@ -412,6 +412,13 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
   scroll-behavior: smooth;
+  /* Hide native scrollbar — replaced by custom ruler progress indicator */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -2380,6 +2387,7 @@ body.light-theme pre {
   
   /* Remove glow from section titles on mobile */
   .tron-header h2 {
+    animation: none; /* disable scroll-driven reveal on mobile */
     text-shadow:
       2px 2px 0px #b18cd9,
       4px 4px 0px #9a77c6 !important;
@@ -4714,6 +4722,465 @@ body.light-theme .interest-tag {
   color: var(--text-light);
 }
 
+/* ============================================================
+   SCROLL PROGRESS RULER — right-edge fixed indicator
+   Styled after makingsoftware.com: tick marks + blue decimal value
+   ============================================================ */
+
+/* Tick rail */
+.page-ruler {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  z-index: 9000;
+  padding: 0 4px 0 0;
+  /* no pointer-events: none — ticks need to receive hover/click */
+}
+
+/* Individual ticks */
+.page-ruler-tick {
+  width: 6px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  position: relative;
+  pointer-events: none; /* hover handled via window.mousemove in JS */
+}
+
+/* The visible dash inside each tick */
+.page-ruler-tick::after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 6px;
+  background: rgba(0, 0, 0, 0.15);
+  transition: width 0.1s ease, background-color 0.1s ease;
+}
+
+.page-ruler-tick.major::after {
+  width: 12px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Hover state — driven by JS adding .is-hovered class */
+.page-ruler-tick.is-hovered::after {
+  width: 16px;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* Dark theme tick colours */
+body:not(.light-theme) .page-ruler-tick::after {
+  background: rgba(154, 119, 198, 0.2);
+}
+
+body:not(.light-theme) .page-ruler-tick.major::after {
+  background: rgba(154, 119, 198, 0.38);
+}
+
+body:not(.light-theme) .page-ruler-tick.is-hovered::after {
+  background: rgba(212, 181, 247, 0.9);
+}
+
+/* Ruler shows pointer cursor when mouse is over the strip (set via JS) */
+.page-ruler.is-active {
+  cursor: pointer;
+}
+
+/* Scroll-progress marker — purple line + dot */
+.page-ruler-marker {
+  position: fixed;
+  right: 0;
+  width: 32px;
+  height: 1px;
+  background: var(--accent-dark);
+  pointer-events: none;
+  z-index: 9001;
+  transition: top 0.08s linear;
+  box-shadow: 0 0 6px rgba(154, 119, 198, 0.5);
+}
+
+body.light-theme .page-ruler-marker {
+  background: var(--accent-light);
+  box-shadow: 0 0 6px rgba(107, 70, 193, 0.4);
+}
+
+.page-ruler-marker::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -2.5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-dark);
+  box-shadow: 0 0 6px rgba(154, 119, 198, 0.6);
+}
+
+body.light-theme .page-ruler-marker::before {
+  background: var(--accent-light);
+  box-shadow: 0 0 6px rgba(107, 70, 193, 0.5);
+}
+
+/* Decimal scroll value — fades out when ruler is hovered */
+.page-ruler-value {
+  position: fixed;
+  right: 38px;
+  font-family: var(--main-font);
+  font-size: 0.6rem;
+  color: var(--accent-dark);
+  pointer-events: none;
+  z-index: 9001;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  transition: top 0.08s linear, opacity 0.25s ease;
+}
+
+.page-ruler-value.ruler-hovered {
+  opacity: 0;
+}
+
+body.light-theme .page-ruler-value {
+  color: var(--accent-light);
+}
+
+/* Hide everything on very small screens */
+@media (max-width: 480px) {
+  .page-ruler,
+  .page-ruler-marker,
+  .page-ruler-value {
+    display: none;
+  }
+}
+
+
+/* ============================================================
+   SCROLLYTELLING — Work Section
+   Inspired by makingsoftware.com: sticky panel + scrolling steps
+   ============================================================ */
+
+/* Single-column layout — sticky panel removed */
+.scrolly-container {
+  margin-top: 0;
+}
+
+/* Sticky panel hidden on all breakpoints */
+.scrolly-sticky-col {
+  display: none;
+}
+
+.scrolly-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3rem 2.5rem 3rem 3rem;
+  position: relative;
+}
+
+/* Inner content — fades + slides on step change */
+.scrolly-panel-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  max-width: 240px;
+  transition: opacity 0.35s ease, transform 0.35s var(--ease-out-cubic);
+}
+
+/* Company logo */
+.scrolly-panel-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  opacity: 0.9;
+  filter: brightness(0) invert(1);
+}
+
+body.light-theme .scrolly-panel-logo {
+  filter: brightness(0);
+  opacity: 0.75;
+}
+
+/* Large metric number — like the "0.39" in makingsoftware */
+.scrolly-panel-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.scrolly-metric-value {
+  font-family: var(--main-font);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--accent-dark);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  transition: opacity 0.2s ease;
+}
+
+body.light-theme .scrolly-metric-value {
+  color: var(--accent-light);
+}
+
+.scrolly-metric-label {
+  font-family: var(--main-font);
+  font-size: 0.62rem;
+  opacity: 0.45;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.scrolly-panel-period {
+  font-family: var(--main-font);
+  font-size: 0.7rem;
+  opacity: 0.5;
+  letter-spacing: 0.06em;
+}
+
+/* Tag chips */
+.scrolly-panel-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.scrolly-panel-tag {
+  font-family: var(--main-font);
+  font-size: 0.58rem;
+  padding: 0.22rem 0.55rem;
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  border-radius: 20px;
+  color: var(--accent-dark);
+  opacity: 0.8;
+  letter-spacing: 0.04em;
+}
+
+body.light-theme .scrolly-panel-tag {
+  color: var(--accent-light);
+  border-color: rgba(107, 70, 193, 0.3);
+}
+
+/* Step progress dots */
+.scrolly-panel-dots {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.scrolly-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(154, 119, 198, 0.3);
+  transition: all 0.35s var(--ease-out-cubic);
+}
+
+.scrolly-dot.active {
+  background: var(--accent-dark);
+  transform: scale(1.5);
+}
+
+body.light-theme .scrolly-dot.active {
+  background: var(--accent-light);
+}
+
+/* ── Ruler — right edge of sticky panel ── */
+/* Inspired by the vertical scale in the makingsoftware screenshot */
+.scrolly-ruler {
+  position: absolute;
+  right: 1.5rem;
+  top: 0;
+  height: 100%;
+  width: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.scrolly-ruler-tick {
+  width: 8px;
+  height: 1px;
+  background: rgba(154, 119, 198, 0.2);
+  display: block;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.scrolly-ruler-tick.major {
+  width: 16px;
+  background: rgba(154, 119, 198, 0.4);
+}
+
+/* The active position marker — horizontal line at the "current value" */
+.scrolly-ruler-marker {
+  position: absolute;
+  right: 0;
+  width: 28px;
+  height: 1px;
+  background: var(--accent-dark);
+  transition: top 0.6s var(--ease-out-expo);
+  box-shadow: 0 0 8px rgba(154, 119, 198, 0.6);
+}
+
+.scrolly-ruler-marker::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-dark);
+  box-shadow: 0 0 8px rgba(154, 119, 198, 0.8);
+}
+
+body.light-theme .scrolly-ruler-marker {
+  background: var(--accent-light);
+  box-shadow: 0 0 8px rgba(107, 70, 193, 0.4);
+}
+
+body.light-theme .scrolly-ruler-marker::before {
+  background: var(--accent-light);
+}
+
+/* Steps column — centered, single column */
+.scrolly-steps-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 0 0.5rem;
+}
+
+.scrolly-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  opacity: 1; /* always visible — no scroll-driven fade */
+}
+
+.scrolly-step.is-active {
+  opacity: 1;
+}
+
+.scrolly-step-num {
+  font-family: var(--main-font);
+  font-size: 0.62rem;
+  opacity: 0.4;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.scrolly-step-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.scrolly-step-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.scrolly-step-logo {
+  height: 26px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.scrolly-step-logo--dark  { display: block; }
+.scrolly-step-logo--light { display: none;  }
+body.light-theme .scrolly-step-logo--dark  { display: none;  }
+body.light-theme .scrolly-step-logo--light { display: block; }
+
+.scrolly-step-title {
+  font-family: var(--main-font);
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--accent-dark);
+  margin: 0;
+  line-height: 1.2;
+}
+
+body.light-theme .scrolly-step-title {
+  color: var(--accent-light);
+}
+
+.scrolly-step-period {
+  font-family: var(--main-font);
+  font-size: 0.68rem;
+  opacity: 0.45;
+  letter-spacing: 0.08em;
+}
+
+.scrolly-step-body {
+  font-size: var(--font-sm);
+  line-height: 1.7;
+  opacity: 0.88;
+  max-width: 440px;
+}
+
+.scrolly-step-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.scrolly-step-tag {
+  font-family: var(--main-font);
+  font-size: 0.6rem;
+  padding: 0.22rem 0.65rem;
+  border: 1px solid rgba(154, 119, 198, 0.3);
+  border-radius: 20px;
+  color: var(--accent-dark);
+  letter-spacing: 0.04em;
+}
+
+body.light-theme .scrolly-step-tag {
+  color: var(--accent-light);
+  border-color: rgba(107, 70, 193, 0.3);
+}
+
+.scrolly-step-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--main-font);
+  font-size: 0.65rem;
+  color: var(--accent-dark);
+  opacity: 0.55;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  margin-top: 0.3rem;
+  letter-spacing: 0.06em;
+}
+
+.scrolly-step-link:hover {
+  opacity: 1;
+}
+
+body.light-theme .scrolly-step-link {
+  color: var(--accent-light);
+}
+
+/* step body always full width */
+.scrolly-step-body {
+  max-width: 100%;
+}
 
 </style>
 </head>
@@ -4842,58 +5309,119 @@ body.light-theme .interest-tag {
   <div class="tron-header">
     <h2 id="work-heading">work</h2>
   </div>
-  
-  <div class="discoveries-grid">
-    <!-- Moody's Analytics Card -->
-    <div class="discovery-card">
-      <div class="card-header">
-        <img src="assets/mdy_mngm_rgb_white.png" alt="Moody's logo" class="experience-logo">
-        <div class="experience-title-group">
-          <h3 class="card-title">
-            Product at <span class="company-name">Moody's</span>
-          </h3>
-          <span class="year-badge">2023 - Present</span>
+
+  <!-- Scrollytelling layout: sticky panel left + scrolling steps right -->
+  <div class="scrolly-container">
+
+    <!-- LEFT: Sticky visual panel -->
+    <div class="scrolly-sticky-col" aria-hidden="true">
+      <div class="scrolly-panel">
+
+        <div class="scrolly-panel-inner" id="scrollyPanelInner">
+          <!-- Company logo -->
+          <img
+            id="scrollyLogo"
+            src="assets/mdy_mngm_rgb_white.png"
+            alt=""
+            class="scrolly-panel-logo"
+          >
+
+          <!-- Large metric — like the "0.39" number in makingsoftware -->
+          <div class="scrolly-panel-metric">
+            <span class="scrolly-metric-value" id="scrollyMetricVal">10×</span>
+            <span class="scrolly-metric-label" id="scrollyMetricLbl">faster integration</span>
+          </div>
+
+          <!-- Period -->
+          <span class="scrolly-panel-period" id="scrollyPeriod">2023 — Present</span>
+
+          <!-- Tags -->
+          <div class="scrolly-panel-tags" id="scrollyTags">
+            <span class="scrolly-panel-tag">API Design</span>
+            <span class="scrolly-panel-tag">Risk</span>
+            <span class="scrolly-panel-tag">Dev Experience</span>
+          </div>
+
+          <!-- Step progress dots -->
+          <div class="scrolly-panel-dots" id="scrollyDots">
+            <span class="scrolly-dot active"></span>
+            <span class="scrolly-dot"></span>
+          </div>
         </div>
-        <a href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="external-link-btn"
-           aria-label="Visit Moody's website">
-          <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-        </a>
-      </div>
-      <div class="card-content">
-        <div class="apod-description">
-          Built developer-first API infrastructure that transforms fragmented compliance workflows into programmatic real-time risk decisions — cutting client integration time from weeks to days.
+
+        <!-- Ruler — tick marks + moving marker, referencing the makingsoftware scale -->
+        <div class="scrolly-ruler" id="scrollyRuler">
+          <div class="scrolly-ruler-marker" id="scrollyRulerMarker"></div>
         </div>
+
       </div>
     </div>
 
-    <!-- Bitpanda Card -->
-    <div class="discovery-card">
-      <div class="card-header">
-        <img src="assets/bitpanda_white_vertical.png" alt="Bitpanda logo" class="experience-logo">
-        <div class="experience-title-group">
-          <h3 class="card-title">
-            Product at <span class="company-name">Bitpanda</span>
-          </h3>
-          <span class="year-badge">2022 - 2023</span>
+    <!-- RIGHT: Scrolling steps -->
+    <div class="scrolly-steps-col">
+
+      <!-- Step 01 — Moody's -->
+      <div class="scrolly-step is-active" data-step="0">
+        <div class="scrolly-step-header">
+          <img src="assets/moodys-logo.png"       class="scrolly-step-logo scrolly-step-logo--dark"  alt="Moody's">
+          <img src="assets/moodys-logo-light.png"  class="scrolly-step-logo scrolly-step-logo--light" alt="Moody's">
+          <div class="scrolly-step-header-text">
+            <span class="scrolly-step-num">01 / work</span>
+            <h3 class="scrolly-step-title">Product at Moody's</h3>
+            <span class="scrolly-step-period">2023 — Present · Vienna, Austria</span>
+          </div>
         </div>
-        <a href="https://www.bitpanda.com/de-at" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="external-link-btn"
-           aria-label="Visit Bitpanda website">
-          <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+        <p class="scrolly-step-body">
+          Built developer-first API infrastructure that transforms fragmented compliance workflows into programmatic real-time risk decisions — cutting client integration time from weeks to days.
+        </p>
+        <div class="scrolly-step-tags">
+          <span class="scrolly-step-tag">API Design</span>
+          <span class="scrolly-step-tag">Third-Party Risk</span>
+          <span class="scrolly-step-tag">Developer Experience</span>
+          <span class="scrolly-step-tag">Compliance</span>
+        </div>
+        <a
+          href="https://www.moodys.com/web/en/us/solutions/compliance-third-party-risk/maxsight.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="scrolly-step-link"
+        >
+          <i class="fas fa-external-link-alt" aria-hidden="true"></i> Moody's Maxsight™ — Risk Management Platform
         </a>
       </div>
-      <div class="card-content">
-        <div class="apod-description">
-          Drove product evolution of an operations platform used daily by <span class="counter" data-target="200" data-suffix="+">200+</span> users across trading, risk, payments, support and compliance teams — reducing operational friction across the broker's core workflows.
+
+      <!-- Step 02 — Bitpanda -->
+      <div class="scrolly-step" data-step="1">
+        <div class="scrolly-step-header">
+          <img src="assets/bitpanda-logo.png"       class="scrolly-step-logo scrolly-step-logo--dark"  alt="Bitpanda">
+          <img src="assets/bitpanda-logo-light.png"  class="scrolly-step-logo scrolly-step-logo--light" alt="Bitpanda">
+          <div class="scrolly-step-header-text">
+            <span class="scrolly-step-num">02 / work</span>
+            <h3 class="scrolly-step-title">Product at Bitpanda</h3>
+            <span class="scrolly-step-period">2022 — 2023 · Vienna, Austria</span>
+          </div>
         </div>
+        <p class="scrolly-step-body">
+          Drove product evolution of an operations platform used daily by 200+ users across trading, risk, payments, support and compliance teams — reducing operational friction across the broker's core workflows.
+        </p>
+        <div class="scrolly-step-tags">
+          <span class="scrolly-step-tag">Operations Platform</span>
+          <span class="scrolly-step-tag">Crypto</span>
+          <span class="scrolly-step-tag">Internal Tools</span>
+          <span class="scrolly-step-tag">Fintech</span>
+        </div>
+        <a
+          href="https://www.bitpanda.com/en"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="scrolly-step-link"
+        >
+          <i class="fas fa-external-link-alt" aria-hidden="true"></i> Bitpanda
+        </a>
       </div>
-    </div>
-  </div>
+
+    </div><!-- /scrolly-steps-col -->
+  </div><!-- /scrolly-container -->
 </section>
 
 <section aria-labelledby="projects-heading" class="reveal" id="projects">
@@ -4982,7 +5510,7 @@ body.light-theme .interest-tag {
   </div>
   
   <p class="photos-intro">
-    The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <b>sony a6000</b> [16-50mm & 55-210mm] and <b>olympus mju -1</b> [35mm].
+    The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <b>sony a6000</b> [TTArtisan 35mm F0.95, Sigma 18-50mm F2.8 & Sony 55-210mm F4.5] and <b>olympus mju -1</b> [35mm].
   </p>
 
   <div class="photo-filter-bar">
@@ -5763,6 +6291,176 @@ if (scrollIndicator) {
 <!-- Enhanced JavaScript with modules -->
 <script type="module">
 
+// ============================================================
+// PAGE SCROLL RULER — fixed right-edge progress indicator
+// 1:1 after makingsoftware.com:
+//   • hover tick → grows + darkens + plays sharp click sound
+//   • click tick → smooth-scroll to that position
+//   • scroll value fades out while hovering
+//   • section heading marks as document map
+// ============================================================
+(function initScrollRuler() {
+  const TICK_COUNT = 50;
+
+  // ── Audio setup ─────────────────────────────────────────────
+  // Browsers block AudioContext until a trusted user gesture fires
+  // (click / mousedown / keydown — NOT mousemove/mouseenter).
+  // Fix: create + resume the context eagerly on the FIRST mousedown
+  // anywhere on the page, so it's already running when the user
+  // hovers over the ruler.
+  let _audioCtx = null;
+  let _tickBuf  = null;
+
+  function _getCtx() {
+    if (!_audioCtx || _audioCtx.state === 'closed') {
+      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      _tickBuf  = null;
+    }
+    return _audioCtx;
+  }
+
+  function _getBuf(ctx) {
+    if (_tickBuf) return _tickBuf;
+    // 22 ms white-noise burst with exponential decay → crisp tick
+    const dur  = 0.022;
+    const buf  = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (data.length * 0.12));
+    }
+    _tickBuf = buf;
+    return buf;
+  }
+
+  function _doPlay() {
+    try {
+      const ctx = _getCtx();
+      if (ctx.state !== 'running') return; // not yet unlocked — skip silently
+      const src  = ctx.createBufferSource();
+      src.buffer = _getBuf(ctx);
+      const hp   = ctx.createBiquadFilter();
+      hp.type    = 'highpass';
+      hp.frequency.value = 3200;
+      const gain = ctx.createGain();
+      gain.gain.value = 0.18;
+      src.connect(hp); hp.connect(gain); gain.connect(ctx.destination);
+      src.start();
+    } catch (_) {}
+  }
+
+  // Unlock AudioContext on first mousedown (trusted gesture).
+  // After this the context is 'running' and hover sounds work immediately.
+  function _unlockAudio() {
+    const ctx = _getCtx();
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+    // Pre-build the buffer while we're here so first hover has zero latency
+    _getBuf(ctx);
+  }
+  document.addEventListener('mousedown', _unlockAudio, { once: true, passive: true });
+  // Also unlock on scroll (works in most browsers as a trusted gesture)
+  document.addEventListener('scroll',    _unlockAudio, { once: true, passive: true });
+
+  const playTick = _doPlay;
+
+  // ── Build ruler ──────────────────────────────────────────────
+  const ruler = document.createElement('div');
+  ruler.className = 'page-ruler';
+  ruler.setAttribute('aria-hidden', 'true');
+
+  const ticks = [];
+  for (let i = 0; i < TICK_COUNT; i++) {
+    const tick = document.createElement('span');
+    tick.className = 'page-ruler-tick' + (i % 5 === 0 ? ' major' : '');
+    ruler.appendChild(tick);
+    ticks.push(tick);
+  }
+  document.body.appendChild(ruler);
+
+  // ── Scroll progress marker (blue line + dot) ─────────────────
+  const marker = document.createElement('div');
+  marker.className = 'page-ruler-marker';
+  marker.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(marker);
+
+  // ── Decimal value label ──────────────────────────────────────
+  const label = document.createElement('div');
+  label.className = 'page-ruler-value';
+  label.setAttribute('aria-hidden', 'true');
+  label.textContent = '0.00';
+  document.body.appendChild(label);
+
+  // ── Hover + click — tracked via window.mousemove ─────────────
+  // (bypasses pointer-events CSS inheritance issues)
+  const RULER_WIDTH = 32;
+  let lastHoveredTick = -1;
+  let overRuler = false;
+
+  window.addEventListener('mousemove', (e) => {
+    const inRuler = e.clientX >= (window.innerWidth - RULER_WIDTH);
+
+    if (!inRuler) {
+      if (overRuler) {
+        // Left ruler strip
+        overRuler = false;
+        lastHoveredTick = -1;
+        label.classList.remove('ruler-hovered');
+        ticks.forEach(t => t.classList.remove('is-hovered'));
+        ruler.classList.remove('is-active');
+      }
+      return;
+    }
+
+    // Entered or moving within ruler strip
+    if (!overRuler) {
+      overRuler = true;
+      label.classList.add('ruler-hovered');
+      ruler.classList.add('is-active');
+    }
+
+    // Which tick is under the cursor?
+    const tickIdx = Math.min(TICK_COUNT - 1,
+      Math.floor((e.clientY / window.innerHeight) * TICK_COUNT));
+
+    if (tickIdx !== lastHoveredTick) {
+      // Un-highlight previous
+      if (lastHoveredTick >= 0) ticks[lastHoveredTick].classList.remove('is-hovered');
+      // Highlight + play sound for new tick
+      lastHoveredTick = tickIdx;
+      ticks[tickIdx].classList.add('is-hovered');
+      playTick();
+    }
+  }, { passive: true });
+
+  // Click anywhere in the ruler strip → scroll to that position
+  window.addEventListener('click', (e) => {
+    if (e.clientX < window.innerWidth - RULER_WIDTH) return;
+    const progress = e.clientY / window.innerHeight;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    window.scrollTo({ top: progress * scrollHeight, behavior: 'smooth' });
+  });
+
+  // ── Section heading marks (document map) ─────────────────────
+  // ── Scroll handler ───────────────────────────────────────────
+  function onScroll() {
+    const scrollTop    = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollHeight <= 0) return;
+
+    const progress = Math.min(1, Math.max(0, scrollTop / scrollHeight));
+    const y = progress * window.innerHeight;
+
+    marker.style.top      = y + 'px';
+    label.style.top       = Math.max(0, y - 10) + 'px';
+    label.textContent     = progress.toFixed(2);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // paint immediately
+})();
+
+
 // Scroll Animations Module
 class ScrollAnimations {
   constructor() {
@@ -6422,6 +7120,133 @@ onScroll() {
 }
 }
       
+// ============================================================
+// SCROLLYTELLING — Work Section
+// Sticky panel (left) + scrolling steps (right)
+// Inspired by makingsoftware.com
+// ============================================================
+
+class ScrollytellingWork {
+  constructor() {
+    this.steps = document.querySelectorAll('.scrolly-step');
+    if (!this.steps.length) return;
+
+    // Panel elements
+    this.panelInner  = document.getElementById('scrollyPanelInner');
+    this.logoEl      = document.getElementById('scrollyLogo');
+    this.metricValEl = document.getElementById('scrollyMetricVal');
+    this.metricLblEl = document.getElementById('scrollyMetricLbl');
+    this.periodEl    = document.getElementById('scrollyPeriod');
+    this.tagsEl      = document.getElementById('scrollyTags');
+    this.dotsEl      = document.getElementById('scrollyDots');
+    this.rulerEl     = document.getElementById('scrollyRuler');
+    this.markerEl    = document.getElementById('scrollyRulerMarker');
+
+    // Data for each step — mirrors the HTML content
+    this.stepsData = [
+      {
+        logo:       'assets/mdy_mngm_rgb_white.png',
+        metricVal:  '10×',
+        metricLbl:  'faster integration',
+        period:     '2023 — Present',
+        tags:       ['API Design', 'Risk', 'Dev Experience'],
+        markerPct:  30   // % from top on the ruler
+      },
+      {
+        logo:       'assets/bitpanda_white_vertical.png',
+        metricVal:  '200+',
+        metricLbl:  'daily active users',
+        period:     '2022 — 2023',
+        tags:       ['Operations', 'Crypto', 'Fintech'],
+        markerPct:  70
+      }
+    ];
+
+    this.currentStep    = 0;
+    this.isTransitioning = false;
+
+    this._buildRuler();
+    this._initObserver();
+    this._applyPanelData(this.stepsData[0], 0); // paint initial state instantly
+  }
+
+  _buildRuler() {
+    if (!this.rulerEl) return;
+    let ticks = '';
+    for (let i = 0; i < 42; i++) {
+      ticks += `<span class="scrolly-ruler-tick${i % 7 === 0 ? ' major' : ''}"></span>`;
+    }
+    // Prepend ticks before the marker (which is already in HTML)
+    this.rulerEl.insertAdjacentHTML('afterbegin', ticks);
+    // Initial marker position
+    if (this.markerEl) this.markerEl.style.top = `${this.stepsData[0].markerPct}%`;
+  }
+
+  _initObserver() {
+    this.observer = new IntersectionObserver(
+      this._onIntersect.bind(this),
+      {
+        threshold:  0.5,
+        rootMargin: '-5% 0px -5% 0px'
+      }
+    );
+    this.steps.forEach(s => this.observer.observe(s));
+  }
+
+  _onIntersect(entries) {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const idx = parseInt(entry.target.dataset.step, 10);
+      if (idx === this.currentStep) return;
+
+      this.currentStep = idx;
+
+      // Dim all, activate current
+      this.steps.forEach(s => s.classList.remove('is-active'));
+      entry.target.classList.add('is-active');
+
+      this._transitionPanel(idx);
+    });
+  }
+
+  _transitionPanel(idx) {
+    if (this.isTransitioning || !this.panelInner) return;
+    const d = this.stepsData[idx];
+    if (!d) return;
+
+    this.isTransitioning = true;
+    this.panelInner.style.opacity   = '0';
+    this.panelInner.style.transform = 'translateY(12px)';
+
+    setTimeout(() => {
+      this._applyPanelData(d, idx);
+      this.panelInner.style.opacity   = '1';
+      this.panelInner.style.transform = 'translateY(0)';
+      setTimeout(() => { this.isTransitioning = false; }, 380);
+    }, 320);
+  }
+
+  _applyPanelData(d, idx) {
+    if (this.logoEl)      this.logoEl.src               = d.logo;
+    if (this.metricValEl) this.metricValEl.textContent   = d.metricVal;
+    if (this.metricLblEl) this.metricLblEl.textContent   = d.metricLbl;
+    if (this.periodEl)    this.periodEl.textContent      = d.period;
+    if (this.markerEl)    this.markerEl.style.top        = `${d.markerPct}%`;
+
+    if (this.tagsEl) {
+      this.tagsEl.innerHTML = d.tags
+        .map(t => `<span class="scrolly-panel-tag">${t}</span>`)
+        .join('');
+    }
+
+    if (this.dotsEl) {
+      this.dotsEl.querySelectorAll('.scrolly-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === idx);
+      });
+    }
+  }
+}
+
 // Initialize all modules when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize core functionality
@@ -6433,6 +7258,7 @@ document.addEventListener('DOMContentLoaded', () => {
   new PerformanceMonitor();
   new EnhancedWebsite();
   new ThesisMetricsAnimation(); // Animate thesis metrics numbers
+  new ScrollytellingWork();     // Sticky work section (desktop only, gracefully ignored on mobile)
 
   // ── Photo country filter — multi-select (paco.me style) ──────────────
   const filterBtns  = document.querySelectorAll('.photo-filter-btn');
