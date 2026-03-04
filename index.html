@@ -2240,6 +2240,12 @@ body.light-theme .footer-links a:hover { color: var(--accent-light); }
   user-select: none;
 }
 
+.footer-socials-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0 0.5rem;
+}
+
 /* Single meta line: Vienna, Austria · time · © */
 .footer-meta {
   font-family: var(--main-font);
@@ -2262,7 +2268,13 @@ body.light-theme .footer-links a:hover { color: var(--accent-light); }
 /* Mobile */
 @media (max-width: 480px) {
   footer { padding: 2.5rem var(--space-md) 2rem; }
-  .footer-links, .footer-meta { gap: 0.15rem 0.4rem; }
+
+  /* Stack email above socials */
+  .footer-links { flex-direction: column; gap: 0.4rem; }
+  .footer-sep-email { display: none; }
+  .footer-socials-group { display: flex; align-items: center; gap: 0 0.5rem; }
+
+  .footer-meta { gap: 0.15rem 0.4rem; }
 }
 
 /* Enhanced selection styling */
@@ -6098,15 +6110,17 @@ View More
 
   <!-- Line 1: email · socials -->
   <div class="footer-links">
-    <a href="mailto:roccogold23@gmail.com">roccogold23@gmail.com</a>
-    <span class="footer-sep">·</span>
-    <a href="https://github.com/roccogold" target="_blank" rel="noopener noreferrer">[github]</a>
-    <span class="footer-sep">·</span>
-    <a href="https://www.linkedin.com/in/roccogoldschmidt/" target="_blank" rel="noopener noreferrer">[linkedin]</a>
-    <span class="footer-sep">·</span>
-    <a href="https://x.com/roccogold_" target="_blank" rel="noopener noreferrer">[x]</a>
-    <span class="footer-sep">·</span>
-    <a href="assets/cv-rocco.pdf" target="_blank" rel="noopener noreferrer">[resume]</a>
+    <a class="footer-email-link" href="mailto:roccogold23@gmail.com">roccogold23@gmail.com</a>
+    <span class="footer-sep footer-sep-email">·</span>
+    <span class="footer-socials-group">
+      <a href="https://github.com/roccogold" target="_blank" rel="noopener noreferrer">[github]</a>
+      <span class="footer-sep">·</span>
+      <a href="https://www.linkedin.com/in/roccogoldschmidt/" target="_blank" rel="noopener noreferrer">[linkedin]</a>
+      <span class="footer-sep">·</span>
+      <a href="https://x.com/roccogold_" target="_blank" rel="noopener noreferrer">[x]</a>
+      <span class="footer-sep">·</span>
+      <a href="assets/cv-rocco.pdf" target="_blank" rel="noopener noreferrer">[resume]</a>
+    </span>
   </div>
 
   <!-- Line 2: location · time · copyright -->
