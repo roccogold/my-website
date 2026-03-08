@@ -6487,8 +6487,9 @@ if (scrollIndicator) {
     const progress = Math.min(1, Math.max(0, scrollTop / scrollHeight));
     const y = progress * window.innerHeight;
 
+    const labelY = Math.min(Math.max(y, 8), window.innerHeight - 8);
     marker.style.top      = y + 'px';
-    label.style.top       = y + 'px';
+    label.style.top       = labelY + 'px';
     label.textContent     = progress.toFixed(2);
   }
 
