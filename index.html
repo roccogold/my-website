@@ -644,67 +644,10 @@ body.light-theme .status-badge {
 }
 
 /* Scroll progress bar */
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;  /* ← Start at full width */
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-dark), var(--accent-dark-hover));
-  z-index: 1002;
-  transform: scaleX(0);  /* ← Scale from 0 */
-  transform-origin: left center;  /* ← Scale from left side */
-  will-change: transform;
-}
-
-body.light-theme .scroll-progress {
-  background: linear-gradient(90deg, var(--accent-light), var(--accent-light-hover));
-}
+.scroll-progress { display: none; }
 
 /* Back to top button */
-.back-to-top {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--accent-dark);
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px) translateZ(0); /* ← ADD translateZ for GPU */
-  transition: all var(--transition-normal);
-  z-index: 1000;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-}
-
-.back-to-top.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.back-to-top:hover {
-  background: var(--accent-dark-hover);
-  transform: translateY(-4px) scale(1.1);
-  box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
-}
-
-body.light-theme .back-to-top {
-  background: var(--accent-light);
-}
-
-body.light-theme .back-to-top:hover {
-  background: var(--accent-light-hover);
-}
+.back-to-top { display: none !important; }
 
 /* Navigation Bar - Pill Style - Desktop Only */
 .nav-container {
@@ -2492,14 +2435,6 @@ body.light-theme pre {
     margin: var(--space-sm) auto;
   }
   
-  .back-to-top {
-    bottom: 1.5rem;
-    right: 1rem;
-    width: 44px;   /* ← CHANGED from 38px to 44px */
-    height: 44px;  /* ← CHANGED from 38px to 44px */
-    font-size: 16px;  /* ← CHANGED from 14px to 16px */
-    transform: translateY(20px) translateZ(0);
-  }
 
   .mobile-nav-toggle {
     width: 44px;   /* ← CHANGED from 38px to 44px */
