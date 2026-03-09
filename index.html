@@ -5081,6 +5081,15 @@ body.light-theme .scrolly-step-title {
   max-width: 440px;
 }
 
+/* Inline highlighted metric inside step body */
+.inline-metric {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+body.light-theme .inline-metric {
+  color: var(--accent-light);
+}
+
 .scrolly-step-tags {
   display: flex;
   flex-wrap: wrap;
@@ -5350,7 +5359,7 @@ body.light-theme .scrolly-step-link {
           </div>
         </div>
         <p class="scrolly-step-body">
-          Drove product evolution of an operations platform used daily by 200+ users across trading, risk, payments, support and compliance teams — reducing operational friction across the broker's core workflows.
+          Drove product evolution of an operations platform used daily by <span class="inline-metric" id="inlineMetric200">200+</span> users across trading, risk, payments, support and compliance teams — reducing operational friction across the broker's core workflows.
         </p>
         <div class="scrolly-step-tags">
           <span class="scrolly-step-tag">Operations Platform</span>
@@ -7117,20 +7126,30 @@ class ScrollytellingWork {
     // Data for each step — mirrors the HTML content
     this.stepsData = [
       {
-        logo:       'assets/mdy_mngm_rgb_white.png',
-        metricVal:  '10×',
-        metricLbl:  'faster integration',
-        period:     '2023 — Present',
-        tags:       ['API Design', 'Risk', 'Dev Experience'],
-        markerPct:  30   // % from top on the ruler
+        logo:        'assets/mdy_mngm_rgb_white.png',
+        metricVal:   '10×',
+        metricFrom:  1,
+        metricTo:    10,
+        metricSuffix:'×',
+        metricLbl:   'faster integration',
+        period:      '2023 — Present',
+        tags:        ['API Design', 'Risk', 'Dev Experience'],
+        markerPct:   30
       },
       {
-        logo:       'assets/bitpanda_white_vertical.png',
-        metricVal:  '200+',
-        metricLbl:  'daily active users',
-        period:     '2022 — 2023',
-        tags:       ['Operations', 'Crypto', 'Fintech'],
-        markerPct:  70
+        logo:        'assets/bitpanda_white_vertical.png',
+        metricVal:   '200+',
+        metricFrom:  0,
+        metricTo:    200,
+        metricSuffix:'+',
+        metricLbl:   'daily active users',
+        period:      '2022 — 2023',
+        tags:        ['Operations', 'Crypto', 'Fintech'],
+        markerPct:   70,
+        inlineId:    'inlineMetric200',
+        inlineFrom:  0,
+        inlineTo:    200,
+        inlineSuffix:'+'
       }
     ];
 
@@ -7199,11 +7218,11 @@ class ScrollytellingWork {
   }
 
   _applyPanelData(d, idx) {
-    if (this.logoEl)      this.logoEl.src               = d.logo;
-    if (this.metricValEl) this.metricValEl.textContent   = d.metricVal;
-    if (this.metricLblEl) this.metricLblEl.textContent   = d.metricLbl;
-    if (this.periodEl)    this.periodEl.textContent      = d.period;
-    if (this.markerEl)    this.markerEl.style.top        = `${d.markerPct}%`;
+    if (this.logoEl)      this.logoEl.src             = d.logo;
+    if (this.metricValEl) this._animateNumber(this.metricValEl, d.metricFrom, d.metricTo, d.metricSuffix);
+    if (this.metricLblEl) this.metricLblEl.textContent = d.metricLbl;
+    if (this.periodEl)    this.periodEl.textContent    = d.period;
+    if (this.markerEl)    this.markerEl.style.top      = `${d.markerPct}%`;
 
     if (this.tagsEl) {
       this.tagsEl.innerHTML = d.tags
@@ -7216,6 +7235,27 @@ class ScrollytellingWork {
         dot.classList.toggle('active', i === idx);
       });
     }
+
+    // Animate inline metric in the step body if defined
+    if (d.inlineId) {
+      const inlineEl = document.getElementById(d.inlineId);
+      if (inlineEl) this._animateNumber(inlineEl, d.inlineFrom, d.inlineTo, d.inlineSuffix, 1100);
+    }
+  }
+
+  _animateNumber(el, from, to, suffix, duration = 900) {
+    if (!el) return;
+    if (this._rafId) cancelAnimationFrame(this._rafId);
+    const startTime = performance.now();
+    const range = to - from;
+    const tick = (now) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      // easeOutQuart
+      const eased = 1 - Math.pow(1 - progress, 4);
+      el.textContent = Math.round(from + range * eased) + suffix;
+      if (progress < 1) this._rafId = requestAnimationFrame(tick);
+    };
+    this._rafId = requestAnimationFrame(tick);
   }
 }
 
