@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toggle Options</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --accent: #9a77c6;
+    --accent-hover: #b99dda;
+    --bg: #f0eef8;
+    --text: #1a1a2e;
+    --card-bg: #ffffff;
+    --border: rgba(154,119,198,0.2);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Courier New', monospace;
+    background: var(--bg);
+    color: var(--text);
+    padding: 3rem 2rem;
+    min-height: 100vh;
+  }
+  h1 { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; margin-bottom: 2.5rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .card-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.4;
+  }
+  .card-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+  }
+  .demo-area {
+    background: linear-gradient(135deg, #e8e4f4, #f5f0ff);
+    border-radius: 8px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    position: relative;
+  }
+  .demo-dark {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+  }
+  .mode-label {
+    position: absolute;
+    bottom: 8px;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.3;
+  }
+  .mode-label.left { left: 12px; color: #fff; }
+  .mode-label.right { right: 12px; color: #333; }
+
+  /* ─── A: Pill toggle ─── */
+  .pill-toggle {
+    width: 64px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+  }
+  .pill-toggle.is-dark { background: rgba(154,119,198,0.15); border-color: rgba(154,119,198,0.6); }
+  .pill-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: absolute;
+    left: 5px;
+    transition: left 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: white;
+  }
+  .pill-toggle.is-light .pill-thumb { left: 37px; }
+  .pill-toggle.is-dark { border-color: rgba(154,119,198,0.7); }
+
+  /* ─── B: Text label ─── */
+  .text-toggle {
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+  .text-toggle.on-dark { color: rgba(154,119,198,0.7); opacity: 0.6; }
+  .text-toggle.on-dark:hover { opacity: 1; }
+  .text-toggle.on-light { color: rgba(80,50,120,0.7); opacity: 0.6; }
+  .text-toggle.on-light:hover { opacity: 1; }
+
+  /* ─── C: Refined circle (sun/moon) ─── */
+  .circle-toggle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.3s ease;
+  }
+  .circle-toggle.on-dark { color: rgba(154,119,198,0.8); }
+  .circle-toggle.on-dark:hover { background: rgba(154,119,198,0.15); transform: rotate(15deg); }
+  .circle-toggle.on-light { color: rgba(80,50,120,0.7); }
+  .circle-toggle.on-light:hover { background: rgba(80,50,120,0.08); transform: rotate(15deg); }
+
+  /* ─── D: Square/key button ─── */
+  .square-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    border: 1px solid currentColor;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .square-toggle.on-dark { color: rgba(154,119,198,0.8); }
+  .square-toggle.on-dark:hover { background: rgba(154,119,198,0.15); transform: scale(1.08); }
+  .square-toggle.on-light { color: rgba(80,50,120,0.7); }
+  .square-toggle.on-light:hover { background: rgba(80,50,120,0.08); transform: scale(1.08); }
+
+  /* ─── E: Dot ─── */
+  .dot-toggle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .dot-toggle.on-dark { background: rgba(154,119,198,0.9); }
+  .dot-toggle.on-dark:hover { box-shadow: 0 0 10px rgba(154,119,198,0.8); transform: scale(1.4); }
+  .dot-toggle.on-light { background: transparent; border: 1.5px solid rgba(80,50,120,0.5); }
+  .dot-toggle.on-light:hover { box-shadow: 0 0 10px rgba(80,50,120,0.3); transform: scale(1.4); }
+  .dot-label {
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .dot-wrap:hover .dot-label { opacity: 0.5; }
+  .dot-wrap { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+
+  /* ─── F: Slash toggle ─── */
+  .slash-toggle {
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.2s;
+  }
+  .slash-toggle .active-part { opacity: 1; font-weight: bold; }
+  .slash-toggle .slash { opacity: 0.25; margin: 0 2px; }
+  .slash-toggle .inactive-part { opacity: 0.3; }
+  .slash-toggle.on-dark { color: rgba(154,119,198,0.9); }
+  .slash-toggle.on-dark:hover .inactive-part { opacity: 0.6; }
+  .slash-toggle.on-light { color: rgba(80,50,120,0.8); }
+
+  /* ─── G: Icon + label inline ─── */
+  .badge-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s;
+    opacity: 0.6;
+  }
+  .badge-toggle:hover { opacity: 1; }
+  .badge-toggle.on-dark { color: rgba(154,119,198,0.9); }
+  .badge-toggle.on-dark:hover { background: rgba(154,119,198,0.1); }
+  .badge-toggle.on-light { color: rgba(80,50,120,0.8); }
+  .badge-toggle.on-light:hover { background: rgba(80,50,120,0.06); }
+
+  /* ─── H: Corner notch ─── */
+  .notch-toggle {
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: opacity 0.2s;
+    opacity: 0.55;
+  }
+  .notch-toggle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    border-radius: 0 6px 0 0;
+    transition: border-color 0.2s;
+  }
+  .notch-toggle:hover { opacity: 1; }
+  .notch-toggle.on-dark { color: rgba(154,119,198,0.9); }
+  .notch-toggle.on-light { color: rgba(80,50,120,0.8); }
+</style>
+</head>
+<body>
+<h1>Theme toggle options — pick one</h1>
+<div class="grid">
+
+  <!-- A -->
+  <div class="card">
+    <div class="card-label">Option A</div>
+    <div class="card-title">Pill slide</div>
+    <div class="demo-area demo-dark">
+      <span class="mode-label left">dark</span>
+      <button class="pill-toggle is-dark">
+        <div class="pill-thumb">☾</div>
+      </button>
+      <span class="mode-label right" style="color:#aaa">→ slides right in light</span>
+    </div>
+    <div class="demo-area">
+      <button class="pill-toggle is-light" style="border-color: rgba(80,50,120,0.5);">
+        <div class="pill-thumb" style="background: rgba(80,50,120,0.7);">☀</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- B -->
+  <div class="card">
+    <div class="card-label">Option B</div>
+    <div class="card-title">Text label only</div>
+    <div class="demo-area demo-dark">
+      <span class="mode-label left">dark</span>
+      <button class="text-toggle on-dark">LIGHT</button>
+    </div>
+    <div class="demo-area">
+      <button class="text-toggle on-light">DARK</button>
+    </div>
+  </div>
+
+  <!-- C -->
+  <div class="card">
+    <div class="card-label">Option C</div>
+    <div class="card-title">Thin circle — sun / moon</div>
+    <div class="demo-area demo-dark">
+      <span class="mode-label left">dark</span>
+      <button class="circle-toggle on-dark">☾</button>
+    </div>
+    <div class="demo-area">
+      <button class="circle-toggle on-light">☀</button>
+    </div>
+  </div>
+
+  <!-- D -->
+  <div class="card">
+    <div class="card-label">Option D</div>
+    <div class="card-title">Square key button</div>
+    <div class="demo-area demo-dark">
+      <span class="mode-label left">dark</span>
+      <button class="square-toggle on-dark">☾</button>
+    </div>
+    <div class="demo-area">
+      <button class="square-toggle on-light">☀</button>
+    </div>
+  </div>
+
+  <!-- E -->
+  <div class="card">
+    <div class="card-label">Option E</div>
+    <div class="card-title">Dot (ultra subtle)</div>
+    <div class="demo-area demo-dark">
+      <span class="mode-label left">dark</span>
+      <div class="dot-wrap">
+        <button class="dot-toggle on-dark"></button>
+        <span class="dot-label" style="color:#aaa">LIGHT MODE</span>
+      </div>
+    </div>
+    <div class="demo-area">
+      <div class="dot-wrap">
+        <button class="dot-toggle on-light"></button>
+        <span class="dot-label" style="color:#555">DARK MODE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- F -->
+  <div class="card">
+    <div class="card-label">Option F</div>
+    <div class="card-title">DARK / LIGHT slash</div>
+    <div class="demo-area demo-dark">
+      <span class="mode-label left">dark</span>
+      <button class="slash-toggle on-dark">
+        <span class="active-part">DARK</span>
+        <span class="slash">/</span>
+        <span class="inactive-part">LIGHT</span>
+      </button>
+    </div>
+    <div class="demo-area">
+      <button class="slash-toggle on-light">
+        <span class="inactive-part">DARK</span>
+        <span class="slash">/</span>
+        <span class="active-part">LIGHT</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- G -->
+  <div class="card">
+    <div class="card-label">Option G</div>
+    <div class="card-title">Icon + label badge</div>
+    <div class="demo-area demo-dark">
+      <span class="mode-label left">dark</span>
+      <button class="badge-toggle on-dark">☾ &nbsp;DARK</button>
+    </div>
+    <div class="demo-area">
+      <button class="badge-toggle on-light">☀ &nbsp;LIGHT</button>
+    </div>
+  </div>
+
+  <!-- H -->
+  <div class="card">
+    <div class="card-label">Option H</div>
+    <div class="card-title">Corner notch</div>
+    <div class="demo-area demo-dark" style="align-items: flex-start; justify-content: flex-end; padding: 0;">
+      <span class="mode-label left">dark</span>
+      <button class="notch-toggle on-dark">☾</button>
+    </div>
+    <div class="demo-area" style="align-items: flex-start; justify-content: flex-end; padding: 0;">
+      <button class="notch-toggle on-light">☀</button>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
