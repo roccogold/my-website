@@ -3,83 +3,215 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>404 - Page Not Found | Rocco Goldschmidt</title>
+<title>404 — Rocco Goldschmidt</title>
 <meta name="description" content="Page not found. Return to Rocco Goldschmidt's portfolio." />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" />
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
-:root {
-  --accent-dark: #9a77c6;
-  --bg-dark: #111;
-  --text-dark: #e5e5e5;
-  --main-font: 'JetBrains Mono', 'Courier New', monospace;
-}
+  :root {
+    --accent-dark: #9a77c6;
+    --accent-dark-hover: #b18cd9;
+    --bg-dark: #111;
+    --text-dark: #e5e5e5;
+    --accent-light: #6b46c1;
+    --accent-light-hover: #7c3aed;
+    --bg-light: #ffffff;
+    --text-light: #1a1a2e;
+    --main-font: 'JetBrains Mono', 'Courier New', monospace;
+  }
 
-body {
-  background: var(--bg-dark);
-  color: var(--text-dark);
-  font-family: var(--main-font);
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-.container {
-  max-width: 500px;
-  padding: 2rem;
-}
+  body {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    font-family: var(--main-font);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
 
-h1 {
-  font-size: 4rem;
-  color: var(--accent-dark);
-  margin: 0 0 1rem 0;
-  font-weight: 900;
-}
+  /* ── Same radial gradient blob as index ── */
+  .bg-gradient {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(154, 119, 198, 0.22), transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    filter: blur(40px);
+    z-index: 0;
+    transition: background 0.3s ease;
+  }
 
-p {
-  font-size: 1.1rem;
-  margin: 1rem 0;
-  opacity: 0.9;
-}
+  body.light-theme {
+    background: var(--bg-light);
+    color: var(--text-light);
+  }
 
-.back-link {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 0.8rem 1.5rem;
-  background: transparent;
-  border: 2px solid var(--accent-dark);
-  color: var(--accent-dark);
-  text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  font-family: var(--main-font);
-  font-weight: bold;
-}
+  body.light-theme .bg-gradient {
+    background: radial-gradient(circle, rgba(107, 70, 193, 0.12), transparent 70%);
+  }
 
-.back-link:hover {
-  background: var(--accent-dark);
-  color: var(--bg-dark);
-}
+  /* ── Theme toggle — same as index ── */
+  .theme-toggle {
+    position: fixed;
+    top: 1.5rem;
+    right: 2rem;
+    z-index: 100;
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--accent-dark);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--accent-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.3s ease;
+  }
 
-.ascii-art {
-  font-size: 0.7rem;
-  margin: 2rem 0;
-  opacity: 0.6;
-  white-space: pre;
-}
+  .theme-toggle:hover {
+    background: var(--accent-dark);
+    color: var(--bg-dark);
+    transform: rotate(180deg) scale(1.1);
+  }
+
+  body.light-theme .theme-toggle {
+    border-color: var(--accent-light);
+    color: var(--accent-light);
+  }
+
+  body.light-theme .theme-toggle:hover {
+    background: var(--accent-light);
+    color: var(--bg-light);
+  }
+
+  @media (max-width: 768px) {
+    .theme-toggle { display: none !important; }
+  }
+
+  /* ── Content ── */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.35;
+  }
+
+  h1 {
+    font-size: clamp(5rem, 18vw, 8rem);
+    font-weight: 700;
+    color: var(--accent-dark);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  body.light-theme h1 {
+    color: var(--accent-light);
+  }
+
+  .message {
+    font-size: 0.8rem;
+    line-height: 1.7;
+    opacity: 0.55;
+    letter-spacing: 0.04em;
+    max-width: 320px;
+  }
+
+  .kaomoji {
+    font-size: 1rem;
+    opacity: 0.4;
+    letter-spacing: 0.05em;
+    margin: 0.25rem 0;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.15;
+  }
+
+  .back-link {
+    font-family: var(--main-font);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0em;
+    color: var(--accent-dark);
+    text-decoration: none;
+    background: rgba(154, 119, 198, 0.12);
+    border: 1px solid rgba(154, 119, 198, 0.3);
+    border-radius: 20px;
+    padding: 0.5rem 1.2rem;
+    box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .back-link:hover {
+    background: rgba(154, 119, 198, 0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
+  }
+
+  body.light-theme .back-link {
+    color: var(--accent-light);
+  }
 </style>
 </head>
 <body>
+
+<div class="bg-gradient"></div>
+
+<button class="theme-toggle" aria-label="Toggle theme">
+  <i class="fas fa-lightbulb"></i>
+</button>
+
 <div class="container">
+  <span class="eyebrow">error / 404</span>
   <h1>404</h1>
-  <p>Oops! This page went fishing and hasn't come back yet.</p>
-  <div class="ascii-art">
-    ¯\_(ツ)_/¯
-  </div>
-  
-  <a href="/" class="back-link">← Back to Home</a>
+  <div class="divider"></div>
+  <p class="message">Wrong turn. This page doesn't exist — but the rest of the portfolio does.</p>
+  <span class="kaomoji">¯\_(ツ)_/¯</span>
+  <a href="/" class="back-link">Back to home</a>
 </div>
+
+<script>
+  const toggle = document.querySelector('.theme-toggle');
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') document.body.classList.add('light-theme');
+
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+  });
+</script>
 </body>
 </html>
