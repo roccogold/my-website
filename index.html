@@ -2095,22 +2095,15 @@ body.light-theme .form-social-icons a:focus-visible {
 .photo-filter-bar {
   display: flex;
   gap: 0;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
   justify-content: center;
   margin-bottom: 1.5rem;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
-.photo-filter-bar::-webkit-scrollbar {
-  display: none;
-}
 
 .photo-filter-btn {
   position: relative;
-  flex-shrink: 0;
   background: transparent;
   border: 1px solid rgba(154, 119, 198, 0.3);
   border-radius: 999px;
@@ -5532,6 +5525,7 @@ body.light-theme .scrolly-step-link {
     <button class="photo-filter-btn" data-country="canada">Canada</button>
     <button class="photo-filter-btn" data-country="greece">Greece</button>
     <button class="photo-filter-btn" data-country="italy">Italy</button>
+    <button class="photo-filter-btn" data-country="morocco">Morocco</button>
     <button class="photo-filter-btn" data-country="nepal">Nepal</button>
     <button class="photo-filter-btn" data-country="portugal">Portugal</button>
     <button class="photo-filter-btn" data-country="switzerland">Switzerland</button>
@@ -5957,9 +5951,9 @@ body.light-theme .scrolly-step-link {
 
 <!-- Photo 27 - Florence Sky -->
 <div class="photo-card hidden-photo" data-photo="assets/photos/florency-sky.jpg" data-location="Florence, Italy" data-country="italy">
-  <img src="assets/photos/florency-sky.jpg" 
-       alt="Moon rising over pastel clouds at dusk in Florence, Italy - Sky photography by Rocco Goldschmidt" 
-       width="1200" 
+  <img src="assets/photos/florency-sky.jpg"
+       alt="Moon rising over pastel clouds at dusk in Florence, Italy - Sky photography by Rocco Goldschmidt"
+       width="1200"
        height="800"
        loading="lazy"
      onload="this.classList.add('loaded')">
@@ -5969,8 +5963,136 @@ body.light-theme .scrolly-step-link {
       Florence, Italy
     </div>
   </div>
-</div>    
-        
+</div>
+
+<!-- Photo 28 - Morocco Beach Camel -->
+<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-beach-camel.jpg" data-location="Aourir, Morocco" data-country="morocco">
+  <img src="assets/photos/morocco-beach-camel.jpg"
+       alt="Camel handler and man in blue djellaba on the beach in Aourir, Morocco - Street photography by Rocco Goldschmidt"
+       width="1200"
+       height="800"
+       loading="lazy"
+       onload="this.classList.add('loaded')">
+  <div class="photo-overlay">
+    <div class="photo-location">
+      <i class="fas fa-map-marker-alt"></i>
+      Aourir, Morocco
+    </div>
+  </div>
+</div>
+
+<!-- Photo 29 - Morocco Rooftop Crowd -->
+<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-rooftop-crowd.jpg" data-location="Aourir, Morocco" data-country="morocco">
+  <img src="assets/photos/morocco-rooftop-crowd.jpg"
+       alt="Crowd standing on a wall at dusk with Welcome Association graffiti in Aourir, Morocco - Street photography by Rocco Goldschmidt"
+       width="1200"
+       height="800"
+       loading="lazy"
+       onload="this.classList.add('loaded')">
+  <div class="photo-overlay">
+    <div class="photo-location">
+      <i class="fas fa-map-marker-alt"></i>
+      Aourir, Morocco
+    </div>
+  </div>
+</div>
+
+<!-- Photo 30 - Morocco Street Market -->
+<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-street-market.jpg" data-location="Aourir, Morocco" data-country="morocco">
+  <img src="assets/photos/morocco-street-market.jpg"
+       alt="Street fruit market with vendors and Arabic signage in Aourir, Morocco - Street photography by Rocco Goldschmidt"
+       width="1200"
+       height="800"
+       loading="lazy"
+       onload="this.classList.add('loaded')">
+  <div class="photo-overlay">
+    <div class="photo-location">
+      <i class="fas fa-map-marker-alt"></i>
+      Aourir, Morocco
+    </div>
+  </div>
+</div>
+
+<!-- Photo 31 - Morocco Motorbike -->
+<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-motorbike.jpg" data-location="Agadir, Morocco" data-country="morocco">
+  <img src="assets/photos/morocco-motorbike.jpg"
+       alt="Three riders on a motorbike in front of a blue-arched shop in Agadir, Morocco - Street photography by Rocco Goldschmidt"
+       width="1200"
+       height="800"
+       loading="lazy"
+       onload="this.classList.add('loaded')">
+  <div class="photo-overlay">
+    <div class="photo-location">
+      <i class="fas fa-map-marker-alt"></i>
+      Agadir, Morocco
+    </div>
+  </div>
+</div>
+
+<!-- Photo 32 - Morocco Sandy Square -->
+<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-sandy-square.jpg" data-location="Agadir, Morocco" data-country="morocco">
+  <img src="assets/photos/morocco-sandy-square.jpg"
+       alt="Man pushing a wheelbarrow across a sandy square flanked by white buildings in Agadir, Morocco - Street photography by Rocco Goldschmidt"
+       width="1200"
+       height="800"
+       loading="lazy"
+       onload="this.classList.add('loaded')">
+  <div class="photo-overlay">
+    <div class="photo-location">
+      <i class="fas fa-map-marker-alt"></i>
+      Agadir, Morocco
+    </div>
+  </div>
+</div>
+
+<!-- Photo 33 - Morocco Laundry Trees -->
+<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-laundry-trees.jpg" data-location="Tamraght, Morocco" data-country="morocco">
+  <img src="assets/photos/morocco-laundry-trees.jpg"
+       alt="Colourful laundry hanging between trees in an open square in Tamraght, Morocco - Street photography by Rocco Goldschmidt"
+       width="1200"
+       height="800"
+       loading="lazy"
+       onload="this.classList.add('loaded')">
+  <div class="photo-overlay">
+    <div class="photo-location">
+      <i class="fas fa-map-marker-alt"></i>
+      Tamraght, Morocco
+    </div>
+  </div>
+</div>
+
+<!-- Photo 34 - Morocco Alley Ocean -->
+<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-alley-ocean.jpg" data-location="Agadir, Morocco" data-country="morocco">
+  <img src="assets/photos/morocco-alley-ocean.jpg"
+       alt="Boy sitting on a wall in a narrow alley with the ocean visible in the distance in Agadir, Morocco - Street photography by Rocco Goldschmidt"
+       width="1200"
+       height="800"
+       loading="lazy"
+       onload="this.classList.add('loaded')">
+  <div class="photo-overlay">
+    <div class="photo-location">
+      <i class="fas fa-map-marker-alt"></i>
+      Agadir, Morocco
+    </div>
+  </div>
+</div>
+
+<!-- Photo 35 - Morocco Fruit Market Blue -->
+<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-fruit-market.jpg" data-location="Taghazout, Morocco" data-country="morocco">
+  <img src="assets/photos/morocco-fruit-market.jpg"
+       alt="Fruit and vegetable market stall with blue doors and people shopping in Taghazout, Morocco - Street photography by Rocco Goldschmidt"
+       width="1200"
+       height="800"
+       loading="lazy"
+       onload="this.classList.add('loaded')">
+  <div class="photo-overlay">
+    <div class="photo-location">
+      <i class="fas fa-map-marker-alt"></i>
+      Taghazout, Morocco
+    </div>
+  </div>
+</div>
+
   </div>
   
   <!-- Load More Button - MOVED OUTSIDE GRID -->
