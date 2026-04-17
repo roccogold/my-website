@@ -3538,22 +3538,88 @@ body.light-theme .filter-btn.active {
   }
 }
 
+/* Let the gallery break out of the 650px main column so photos have room to breathe */
+#photos {
+  position: relative;
+  width: min(1100px, calc(100vw - 3rem));
+  margin-left: calc((650px - min(1100px, 100vw - 3rem)) / 2);
+  max-width: none;
+}
+
+/* ─── Fixed-tile gallery ─────────────────────────────────────────────────────
+   Every N cards fills an exact rectangle — no trailing gaps, consistent shape.
+
+   Desktop  (4 cols, 7 cards/tile = 3 rows × 4 cols = 12 cells):
+     [H H s s]   H = hero 2×2  (4 cells)
+     [H H s s]   s = small 1×1 (4 × 1 cell = 4)
+     [w w w w]   w = wide 2×1  (2 × 2 cells = 4)  ← total 12 ✓
+
+   Tablet   (3 cols, 5 cards/tile = 3 rows × 3 cols = 9 cells):
+     [H H s]     H = hero 2×2  (4 cells)
+     [H H s]     s = small 1×1 (2 × 1 cell = 2)
+     [s w w]     w = wide 2×1  (1 small + 1 wide = 3)  ← total 9 ✓
+
+   Mobile   (2 cols, 5 cards/tile = 4 rows × 2 cols = 8 cells):
+     [H H]       H = hero 2×2  (4 cells)
+     [H H]       s = small 1×1 (4 × 1 cell = 4)  ← total 8 ✓
+     [s s]
+     [s s]
+──────────────────────────────────────────────────────────────────────────── */
+
 .photo-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
+  grid-auto-flow: dense; /* helps filtered views compact cleanly */
+  gap: 0.75rem;
   margin-top: 2rem;
 }
 
-@media (max-width: 768px) {
+/* ── Tile layout driven by JS data-tile-pos (1–7, repeating) ─────────────
+   JS assigns data-tile-pos based on visible index after every filter change,
+   so the composition is always correct regardless of which photos are shown.
+
+   Desktop  4 cols  7 cards = 3 rows × 4 cols (12 cells)
+   [H H s s][H H s s][W W W W]
+
+   Tablet   3 cols  7 cards = 4 rows × 3 cols (12 cells)
+   [H H s][H H s][s s s][P P P]   (P = full-width panorama)
+
+   Mobile   2 cols  7 cards = 5 rows × 2 cols (10 cells)
+   [H H][H H][s s][s s][s s]
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* Desktop spans */
+.photo-card[data-tile-pos="1"] { grid-column: span 2; grid-row: span 2; }
+.photo-card[data-tile-pos="6"] { grid-column: span 2; }
+.photo-card[data-tile-pos="7"] { grid-column: span 2; }
+
+@media (max-width: 1024px) {
   .photo-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 185px;
   }
+  /* Tablet: hero + panorama, no wides */
+  .photo-card[data-tile-pos="1"] { grid-column: span 2; grid-row: span 2; }
+  .photo-card[data-tile-pos="6"] { grid-column: auto;   grid-row: auto;   }
+  .photo-card[data-tile-pos="7"] { grid-column: span 3; grid-row: auto;   }
+}
+
+@media (max-width: 768px) {
+  #photos { width: auto; margin-left: 0; }
+  .photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 130px;
+    gap: 0.5rem;
+  }
+  /* Mobile: hero only, all others small */
+  .photo-card[data-tile-pos="1"] { grid-column: span 2; grid-row: span 2; }
+  .photo-card[data-tile-pos="6"] { grid-column: auto;   grid-row: auto;   }
+  .photo-card[data-tile-pos="7"] { grid-column: auto;   grid-row: auto;   }
 }
 
 .photo-card {
   position: relative;
-  aspect-ratio: 4/3;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
@@ -3763,11 +3829,6 @@ body.light-theme .photo-card:hover {
 
 /* ── Mobile ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  .photo-grid {
-    grid-template-columns: 1fr;
-  }
-
-
   .lightbox-close  { top: 1rem; right: 1rem; }
   .lightbox-prev   { left: 0.75rem; }
   .lightbox-next   { right: 0.75rem; }
@@ -5599,7 +5660,7 @@ body.light-theme .scrolly-step-link {
       </div>
     </div>
 
-    <!-- Photo 7 - HIDDEN initially -->
+    <!-- Photo 7 - HIDDEN (moved to load-more batch; replaced by Morocco in initial tile) -->
     <div class="photo-card hidden-photo" data-photo="assets/photos/nepal-rocco.jpg" data-location="Khumbu, Nepal" data-country="nepal">
      <img src="assets/photos/nepal-rocco.jpg" 
      alt="Adventure photography in Khumbu region, Nepal - Himalayan mountain trekking by Rocco Goldschmidt" 
@@ -6031,8 +6092,8 @@ body.light-theme .scrolly-step-link {
   </div>
 </div>
 
-<!-- Photo 34 - Morocco Alley Ocean -->
-<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-alley-ocean.jpg" data-location="Agadir, Morocco" data-country="morocco">
+<!-- Photo 34 - Morocco Alley Ocean - VISIBLE in initial tile (tile-pos 7) -->
+<div class="photo-card" data-photo="assets/photos/morocco-alley-ocean.jpg" data-location="Agadir, Morocco" data-country="morocco">
   <img src="assets/photos/morocco-alley-ocean.jpg"
        alt="Boy sitting on a wall in a narrow alley with the ocean visible in the distance in Agadir, Morocco - Street photography by Rocco Goldschmidt"
        width="1200"
@@ -7442,6 +7503,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadMoreBtn = document.getElementById('loadMorePhotos');
   const allBtn      = document.querySelector('.photo-filter-btn[data-country="all"]');
 
+  // Assign data-tile-pos (1–7 repeating) based on visible index so the
+  // grid composition stays consistent regardless of which photos are shown.
+  function reindexGallery() {
+    let visibleIndex = 0;
+    document.querySelectorAll('.photo-card').forEach(card => {
+      const hidden = getComputedStyle(card).display === 'none';
+      if (hidden) {
+        card.removeAttribute('data-tile-pos');
+      } else {
+        visibleIndex++;
+        card.setAttribute('data-tile-pos', ((visibleIndex - 1) % 7) + 1);
+      }
+    });
+  }
+
   function applyFilter() {
     const selected = [...filterBtns]
       .filter(b => b.classList.contains('active') && b.dataset.country !== 'all')
@@ -7460,7 +7536,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loadMoreBtn) {
       loadMoreBtn.style.display = showAll ? '' : 'none';
     }
+
+    reindexGallery();
   }
+
+  // Expose so load-more handler (separate DOMContentLoaded block) can call it
+  window.reindexGallery = reindexGallery;
+
+  // Initial index on page load
+  reindexGallery();
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -7730,9 +7814,12 @@ document.addEventListener('DOMContentLoaded', () => {
       hiddenPhotos.forEach(photo => {
         photo.classList.remove('hidden-photo');
       });
-      
+
       // Hide the button completely
       loadMoreBtn.style.display = 'none';
+
+      // Re-assign tile positions now that more cards are visible
+      if (window.reindexGallery) window.reindexGallery();
       
       // Register newly revealed photos with lightbox
       if (window.photoLightbox) {
