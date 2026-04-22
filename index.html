@@ -964,8 +964,8 @@ body.light-theme .mobile-nav-item.contact:active {
 /* Container Queries Support */
 .top-bar {
   position: relative;
-  max-width: 650px;
-  margin: 3rem auto 0.5rem;  /* ← CHANGED from 1rem to 3rem */
+  max-width: 1000px;
+  margin: 3rem auto 0.5rem;
   padding: 0 2rem;
   text-align: center;
   container-type: inline-size;
@@ -1221,7 +1221,7 @@ header p {
 
 /* Enhanced main content with container queries */
 main {
-  max-width: 650px;
+  max-width: 1000px;
   margin: auto;
   padding: var(--space-md) var(--space-lg) var(--space-xl);
   line-height: 1.6;
@@ -3538,13 +3538,7 @@ body.light-theme .filter-btn.active {
   }
 }
 
-/* Let the gallery break out of the 650px main column so photos have room to breathe */
-#photos {
-  position: relative;
-  width: min(1100px, calc(100vw - 3rem));
-  margin-left: calc((650px - min(1100px, 100vw - 3rem)) / 2);
-  max-width: none;
-}
+/* Photos section fills the 1000px container naturally — no breakout needed */
 
 /* ─── Fixed-tile gallery ─────────────────────────────────────────────────────
    Every N cards fills an exact rectangle — no trailing gaps, consistent shape.
@@ -3606,7 +3600,7 @@ body.light-theme .filter-btn.active {
 }
 
 @media (max-width: 768px) {
-  #photos { width: auto; margin-left: 0; }
+  /* #photos — no special mobile override needed, inherits container padding */
   .photo-grid {
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: 130px;
@@ -3851,9 +3845,6 @@ body.light-theme .photo-card:hover {
 /* Experience section - stack vertically */
 #experience .discoveries-grid {
   grid-template-columns: 1fr;
-  max-width: 650px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* Discovery Cards */
