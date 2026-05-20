@@ -502,11 +502,8 @@ body:focus-within {
 }
 
 .theme-toggle {
-  position: absolute;
-  left: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1002;
+  position: static;
+  transform: none;
   width: 34px;
   height: 34px;
   border: 1.5px solid var(--accent-dark);
@@ -522,7 +519,6 @@ body:focus-within {
   transition: all var(--transition-normal);
   opacity: 1;
   visibility: visible;
-  pointer-events: all;
 }
 
 /* ← ADD THIS NEW RULE */
@@ -535,7 +531,7 @@ body:focus-within {
 .theme-toggle:hover {
   background: var(--accent-dark);
   color: var(--bg-dark);
-  transform: translateY(-50%) rotate(180deg) scale(1.05);
+  transform: rotate(180deg) scale(1.05);
   box-shadow: 0 4px 12px rgba(154, 119, 198, 0.3);
 }
 
@@ -652,7 +648,7 @@ body.light-theme .status-badge {
 /* Back to top button */
 .back-to-top { display: none !important; }
 
-/* Navigation Bar - Pill Style - Desktop Only */
+/* Navigation Bar — unified glass pill (option B) */
 .nav-container {
   position: fixed;
   top: 0;
@@ -674,14 +670,33 @@ body.light-theme .status-badge {
   transform: translateY(-20px);
 }
 
+.nav-pill {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.45rem 1.25rem 0.45rem 0.55rem;
+  background: rgba(17, 17, 17, 0.55);
+  border: 1px solid rgba(154, 119, 198, 0.28);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  pointer-events: all;
+}
+
+body.light-theme .nav-pill {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(107, 70, 193, 0.18);
+  box-shadow: 0 4px 20px rgba(107, 70, 193, 0.1);
+}
+
 .nav-bar {
   background: transparent;
   border: none;
-  padding: 0.5rem 0;
+  padding: 0;
   display: flex;
-  gap: 2rem;
+  gap: 1.75rem;
   align-items: center;
-  pointer-events: all;
 }
 
 .nav-item {
@@ -690,7 +705,7 @@ body.light-theme .status-badge {
   text-decoration: none;
   font-size: var(--font-sm);
   font-weight: 600;
-  padding: 0.5rem 0;
+  padding: 0.15rem 0;
   transition: all var(--transition-normal);
   cursor: pointer;
   font-family: var(--main-font);
@@ -716,7 +731,7 @@ body.light-theme .nav-item.active {
   color: var(--accent-light);
 }
 
-/* Mobile: show theme toggle only (nav links use bottom bar / in-page scroll) */
+/* Mobile: compact pill with theme toggle only */
 @media (max-width: 768px) {
   .nav-container {
     display: flex !important;
@@ -725,21 +740,19 @@ body.light-theme .nav-item.active {
     padding: 1rem;
   }
 
+  .nav-pill {
+    gap: 0;
+    padding: 0.35rem 0.5rem 0.35rem 0.4rem;
+  }
+
   .nav-container .nav-bar {
     display: none;
   }
 
   .nav-container .theme-toggle {
-    position: static;
-    transform: none;
-    left: auto;
     width: 32px;
     height: 32px;
     font-size: 13px;
-  }
-
-  .nav-container .theme-toggle:hover {
-    transform: rotate(180deg) scale(1.05);
   }
 }
 
@@ -5251,17 +5264,19 @@ body.light-theme .scrolly-step-link {
 
 <!-- Navigation Bar -->
 <div class="nav-container">
-  <button class="theme-toggle" aria-label="Toggle theme">
-    <i class="fas fa-lightbulb"></i>
-  </button>
-  <nav class="nav-bar" role="navigation" aria-label="Main navigation">
-    <a href="#experience" class="nav-item">Work</a>
-    <a href="#projects" class="nav-item">Projects</a>
-    <a href="#thesis" class="nav-item">Thesis</a>
-    <a href="#photos" class="nav-item">Perspectives</a>
-    <a href="#vibes" class="nav-item">Vibes</a>
-    <a href="#interests" class="nav-item">Interests</a>
-  </nav>
+  <div class="nav-pill">
+    <button class="theme-toggle" aria-label="Toggle theme">
+      <i class="fas fa-lightbulb"></i>
+    </button>
+    <nav class="nav-bar" role="navigation" aria-label="Main navigation">
+      <a href="#experience" class="nav-item">Work</a>
+      <a href="#projects" class="nav-item">Projects</a>
+      <a href="#thesis" class="nav-item">Thesis</a>
+      <a href="#photos" class="nav-item">Perspectives</a>
+      <a href="#vibes" class="nav-item">Vibes</a>
+      <a href="#interests" class="nav-item">Interests</a>
+    </nav>
+  </div>
 </div>
 
 <!-- Mobile Navigation Toggle -->
