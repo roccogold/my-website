@@ -1,6 +1,6 @@
-const CACHE_NAME = 'rocco-portfolio-v1.3'; // Bumped version
-const STATIC_CACHE_NAME = 'rocco-static-v1.3'; // Bumped version  
-const DYNAMIC_CACHE_NAME = 'rocco-dynamic-v1.3'; // Bumped version
+const CACHE_NAME = 'rocco-portfolio-v1.4'; // Bumped version
+const STATIC_CACHE_NAME = 'rocco-static-v1.4'; // Bumped version  
+const DYNAMIC_CACHE_NAME = 'rocco-dynamic-v1.4'; // Bumped version
 
 // Assets to cache immediately (excluding theme-critical files)
 const STATIC_ASSETS = [
@@ -32,7 +32,7 @@ const RUNTIME_CACHE = [
 
 // Install event - cache static assets
 self.addEventListener('install', event => {
-  console.log('Service Worker: Installing v1.3...');
+  console.log('Service Worker: Installing v1.4...');
   event.waitUntil(
     caches.open(STATIC_CACHE_NAME)
       .then(cache => {
@@ -49,7 +49,7 @@ self.addEventListener('install', event => {
 
 // Activate event - clean up old caches aggressively
 self.addEventListener('activate', event => {
-  console.log('Service Worker: Activating v1.3...');
+  console.log('Service Worker: Activating v1.4...');
   event.waitUntil(
     caches.keys()
       .then(cacheNames => {

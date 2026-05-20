@@ -502,13 +502,14 @@ body:focus-within {
 }
 
 .theme-toggle {
-  position: fixed;
-  top: 1.5rem;
-  z-index: 1001;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border: 2px solid var(--accent-dark);
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1002;
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--accent-dark);
   border-radius: 50%;
   background: transparent;
   color: var(--accent-dark);
@@ -516,10 +517,12 @@ body:focus-within {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 14px;
+  flex-shrink: 0;
   transition: all var(--transition-normal);
-  opacity: 1;  /* ← ADD THIS */
-  visibility: visible;  /* ← ADD THIS */
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
 }
 
 /* ← ADD THIS NEW RULE */
@@ -532,8 +535,8 @@ body:focus-within {
 .theme-toggle:hover {
   background: var(--accent-dark);
   color: var(--bg-dark);
-  transform: rotate(180deg) scale(1.1);
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
+  transform: translateY(-50%) rotate(180deg) scale(1.05);
+  box-shadow: 0 4px 12px rgba(154, 119, 198, 0.3);
 }
 
 body.light-theme .theme-toggle {
@@ -659,6 +662,7 @@ body.light-theme .status-badge {
   padding: 1.5rem 2rem;
   display: flex;
   justify-content: center;
+  align-items: center;
   pointer-events: none;
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
@@ -712,10 +716,30 @@ body.light-theme .nav-item.active {
   color: var(--accent-light);
 }
 
-/* Hide desktop navigation on mobile */
+/* Mobile: show theme toggle only (nav links use bottom bar / in-page scroll) */
 @media (max-width: 768px) {
   .nav-container {
-    display: none !important;
+    display: flex !important;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .nav-container .nav-bar {
+    display: none;
+  }
+
+  .nav-container .theme-toggle {
+    position: static;
+    transform: none;
+    left: auto;
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  .nav-container .theme-toggle:hover {
+    transform: rotate(180deg) scale(1.05);
   }
 }
 
@@ -751,8 +775,8 @@ body.light-theme .nav-item.active {
   pointer-events: none;
 }
 
-/* Hide theme toggle when mobile menu is active */
-.mobile-nav-menu.active ~ .theme-toggle {
+/* Hide theme toggle when mobile menu drawer is open */
+body:has(.mobile-nav-menu.active) .nav-container .theme-toggle {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -1002,54 +1026,53 @@ body.light-theme .mobile-nav-item.contact:active {
   transform: perspective(400px) rotateX(15deg);
 }
 
-/* ROCCO title - ALWAYS ACTIVE NEON GLOW */
+/* ROCCO title — flat, no glow */
 .top-bar header h1.neon-title {
-  color: var(--neon-dark);
-  text-shadow:
-    0 0 8px rgba(167, 139, 250, 0.4),
-    0 0 15px rgba(139, 92, 246, 0.3),
-    2px 2px 0px #b18cd9,
-    4px 4px 0px #9a77c6;
+  color: var(--accent-dark);
+  text-shadow: none;
 }
 
-/* Light theme */
 body.light-theme .top-bar header h1.neon-title {
-  color: var(--neon-light);
-  text-shadow:
-    0 0 8px rgba(139, 92, 246, 0.3),
-    0 0 15px rgba(124, 58, 237, 0.2),
-    2px 2px 0px #a78bfa,
-    4px 4px 0px #7c3aed;
+  color: var(--accent-light);
+  text-shadow: none;
 }
       
-/* Now exactly the same color as the subtitle */
 .neon-greeting {
   font-family: var(--main-font);
   font-size: var(--font-md);
   font-weight: 500;
   letter-spacing: 0.02em;
   margin: 0 0 0.5rem 0;
-  
-  /* PURPLE (Dark Mode) */
-  color: var(--accent-dark); 
+  color: var(--accent-dark);
+  text-shadow: none;
   opacity: 1;
 }
 
-/* PURPLE (Light Mode) */
 body.light-theme .neon-greeting {
   color: var(--accent-light);
+  text-shadow: none;
   opacity: 1;
 }
 
       
 .top-bar header p.neon-subtitle {
-  font-size: var(--font-md);
+  /* Scale down on narrow containers so the full line never wraps */
+  font-size: clamp(0.42rem, calc((100cqi - 2rem) / 37), 0.9rem);
   margin-top: 1.5rem;
   opacity: 1;
   font-family: var(--main-font);
   color: var(--accent-dark);
   font-weight: 500;
+  text-shadow: none;
   min-height: 1.5em; /* Prevent layout shift */
+  white-space: nowrap;
+  width: 100%;
+  max-width: 100%;
+}
+
+.top-bar header p.neon-subtitle b,
+.top-bar header p.neon-subtitle .typewriter {
+  white-space: nowrap;
 }
 
 /* Typewriter effect */
@@ -1094,6 +1117,13 @@ body.light-theme .typewriter::after {
 
 body.light-theme .top-bar header p.neon-subtitle {
   color: var(--accent-light);
+}
+
+/* Hero header: always solid, no fade-in */
+.top-bar header.reveal,
+.top-bar header.reveal.visible {
+  opacity: 1;
+  transform: none;
 }
 
 /* NEW: Scroll indicator - Pulsing Dots */
@@ -2289,11 +2319,6 @@ body.light-theme pre {
     padding-bottom: 0;
   }
 
-  /* Hide theme toggle on mobile */
-  .theme-toggle {
-    display: none !important;
-  }
-
   /* Hide hamburger menu on mobile */
   .mobile-nav-toggle {
     display: none !important;
@@ -2316,21 +2341,12 @@ body.light-theme pre {
   
   .top-bar header h1.neon-title {
     font-size: clamp(3rem, 12vw, 5rem);
-    /* Small glow + layers on mobile */
-    text-shadow:
-      0 0 8px rgba(167, 139, 250, 0.5),
-      0 0 16px rgba(139, 92, 246, 0.4),
-      2px 2px 0px #b18cd9,
-      4px 4px 0px #9a77c6 !important;
+    text-shadow: none;
   }
-  
-  body.light-theme .top-bar header h1.neon-title {
-    /* Small glow + layers on mobile (light theme) */
-    text-shadow:
-      0 0 8px rgba(139, 92, 246, 0.4),
-      0 0 16px rgba(124, 58, 237, 0.3),
-      2px 2px 0px #a78bfa,
-      4px 4px 0px #7c3aed !important;
+
+  .neon-greeting,
+  .top-bar header p.neon-subtitle {
+    text-shadow: none;
   }
   
   /* Remove glow from section titles on mobile */
@@ -2349,8 +2365,10 @@ body.light-theme pre {
   
   .top-bar header p.neon-subtitle {
     margin-bottom: 0;  /* Remove bottom margin on mobile for tighter spacing */
-    white-space: normal;  /* Allow wrapping on mobile */
-    width: auto;
+    white-space: nowrap;
+    font-size: clamp(0.38rem, calc((100cqi - 1.25rem) / 37), 0.85rem);
+    width: 100%;
+    max-width: 100%;
   }
   
   /* Uniform spacing between hero and main content */
@@ -2365,6 +2383,7 @@ body.light-theme pre {
   }
   
   .hero-description {
+    text-align: center;
     margin-top: 0 !important;  /* Force remove any top margin on mobile */
     margin-bottom: 1rem;
     padding-top: 0 !important;  /* Force remove any padding */
@@ -3828,9 +3847,13 @@ body.light-theme .photo-card:hover {
   .lightbox-next   { right: 0.75rem; }
 }
 
-/* Hidden photos */
+/* Hidden photos (until View More or country filter) */
 .hidden-photo {
   display: none;
+}
+
+.photo-card.filter-revealed {
+  display: block !important;
 }
 
       
@@ -5214,16 +5237,19 @@ body.light-theme .scrolly-step-link {
 </head>
 <body> 
 
-<!-- Navigation Bar - Desktop Only -->
+<!-- Navigation Bar -->
 <div class="nav-container">
-<nav class="nav-bar" role="navigation" aria-label="Main navigation">
-  <a href="#experience" class="nav-item">Work</a>
-  <a href="#projects" class="nav-item">Projects</a>
-  <a href="#thesis" class="nav-item">Thesis</a>
-  <a href="#photos" class="nav-item">Perspectives</a>
-  <a href="#vibes" class="nav-item">Vibes</a>
-  <a href="#interests" class="nav-item">Interests</a>
-</nav>
+  <button class="theme-toggle" aria-label="Toggle theme">
+    <i class="fas fa-lightbulb"></i>
+  </button>
+  <nav class="nav-bar" role="navigation" aria-label="Main navigation">
+    <a href="#experience" class="nav-item">Work</a>
+    <a href="#projects" class="nav-item">Projects</a>
+    <a href="#thesis" class="nav-item">Thesis</a>
+    <a href="#photos" class="nav-item">Perspectives</a>
+    <a href="#vibes" class="nav-item">Vibes</a>
+    <a href="#interests" class="nav-item">Interests</a>
+  </nav>
 </div>
 
 <!-- Mobile Navigation Toggle -->
@@ -5281,11 +5307,6 @@ body.light-theme .scrolly-step-link {
 <div class="cursor-gradient" id="cursorGradient"></div>
 <div class="cursor-dot" id="cursorDot"></div>
       
-<!-- Theme toggle button -->
-<button class="theme-toggle" aria-label="Toggle theme">
-  <i class="fas fa-lightbulb"></i>
-</button>
-
 <!-- Scroll progress bar -->
 <div class="scroll-progress"></div>
 
@@ -5303,7 +5324,7 @@ body.light-theme .scrolly-step-link {
       <p class="neon-subtitle"><b><span class="typewriter" data-text="&lt; product thinker, occasional photographer, always building &gt;"></span></b></p>
       <div class="status-badge">
         <span class="status-dot"></span>
-        Vienna, Austria · PM @ Moody's
+        Vienna, Austria · Product @ Moody's
       </div>
     </header>
   </div>
@@ -5651,7 +5672,23 @@ body.light-theme .scrolly-step-link {
       </div>
     </div>
 
-    <!-- Photo 7 - HIDDEN (moved to load-more batch; replaced by Morocco in initial tile) -->
+    <!-- Photo 7 - VISIBLE in initial tile (tile-pos 7) -->
+    <div class="photo-card" data-photo="assets/photos/morocco-alley-ocean.jpg" data-location="Agadir, Morocco" data-country="morocco">
+      <img src="assets/photos/morocco-alley-ocean.jpg"
+           alt="Boy sitting on a wall in a narrow alley with the ocean visible in the distance in Agadir, Morocco - Street photography by Rocco Goldschmidt"
+           width="1200"
+           height="800"
+           loading="lazy"
+           onload="this.classList.add('loaded')">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Agadir, Morocco
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 8 - HIDDEN (moved to load-more batch) -->
     <div class="photo-card hidden-photo" data-photo="assets/photos/nepal-rocco.jpg" data-location="Khumbu, Nepal" data-country="nepal">
      <img src="assets/photos/nepal-rocco.jpg" 
      alt="Adventure photography in Khumbu region, Nepal - Himalayan mountain trekking by Rocco Goldschmidt" 
@@ -5679,6 +5716,54 @@ body.light-theme .scrolly-step-link {
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
           Athens, Greece
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 8b - Greece Cliff Coast -->
+    <div class="photo-card hidden-photo" data-photo="assets/photos/greece-cliff-coast.jpg" data-location="Zakynthos, Greece" data-country="greece">
+      <img src="assets/photos/greece-cliff-coast.jpg"
+           alt="Steep rocky cliff with green vegetation overlooking the deep blue sea in Zakynthos, Greece - Landscape photography by Rocco Goldschmidt"
+           width="1024"
+           height="678"
+           loading="lazy"
+           onload="this.classList.add('loaded')">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Zakynthos, Greece
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 8c - Greece Wildflowers -->
+    <div class="photo-card hidden-photo" data-photo="assets/photos/greece-wildflowers.jpg" data-location="Zakynthos, Greece" data-country="greece">
+      <img src="assets/photos/greece-wildflowers.jpg"
+           alt="Pink and purple wildflowers with yellow centers in a Mediterranean bush in Zakynthos, Greece - Nature photography by Rocco Goldschmidt"
+           width="1024"
+           height="681"
+           loading="lazy"
+           onload="this.classList.add('loaded')">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Zakynthos, Greece
+        </div>
+      </div>
+    </div>
+
+    <!-- Photo 8d - Greece Navagio Beach -->
+    <div class="photo-card hidden-photo" data-photo="assets/photos/greece-navagio-beach.jpg" data-location="Zakynthos, Greece" data-country="greece">
+      <img src="assets/photos/greece-navagio-beach.jpg"
+           alt="Shipwreck on Navagio Beach with turquoise water in Zakynthos, Greece - Aerial travel photography by Rocco Goldschmidt"
+           width="1024"
+           height="678"
+           loading="lazy"
+           onload="this.classList.add('loaded')">
+      <div class="photo-overlay">
+        <div class="photo-location">
+          <i class="fas fa-map-marker-alt"></i>
+          Zakynthos, Greece
         </div>
       </div>
     </div>
@@ -6079,22 +6164,6 @@ body.light-theme .scrolly-step-link {
     <div class="photo-location">
       <i class="fas fa-map-marker-alt"></i>
       Tamraght, Morocco
-    </div>
-  </div>
-</div>
-
-<!-- Photo 34 - Morocco Alley Ocean - VISIBLE in initial tile (tile-pos 7) -->
-<div class="photo-card" data-photo="assets/photos/morocco-alley-ocean.jpg" data-location="Agadir, Morocco" data-country="morocco">
-  <img src="assets/photos/morocco-alley-ocean.jpg"
-       alt="Boy sitting on a wall in a narrow alley with the ocean visible in the distance in Agadir, Morocco - Street photography by Rocco Goldschmidt"
-       width="1200"
-       height="800"
-       loading="lazy"
-       onload="this.classList.add('loaded')">
-  <div class="photo-overlay">
-    <div class="photo-location">
-      <i class="fas fa-map-marker-alt"></i>
-      Agadir, Morocco
     </div>
   </div>
 </div>
@@ -7494,6 +7563,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadMoreBtn = document.getElementById('loadMorePhotos');
   const allBtn      = document.querySelector('.photo-filter-btn[data-country="all"]');
 
+  // Mark cards that start behind "View More"
+  photoCards.forEach(card => {
+    if (card.classList.contains('hidden-photo')) {
+      card.dataset.deferredHidden = 'true';
+    }
+  });
+
   // Assign data-tile-pos (1–7 repeating) based on visible index so the
   // grid composition stays consistent regardless of which photos are shown.
   function reindexGallery() {
@@ -7517,10 +7593,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const showAll = allBtn.classList.contains('active');
 
     photoCards.forEach(card => {
+      const matches = showAll || selected.includes(card.dataset.country);
+
+      card.classList.remove('filter-revealed');
+
       if (showAll) {
-        card.style.display = '';                // let .hidden-photo CSS handle lazy load
+        card.style.display = '';
+        if (card.dataset.deferredHidden === 'true') {
+          card.classList.add('hidden-photo');
+        }
+      } else if (matches) {
+        card.classList.remove('hidden-photo');
+        card.classList.add('filter-revealed');
+        card.style.display = '';
       } else {
-        card.style.display = selected.includes(card.dataset.country) ? 'block' : 'none';
+        card.style.display = 'none';
+        card.classList.remove('hidden-photo');
       }
     });
 
@@ -7688,7 +7776,7 @@ class PhotoLightbox {
       this.navPhotos = [...this.photos];
     } else {
       this.navPhotos = [...document.querySelectorAll('.photo-card')]
-        .filter(card => card.style.display === 'block')
+        .filter(card => card.style.display !== 'none' && !card.classList.contains('hidden-photo'))
         .map(card => ({
           src:      card.dataset.photo,
           location: card.dataset.location,
@@ -7804,6 +7892,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const hiddenPhotos = document.querySelectorAll('.hidden-photo');
       hiddenPhotos.forEach(photo => {
         photo.classList.remove('hidden-photo');
+        delete photo.dataset.deferredHidden;
       });
 
       // Hide the button completely
