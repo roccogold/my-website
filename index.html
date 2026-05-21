@@ -53,6 +53,7 @@
       crossorigin="anonymous" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -217,6 +218,7 @@
   --space-xl: 3rem;
   
   --main-font: 'JetBrains Mono', 'Courier New', monospace;
+  --font-hand: 'Caveat', 'Segoe Script', cursive;
   --transition-fast: 0.15s ease;
   --transition-normal: 0.4s var(--ease-out-cubic);
   --transition-slow: 0.6s ease;
@@ -517,6 +519,7 @@ body:focus-within {
   font-size: 14px;
   flex-shrink: 0;
   padding: 0;
+  overflow: visible;
   transition: color var(--transition-normal), transform var(--transition-normal);
   opacity: 1;
   visibility: visible;
@@ -546,8 +549,56 @@ body:focus-within {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
   line-height: 1;
   transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.theme-toggle__icon i {
+  display: block;
+  line-height: 1;
+}
+
+/* Hand-written hover hint (Stefan Stefancik–style pop, not a UI pill) */
+.theme-toggle__hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  z-index: 3;
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-48%) translateY(8px) rotate(-5deg);
+  transition:
+    opacity 0.22s ease,
+    transform 0.28s cubic-bezier(0.34, 1.25, 0.64, 1),
+    visibility 0.22s;
+}
+
+.theme-toggle__hint::after {
+  content: '';
+  display: block;
+  width: 108%;
+  height: 4px;
+  margin: 1px auto 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 6' preserveAspectRatio='none'%3E%3Cpath d='M1 4 Q12 1 24 3 T47 4' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  opacity: 0.55;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .theme-toggle:hover .theme-toggle__hint,
+  .theme-toggle:focus-visible .theme-toggle__hint {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-52%) translateY(0) rotate(-3deg);
+  }
 }
 
 .theme-toggle.hidden {
@@ -583,6 +634,17 @@ body.light-theme .theme-toggle:focus-visible {
   .theme-toggle:hover .theme-toggle__draw,
   .theme-toggle:focus-visible .theme-toggle__draw {
     stroke-dashoffset: 0 !important;
+  }
+
+  .theme-toggle__hint {
+    transition: opacity 0.15s ease, visibility 0.15s;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .theme-toggle:hover .theme-toggle__hint,
+    .theme-toggle:focus-visible .theme-toggle__hint {
+      transform: translateX(-50%) rotate(-3deg);
+    }
   }
 }
 
@@ -725,6 +787,7 @@ body.light-theme .status-badge {
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
   pointer-events: all;
+  overflow: visible;
 }
 
 body.light-theme .nav-pill {
@@ -1052,6 +1115,7 @@ body.light-theme .mobile-nav-item.contact:active {
   margin: 0 auto;
   width: 100%;
   text-align: center;
+  overflow: visible;
 }
 
 .top-bar header h1.neon-title {
@@ -1093,7 +1157,16 @@ body.light-theme .top-bar header h1.neon-title {
   margin: 0;
 }
 
-/* Hero theme toggle — mobile only (option F) */
+/* Hero theme toggle — mobile only (lives in .hero-toggle-slot) */
+.hero-toggle-slot {
+  display: none;
+}
+
+.hero-toggle-anchor {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .theme-toggle--hero {
   display: none;
 }
@@ -2382,16 +2455,6 @@ body.light-theme pre {
     padding-bottom: 0;
   }
 
-  .theme-toggle--hero {
-    display: flex;
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 0;
-    background: transparent;
-    font-size: 14px;
-  }
-
   .theme-toggle--hero .theme-toggle__ring {
     inset: -2px;
     width: calc(100% + 4px);
@@ -2403,6 +2466,78 @@ body.light-theme pre {
     background: transparent;
     transform: none;
     box-shadow: none;
+  }
+
+  /* Hero toggle: vertically centered between ROCCO and tagline */
+  .hero-toggle-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: clamp(2.75rem, 10vw, 3.5rem);
+    padding: 0.85rem 0 0.65rem;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .hero-toggle-anchor {
+    width: 36px;
+    height: 36px;
+  }
+
+  .theme-toggle--hero {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    font-size: 14px;
+  }
+
+  .top-bar header h1.neon-title {
+    margin-bottom: 0;
+  }
+
+  .top-bar header p.neon-subtitle {
+    margin-top: 0;
+  }
+
+  /* Mobile hero: hint beside bulb (avoids crowding ROCCO above) */
+  .theme-toggle--hero .theme-toggle__hint {
+    left: calc(100% + 11px);
+    right: auto;
+    bottom: 52%;
+    top: auto;
+    font-size: 1.05rem;
+    transform: translateY(50%) translateX(6px) rotate(-6deg);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .theme-toggle--hero:hover .theme-toggle__hint,
+    .theme-toggle--hero:focus-visible .theme-toggle__hint {
+      transform: translateY(50%) translateX(0) rotate(-4deg);
+    }
+  }
+
+  /* Very narrow: flip hint to left so it doesn't clip */
+  @media (max-width: 360px) {
+    .theme-toggle--hero .theme-toggle__hint {
+      left: auto;
+      right: calc(100% + 11px);
+      transform: translateY(50%) translateX(-6px) rotate(5deg);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .theme-toggle--hero:hover .theme-toggle__hint,
+      .theme-toggle--hero:focus-visible .theme-toggle__hint {
+        transform: translateY(50%) translateX(0) rotate(4deg);
+      }
+    }
   }
 
   /* Hide hamburger menu on mobile */
@@ -5309,6 +5444,7 @@ body.light-theme .scrolly-step-link {
 <div class="nav-container">
   <div class="nav-pill">
     <button class="theme-toggle" type="button" aria-label="Toggle theme">
+      <span class="theme-toggle__hint" aria-hidden="true">buio</span>
       <svg class="theme-toggle__ring" viewBox="0 0 47.14 45.5" aria-hidden="true">
         <path class="theme-toggle__draw theme-toggle__draw--2" transform="translate(1.4,-1) rotate(6 23.57 22.75)" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
         <path class="theme-toggle__draw theme-toggle__draw--1" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
@@ -5395,15 +5531,20 @@ body.light-theme .scrolly-step-link {
     <header class="reveal">
       <div class="hero-greeting-row">
         <p class="neon-greeting"><b>Ciao, I'm</b></p>
-        <button class="theme-toggle theme-toggle--hero" type="button" aria-label="Toggle theme">
-          <svg class="theme-toggle__ring" viewBox="0 0 47.14 45.5" aria-hidden="true">
-            <path class="theme-toggle__draw theme-toggle__draw--2" transform="translate(1.4,-1) rotate(6 23.57 22.75)" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
-            <path class="theme-toggle__draw theme-toggle__draw--1" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
-          </svg>
-          <span class="theme-toggle__icon"><i class="far fa-lightbulb"></i></span>
-        </button>
       </div>
       <h1 class="neon-title">ROCCO</h1>
+      <div class="hero-toggle-slot">
+        <div class="hero-toggle-anchor">
+          <button class="theme-toggle theme-toggle--hero" type="button" aria-label="Toggle theme">
+            <span class="theme-toggle__hint" aria-hidden="true">buio</span>
+            <svg class="theme-toggle__ring" viewBox="0 0 47.14 45.5" aria-hidden="true">
+              <path class="theme-toggle__draw theme-toggle__draw--2" transform="translate(1.4,-1) rotate(6 23.57 22.75)" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
+              <path class="theme-toggle__draw theme-toggle__draw--1" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
+            </svg>
+            <span class="theme-toggle__icon"><i class="far fa-lightbulb"></i></span>
+          </button>
+        </div>
+      </div>
       <p class="neon-subtitle"><b><span class="typewriter" data-text="&lt; product thinker, occasional photographer, always building &gt;"></span></b></p>
       <div class="status-badge">
         <span class="status-dot"></span>
@@ -7291,9 +7432,14 @@ class EnhancedWebsite {
   const toggles = document.querySelectorAll('.theme-toggle');
   const syncIcon = (isLight) => {
     const icon = isLight ? '<i class="far fa-lightbulb"></i>' : '<i class="fas fa-lightbulb"></i>';
+    const hint = isLight ? 'buio' : 'luce';
+    const ariaHint = isLight ? 'Switch to dark theme' : 'Switch to light theme';
     toggles.forEach(t => {
       const iconWrap = t.querySelector('.theme-toggle__icon');
       if (iconWrap) iconWrap.innerHTML = icon;
+      const hintEl = t.querySelector('.theme-toggle__hint');
+      if (hintEl) hintEl.textContent = hint;
+      t.setAttribute('aria-label', ariaHint);
     });
   };
 
