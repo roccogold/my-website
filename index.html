@@ -56,7 +56,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -224,8 +224,8 @@
   --page-max: 1000px;
   --page-gutter: clamp(1rem, 4vw, 2rem);
 
-  /* Mobile pixel display — Silkscreen (readable on small screens; desktop uses Press Start 2P) */
-  --font-pixel-mobile: 'Silkscreen', 'Courier New', monospace;
+  /* Mobile pixel display — Jersey 10 (desktop uses Press Start 2P) */
+  --font-pixel-mobile: 'Jersey 10', sans-serif;
   
   --main-font: 'JetBrains Mono', 'Courier New', monospace;
   --font-hand: 'Caveat', 'Segoe Script', cursive;
@@ -3198,8 +3198,13 @@ body.light-theme .hero-photo:focus-visible {
 /* iPhone-sized — keep tagline on one line */
 @media (max-width: 430px) {
   .top-bar header h1.hero-pixel-mobile {
-    font-size: 1.65rem !important;
-    letter-spacing: 0.05em;
+    font-size: 2rem !important;
+    letter-spacing: 0.02em;
+  }
+
+  .tron-header h2,
+  .closing-section-title {
+    font-size: 1.1rem !important;
   }
 
   .top-bar header p.neon-subtitle {
@@ -3214,8 +3219,13 @@ body.light-theme .hero-photo:focus-visible {
   }
 
   .top-bar header h1.hero-pixel-mobile {
-    font-size: 1.45rem !important;
-    letter-spacing: 0.04em;
+    font-size: 1.75rem !important;
+    letter-spacing: 0.02em;
+  }
+
+  .tron-header h2,
+  .closing-section-title {
+    font-size: 1rem !important;
   }
 
   .top-bar header p.neon-subtitle {
@@ -5807,7 +5817,7 @@ body.light-theme .scrolly-step-link {
   max-width: 100%;
 }
 
-/* ═══ Mobile pixel titles — Silkscreen (ROCCO, work, closing line) ═══ */
+/* ═══ Mobile pixel titles — Jersey 10 (ROCCO, work, closing line) ═══ */
 @media (max-width: 768px) {
   h1.hero-pixel-mobile,
   .tron-header h2,
@@ -5817,8 +5827,9 @@ body.light-theme .scrolly-step-link {
     font-style: normal !important;
     -webkit-text-stroke: 0 !important;
     paint-order: normal !important;
-    -webkit-font-smoothing: antialiased !important;
+    -webkit-font-smoothing: none !important;
     -moz-osx-font-smoothing: grayscale !important;
+    font-smooth: never !important;
     text-rendering: geometricPrecision !important;
     filter: none !important;
     background: transparent !important;
@@ -5838,17 +5849,17 @@ body.light-theme .scrolly-step-link {
   }
 
   .top-bar header h1.hero-pixel-mobile {
-    font-size: clamp(1.75rem, 12vw, 2.25rem) !important;
-    letter-spacing: 0.04em !important;
-    line-height: 1.2 !important;
+    font-size: clamp(1.85rem, 11.5vw, 2.35rem) !important;
+    letter-spacing: 0.03em !important;
+    line-height: 1.15 !important;
     text-transform: uppercase !important;
   }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: clamp(0.95rem, 4.5vw, 1.25rem) !important;
-    letter-spacing: 0.03em !important;
-    line-height: 1.25 !important;
+    font-size: clamp(1rem, 4.8vw, 1.35rem) !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.2 !important;
   }
 
   .closing-section-title span.char {
