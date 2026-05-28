@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile pixel fonts — 10 options · Rocco portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Jersey+10&family=Micro+5&family=Pixelify+Sans:wght@400;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Sixtyfour&family=Tiny5&family=VT323&family=Workbench&family=Zen+Dots&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg0: #0f0e12;
+        --neon: #b18cd9;
+        --neon-dim: #9a77c6;
+        --text: rgba(240, 238, 248, 0.92);
+        --muted: rgba(200, 196, 212, 0.65);
+        --stroke: rgba(177, 140, 217, 0.25);
+        --mono: "JetBrains Mono", ui-monospace, monospace;
+        --shadow: 2px 2px 0 #9a77c6;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--text);
+        background: radial-gradient(900px 500px at 25% 10%, rgba(139, 92, 246, 0.2), transparent 55%),
+          linear-gradient(180deg, #0c0b0f, var(--bg0));
+        min-height: 100vh;
+        padding: 1.25rem 1rem 3rem;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .shell {
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      header.page {
+        margin-bottom: 1.25rem;
+      }
+
+      header.page h1 {
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--neon);
+        margin-bottom: 0.4rem;
+      }
+
+      header.page p {
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 0.68rem;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.75rem;
+      }
+
+      .badge {
+        font-size: 0.58rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid var(--stroke);
+      }
+
+      .badge--live {
+        background: rgba(34, 197, 94, 0.15);
+        border-color: rgba(34, 197, 94, 0.4);
+        color: #86efac;
+      }
+
+      .badge--alt {
+        background: rgba(154, 119, 198, 0.12);
+        color: var(--neon);
+      }
+
+      .card {
+        border: 1px solid var(--stroke);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 1rem 0.85rem 1.1rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .card.is-live-mobile {
+        border-color: rgba(34, 197, 94, 0.45);
+        box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.12);
+      }
+
+      .card.is-live-desktop {
+        border-color: rgba(177, 140, 217, 0.5);
+      }
+
+      .card-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .card-head h2 {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .card-head .num {
+        font-size: 0.58rem;
+        color: var(--muted);
+        opacity: 0.7;
+      }
+
+      .card-note {
+        font-size: 0.58rem;
+        color: var(--muted);
+        line-height: 1.45;
+        margin-top: 0.35rem;
+      }
+
+      /* Match live site mobile pixel stack */
+      .sample {
+        text-align: center;
+        color: var(--neon);
+        text-shadow: var(--shadow);
+        -webkit-text-stroke: 0;
+        line-height: 1.2;
+      }
+
+      .sample-rocco {
+        font-size: 1.75rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .sample-section {
+        font-size: 0.95rem;
+        letter-spacing: 0.03em;
+        text-transform: lowercase;
+        margin-bottom: 0.45rem;
+      }
+
+      .sample-closing {
+        font-size: 0.72rem;
+        letter-spacing: 0.02em;
+        line-height: 1.35;
+        opacity: 0.95;
+      }
+
+      .f1 .sample { font-family: "Press Start 2P", monospace; -webkit-font-smoothing: none; }
+      .f2 .sample { font-family: "Silkscreen", monospace; -webkit-font-smoothing: antialiased; }
+      .f3 .sample { font-family: "Pixelify Sans", sans-serif; font-weight: 400; }
+      .f4 .sample { font-family: "VT323", monospace; font-size-adjust: 0.52; }
+      .f4 .sample-rocco { font-size: 2.1rem; }
+      .f4 .sample-section { font-size: 1.15rem; }
+      .f5 .sample { font-family: "DotGothic16", sans-serif; }
+      .f6 .sample { font-family: "Jersey 10", sans-serif; }
+      .f7 .sample { font-family: "Tiny5", sans-serif; }
+      .f8 .sample { font-family: "Sixtyfour", cursive; }
+      .f9 .sample { font-family: "Micro 5", sans-serif; }
+      .f10 .sample { font-family: "Workbench", monospace; }
+
+      .f3 .sample-rocco { font-size: 1.65rem; }
+      .f5 .sample-rocco { font-size: 1.65rem; }
+      .f6 .sample-rocco { font-size: 2rem; }
+      .f7 .sample-rocco { font-size: 2rem; }
+      .f8 .sample-rocco { font-size: 1.5rem; letter-spacing: 0.06em; }
+      .f9 .sample-rocco { font-size: 2.25rem; }
+      .f10 .sample-rocco { font-size: 1.85rem; }
+
+      footer.tip {
+        margin-top: 1.5rem;
+        padding: 0.85rem;
+        border-radius: 10px;
+        background: rgba(154, 119, 198, 0.08);
+        border: 1px dashed var(--stroke);
+        color: var(--muted);
+        font-size: 0.62rem;
+        line-height: 1.5;
+      }
+
+      footer.tip a {
+        color: var(--neon);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header class="page">
+        <h1>Mobile pixel fonts</h1>
+        <p>
+          iPhone-width preview (~390px). Same purple + single <code>2px 2px</code> shadow as your site.
+          Compare ROCCO, a section title, and closing line copy.
+        </p>
+        <div class="legend">
+          <span class="badge badge--live">● Live mobile (Silkscreen)</span>
+          <span class="badge badge--alt">◆ Live desktop (Press Start 2P)</span>
+        </div>
+      </header>
+
+      <article class="card f1 is-live-desktop">
+        <div class="card-head">
+          <h2>Press Start 2P</h2>
+          <span class="num">01</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">Desktop today. Bitmap arcade — muddy on retina unless huge.</p>
+      </article>
+
+      <article class="card f2 is-live-mobile">
+        <div class="card-head">
+          <h2>Silkscreen</h2>
+          <span class="num">02</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">Mobile today. Made for small web UI; cleaner blocks, still retro.</p>
+      </article>
+
+      <article class="card f3">
+        <div class="card-head">
+          <h2>Pixelify Sans</h2>
+          <span class="num">03</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">Modern variable pixel; softer, less arcade.</p>
+      </article>
+
+      <article class="card f4">
+        <div class="card-head">
+          <h2>VT323</h2>
+          <span class="num">04</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">CRT terminal vibe; tall, narrow — scale up sizes.</p>
+      </article>
+
+      <article class="card f5">
+        <div class="card-head">
+          <h2>DotGothic16</h2>
+          <span class="num">05</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">Japanese game UI feel; rounder pixel cells.</p>
+      </article>
+
+      <article class="card f6">
+        <div class="card-head">
+          <h2>Jersey 10</h2>
+          <span class="num">06</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">Bold square pixels; strong headlines, less body.</p>
+      </article>
+
+      <article class="card f7">
+        <div class="card-head">
+          <h2>Tiny5</h2>
+          <span class="num">07</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">5px grid; LCD / calculator — needs larger size.</p>
+      </article>
+
+      <article class="card f8">
+        <div class="card-head">
+          <h2>Sixtyfour</h2>
+          <span class="num">08</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">Variable retro display; distinctive, busy at small size.</p>
+      </article>
+
+      <article class="card f9">
+        <div class="card-head">
+          <h2>Micro 5</h2>
+          <span class="num">09</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">Ultra-compact pixel; similar family to Tiny5.</p>
+      </article>
+
+      <article class="card f10">
+        <div class="card-head">
+          <h2>Workbench</h2>
+          <span class="num">10</span>
+        </div>
+        <p class="sample sample-rocco">ROCCO</p>
+        <p class="sample sample-section">work</p>
+        <p class="sample sample-closing">let's build something amazing</p>
+        <p class="card-note">BDF-style variable pixel; technical / tooling aesthetic.</p>
+      </article>
+
+      <footer class="tip">
+        Open this file on your phone or resize the browser to ~390px width.
+        Pick a number, then tell me — we swap <code>--font-pixel-mobile</code> on the live site.
+        <a href="https://fonts.google.com/?category=Display,Monospace&amp;preview.text=ROCCO%20work">Google Fonts pixel list</a>
+      </footer>
+    </div>
+  </body>
+</html>

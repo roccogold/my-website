@@ -56,6 +56,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -222,6 +223,9 @@
   /* Shared content column — hero + sections use the same left/right edges */
   --page-max: 1000px;
   --page-gutter: clamp(1rem, 4vw, 2rem);
+
+  /* Mobile pixel display — Silkscreen (readable on small screens; desktop uses Press Start 2P) */
+  --font-pixel-mobile: 'Silkscreen', 'Courier New', monospace;
   
   --main-font: 'JetBrains Mono', 'Courier New', monospace;
   --font-hand: 'Caveat', 'Segoe Script', cursive;
@@ -5803,17 +5807,18 @@ body.light-theme .scrolly-step-link {
   max-width: 100%;
 }
 
-/* ═══ Mobile pixel titles — ROCCO, work/projects…, closing line ═══ */
+/* ═══ Mobile pixel titles — Silkscreen (ROCCO, work, closing line) ═══ */
 @media (max-width: 768px) {
   h1.hero-pixel-mobile,
   .tron-header h2,
   .closing-section-title span.char {
-    font-family: 'Press Start 2P', monospace !important;
+    font-family: var(--font-pixel-mobile) !important;
     font-weight: 400 !important;
     font-style: normal !important;
-    -webkit-font-smoothing: none !important;
+    -webkit-text-stroke: 0 !important;
+    paint-order: normal !important;
+    -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
-    font-smooth: never !important;
     text-rendering: geometricPrecision !important;
     filter: none !important;
     background: transparent !important;
@@ -5821,8 +5826,6 @@ body.light-theme .scrolly-step-link {
 
   h1.hero-pixel-mobile,
   .tron-header h2 {
-    -webkit-text-stroke: 0 !important;
-    paint-order: normal !important;
     opacity: 1 !important;
     color: var(--neon-dark) !important;
     text-shadow: 2px 2px 0 #9a77c6 !important;
@@ -5835,17 +5838,17 @@ body.light-theme .scrolly-step-link {
   }
 
   .top-bar header h1.hero-pixel-mobile {
-    font-size: clamp(1.65rem, 11.5vw, 2.1rem) !important;
-    letter-spacing: 0.06em !important;
-    line-height: 1.25 !important;
+    font-size: clamp(1.75rem, 12vw, 2.25rem) !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1.2 !important;
     text-transform: uppercase !important;
   }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: clamp(0.85rem, 4vw, 1.15rem) !important;
-    letter-spacing: 0.04em !important;
-    line-height: 1.2 !important;
+    font-size: clamp(0.95rem, 4.5vw, 1.25rem) !important;
+    letter-spacing: 0.03em !important;
+    line-height: 1.25 !important;
   }
 
   .closing-section-title span.char {
