@@ -3139,80 +3139,20 @@ body.light-theme .hero-photo:focus-visible {
     margin: 0 auto;
   }
 
-  /*
-   * Mobile crisp pixel — fewer layers than desktop (stroke + 6 shadows blur on retina).
-   * Hard 1–2px steps only; no glow; no font smoothing.
-   */
-  .top-bar header h1.neon-title {
+  /* ROCCO + tagline: one shared mobile pixel style (see .hero-pixel-mobile at end of stylesheet too) */
+  .top-bar header h1.hero-pixel-mobile {
     align-self: center;
     text-align: center;
     width: 100%;
     margin: 0.2rem auto 0.15rem;
-    font-family: 'Press Start 2P', monospace;
-    font-size: clamp(1.65rem, 11.5vw, 2.1rem);
-    font-weight: 400;
-    letter-spacing: 0.06em;
-    line-height: 1.25;
-    color: var(--neon-dark);
-    -webkit-text-stroke: 0 transparent;
-    paint-order: normal;
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: auto;
-    font-smooth: never;
-    text-rendering: geometricPrecision;
-    filter: none;
-    text-shadow:
-      1px 0 0 var(--neon-dark),
-      0 1px 0 var(--neon-dark),
-      2px 2px 0 #9a77c6;
   }
 
-  body.light-theme .top-bar header h1.neon-title {
-    color: var(--neon-light);
-    -webkit-text-stroke: 0 transparent;
-    text-shadow:
-      1px 0 0 var(--neon-light),
-      0 1px 0 var(--neon-light),
-      2px 2px 0 #7c3aed;
-  }
-
-  .top-bar header p.neon-subtitle {
-    font-family: var(--main-font);
-    font-weight: 500;
-    font-size: clamp(0.58rem, calc((100cqi - 1.25rem) / 42), 0.72rem);
-    letter-spacing: 0.02em;
-    line-height: 1.45;
-    white-space: nowrap;
-    overflow: visible;
-    max-width: none;
-    width: 100%;
+  .top-bar header p.hero-pixel-mobile {
     text-align: center;
     margin: 0.35rem auto 0;
-    min-height: 1.4em;
-    color: var(--accent-dark);
-    -webkit-font-smoothing: antialiased;
-    text-shadow: none;
-  }
-
-  .top-bar header p.neon-subtitle b,
-  .top-bar header p.neon-subtitle .typewriter {
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: 500;
-    letter-spacing: inherit;
+    min-height: 1.65em;
     white-space: nowrap;
-    color: inherit;
-    text-shadow: none;
-  }
-
-  body.light-theme .top-bar header p.neon-subtitle,
-  body.light-theme .top-bar header p.neon-subtitle .typewriter {
-    color: var(--accent-light);
-    text-shadow: none;
-  }
-
-  body.light-theme .typewriter::after {
-    color: var(--neon-light);
+    width: 100%;
   }
 
   .hero-description {
@@ -3247,26 +3187,15 @@ body.light-theme .hero-photo:focus-visible {
   }
 }
 
-/* iPhone-sized — keep tagline on one line, integer-ish pixel title */
+/* iPhone-sized — keep tagline on one line */
 @media (max-width: 430px) {
-  .top-bar header h1.neon-title {
-    font-size: 1.65rem;
+  .top-bar header h1.hero-pixel-mobile {
+    font-size: 1.65rem !important;
     letter-spacing: 0.05em;
-    text-shadow:
-      1px 0 0 var(--neon-dark),
-      0 1px 0 var(--neon-dark),
-      2px 2px 0 #9a77c6;
   }
 
-  body.light-theme .top-bar header h1.neon-title {
-    text-shadow:
-      1px 0 0 var(--neon-light),
-      0 1px 0 var(--neon-light),
-      2px 2px 0 #7c3aed;
-  }
-
-  .top-bar header p.neon-subtitle {
-    font-size: clamp(0.55rem, calc((100cqi - 1rem) / 44), 0.68rem);
+  .top-bar header p.hero-pixel-mobile {
+    font-size: clamp(0.48rem, 2.65vw, 0.58rem) !important;
   }
 }
 
@@ -3276,13 +3205,14 @@ body.light-theme .hero-photo:focus-visible {
     grid-template-columns: 1fr;
   }
 
-  .top-bar header h1.neon-title {
+  .top-bar header h1.hero-pixel-mobile {
     font-size: 1.45rem !important;
     letter-spacing: 0.04em;
   }
 
-  .top-bar header p.neon-subtitle {
-    font-size: clamp(0.52rem, calc((100cqi - 0.75rem) / 46), 0.62rem);
+  .top-bar header p.hero-pixel-mobile {
+    font-size: 0.46rem !important;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -5896,6 +5826,62 @@ body.light-theme .scrolly-step-link {
   max-width: 100%;
 }
 
+/* ═══ Mobile hero pixel — single source of truth (last in cascade) ═══ */
+@media (max-width: 768px) {
+  .hero-pixel-mobile,
+  .hero-pixel-mobile b,
+  .hero-pixel-mobile .typewriter {
+    font-family: 'Press Start 2P', monospace !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    -webkit-text-stroke: 0 !important;
+    paint-order: normal !important;
+    -webkit-font-smoothing: none !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    font-smooth: never !important;
+    text-rendering: geometricPrecision !important;
+    text-transform: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+    color: var(--neon-dark) !important;
+    /* One hard step — same on ROCCO and tagline (no desktop layer stack) */
+    text-shadow: 2px 2px 0 #9a77c6 !important;
+    background: transparent !important;
+  }
+
+  body.light-theme .hero-pixel-mobile,
+  body.light-theme .hero-pixel-mobile b,
+  body.light-theme .hero-pixel-mobile .typewriter {
+    color: var(--neon-light) !important;
+    text-shadow: 2px 2px 0 #7c3aed !important;
+  }
+
+  .top-bar header h1.hero-pixel-mobile {
+    font-size: clamp(1.65rem, 11.5vw, 2.1rem) !important;
+    letter-spacing: 0.06em !important;
+    line-height: 1.25 !important;
+  }
+
+  .top-bar header p.hero-pixel-mobile,
+  .top-bar header p.hero-pixel-mobile b,
+  .top-bar header p.hero-pixel-mobile .typewriter {
+    font-size: clamp(0.5rem, 2.75vw, 0.6rem) !important;
+    letter-spacing: 0 !important;
+    line-height: 1.65 !important;
+  }
+
+  .hero-pixel-mobile .typewriter::after {
+    font-family: 'Press Start 2P', monospace !important;
+    font-weight: 400 !important;
+    color: var(--neon-dark) !important;
+    text-shadow: none !important;
+  }
+
+  body.light-theme .hero-pixel-mobile .typewriter::after {
+    color: var(--neon-light) !important;
+  }
+}
+
 </style>
 </head>
 <body> 
@@ -5999,7 +5985,7 @@ body.light-theme .scrolly-step-link {
         <p class="neon-greeting"><b>ciao, i am</b></p>
       </div>
 
-      <h1 class="neon-title">ROCCO</h1>
+      <h1 class="neon-title hero-pixel-mobile">ROCCO</h1>
 
       <div class="hero-toggle-slot">
         <div class="hero-toggle-anchor">
@@ -6014,7 +6000,7 @@ body.light-theme .scrolly-step-link {
         </div>
       </div>
 
-      <p class="neon-subtitle"><b><span class="typewriter"
+      <p class="neon-subtitle hero-pixel-mobile"><b><span class="typewriter"
         data-text="&lt; product thinker / design × tech × finance / occasional photographer &gt;"
         data-text-mobile="&lt; product thinker · design × tech × finance · photographer &gt;"></span></b></p>
 
