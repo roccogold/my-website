@@ -3139,49 +3139,58 @@ body.light-theme .hero-photo:focus-visible {
     margin: 0 auto;
   }
 
+  /*
+   * Mobile crisp pixel — fewer layers than desktop (stroke + 6 shadows blur on retina).
+   * Hard 1–2px steps only; no glow; no font smoothing.
+   */
   .top-bar header h1.neon-title {
     align-self: center;
     text-align: center;
     width: 100%;
-    margin: 0.15rem auto 0.1rem;
-    font-size: clamp(1.85rem, 12vw, 2.45rem);
-    letter-spacing: 0.04em;
-    line-height: 1.1;
-    -webkit-text-stroke-width: 1px;
-    -webkit-font-smoothing: antialiased;
+    margin: 0.2rem auto 0.15rem;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(1.65rem, 11.5vw, 2.1rem);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    line-height: 1.25;
+    color: var(--neon-dark);
+    -webkit-text-stroke: 0 transparent;
+    paint-order: normal;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: auto;
+    font-smooth: never;
+    text-rendering: geometricPrecision;
+    filter: none;
     text-shadow:
-      2px 0 0 var(--neon-dark),
-      -2px 0 0 var(--neon-dark),
-      0 2px 0 var(--neon-dark),
-      0 -2px 0 var(--neon-dark),
-      3px 3px 0 #b18cd9,
-      5px 5px 0 #9a77c6 !important;
+      1px 0 0 var(--neon-dark),
+      0 1px 0 var(--neon-dark),
+      2px 2px 0 #9a77c6;
   }
 
   body.light-theme .top-bar header h1.neon-title {
+    color: var(--neon-light);
+    -webkit-text-stroke: 0 transparent;
     text-shadow:
-      2px 0 0 var(--neon-light),
-      -2px 0 0 var(--neon-light),
-      0 2px 0 var(--neon-light),
-      0 -2px 0 var(--neon-light),
-      3px 3px 0 #a78bfa,
-      5px 5px 0 #7c3aed !important;
+      1px 0 0 var(--neon-light),
+      0 1px 0 var(--neon-light),
+      2px 2px 0 #7c3aed;
   }
 
   .top-bar header p.neon-subtitle {
     font-family: var(--main-font);
     font-weight: 500;
     font-size: clamp(0.58rem, calc((100cqi - 1.25rem) / 42), 0.72rem);
-    letter-spacing: 0.01em;
-    line-height: 1.4;
+    letter-spacing: 0.02em;
+    line-height: 1.45;
     white-space: nowrap;
     overflow: visible;
     max-width: none;
     width: 100%;
     text-align: center;
-    margin: 0.2rem auto 0;
+    margin: 0.35rem auto 0;
     min-height: 1.4em;
     color: var(--accent-dark);
+    -webkit-font-smoothing: antialiased;
     text-shadow: none;
   }
 
@@ -3189,7 +3198,7 @@ body.light-theme .hero-photo:focus-visible {
   .top-bar header p.neon-subtitle .typewriter {
     font-family: inherit;
     font-size: inherit;
-    font-weight: inherit;
+    font-weight: 500;
     letter-spacing: inherit;
     white-space: nowrap;
     color: inherit;
@@ -3238,10 +3247,22 @@ body.light-theme .hero-photo:focus-visible {
   }
 }
 
-/* iPhone-sized — keep tagline on one line */
+/* iPhone-sized — keep tagline on one line, integer-ish pixel title */
 @media (max-width: 430px) {
   .top-bar header h1.neon-title {
-    font-size: clamp(1.7rem, 11vw, 2.05rem);
+    font-size: 1.65rem;
+    letter-spacing: 0.05em;
+    text-shadow:
+      1px 0 0 var(--neon-dark),
+      0 1px 0 var(--neon-dark),
+      2px 2px 0 #9a77c6;
+  }
+
+  body.light-theme .top-bar header h1.neon-title {
+    text-shadow:
+      1px 0 0 var(--neon-light),
+      0 1px 0 var(--neon-light),
+      2px 2px 0 #7c3aed;
   }
 
   .top-bar header p.neon-subtitle {
@@ -3256,7 +3277,8 @@ body.light-theme .hero-photo:focus-visible {
   }
 
   .top-bar header h1.neon-title {
-    font-size: 1.55rem !important;
+    font-size: 1.45rem !important;
+    letter-spacing: 0.04em;
   }
 
   .top-bar header p.neon-subtitle {
