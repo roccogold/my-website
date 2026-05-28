@@ -1689,7 +1689,7 @@ body.light-theme .view-all-btn:hover {
 }
 
 .tron-header h2 {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-pixel-mobile);
   font-size: clamp(1rem, 3.2vw, 1.5rem);
   font-weight: 400;
   letter-spacing: 0.04em;
@@ -3128,7 +3128,7 @@ body.light-theme .hero-photo:focus-visible {
     margin: 0.2rem auto 0.15rem;
   }
 
-  /* Hero tagline — mono like desktop, not section pixel titles */
+  /* Hero tagline — mono only (never Jersey 10) */
   .top-bar header p.neon-subtitle {
     font-family: var(--main-font) !important;
     font-weight: 500 !important;
@@ -3137,7 +3137,7 @@ body.light-theme .hero-photo:focus-visible {
     line-height: 1.45;
     color: var(--accent-dark) !important;
     text-shadow: none !important;
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased !important;
     text-align: center;
     margin: 0.35rem auto 0;
     min-height: 1.4em;
@@ -3160,7 +3160,8 @@ body.light-theme .hero-photo:focus-visible {
   }
 
   body.light-theme .top-bar header p.neon-subtitle .typewriter::after {
-    color: var(--accent-light);
+    color: var(--accent-light) !important;
+    font-family: var(--main-font) !important;
   }
 
   .hero-description {
@@ -4916,7 +4917,7 @@ body.light-theme [title]:hover {
 
 /* Closing section title — same pixel scale as .tron-header h2 */
 .closing-section-title {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-pixel-mobile);
   font-size: clamp(1rem, 3.2vw, 1.5rem);
   font-weight: 400;
   text-align: center;
@@ -5817,7 +5818,7 @@ body.light-theme .scrolly-step-link {
   max-width: 100%;
 }
 
-/* ═══ Mobile pixel titles — Jersey 10 (ROCCO, work, closing line) ═══ */
+/* ═══ Mobile pixel — Jersey 10: ROCCO, section subtitles, closing (not hero tagline) ═══ */
 @media (max-width: 768px) {
   h1.hero-pixel-mobile,
   .tron-header h2,
