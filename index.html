@@ -5182,33 +5182,7 @@ body.light-theme .closing-section-title span.char.active {
     7px 7px 0 #6d28d9;
 }
 
-/* Mobile: active closing chars match .tron-header h2 stroke + shadow */
-@media (max-width: 768px) {
-  .closing-section-title span.char.active {
-    -webkit-text-stroke: 1px var(--neon-dark);
-    paint-order: stroke fill;
-    text-shadow:
-      1.5px 0 0 var(--neon-dark),
-      -1.5px 0 0 var(--neon-dark),
-      0 1.5px 0 var(--neon-dark),
-      0 -1.5px 0 var(--neon-dark),
-      2px 2px 0 #b18cd9,
-      4px 4px 0 #9a77c6,
-      6px 6px 0 #8859b8 !important;
-  }
-
-  body.light-theme .closing-section-title span.char.active {
-    -webkit-text-stroke: 1px var(--neon-light);
-    text-shadow:
-      1.5px 0 0 var(--neon-light),
-      -1.5px 0 0 var(--neon-light),
-      0 1.5px 0 var(--neon-light),
-      0 -1.5px 0 var(--neon-light),
-      2px 2px 0 #a78bfa,
-      4px 4px 0 #7c3aed,
-      6px 6px 0 #6d28d9 !important;
-  }
-}
+/* Mobile closing char pixel — see end-of-stylesheet block */
 
 /* ================= DATE COLOR FIX ================= */
 
@@ -5829,24 +5803,29 @@ body.light-theme .scrolly-step-link {
   max-width: 100%;
 }
 
-/* ═══ Mobile pixel titles — ROCCO + section headers (work, projects…) ═══ */
+/* ═══ Mobile pixel titles — ROCCO, work/projects…, closing line ═══ */
 @media (max-width: 768px) {
   h1.hero-pixel-mobile,
-  .tron-header h2 {
+  .tron-header h2,
+  .closing-section-title span.char {
     font-family: 'Press Start 2P', monospace !important;
     font-weight: 400 !important;
     font-style: normal !important;
-    -webkit-text-stroke: 0 !important;
-    paint-order: normal !important;
     -webkit-font-smoothing: none !important;
     -moz-osx-font-smoothing: grayscale !important;
     font-smooth: never !important;
     text-rendering: geometricPrecision !important;
     filter: none !important;
+    background: transparent !important;
+  }
+
+  h1.hero-pixel-mobile,
+  .tron-header h2 {
+    -webkit-text-stroke: 0 !important;
+    paint-order: normal !important;
     opacity: 1 !important;
     color: var(--neon-dark) !important;
     text-shadow: 2px 2px 0 #9a77c6 !important;
-    background: transparent !important;
   }
 
   body.light-theme h1.hero-pixel-mobile,
@@ -5862,10 +5841,28 @@ body.light-theme .scrolly-step-link {
     text-transform: uppercase !important;
   }
 
-  .tron-header h2 {
+  .tron-header h2,
+  .closing-section-title {
     font-size: clamp(0.85rem, 4vw, 1.15rem) !important;
     letter-spacing: 0.04em !important;
     line-height: 1.2 !important;
+  }
+
+  .closing-section-title span.char {
+    -webkit-text-stroke: 0 !important;
+    paint-order: normal !important;
+    text-shadow: none !important;
+  }
+
+  .closing-section-title span.char.active {
+    color: var(--neon-dark) !important;
+    -webkit-text-stroke: 0 !important;
+    text-shadow: 2px 2px 0 #9a77c6 !important;
+  }
+
+  body.light-theme .closing-section-title span.char.active {
+    color: var(--neon-light) !important;
+    text-shadow: 2px 2px 0 #7c3aed !important;
   }
 }
 
