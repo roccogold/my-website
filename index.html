@@ -2628,34 +2628,6 @@ body.light-theme pre {
     justify-content: flex-start;
   }
   
-  .top-bar header h1.neon-title {
-    font-size: clamp(1.75rem, 11vw, 2.35rem);
-    letter-spacing: 0.02em;
-    line-height: 1.15;
-    -webkit-text-stroke-width: 0;
-    -webkit-font-smoothing: antialiased;
-    text-shadow:
-      2px 0 0 var(--neon-dark),
-      -2px 0 0 var(--neon-dark),
-      0 2px 0 var(--neon-dark),
-      0 -2px 0 var(--neon-dark),
-      3px 3px 0 #9a77c6 !important;
-  }
-
-  body.light-theme .top-bar header h1.neon-title {
-    text-shadow:
-      2px 0 0 var(--neon-light),
-      -2px 0 0 var(--neon-light),
-      0 2px 0 var(--neon-light),
-      0 -2px 0 var(--neon-light),
-      3px 3px 0 #7c3aed !important;
-  }
-
-  .neon-greeting,
-  .top-bar header p.neon-subtitle {
-    text-shadow: none;
-  }
-  
   /* Remove glow from section titles on mobile */
   .tron-header h2 {
     animation: none; /* disable scroll-driven reveal on mobile */
@@ -2682,27 +2654,6 @@ body.light-theme pre {
       6px 6px 0 #6d28d9 !important;
   }
   
-  .top-bar header p.neon-subtitle {
-    margin-bottom: 0;
-    margin-top: 0.35rem;
-    white-space: normal;
-    overflow: visible;
-    font-size: 0.7rem;
-    line-height: 1.5;
-    letter-spacing: 0.01em;
-    width: 100%;
-    max-width: 20rem;
-    text-align: left;
-    min-height: 2.85em;
-  }
-
-  .top-bar header p.neon-subtitle b,
-  .top-bar header p.neon-subtitle .typewriter {
-    white-space: normal;
-    overflow-wrap: break-word;
-    word-break: break-word;
-  }
-
   .status-badge {
     font-size: clamp(0.48rem, 2.6vw, 0.56rem);
     padding: 0.22rem 0.55rem;
@@ -2726,13 +2677,6 @@ body.light-theme pre {
     padding-top: 0;
   }
   
-  .hero-description {
-    text-align: left;
-    margin-top: 0 !important;  /* Force remove any top margin on mobile */
-    margin-bottom: 1rem;
-    padding-top: 0 !important;  /* Force remove any padding */
-  }
-      
   .job-title {
     font-size: 0.65rem;
     line-height: 1.4;
@@ -2968,6 +2912,7 @@ body.light-theme .keyword {
   flex-direction: column;
   gap: 0.4rem;
   align-items: flex-start;
+  container-type: inline-size;
 }
 
 .hero-right {
@@ -3231,30 +3176,173 @@ body.light-theme .hero-photo:focus-visible {
 }
 
 @media (max-width: 768px) {
-  /* Left-align hero with work/projects — same gutter as main */
-  .hero-left,
-  .top-bar header {
-    align-items: flex-start;
-    text-align: left;
+  /* Mobile hero: centered type stack; sections below stay left-aligned in main */
+  .hero-left {
+    position: relative;
+    align-items: center;
+    text-align: center;
     width: 100%;
   }
 
-  .hero-chips,
-  .hero-greeting-row,
-  .hero-buttons {
-    justify-content: flex-start;
+  .top-bar header {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .hero-chips {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-greeting-row {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Bulb toggle — top-right below chips, not a gap between ROCCO and tagline */
+  .hero-toggle-slot {
+    position: absolute;
+    top: clamp(2.1rem, 11vw, 2.75rem);
+    right: 0;
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    z-index: 3;
+  }
+
+  .hero-toggle-anchor {
+    width: 32px;
+    height: 32px;
+  }
+
+  .theme-toggle--hero {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Pixel stack: greeting + ROCCO + tagline */
+  .neon-greeting,
+  .neon-greeting b {
+    font-family: 'Press Start 2P', monospace;
+    font-weight: 400;
+    font-size: clamp(0.48rem, 2.85vw, 0.62rem);
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    color: var(--neon-dark);
+    text-align: center;
+    margin: 0 auto;
+    text-shadow:
+      1px 0 0 var(--neon-dark),
+      -1px 0 0 var(--neon-dark),
+      0 1px 0 var(--neon-dark),
+      0 -1px 0 var(--neon-dark),
+      2px 2px 0 #9a77c6;
+  }
+
+  body.light-theme .neon-greeting,
+  body.light-theme .neon-greeting b {
+    color: var(--neon-light);
+    text-shadow:
+      1px 0 0 var(--neon-light),
+      -1px 0 0 var(--neon-light),
+      0 1px 0 var(--neon-light),
+      0 -1px 0 var(--neon-light),
+      2px 2px 0 #7c3aed;
+  }
+
+  .top-bar header h1.neon-title {
+    align-self: center;
+    text-align: center;
+    width: 100%;
+    margin: 0.15rem auto 0.1rem;
+    font-size: clamp(1.85rem, 12vw, 2.45rem);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    -webkit-text-stroke-width: 1px;
+    -webkit-font-smoothing: antialiased;
+    text-shadow:
+      2px 0 0 var(--neon-dark),
+      -2px 0 0 var(--neon-dark),
+      0 2px 0 var(--neon-dark),
+      0 -2px 0 var(--neon-dark),
+      3px 3px 0 #b18cd9,
+      5px 5px 0 #9a77c6 !important;
+  }
+
+  body.light-theme .top-bar header h1.neon-title {
+    text-shadow:
+      2px 0 0 var(--neon-light),
+      -2px 0 0 var(--neon-light),
+      0 2px 0 var(--neon-light),
+      0 -2px 0 var(--neon-light),
+      3px 3px 0 #a78bfa,
+      5px 5px 0 #7c3aed !important;
   }
 
   .top-bar header p.neon-subtitle {
-    text-align: left;
-    margin-left: 0;
-    margin-right: auto;
+    font-family: 'Press Start 2P', monospace;
+    font-weight: 400;
+    font-size: clamp(0.31rem, calc((100cqi - 1.25rem) / 52), 0.5rem);
+    letter-spacing: 0;
+    line-height: 1.65;
+    white-space: nowrap;
+    overflow: visible;
+    max-width: none;
+    width: 100%;
+    text-align: center;
+    margin: 0.2rem auto 0;
+    min-height: 1.65em;
+    color: var(--neon-dark);
+    text-shadow:
+      1px 0 0 var(--neon-dark),
+      -1px 0 0 var(--neon-dark),
+      0 1px 0 var(--neon-dark),
+      0 -1px 0 var(--neon-dark),
+      2px 2px 0 #9a77c6;
+  }
+
+  .top-bar header p.neon-subtitle b,
+  .top-bar header p.neon-subtitle .typewriter {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    white-space: nowrap;
+    color: inherit;
+    text-shadow: inherit;
+  }
+
+  body.light-theme .top-bar header p.neon-subtitle,
+  body.light-theme .top-bar header p.neon-subtitle .typewriter {
+    color: var(--neon-light);
+    text-shadow:
+      1px 0 0 var(--neon-light),
+      -1px 0 0 var(--neon-light),
+      0 1px 0 var(--neon-light),
+      0 -1px 0 var(--neon-light),
+      2px 2px 0 #7c3aed;
+  }
+
+  body.light-theme .typewriter::after {
+    color: var(--neon-light);
   }
 
   .hero-description {
-    text-align: left;
-    max-width: 100%;
-    margin: 0.8rem 0 0 0;
+    text-align: center;
+    max-width: 22rem;
+    margin: 0.85rem auto 1rem !important;
+    padding-top: 0 !important;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    width: 100%;
+    gap: 0.5rem;
   }
 
   .hero-chip {
@@ -3274,23 +3362,21 @@ body.light-theme .hero-photo:focus-visible {
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
   }
-
-  .hero-buttons {
-    gap: 0.5rem;
-  }
 }
 
-/* iPhone-sized phones — tighten hero type without shrinking into illegibility */
+/* iPhone-sized — keep tagline on one line */
 @media (max-width: 430px) {
   .top-bar header h1.neon-title {
-    font-size: clamp(1.65rem, 10.5vw, 2rem);
-    letter-spacing: 0.01em;
+    font-size: clamp(1.7rem, 11vw, 2.05rem);
+  }
+
+  .neon-greeting,
+  .neon-greeting b {
+    font-size: clamp(0.44rem, 2.6vw, 0.56rem);
   }
 
   .top-bar header p.neon-subtitle {
-    font-size: 0.66rem;
-    max-width: 18rem;
-    padding: 0 0.25rem;
+    font-size: clamp(0.29rem, calc((100cqi - 1rem) / 54), 0.46rem);
   }
 }
 
@@ -3305,8 +3391,7 @@ body.light-theme .hero-photo:focus-visible {
   }
 
   .top-bar header p.neon-subtitle {
-    font-size: 0.62rem;
-    max-width: 16.5rem;
+    font-size: clamp(0.27rem, calc((100cqi - 0.75rem) / 56), 0.42rem);
   }
 }
 
