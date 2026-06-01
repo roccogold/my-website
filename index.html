@@ -55,8 +55,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jersey+10&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -224,8 +223,8 @@
   --page-max: 1000px;
   --page-gutter: clamp(1rem, 4vw, 2rem);
 
-  /* Mobile pixel display — Jersey 10 (desktop uses Press Start 2P) */
-  --font-pixel-mobile: 'Jersey 10', sans-serif;
+  /* Titles (ROCCO + section headers) — Bungee, urban-signage display */
+  --font-pixel-mobile: 'Bungee', 'Arial Black', sans-serif;
   
   --main-font: 'JetBrains Mono', 'Courier New', monospace;
   --font-hand: 'Caveat', 'Segoe Script', cursive;
@@ -567,13 +566,13 @@ body:focus-within {
   transform: translateY(2px);
 }
 
-/* Pixel hover hint (matches ROCCO 8-bit aesthetic) */
+/* Pixel hover hint (matches ROCCO Departure Mono aesthetic) */
 .theme-toggle__hint {
   position: absolute;
   left: 50%;
   bottom: calc(100% + 4px);
   z-index: 3;
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--font-pixel-mobile);
   font-size: 0.5rem;
   font-weight: 400;
   line-height: 1;
@@ -1159,43 +1158,26 @@ body.light-theme .mobile-nav-item.contact:active {
 
 .top-bar header h1.neon-title {
   margin: 0.4rem 0 0.6rem 0;
-  font-size: clamp(2rem, 6vw, 3.6rem);
+  font-size: clamp(1.8rem, 5.5vw, 3.4rem);
   font-weight: 400;
-  font-family: 'Press Start 2P', monospace;
-  letter-spacing: 0.04em;
+  font-family: var(--font-pixel-mobile);
+  letter-spacing: 0.01em;
   line-height: 1;
   transform: none;
   text-transform: uppercase;
-  -webkit-text-stroke: 2px var(--neon-dark);
-  paint-order: stroke fill;
+  -webkit-text-stroke: 0;
+  paint-order: normal;
 }
 
-/* ROCCO title — 8-bit chunky pixel, layered shadow for thickness */
+/* ROCCO title — Bungee, flat urban-signage treatment */
 .top-bar header h1.neon-title {
   color: var(--neon-dark);
-  text-shadow:
-    3px 0 0 var(--neon-dark),
-    -3px 0 0 var(--neon-dark),
-    0 3px 0 var(--neon-dark),
-    0 -3px 0 var(--neon-dark),
-    4px 4px 0 #b18cd9,
-    7px 7px 0 #9a77c6,
-    10px 10px 0 #8859b8,
-    0 22px 40px rgba(154, 119, 198, 0.32);
+  text-shadow: none;
 }
 
 body.light-theme .top-bar header h1.neon-title {
   color: var(--neon-light);
-  -webkit-text-stroke-color: var(--neon-light);
-  text-shadow:
-    3px 0 0 var(--neon-light),
-    -3px 0 0 var(--neon-light),
-    0 3px 0 var(--neon-light),
-    0 -3px 0 var(--neon-light),
-    4px 4px 0 #a78bfa,
-    7px 7px 0 #7c3aed,
-    10px 10px 0 #6d28d9,
-    0 22px 40px rgba(107, 70, 193, 0.22);
+  text-shadow: none;
 }
       
 .hero-greeting-row {
@@ -1690,21 +1672,14 @@ body.light-theme .view-all-btn:hover {
 
 .tron-header h2 {
   font-family: var(--font-pixel-mobile);
-  font-size: clamp(1rem, 3.2vw, 1.5rem);
+  font-size: clamp(1.1rem, 3.2vw, 1.6rem);
   font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 1;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
   color: var(--neon-dark);
-  -webkit-text-stroke: 1.5px var(--neon-dark);
-  paint-order: stroke fill;
-  text-shadow:
-    2px 0 0 var(--neon-dark),
-    -2px 0 0 var(--neon-dark),
-    0 2px 0 var(--neon-dark),
-    0 -2px 0 var(--neon-dark),
-    3px 3px 0 #b18cd9,
-    5px 5px 0 #9a77c6,
-    7px 7px 0 #8859b8;
+  -webkit-text-stroke: 0;
+  paint-order: normal;
+  text-shadow: none;
   margin: 0;
   /* Scroll-driven reveal — Chrome 115+, graceful fallback for others */
   animation: section-reveal linear both;
@@ -1714,15 +1689,7 @@ body.light-theme .view-all-btn:hover {
 
 body.light-theme .tron-header h2 {
   color: var(--neon-light);
-  -webkit-text-stroke-color: var(--neon-light);
-  text-shadow:
-    2px 0 0 var(--neon-light),
-    -2px 0 0 var(--neon-light),
-    0 2px 0 var(--neon-light),
-    0 -2px 0 var(--neon-light),
-    3px 3px 0 #a78bfa,
-    5px 5px 0 #7c3aed,
-    7px 7px 0 #6d28d9;
+  text-shadow: none;
 }
 
 .bracket {
@@ -3128,7 +3095,7 @@ body.light-theme .hero-photo:focus-visible {
     margin: 0.2rem auto 0.15rem;
   }
 
-  /* Hero tagline — mono only (never Jersey 10) */
+  /* Hero tagline — mono only (never the pixel title font) */
   .top-bar header p.neon-subtitle {
     font-family: var(--main-font) !important;
     font-weight: 500 !important;
@@ -3199,13 +3166,13 @@ body.light-theme .hero-photo:focus-visible {
 /* iPhone-sized — keep tagline on one line */
 @media (max-width: 430px) {
   .top-bar header h1.hero-pixel-mobile {
-    font-size: 2rem !important;
-    letter-spacing: 0.02em;
+    font-size: 2.1rem !important;
+    letter-spacing: 0.01em;
   }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: 1.1rem !important;
+    font-size: 1.2rem !important;
   }
 
   .top-bar header p.neon-subtitle {
@@ -3220,13 +3187,13 @@ body.light-theme .hero-photo:focus-visible {
   }
 
   .top-bar header h1.hero-pixel-mobile {
-    font-size: 1.75rem !important;
-    letter-spacing: 0.02em;
+    font-size: 1.8rem !important;
+    letter-spacing: 0.01em;
   }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
   }
 
   .top-bar header p.neon-subtitle {
@@ -4918,7 +4885,7 @@ body.light-theme [title]:hover {
 /* Closing section title — same pixel scale as .tron-header h2 */
 .closing-section-title {
   font-family: var(--font-pixel-mobile);
-  font-size: clamp(1rem, 3.2vw, 1.5rem);
+  font-size: clamp(1.1rem, 3.2vw, 1.6rem);
   font-weight: 400;
   text-align: center;
   margin-top: 2rem;
@@ -5167,16 +5134,9 @@ body.light-theme .metric-number {
 
 .closing-section-title span.char.active {
   color: var(--neon-dark);
-  -webkit-text-stroke: 1.5px var(--neon-dark);
-  paint-order: stroke fill;
-  text-shadow:
-    2px 0 0 var(--neon-dark),
-    -2px 0 0 var(--neon-dark),
-    0 2px 0 var(--neon-dark),
-    0 -2px 0 var(--neon-dark),
-    3px 3px 0 #b18cd9,
-    5px 5px 0 #9a77c6,
-    7px 7px 0 #8859b8;
+  -webkit-text-stroke: 0;
+  paint-order: normal;
+  text-shadow: none;
 }
 
 body.light-theme .closing-section-title span.char {
@@ -5186,15 +5146,8 @@ body.light-theme .closing-section-title span.char {
 
 body.light-theme .closing-section-title span.char.active {
   color: var(--neon-light);
-  -webkit-text-stroke: 1.5px var(--neon-light);
-  text-shadow:
-    2px 0 0 var(--neon-light),
-    -2px 0 0 var(--neon-light),
-    0 2px 0 var(--neon-light),
-    0 -2px 0 var(--neon-light),
-    3px 3px 0 #a78bfa,
-    5px 5px 0 #7c3aed,
-    7px 7px 0 #6d28d9;
+  -webkit-text-stroke: 0;
+  text-shadow: none;
 }
 
 /* Mobile closing char pixel — see end-of-stylesheet block */
@@ -5818,7 +5771,7 @@ body.light-theme .scrolly-step-link {
   max-width: 100%;
 }
 
-/* ═══ Mobile pixel — Jersey 10: ROCCO, section subtitles, closing (not hero tagline) ═══ */
+/* ═══ Mobile titles — Bungee (urban signage): ROCCO, section headers, closing ═══ */
 @media (max-width: 768px) {
   h1.hero-pixel-mobile,
   .tron-header h2,
@@ -5828,10 +5781,9 @@ body.light-theme .scrolly-step-link {
     font-style: normal !important;
     -webkit-text-stroke: 0 !important;
     paint-order: normal !important;
-    -webkit-font-smoothing: none !important;
+    -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
-    font-smooth: never !important;
-    text-rendering: geometricPrecision !important;
+    text-rendering: optimizeLegibility !important;
     filter: none !important;
     background: transparent !important;
   }
@@ -5840,27 +5792,27 @@ body.light-theme .scrolly-step-link {
   .tron-header h2 {
     opacity: 1 !important;
     color: var(--neon-dark) !important;
-    text-shadow: 2px 2px 0 #9a77c6 !important;
+    text-shadow: none !important;
   }
 
   body.light-theme h1.hero-pixel-mobile,
   body.light-theme .tron-header h2 {
     color: var(--neon-light) !important;
-    text-shadow: 2px 2px 0 #7c3aed !important;
+    text-shadow: none !important;
   }
 
   .top-bar header h1.hero-pixel-mobile {
-    font-size: clamp(1.85rem, 11.5vw, 2.35rem) !important;
-    letter-spacing: 0.03em !important;
-    line-height: 1.15 !important;
+    font-size: clamp(1.9rem, 11vw, 2.6rem) !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1.05 !important;
     text-transform: uppercase !important;
   }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: clamp(1rem, 4.8vw, 1.35rem) !important;
-    letter-spacing: 0.02em !important;
-    line-height: 1.2 !important;
+    font-size: clamp(1.05rem, 4.8vw, 1.45rem) !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1.25 !important;
   }
 
   .closing-section-title span.char {
@@ -5872,12 +5824,12 @@ body.light-theme .scrolly-step-link {
   .closing-section-title span.char.active {
     color: var(--neon-dark) !important;
     -webkit-text-stroke: 0 !important;
-    text-shadow: 2px 2px 0 #9a77c6 !important;
+    text-shadow: none !important;
   }
 
   body.light-theme .closing-section-title span.char.active {
     color: var(--neon-light) !important;
-    text-shadow: 2px 2px 0 #7c3aed !important;
+    text-shadow: none !important;
   }
 }
 
