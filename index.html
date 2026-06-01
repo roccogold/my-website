@@ -64,7 +64,7 @@
 <meta property="og:description" content="Product Manager at Moody's Analytics specializing in API development, third-party risk management and fintech solutions. Previously at Bitpanda." />
 <meta property="og:locale" content="en_US" />
 <meta property="og:site_name" content="Rocco Goldschmidt Portfolio" />
-<meta property="og:image" content="https://roccogold.com/og-color.png" />
+<meta property="og:image" content="https://roccogold.com/assets/og-hero.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Rocco Goldschmidt Portfolio" />
@@ -73,7 +73,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Rocco Goldschmidt" />
 <meta name="twitter:description" content="Product Manager focused on building projects at the intersection of design, tech, and finance." />
-<meta name="twitter:image" content="https://roccogold.com/og-color.png" />
+<meta name="twitter:image" content="https://roccogold.com/assets/og-hero.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
 
 <meta name="geo.region" content="IT-25" />
@@ -1137,6 +1137,21 @@ body.light-theme .mobile-nav-item.contact:active {
   container-type: inline-size;
   min-height: auto;
   display: block;
+}
+
+/* Desktop: hero fills the viewport so the next section never peeks in on tall screens */
+@media (min-width: 901px) {
+  .top-bar {
+    min-height: 100vh;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 @container (max-width: 480px) {
@@ -3500,7 +3515,7 @@ body.light-theme .title-links a:focus-visible {
   background: rgba(154, 119, 198, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(154, 119, 198, 0.2);
   border-radius: 10px;
   padding: var(--space-sm) var(--space-md);
   margin: var(--space-sm) 0;
@@ -3555,6 +3570,7 @@ body.light-theme .thesis-card::after {
 
 .thesis-card:hover {
   background: rgba(154, 119, 198, 0.15);
+  border-color: var(--accent-dark);
   transform: scale(1.01);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
@@ -3562,7 +3578,7 @@ body.light-theme .thesis-card::after {
 /* Light theme support */
 body.light-theme .thesis-card {
   background: rgba(107, 70, 193, 0.1);
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(107, 70, 193, 0.2);
 }
 
 body.light-theme .thesis-card::before {
@@ -3571,6 +3587,7 @@ body.light-theme .thesis-card::before {
 
 body.light-theme .thesis-card:hover {
   background: rgba(107, 70, 193, 0.15);
+  border-color: var(--accent-light);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
