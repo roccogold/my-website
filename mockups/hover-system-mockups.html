@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hover system mockups — pick one for the whole site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      :root {
+        --accent-dark: #9a77c6;
+        --accent-dark-hover: #b18cd9;
+        --bg-dark: #111;
+        --text-dark: #e5e5e5;
+        --bg-light: #ffffff;
+        --text-light: #1a1a1a;
+        --accent-light: #6b46c1;
+        --accent-light-hover: #7c3aed;
+        --neon-dark: #d4b5f7;
+        --neon-light: #8b5cf6;
+        --main-font: "JetBrains Mono", "Courier New", monospace;
+        --font-title: "Bagel Fat One", sans-serif;
+        --chip-stroke: rgba(154, 119, 198, 0.3);
+        --card-bg: rgba(154, 119, 198, 0.1);
+        --card-stroke: rgba(154, 119, 198, 0.22);
+        --ease: 0.22s ease;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--main-font);
+        color: var(--text-dark);
+        min-height: 100vh;
+        line-height: 1.5;
+        background: radial-gradient(1100px 600px at 25% 10%, rgba(139, 92, 246, 0.16), transparent 55%),
+          radial-gradient(900px 600px at 85% 85%, rgba(154, 119, 198, 0.12), transparent 50%),
+          linear-gradient(180deg, #0c0b0f 0%, var(--bg-dark) 100%);
+        background-attachment: fixed;
+      }
+
+      body.light-theme {
+        color: var(--text-light);
+        background: radial-gradient(1100px 600px at 20% 5%, rgba(139, 92, 246, 0.14), transparent 55%),
+          radial-gradient(900px 600px at 90% 90%, rgba(124, 58, 237, 0.1), transparent 55%),
+          linear-gradient(180deg, #faf8ff 0%, var(--bg-light) 100%);
+      }
+
+      .labbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding: 0.75rem 1.1rem;
+        background: rgba(10, 9, 12, 0.85);
+        border-bottom: 1px solid var(--card-stroke);
+        backdrop-filter: blur(14px);
+      }
+      body.light-theme .labbar {
+        background: rgba(255, 255, 255, 0.85);
+        border-bottom-color: rgba(107, 70, 193, 0.14);
+      }
+      .labbar h1 {
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--accent-dark);
+        font-weight: 700;
+      }
+      body.light-theme .labbar h1 {
+        color: var(--accent-light);
+      }
+      .labbar p {
+        font-size: 0.62rem;
+        opacity: 0.65;
+        max-width: 52ch;
+        margin-top: 0.2rem;
+      }
+      .labbtn {
+        font-family: var(--main-font);
+        font-size: 0.62rem;
+        font-weight: 600;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        border: 1px solid var(--chip-stroke);
+        background: rgba(154, 119, 198, 0.12);
+        color: inherit;
+        cursor: pointer;
+      }
+
+      .shell {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 1.25rem clamp(1rem, 4vw, 2rem) 4rem;
+      }
+
+      .intro {
+        margin-bottom: 2rem;
+        padding: 1rem 1.1rem;
+        border: 1px dashed var(--chip-stroke);
+        border-radius: 12px;
+        font-size: 0.68rem;
+        opacity: 0.85;
+      }
+      .intro strong {
+        color: var(--accent-dark);
+      }
+      body.light-theme .intro strong {
+        color: var(--accent-light);
+      }
+      .intro ul {
+        margin: 0.6rem 0 0 1.1rem;
+      }
+      .intro li {
+        margin: 0.25rem 0;
+      }
+
+      .variant {
+        margin-bottom: 2.5rem;
+        padding: 1.15rem 1.2rem 1.35rem;
+        border-radius: 16px;
+        border: 1px solid var(--card-stroke);
+        background: rgba(255, 255, 255, 0.03);
+      }
+      body.light-theme .variant {
+        background: rgba(255, 255, 255, 0.65);
+        box-shadow: 0 12px 32px rgba(107, 70, 193, 0.08);
+      }
+      .variant.is-pick {
+        border-color: var(--accent-dark);
+        box-shadow: 0 0 0 2px rgba(154, 119, 198, 0.35);
+      }
+      body.light-theme .variant.is-pick {
+        border-color: var(--accent-light);
+        box-shadow: 0 0 0 2px rgba(107, 70, 193, 0.25);
+      }
+
+      .variant-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      .variant-num {
+        font-family: var(--font-title);
+        font-size: 1.1rem;
+        color: var(--neon-dark);
+        font-weight: 400;
+        text-transform: lowercase;
+      }
+      body.light-theme .variant-num {
+        color: var(--neon-light);
+      }
+      .variant-desc {
+        font-size: 0.64rem;
+        opacity: 0.7;
+        max-width: 42ch;
+        margin-top: 0.25rem;
+      }
+      .pick-btn {
+        font-family: var(--main-font);
+        font-size: 0.58rem;
+        padding: 0.35rem 0.7rem;
+        border-radius: 8px;
+        border: 1px solid var(--chip-stroke);
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .pick-btn[aria-pressed="true"] {
+        background: rgba(154, 119, 198, 0.25);
+        border-color: var(--accent-dark);
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      @media (max-width: 720px) {
+        .demo-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .demo-label {
+        font-size: 0.55rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.45;
+        margin-bottom: 0.5rem;
+      }
+
+      /* ── Shared primitives (base state matches live site) ── */
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-bottom: 0.65rem;
+      }
+      .tag {
+        font-size: 0.6rem;
+        padding: 0.22rem 0.65rem;
+        border: 1px solid var(--chip-stroke);
+        border-radius: 20px;
+        color: var(--accent-dark);
+        letter-spacing: 0.04em;
+        transition: all var(--ease);
+      }
+      body.light-theme .tag {
+        color: var(--accent-light);
+        border-color: rgba(107, 70, 193, 0.3);
+      }
+
+      .work-url {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        width: 100%;
+        font-size: 0.65rem;
+        color: var(--accent-dark);
+        opacity: 0.55;
+        text-decoration: none;
+        letter-spacing: 0.06em;
+        padding: 0.55rem 0.75rem;
+        border-radius: 8px;
+        transition: all var(--ease);
+      }
+      body.light-theme .work-url {
+        color: var(--accent-light);
+      }
+
+      .icons {
+        display: flex;
+        gap: 1.25rem;
+        margin: 0.5rem 0;
+      }
+      .icons a {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.35rem;
+        color: var(--accent-dark);
+        text-decoration: none;
+        transition: all var(--ease);
+      }
+      body.light-theme .icons a {
+        color: var(--accent-light);
+      }
+
+      .proj-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-stroke);
+        border-radius: 16px;
+        padding: 1rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.28s ease;
+      }
+      body.light-theme .proj-card {
+        background: rgba(107, 70, 193, 0.08);
+        border-color: rgba(107, 70, 193, 0.16);
+      }
+      .proj-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        left: -100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+        transition: left 0.55s ease;
+        pointer-events: none;
+      }
+      .proj-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--accent-dark);
+        margin-bottom: 0.45rem;
+      }
+      body.light-theme .proj-title {
+        color: var(--accent-light);
+      }
+      .proj-body {
+        font-size: 0.68rem;
+        line-height: 1.55;
+        opacity: 0.88;
+      }
+
+      .badge-rec {
+        font-size: 0.55rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent-dark);
+        border: 1px solid var(--accent-dark);
+        border-radius: 6px;
+        padding: 0.2rem 0.45rem;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+      body.light-theme .badge-rec {
+        color: var(--accent-light);
+        border-color: var(--accent-light);
+      }
+
+      /* ═══ V0 — Current site (mixed) ═══ */
+      .v0 .work-url:hover {
+        opacity: 1;
+        outline: 2px solid var(--accent-dark);
+        outline-offset: 2px;
+        border-radius: 2px;
+        animation: linkPulse 0.3s ease;
+      }
+      @keyframes linkPulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      .v0 .icons a:hover {
+        transform: scale(1.3);
+        filter: drop-shadow(0 0 20px rgba(154, 119, 198, 0.9));
+        color: var(--accent-dark-hover);
+      }
+      body.light-theme .v0 .icons a:hover {
+        filter: drop-shadow(0 0 20px rgba(107, 70, 193, 0.9));
+        color: var(--accent-light-hover);
+      }
+      .v0 .proj-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: rgba(154, 119, 198, 0.4);
+        box-shadow: 0 20px 40px rgba(154, 119, 198, 0.3);
+      }
+      .v0 .proj-card:hover::after {
+        left: 100%;
+      }
+      .v0 .tag:hover {
+        transform: scale(1.05);
+        background: rgba(154, 119, 198, 0.35);
+      }
+
+      /* ═══ V1 — Quiet tint (no motion on icons) ═══ */
+      .v1 .work-url:hover {
+        opacity: 1;
+        background: rgba(154, 119, 198, 0.12);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        outline: none;
+      }
+      body.light-theme .v1 .work-url:hover {
+        background: rgba(107, 70, 193, 0.1);
+      }
+      .v1 .icons a:hover {
+        color: var(--accent-dark-hover);
+      }
+      body.light-theme .v1 .icons a:hover {
+        color: var(--accent-light-hover);
+      }
+      .v1 .proj-card:hover {
+        background: rgba(154, 119, 198, 0.18);
+        border-color: var(--accent-dark);
+      }
+      body.light-theme .v1 .proj-card:hover {
+        background: rgba(107, 70, 193, 0.14);
+        border-color: var(--accent-light);
+      }
+      .v1 .tag:hover {
+        background: rgba(154, 119, 198, 0.22);
+        border-color: var(--accent-dark);
+      }
+
+      /* ═══ V2 — Micro lift (2px, no scale) ═══ */
+      .v2 .work-url:hover {
+        opacity: 1;
+        transform: translateY(-1px);
+        border: 1px solid rgba(154, 119, 198, 0.45);
+        outline: none;
+        text-decoration: none;
+      }
+      .v2 .icons a:hover {
+        color: var(--accent-dark-hover);
+        opacity: 1;
+      }
+      .v2 .proj-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent-dark);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      }
+      .v2 .tag:hover {
+        transform: translateY(-1px);
+        border-color: var(--accent-dark);
+      }
+
+      /* ═══ V3 — Opacity only (scrolly-style, extended) ═══ */
+      .v3 .work-url:hover {
+        opacity: 1;
+        outline: none;
+        text-decoration: none;
+      }
+      .v3 .icons a:hover {
+        opacity: 0.65;
+        color: var(--accent-dark);
+      }
+      body.light-theme .v3 .icons a:hover {
+        color: var(--accent-light);
+      }
+      .v3 .proj-card:hover {
+        opacity: 1;
+        filter: brightness(1.08);
+      }
+      .v3 .tag:hover {
+        opacity: 1;
+      }
+
+      /* ═══ V4 — Border bloom ═══ */
+      .v4 .work-url {
+        border: 1px solid transparent;
+      }
+      .v4 .work-url:hover {
+        opacity: 1;
+        border-color: var(--accent-dark);
+        outline: none;
+        text-decoration: none;
+      }
+      body.light-theme .v4 .work-url:hover {
+        border-color: var(--accent-light);
+      }
+      .v4 .icons a:hover {
+        color: var(--accent-dark-hover);
+        box-shadow: inset 0 0 0 1px rgba(154, 119, 198, 0.5);
+        border-radius: 8px;
+      }
+      .v4 .proj-card:hover {
+        border-color: var(--accent-dark);
+        box-shadow: 0 0 0 1px rgba(154, 119, 198, 0.25);
+      }
+      .v4 .tag:hover {
+        border-color: var(--accent-dark);
+        background: rgba(154, 119, 198, 0.08);
+      }
+
+      /* ═══ V5 — Underline slide ═══ */
+      .v5 .work-url {
+        background-image: linear-gradient(var(--accent-dark), var(--accent-dark));
+        background-size: 0% 1px;
+        background-repeat: no-repeat;
+        background-position: 0 100%;
+      }
+      body.light-theme .v5 .work-url {
+        background-image: linear-gradient(var(--accent-light), var(--accent-light));
+      }
+      .v5 .work-url:hover {
+        opacity: 1;
+        background-size: 100% 1px;
+        outline: none;
+      }
+      .v5 .icons a:hover {
+        color: var(--accent-dark-hover);
+      }
+      .v5 .proj-card:hover {
+        transform: translateY(-1px);
+      }
+      .v5 .proj-card:hover .proj-title {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .v5 .tag:hover {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      /* ═══ V6 — Soft shadow (no transform) ═══ */
+      .v6 .work-url:hover {
+        opacity: 1;
+        box-shadow: 0 4px 14px rgba(154, 119, 198, 0.25);
+        outline: none;
+        text-decoration: none;
+      }
+      .v6 .icons a:hover {
+        color: var(--accent-dark-hover);
+      }
+      .v6 .proj-card:hover {
+        box-shadow: 0 12px 28px rgba(154, 119, 198, 0.22);
+        border-color: rgba(154, 119, 198, 0.35);
+      }
+      .v6 .tag:hover {
+        box-shadow: 0 2px 8px rgba(154, 119, 198, 0.2);
+      }
+
+      /* ═══ V7 — Unified subtle (recommended) ═══ */
+      .v7 .work-url:hover {
+        opacity: 1;
+        color: var(--accent-dark-hover);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+        outline: none;
+        transform: none;
+      }
+      body.light-theme .v7 .work-url:hover {
+        color: var(--accent-light-hover);
+      }
+      .v7 .icons a:hover {
+        color: var(--accent-dark-hover);
+      }
+      body.light-theme .v7 .icons a:hover {
+        color: var(--accent-light-hover);
+      }
+      .v7 .proj-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(154, 119, 198, 0.45);
+        box-shadow: 0 10px 24px rgba(154, 119, 198, 0.18);
+        background: rgba(154, 119, 198, 0.14);
+      }
+      body.light-theme .v7 .proj-card:hover {
+        border-color: rgba(107, 70, 193, 0.4);
+        box-shadow: 0 10px 24px rgba(107, 70, 193, 0.12);
+      }
+      .v7 .proj-card:hover::after {
+        left: 100%;
+      }
+      .v7 .tag:hover {
+        background: rgba(154, 119, 198, 0.2);
+        border-color: rgba(154, 119, 198, 0.5);
+      }
+
+      /* ═══ V8 — Flat editorial (zero animation) ═══ */
+      .v8 .work-url:hover,
+      .v8 .icons a:hover,
+      .v8 .proj-card:hover,
+      .v8 .tag:hover {
+        opacity: 1;
+        color: var(--accent-dark-hover);
+        outline: none;
+        transform: none;
+        box-shadow: none;
+        filter: none;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .v8 .proj-card:hover {
+        border-color: var(--accent-dark);
+        background: rgba(154, 119, 198, 0.12);
+        text-decoration: none;
+      }
+      .v8 .proj-card:hover .proj-title {
+        text-decoration: underline;
+      }
+      .v8 .icons a:hover {
+        text-decoration: none;
+      }
+
+      .picked-banner {
+        position: fixed;
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 0.55rem 1rem;
+        font-size: 0.62rem;
+        background: rgba(10, 9, 12, 0.92);
+        border: 1px solid var(--accent-dark);
+        border-radius: 999px;
+        display: none;
+        z-index: 60;
+      }
+      body.light-theme .picked-banner {
+        background: rgba(255, 255, 255, 0.95);
+      }
+      .picked-banner.visible {
+        display: block;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition-duration: 0.01ms !important;
+        }
+        .v0 .work-url:hover,
+        .v2 .work-url:hover,
+        .v2 .proj-card:hover,
+        .v2 .tag:hover,
+        .v5 .proj-card:hover,
+        .v7 .proj-card:hover {
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="labbar">
+      <div>
+        <h1>Hover system lab</h1>
+        <p>Hover each row: work URL · social icons · project cards. Pick one — we apply it site-wide.</p>
+      </div>
+      <button type="button" class="labbtn" id="themeBtn" aria-pressed="false">Toggle light theme</button>
+    </header>
+
+    <main class="shell">
+      <div class="intro">
+        <strong>What’s broken today (V0):</strong> work links get a global outline + pulse; icons scale 1.3× with glow;
+        project cards jump <code>translateY(-8px) scale(1.02)</code> — feels inconsistent.
+        <ul>
+          <li>Icons: all variants below use <strong>color only</strong> (no scale / glow).</li>
+          <li>Projects: capped lift — no more “grow a lot”.</li>
+          <li>Work URLs: intentional hover, not accidental global <code>a:hover</code>.</li>
+        </ul>
+      </div>
+
+      <!-- V0 -->
+      <section class="variant v0" data-variant="0" id="v0">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">0 — current (mixed)</div>
+            <p class="variant-desc">Baseline: pulse + outline on links, 1.3× icon glow, big card lift. For comparison only.</p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="0">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags">
+              <span class="tag">Operations Platform</span>
+              <span class="tag">Crypto</span>
+              <span class="tag">Fintech</span>
+            </div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- V1 -->
+      <section class="variant v1" data-variant="1" id="v1">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">1 — quiet tint</div>
+            <p class="variant-desc">Background wash + underline on links. Cards/tags tint only. Calm, editorial.</p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="1">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags"><span class="tag">Operations Platform</span><span class="tag">Crypto</span><span class="tag">Fintech</span></div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#"><i class="fas fa-envelope"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- V2 -->
+      <section class="variant v2" data-variant="2" id="v2">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">2 — micro lift</div>
+            <p class="variant-desc">1–2px nudge on cards/links. Icons stay flat. Feels tactile without scaling.</p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="2">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags"><span class="tag">Operations Platform</span><span class="tag">Crypto</span><span class="tag">Fintech</span></div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#"><i class="fas fa-envelope"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- V3 -->
+      <section class="variant v3" data-variant="3" id="v3">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">3 — opacity only</div>
+            <p class="variant-desc">Extends today’s scrolly link behavior everywhere. Ultra minimal motion.</p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="3">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags"><span class="tag">Operations Platform</span><span class="tag">Crypto</span><span class="tag">Fintech</span></div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#"><i class="fas fa-envelope"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- V4 -->
+      <section class="variant v4" data-variant="4" id="v4">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">4 — border bloom</div>
+            <p class="variant-desc">Purple border intensifies on hover (matches your work URL screenshot). No scale.</p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="4">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags"><span class="tag">Operations Platform</span><span class="tag">Crypto</span><span class="tag">Fintech</span></div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#"><i class="fas fa-envelope"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- V5 -->
+      <section class="variant v5" data-variant="5" id="v5">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">5 — underline slide</div>
+            <p class="variant-desc">Animated underline on links; cards lift 1px + title underline. Typographic feel.</p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="5">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags"><span class="tag">Operations Platform</span><span class="tag">Crypto</span><span class="tag">Fintech</span></div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#"><i class="fas fa-envelope"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- V6 -->
+      <section class="variant v6" data-variant="6" id="v6">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">6 — soft shadow</div>
+            <p class="variant-desc">Depth via shadow only — no transform. Good for glass cards.</p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="6">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags"><span class="tag">Operations Platform</span><span class="tag">Crypto</span><span class="tag">Fintech</span></div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#"><i class="fas fa-envelope"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- V7 recommended -->
+      <section class="variant v7" data-variant="7" id="v7">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">
+              7 — unified subtle
+              <span class="badge-rec">recommended</span>
+            </div>
+            <p class="variant-desc">
+              One language: links → opacity + underline; icons → color shift; cards → 2px lift + soft shadow (keeps
+              shimmer); tags → tint. Best balance for your PM + photo portfolio.
+            </p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="7">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags"><span class="tag">Operations Platform</span><span class="tag">Crypto</span><span class="tag">Fintech</span></div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#"><i class="fas fa-envelope"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- V8 -->
+      <section class="variant v8" data-variant="8" id="v8">
+        <div class="variant-head">
+          <div>
+            <div class="variant-num">8 — flat editorial</div>
+            <p class="variant-desc">Underline + color only everywhere. Zero lift, zero shimmer. Most restrained.</p>
+          </div>
+          <button type="button" class="pick-btn" data-pick="8">Pick this</button>
+        </div>
+        <div class="demo-grid">
+          <div>
+            <p class="demo-label">Work — tags + URL</p>
+            <div class="tags"><span class="tag">Operations Platform</span><span class="tag">Crypto</span><span class="tag">Fintech</span></div>
+            <a class="work-url" href="#"><i class="fas fa-external-link-alt"></i> Bitpanda</a>
+            <p class="demo-label" style="margin-top: 1rem">Icons</p>
+            <div class="icons">
+              <a href="#"><i class="fas fa-envelope"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          <div>
+            <p class="demo-label">Projects</p>
+            <div class="proj-card">
+              <div class="proj-title"><i class="fas fa-book"></i> API Portal</div>
+              <p class="proj-body">Developer documentation — quickstart, references, code samples.</p>
+            </div>
+            <div class="proj-card" style="margin-top: 0.65rem">
+              <div class="proj-title"><i class="fas fa-rocket"></i> API Search Performance</div>
+              <p class="proj-body">Search from ~30s to ~3s by restructuring upstream calls.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="picked-banner" id="pickedBanner" role="status"></div>
+
+    <script>
+      const themeBtn = document.getElementById("themeBtn");
+      const pickedBanner = document.getElementById("pickedBanner");
+      const labels = {
+        0: "0 — current (keep as-is)",
+        1: "1 — quiet tint",
+        2: "2 — micro lift",
+        3: "3 — opacity only",
+        4: "4 — border bloom",
+        5: "5 — underline slide",
+        6: "6 — soft shadow",
+        7: "7 — unified subtle (recommended)",
+        8: "8 — flat editorial",
+      };
+
+      themeBtn.addEventListener("click", () => {
+        const on = document.body.classList.toggle("light-theme");
+        themeBtn.setAttribute("aria-pressed", String(on));
+        themeBtn.textContent = on ? "Toggle dark theme" : "Toggle light theme";
+      });
+
+      document.querySelectorAll(".pick-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.pick;
+          document.querySelectorAll(".variant").forEach((v) => v.classList.remove("is-pick"));
+          document.querySelectorAll(".pick-btn").forEach((b) => b.setAttribute("aria-pressed", "false"));
+          document.getElementById("v" + id).classList.add("is-pick");
+          btn.setAttribute("aria-pressed", "true");
+          pickedBanner.textContent = "Picked: " + labels[id] + " — tell the agent this number to ship it.";
+          pickedBanner.classList.add("visible");
+        });
+      });
+
+      document.querySelectorAll(".work-url, .icons a, .proj-card").forEach((el) => {
+        el.addEventListener("click", (e) => e.preventDefault());
+      });
+    </script>
+  </body>
+</html>
