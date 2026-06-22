@@ -3909,11 +3909,10 @@ body.light-theme .photo-card:hover {
 }
 
 .lightbox-content img {
-  max-width: calc(100vw - 2rem);
-  max-height: calc(100vh - 2rem);
-  width: auto;
-  height: auto;
+  width: calc(100vw - 2rem);
+  height: calc(100vh - 2rem);
   object-fit: contain;
+  object-position: center;
   border-radius: 8px;
   display: block;
   cursor: default;
@@ -5704,17 +5703,17 @@ body.light-theme .scrolly-step-link:focus-visible {
     </div>
 
     <!-- Photo 7 - VISIBLE in initial tile (tile-pos 7) -->
-    <div class="photo-card" data-photo="assets/photos/morocco-alley-ocean.jpg" data-location="Agadir, Morocco" data-country="morocco">
-      <img src="assets/photos/morocco-alley-ocean.jpg"
-           alt="Boy sitting on a wall in a narrow alley with the ocean visible in the distance in Agadir, Morocco - Street photography by Rocco Goldschmidt"
+    <div class="photo-card" data-photo="assets/photos/morocco-beach-camel.jpg" data-location="Aourir, Morocco" data-country="morocco">
+      <img src="assets/photos/morocco-beach-camel.jpg"
+           alt="Camel handler and man in blue djellaba on the beach in Aourir, Morocco - Street photography by Rocco Goldschmidt"
            width="1200"
-           height="800"
+           height="795"
            loading="lazy"
            onload="this.classList.add('loaded')">
       <div class="photo-overlay">
         <div class="photo-location">
           <i class="fas fa-map-marker-alt"></i>
-          Agadir, Morocco
+          Aourir, Morocco
         </div>
       </div>
     </div>
@@ -6103,22 +6102,6 @@ body.light-theme .scrolly-step-link:focus-visible {
   </div>
 </div>
 
-<!-- Photo 28 - Morocco Beach Camel -->
-<div class="photo-card hidden-photo" data-photo="assets/photos/morocco-beach-camel.jpg" data-location="Aourir, Morocco" data-country="morocco">
-  <img src="assets/photos/morocco-beach-camel.jpg"
-       alt="Camel handler and man in blue djellaba on the beach in Aourir, Morocco - Street photography by Rocco Goldschmidt"
-       width="1200"
-       height="800"
-       loading="lazy"
-       onload="this.classList.add('loaded')">
-  <div class="photo-overlay">
-    <div class="photo-location">
-      <i class="fas fa-map-marker-alt"></i>
-      Aourir, Morocco
-    </div>
-  </div>
-</div>
-
 <!-- Photo 29 - Morocco Rooftop Crowd -->
 <div class="photo-card hidden-photo" data-photo="assets/photos/morocco-rooftop-crowd.jpg" data-location="Aourir, Morocco" data-country="morocco">
   <img src="assets/photos/morocco-rooftop-crowd.jpg"
@@ -6219,8 +6202,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/london-barbican-garden.jpg" data-location="London, United Kingdom" data-country="united-kingdom">
   <img src="assets/photos/london-barbican-garden.jpg"
        alt="Barbican Estate communal gardens with brutalist concrete towers in London, United Kingdom - Urban photography by Rocco Goldschmidt"
-       width="1001"
-       height="663"
+       width="1200"
+       height="795"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
