@@ -4222,6 +4222,263 @@ body.light-theme .loading-spinner {
 }
 
 
+/* ===== Work step "projects" highlights list ===== */
+.step-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid rgba(154, 119, 198, 0.28);
+}
+body.light-theme .step-highlights {
+  border-left-color: rgba(107, 70, 193, 0.28);
+}
+.step-highlights-label {
+  font-family: var(--main-font);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 0.1rem;
+}
+.step-highlight {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+}
+.step-highlight-icon {
+  color: var(--accent-dark);
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+body.light-theme .step-highlight-icon {
+  color: var(--accent-light);
+}
+.step-highlight-body {
+  flex: 1;
+}
+.step-highlight-title {
+  font-family: var(--main-font);
+  font-size: var(--font-sm);
+  font-weight: 700;
+  color: var(--accent-dark);
+  margin: 0 0 0.15rem;
+  line-height: 1.3;
+}
+body.light-theme .step-highlight-title {
+  color: var(--accent-light);
+}
+.step-highlight-text {
+  font-size: var(--font-sm);
+  line-height: 1.6;
+  opacity: 0.82;
+  margin: 0;
+}
+
+/* ===== Personal apps section ===== */
+.apps-intro {
+  text-align: left;
+  max-width: 100%;
+  margin: 0 auto 1.25rem;
+  font-size: var(--font-sm);
+  opacity: 0.75;
+  line-height: 1.6;
+}
+.apps-intro a {
+  color: var(--accent-dark);
+  text-decoration: underline;
+  text-decoration-color: rgba(154, 119, 198, 0.4);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+.apps-intro a:hover,
+.apps-intro a:focus-visible {
+  color: var(--accent-dark-hover);
+  text-decoration-color: var(--accent-dark-hover);
+}
+body.light-theme .apps-intro a {
+  color: var(--accent-light);
+  text-decoration-color: rgba(107, 70, 193, 0.4);
+}
+body.light-theme .apps-intro a:hover,
+body.light-theme .apps-intro a:focus-visible {
+  color: var(--accent-light-hover);
+  text-decoration-color: var(--accent-light-hover);
+}
+
+.apps-grid {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  margin-top: 1rem;
+}
+.app-card {
+  background: rgba(154, 119, 198, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1rem;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: var(--glass-shadow);
+}
+.app-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.app-card:hover::after { left: 100%; }
+body.light-theme .app-card::after {
+  background: linear-gradient(90deg, transparent, rgba(107, 70, 193, 0.25), transparent);
+}
+.app-card:hover {
+  background: rgba(154, 119, 198, 0.14);
+  border-color: rgba(154, 119, 198, 0.45);
+  transform: var(--hover-lift);
+  box-shadow: var(--hover-card-shadow);
+}
+body.light-theme .app-card {
+  background: rgba(107, 70, 193, 0.1);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+body.light-theme .app-card:hover {
+  background: rgba(107, 70, 193, 0.14);
+  border-color: rgba(107, 70, 193, 0.4);
+  box-shadow: var(--hover-card-shadow-light);
+}
+.app-card > * { position: relative; z-index: 2; }
+.app-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.app-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  box-sizing: border-box;
+}
+.app-name {
+  font-size: var(--font-md);
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-dark);
+}
+body.light-theme .app-name { color: var(--text-light); }
+.app-tagline {
+  font-size: var(--font-sm);
+  opacity: 0.85;
+  margin: 0;
+  line-height: 1.5;
+}
+.app-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.25rem;
+}
+.app-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: all var(--transition-normal);
+  font-family: var(--main-font);
+  cursor: pointer;
+}
+.app-pill--primary {
+  background: var(--accent-dark);
+  color: #0f0d14;
+  border: 1px solid transparent;
+}
+.app-pill--primary:hover,
+.app-pill--primary:focus-visible {
+  background: var(--accent-dark-hover);
+  color: #0f0d14;
+  transform: translateY(-1px);
+}
+body.light-theme .app-pill--primary {
+  background: var(--accent-light);
+  color: #ffffff;
+}
+body.light-theme .app-pill--primary:hover,
+body.light-theme .app-pill--primary:focus-visible {
+  background: var(--accent-light-hover);
+  color: #ffffff;
+}
+
+.app-pill-label {
+  display: inline-block;
+}
+.app-pill-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.15rem;
+  transform: rotate(-45deg);
+  transform-origin: center center;
+  transition: transform 0.32s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.app-pill-arrow svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+.app-pill--primary:hover .app-pill-arrow,
+.app-pill--primary:focus-visible .app-pill-arrow {
+  transform: rotate(0deg) translateX(3px);
+}
+.app-pill--ghost {
+  background: transparent;
+  color: var(--accent-dark);
+  border: 1px solid rgba(154, 119, 198, 0.4);
+}
+.app-pill--ghost:hover {
+  background: rgba(154, 119, 198, 0.12);
+  border-color: rgba(154, 119, 198, 0.7);
+  color: var(--accent-dark-hover);
+  transform: translateY(-1px);
+}
+body.light-theme .app-pill--ghost {
+  color: var(--accent-light);
+  border-color: rgba(107, 70, 193, 0.35);
+}
+body.light-theme .app-pill--ghost:hover {
+  background: rgba(107, 70, 193, 0.08);
+  border-color: rgba(107, 70, 193, 0.6);
+  color: var(--accent-light-hover);
+}
+@media (max-width: 768px) {
+  .app-logo { width: 28px; height: 28px; }
+  .app-pill { padding: 0.35rem 0.7rem; }
+}
+
+
 /* Experience Card Specific Styles */
 .experience-logo {
   width: 50px;
@@ -5273,7 +5530,7 @@ body.light-theme .scrolly-step-link:focus-visible {
     </button>
     <nav class="nav-bar" role="navigation" aria-label="Main navigation">
       <a href="#experience" class="nav-item">Work</a>
-      <a href="#projects" class="nav-item">Projects</a>
+      <a href="#projects" class="nav-item">Personal apps</a>
       <a href="#thesis" class="nav-item">Thesis</a>
       <a href="#photos" class="nav-item">Perspectives</a>
       <a href="#vibes" class="nav-item">Vibes</a>
@@ -5299,7 +5556,7 @@ body.light-theme .scrolly-step-link:focus-visible {
   </a>
   <a href="#projects" class="mobile-nav-item">
     <i class="fas fa-rocket"></i>
-    Projects
+    Personal apps
   </a>
   <a href="#thesis" class="mobile-nav-item">
     <i class="fas fa-graduation-cap"></i>
@@ -5372,7 +5629,7 @@ body.light-theme .scrolly-step-link:focus-visible {
         data-text-mobile="&lt; product thinker · design × tech × finance · photographer &gt;"></span></b></p>
 
       <p class="hero-description">
-        Product manager turning complex financial data into <span class="hl">simple</span> & <span class="hl">developer-first</span> products.
+        Product consultant turning complex financial data into <span class="hl">simple</span> & <span class="hl">developer-first</span> solutions.
       </p>
 
       <!-- Hero CTA Buttons -->
@@ -5404,7 +5661,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           <span class="hero-now-card__label">Now</span>
         </div>
         <p class="hero-now-card__body">
-          Building developer-first <strong>API infrastructure</strong> that turns fragmented compliance workflows into programmatic real-time risk decisions.
+          Delivering developer-first <strong>API products</strong> to clients — turning fragmented compliance workflows into programmatic real-time risk decisions.
         </p>
         <a href="#experience" class="hero-now-card__link">Jump to work ↓</a>
       </div>
@@ -5445,13 +5702,38 @@ body.light-theme .scrolly-step-link:focus-visible {
           <img src="assets/moodys-logo-light.png"  class="scrolly-step-logo scrolly-step-logo--light" alt="Moody's">
           <div class="scrolly-step-header-text">
             <span class="scrolly-step-num">01 / work</span>
-            <h3 class="scrolly-step-title">Product at Moody's</h3>
+            <h3 class="scrolly-step-title">Product &amp; Solution Delivery at Moody's</h3>
             <span class="scrolly-step-period">2023 — Present · Vienna, Austria</span>
           </div>
         </div>
         <p class="scrolly-step-body">
           Built developer-first API infrastructure that transforms fragmented compliance workflows into programmatic real-time risk decisions — cutting client integration time from weeks to days.
         </p>
+
+        <div class="step-highlights">
+          <div class="step-highlights-label">projects</div>
+
+          <div class="step-highlight">
+            <i class="fas fa-book step-highlight-icon" aria-hidden="true"></i>
+            <div class="step-highlight-body">
+              <h4 class="step-highlight-title">API Portal</h4>
+              <p class="step-highlight-text">
+                Designed end-to-end developer documentation — quickstart guides, integration references and code samples — to lower the barrier for clients embedding compliance data into their own products.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-highlight">
+            <i class="fas fa-rocket step-highlight-icon" aria-hidden="true"></i>
+            <div class="step-highlight-body">
+              <h4 class="step-highlight-title">API Search Performance</h4>
+              <p class="step-highlight-text">
+                Redesigned entity search by restructuring how upstream calls are orchestrated across multiple data connectors — cutting response times from <span class="counter" data-target="30" data-prefix="~" data-suffix="s">~30s</span> to <span class="counter" data-target="3" data-prefix="~" data-suffix="s">~3s</span> and delivering faster, more relevant results.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div class="scrolly-step-tags">
           <span class="scrolly-step-tag">API Design</span>
           <span class="scrolly-step-tag">Third-Party Risk</span>
@@ -5504,35 +5786,88 @@ body.light-theme .scrolly-step-link:focus-visible {
 
 <section aria-labelledby="projects-heading" class="reveal" id="projects">
   <div class="tron-header">
-    <h2 id="projects-heading">projects</h2>
+    <h2 id="projects-heading">personal apps</h2>
   </div>
-  
-  <div class="discoveries-grid">
-    <!-- API Documentation Portal Card -->
-    <div class="discovery-card">
-      <div class="card-header">
-        <i class="fas fa-book card-icon" aria-hidden="true"></i>
-        <h3 class="card-title">API Portal</h3>
-      </div>
-      <div class="card-content">
-        <div class="apod-description">
-          Designed end-to-end developer documentation — quickstart guides, integration references and code samples — to lower the barrier for clients embedding compliance data into their own products.
-        </div>
-      </div>
-    </div>
 
-    <!-- Performance Optimization Card -->
-    <div class="discovery-card">
-      <div class="card-header">
-        <i class="fas fa-rocket card-icon" aria-hidden="true"></i>
-        <h3 class="card-title">API Search Performance</h3>
+  <p class="apps-intro">
+    Both apps are built for private clients, <a href="#contact">write me</a> for a test-account access if you'd like a look inside.
+  </p>
+
+  <div class="apps-grid">
+
+    <!-- Stacca -->
+    <article class="app-card">
+      <div class="app-card-header">
+        <svg class="app-logo" viewBox="0 0 120 120" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stacca logo">
+          <rect width="120" height="120" fill="#3D4A35"/>
+          <g stroke="#FBF7F0" stroke-width="6" stroke-linecap="round">
+            <line x1="60" y1="36" x2="60" y2="26"/>
+            <line x1="38" y1="45" x2="31.5" y2="37.5"/>
+            <line x1="82" y1="45" x2="88.5" y2="37.5"/>
+          </g>
+          <defs><clipPath id="staccaHorizon"><rect x="0" y="0" width="120" height="71"/></clipPath></defs>
+          <circle cx="60" cy="71" r="22" fill="#FBF7F0" clip-path="url(#staccaHorizon)"/>
+          <line x1="22" y1="71" x2="98" y2="71" stroke="#FBF7F0" stroke-width="8.5" stroke-linecap="round"/>
+        </svg>
+        <h3 class="app-name">Stacca</h3>
       </div>
-      <div class="card-content">
-        <div class="apod-description">
-          Redesigned entity search by restructuring how upstream calls are orchestrated across multiple data connectors — cutting response times from <span class="counter" data-target="30" data-prefix="~" data-suffix="s">~30s</span> to <span class="counter" data-target="3" data-prefix="~" data-suffix="s">~3s</span> and delivering faster, more relevant results.
-        </div>
+      <p class="app-tagline">Mobile-first employee management for small teams — track hours, activities and work locations, and manage payroll in one place.</p>
+      <div class="app-links">
+        <a href="https://stacca-app.vercel.app/" target="_blank" rel="noopener noreferrer" class="app-pill app-pill--primary">
+          <span class="app-pill-label">Try it</span>
+          <span class="app-pill-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </span>
+        </a>
+        <a href="https://github.com/roccogold/stacca-app" target="_blank" rel="noopener noreferrer" class="app-pill app-pill--ghost">
+          <i class="fab fa-github" aria-hidden="true"></i> GitHub
+        </a>
       </div>
-    </div>
+    </article>
+
+    <!-- Dario -->
+    <article class="app-card">
+      <div class="app-card-header">
+        <svg class="app-logo" viewBox="0 0 64 64" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dario logo">
+          <circle cx="20" cy="18" r="12" fill="#5A7D5E"/>
+          <circle cx="44" cy="18" r="12" fill="#5A7D5E"/>
+          <path d="M12 24 C12 24 8 32 8 40 C8 52 18 56 32 56 C46 56 56 52 56 40 C56 32 52 24 52 24 C52 24 48 20 32 20 C16 20 12 24 12 24 Z" fill="#5A7D5E"/>
+          <circle cx="20" cy="18" r="7" fill="#FEFEFE"/>
+          <circle cx="44" cy="18" r="7" fill="#FEFEFE"/>
+          <circle cx="22" cy="18" r="4" fill="#2A3D2B"/>
+          <circle cx="42" cy="18" r="4" fill="#2A3D2B"/>
+          <circle cx="20" cy="16" r="1.5" fill="#FFFFFF"/>
+          <circle cx="40" cy="16" r="1.5" fill="#FFFFFF"/>
+          <path d="M24 44 Q32 50 40 44" stroke="#3D5340" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M24 8 L28 2 L32 6 L36 2 L40 8" stroke="#C9A052" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="28" cy="3" r="1.2" fill="#D4B06A"/>
+          <circle cx="32" cy="5" r="1.5" fill="#D4B06A"/>
+          <circle cx="36" cy="3" r="1.2" fill="#D4B06A"/>
+        </svg>
+        <h3 class="app-name">Dario</h3>
+      </div>
+      <p class="app-tagline">Digital production management for an artisan cheese farm — batches, protocols and daily activities.</p>
+      <div class="app-links">
+        <a href="https://dario-caseificio.vercel.app/" target="_blank" rel="noopener noreferrer" class="app-pill app-pill--primary">
+          <span class="app-pill-label">Try it</span>
+          <span class="app-pill-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </span>
+        </a>
+        <a href="https://github.com/roccogold/dario-app" target="_blank" rel="noopener noreferrer" class="app-pill app-pill--ghost">
+          <i class="fab fa-github" aria-hidden="true"></i> GitHub
+        </a>
+      </div>
+    </article>
+
+    <!-- To add another app: copy an <article class="app-card"> block above and update logo/name/tagline/links. -->
+
   </div>
 </section>
 
