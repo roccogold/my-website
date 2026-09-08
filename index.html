@@ -1379,37 +1379,64 @@ a.view-all-btn {
   font-weight: 600 !important;
 }
 
+/* Hover only — :focus-visible deliberately NOT grouped in here. It used to be,
+   which silently removed the keyboard focus ring from every one of these. */
 a.hero-btn-primary:hover,
 a.hero-btn-secondary:hover,
 a.view-all-btn:hover,
 a.nav-item:hover,
-a.nav-item:focus-visible,
 a.scrolly-step-link:hover,
-a.scrolly-step-link:focus-visible,
 a.hero-now-card__link:hover,
-a.hero-now-card__link:focus-visible,
 .title-links a:hover,
-.title-links a:focus-visible,
 .social a:hover,
-.social a:focus-visible,
 .thesis-icon-btn:hover,
-.thesis-icon-btn:focus-visible,
 .external-link-btn:hover,
-.external-link-btn:focus-visible,
 .form-social-icons a:hover,
-.form-social-icons a:focus-visible,
 #resumeDownload:hover,
-#resumeDownload:focus-visible,
-.arrow-link:hover,
-.arrow-link:focus-visible {
+.arrow-link:hover {
   outline: none !important;
   border-radius: inherit;
 }
 
-a.hero-photo:hover,
-a.hero-photo:focus-visible {
+/* Keyboard focus keeps a visible ring, with the same rounding as hover. */
+a.nav-item:focus-visible,
+a.scrolly-step-link:focus-visible,
+a.hero-now-card__link:focus-visible,
+.title-links a:focus-visible,
+.social a:focus-visible,
+.thesis-icon-btn:focus-visible,
+.external-link-btn:focus-visible,
+.form-social-icons a:focus-visible,
+#resumeDownload:focus-visible,
+.arrow-link:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 3px;
+  border-radius: inherit;
+}
+
+a.hero-photo:hover {
   outline: none !important;
   border-radius: var(--photo-tile-radius-hover) !important;
+}
+
+a.hero-photo:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 3px;
+  border-radius: var(--photo-tile-radius-hover) !important;
+}
+
+body.light-theme a.nav-item:focus-visible,
+body.light-theme a.scrolly-step-link:focus-visible,
+body.light-theme a.hero-now-card__link:focus-visible,
+body.light-theme .title-links a:focus-visible,
+body.light-theme .social a:focus-visible,
+body.light-theme .thesis-icon-btn:focus-visible,
+body.light-theme .external-link-btn:focus-visible,
+body.light-theme .form-social-icons a:focus-visible,
+body.light-theme #resumeDownload:focus-visible,
+body.light-theme .arrow-link:focus-visible,
+body.light-theme a.hero-photo:focus-visible {
+  outline-color: var(--accent-light);
 }
 
 a.hero-btn-primary:hover,
@@ -3730,11 +3757,9 @@ body.light-theme .thesis-icon-btn:focus-visible {
   visibility: hidden;
 }
 
-.photo-card {
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-              transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              visibility 0.5s ease;
-}
+/* NOTE: opacity/visibility transitions live in the main .photo-card rule further
+   down. They used to be declared here and were silently dead — that rule redefines
+   `transition` wholesale at equal specificity, so the later one won. */
 
 /* Stagger animation for appearing photos */
 .photo-card:not(.filtered-out) {
@@ -3836,8 +3861,20 @@ body.light-theme .thesis-icon-btn:focus-visible {
     transform var(--transition-normal),
     box-shadow var(--transition-normal),
     border-color var(--transition-normal),
-    border-radius var(--transition-normal);
+    border-radius var(--transition-normal),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.5s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* These are role="button" now, so they need a visible keyboard focus ring. */
+.photo-card:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 4px;
+}
+
+body.light-theme .photo-card:focus-visible {
+  outline-color: var(--accent-light);
 }
 
 .photo-card:hover {
@@ -5691,16 +5728,16 @@ body.light-theme .scrolly-step-link:focus-visible {
 
       <div class="hero-photo-grid" aria-label="Selected frames">
         <a href="#photos" class="hero-photo" aria-label="Madeira — fish market">
-          <img src="assets/photos/madeira-market.jpg" alt="" loading="lazy" decoding="async">
+          <img src="assets/photos/madeira-market.jpg" alt="" width="1200" height="800" decoding="async" fetchpriority="high">
         </a>
         <a href="#photos" class="hero-photo" aria-label="Tofino, Canada — surf">
-          <img src="assets/photos/tofino-surf.jpg" alt="" loading="lazy" decoding="async">
+          <img src="assets/photos/tofino-surf.jpg" alt="" width="1200" height="802" decoding="async" fetchpriority="high">
         </a>
         <a href="#photos" class="hero-photo" aria-label="Madeira — banana leaves by the sea">
-          <img src="assets/photos/madeira-sea.jpg" alt="" loading="lazy" decoding="async">
+          <img src="assets/photos/madeira-sea.jpg" alt="" width="1200" height="800" decoding="async" fetchpriority="high">
         </a>
         <a href="#photos" class="hero-photo" aria-label="Aourir, Morocco — beach with camel">
-          <img src="assets/photos/morocco-beach-camel.jpg" alt="" loading="lazy" decoding="async">
+          <img src="assets/photos/morocco-beach-camel.jpg" alt="" width="1200" height="795" decoding="async" fetchpriority="high">
         </a>
       </div>
     </aside>
@@ -5721,8 +5758,8 @@ body.light-theme .scrolly-step-link:focus-visible {
       <!-- Step 01 — Moody's -->
       <div class="scrolly-step is-active" data-step="0">
         <div class="scrolly-step-header">
-          <img src="assets/moodys-logo.png"       class="scrolly-step-logo scrolly-step-logo--dark"  alt="Moody's">
-          <img src="assets/moodys-logo-light.png"  class="scrolly-step-logo scrolly-step-logo--light" alt="Moody's">
+          <img src="assets/moodys-logo.png" width="981" height="271" loading="lazy" decoding="async"       class="scrolly-step-logo scrolly-step-logo--dark"  alt="Moody's">
+          <img src="assets/moodys-logo-light.png" width="981" height="271" loading="lazy" decoding="async"  class="scrolly-step-logo scrolly-step-logo--light" alt="Moody's">
           <div class="scrolly-step-header-text">
             <span class="scrolly-step-num">01 / work</span>
             <h3 class="scrolly-step-title">Product &amp; Solution Delivery at Moody's</h3>
@@ -5778,8 +5815,8 @@ body.light-theme .scrolly-step-link:focus-visible {
       <!-- Step 02 — Bitpanda -->
       <div class="scrolly-step" data-step="1">
         <div class="scrolly-step-header">
-          <img src="assets/bitpanda-logo.png"       class="scrolly-step-logo scrolly-step-logo--dark"  alt="Bitpanda">
-          <img src="assets/bitpanda-logo-light.png"  class="scrolly-step-logo scrolly-step-logo--light" alt="Bitpanda">
+          <img src="assets/bitpanda-logo.png" width="5250" height="1618" loading="lazy" decoding="async"       class="scrolly-step-logo scrolly-step-logo--dark"  alt="Bitpanda">
+          <img src="assets/bitpanda-logo-light.png" width="5250" height="1618" loading="lazy" decoding="async"  class="scrolly-step-logo scrolly-step-logo--light" alt="Bitpanda">
           <div class="scrolly-step-header-text">
             <span class="scrolly-step-num">02 / work</span>
             <h3 class="scrolly-step-title">Product at Bitpanda</h3>
@@ -6678,8 +6715,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-skazka-canyon-sea.jpg" data-location="Skazka Canyon, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-skazka-canyon-sea.jpg"
        alt="Red sandstone Skazka Canyon rock formations with Lake Issyk-Kul in the distance, Kyrgyzstan - Landscape photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1325"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6694,8 +6731,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-issyk-kul-trees.jpg" data-location="Issyk-Kul, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-issyk-kul-trees.jpg"
        alt="Slender trees on the sandy shore of Lake Issyk-Kul in Kyrgyzstan - Landscape photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1325"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6710,8 +6747,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-open-road.jpg" data-location="Naryn, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-open-road.jpg"
        alt="Empty highway stretching toward stormy mountains in the Naryn region, Kyrgyzstan - Travel photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1325"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6726,8 +6763,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-rapeseed-village.jpg" data-location="Kyzart, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-rapeseed-village.jpg"
        alt="Village houses behind a yellow rapeseed field with green mountains in Kyzart, Kyrgyzstan - Landscape photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1325"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6742,8 +6779,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-uaz-child.jpg" data-location="Kyzart, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-uaz-child.jpg"
        alt="Child on a small tricycle beside a Soviet UAZ van at a mountain homestay in Kyzart, Kyrgyzstan - Street photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6758,8 +6795,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-song-kol-horse.jpg" data-location="Song-Köl, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-song-kol-horse.jpg"
        alt="Horse and foal grazing in a wildflower meadow beside Lake Song-Köl, Kyrgyzstan - Nature photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1324"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6774,8 +6811,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-horse-riders.jpg" data-location="Song-Köl, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-horse-riders.jpg"
        alt="Group of trekkers on horseback in the highlands near Song-Köl, Kyrgyzstan - Travel photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6790,8 +6827,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-uaz-mountains.jpg" data-location="Naryn, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-uaz-mountains.jpg"
        alt="Soviet UAZ van parked on an empty road with snow-capped Tien Shan mountains in the distance, Kyrgyzstan - Travel photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1325"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6806,8 +6843,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-skazka-canyon-figures.jpg" data-location="Skazka Canyon, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-skazka-canyon-figures.jpg"
        alt="Two hikers standing on eroded red rock formations in Skazka Canyon, Kyrgyzstan - Landscape photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6822,8 +6859,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-green-hills.jpg" data-location="Song-Köl, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-green-hills.jpg"
        alt="Rolling green hills under clouds in the highlands near Song-Köl, Kyrgyzstan - Landscape photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6838,8 +6875,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-butcher-market.jpg" data-location="Bishkek, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-butcher-market.jpg"
        alt="Smiling butcher giving a thumbs up in front of hanging cuts of meat at a market in Bishkek, Kyrgyzstan - Street portrait photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6854,8 +6891,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-song-kol-yurts.jpg" data-location="Song-Köl, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-song-kol-yurts.jpg"
        alt="Yurt camp with horses and travellers on the grasslands of Song-Köl, Kyrgyzstan - Travel photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6870,8 +6907,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/austria-klopeiner-see-lily-pads.jpg" data-location="Klopeiner See, Austria" data-country="austria">
   <img src="assets/photos/austria-klopeiner-see-lily-pads.jpg"
        alt="Close-up of green lily pads floating on dark water at Klopeiner See, Austria - Detail photography by Rocco Goldschmidt"
-       width="2400"
-       height="1591"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6886,8 +6923,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/austria-klopeiner-see-dock.jpg" data-location="Klopeiner See, Austria" data-country="austria">
   <img src="assets/photos/austria-klopeiner-see-dock.jpg"
        alt="Weathered wooden dock meeting lily pads on the water at Klopeiner See, Austria - Detail photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1325"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6902,8 +6939,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/austria-klopeiner-see-pier.jpg" data-location="Klopeiner See, Austria" data-country="austria">
   <img src="assets/photos/austria-klopeiner-see-pier.jpg"
        alt="Wooden pier stretching into the turquoise water of Klopeiner See with forested mountains beyond, Austria - Travel photography by Rocco Goldschmidt"
-       width="2400"
-       height="1590"
+       width="2000"
+       height="1325"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6918,8 +6955,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-song-kol-volleyball.jpg" data-location="Song-Köl, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-song-kol-volleyball.jpg"
        alt="Travellers playing volleyball beside yurts on the grasslands of Song-Köl, Kyrgyzstan - Travel photography by Rocco Goldschmidt"
-       width="2400"
-       height="1591"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -6934,8 +6971,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="photo-card hidden-photo" data-photo="assets/photos/kyrgyzstan-song-kol-horse-grazing.jpg" data-location="Song-Köl, Kyrgyzstan" data-country="kyrgyzstan">
   <img src="assets/photos/kyrgyzstan-song-kol-horse-grazing.jpg"
        alt="Dark horse grazing beside the still waters of Song-Köl lake with mountains beyond, Kyrgyzstan - Landscape photography by Rocco Goldschmidt"
-       width="2400"
-       height="1591"
+       width="2000"
+       height="1326"
        loading="lazy"
        onload="this.classList.add('loaded')">
   <div class="photo-overlay">
@@ -7538,7 +7575,13 @@ if (scrollIndicator) {
   let lastHoveredTick = -1;
   let overRuler = false;
 
+  // The ruler is display:none below 480px. Without this guard the window-level
+  // handlers below still fire, turning the right 32px of every phone screen into
+  // an invisible scroll-jump strip that swallows taps on whatever is underneath.
+  const rulerVisible = () => ruler.offsetParent !== null;
+
   window.addEventListener('mousemove', (e) => {
+    if (!rulerVisible()) return;
     const inRuler = e.clientX >= (window.innerWidth - RULER_WIDTH);
 
     if (!inRuler) {
@@ -7576,6 +7619,7 @@ if (scrollIndicator) {
 
   // Click anywhere in the ruler strip → scroll to that position
   window.addEventListener('click', (e) => {
+    if (!rulerVisible()) return;
     if (e.clientX < window.innerWidth - RULER_WIDTH) return;
     const progress = e.clientY / window.innerHeight;
     const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -8335,12 +8379,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadMoreBtn = document.getElementById('loadMorePhotos');
   const allBtn      = document.querySelector('.photo-filter-btn[data-country="all"]');
 
-  // Mark cards that start behind "View More"
+  // Mark cards that start behind "View More". These markers are permanent —
+  // they record which cards START collapsed, and are never deleted.
   photoCards.forEach(card => {
     if (card.classList.contains('hidden-photo')) {
       card.dataset.deferredHidden = 'true';
     }
   });
+
+  // Whether the gallery has been expanded past its initial 7 cards. Both the
+  // "View more" button and any country filter expand it, and it never goes back:
+  // deriving both hidden-photo and the button's visibility from this one flag is
+  // what stops "All" from showing fewer photos than the filter you just cleared,
+  // and stops the button reappearing with nothing left to load.
+  window.galleryExpanded = false;
 
   // Assign data-tile-pos (1–7 repeating) based on visible index so the
   // grid composition stays consistent regardless of which photos are shown.
@@ -8371,7 +8423,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (showAll) {
         card.style.display = '';
-        if (card.dataset.deferredHidden === 'true') {
+        if (card.dataset.deferredHidden === 'true' && !window.galleryExpanded) {
           card.classList.add('hidden-photo');
         }
       } else if (matches) {
@@ -8385,7 +8437,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (loadMoreBtn) {
-      loadMoreBtn.style.display = showAll ? '' : 'none';
+      loadMoreBtn.style.display = (showAll && !window.galleryExpanded) ? '' : 'none';
     }
 
     reindexGallery();
@@ -8413,6 +8465,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // If nothing left selected → fall back to All
         const anyActive = [...filterBtns].some(b => b.classList.contains('active'));
         if (!anyActive) allBtn.classList.add('active');
+
+        // Filtering reveals every match, including cards behind "View more".
+        // Treat that as expanding the gallery so clearing the filter doesn't
+        // collapse back to fewer photos than the user was just looking at.
+        window.galleryExpanded = true;
       }
 
       applyFilter();
@@ -8518,9 +8575,29 @@ class PhotoLightbox {
     // Keyboard
     document.addEventListener('keydown', (e) => {
       if (!this.lightbox.classList.contains('active')) return;
-      if (e.key === 'Escape')     this.close();
-      if (e.key === 'ArrowLeft')  this.prev();
-      if (e.key === 'ArrowRight') this.next();
+
+      if (e.key === 'Escape')     { e.preventDefault(); this.close(); return; }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); this.prev();  return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); this.next();  return; }
+
+      // Keep Tab inside the dialog — it's aria-modal, so focus escaping to the
+      // page behind it would be a lie to anyone using a screen reader.
+      if (e.key === 'Tab') {
+        const items = this._lightboxFocusables();
+        if (!items.length) return;
+        const first = items[0];
+        const last  = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        } else if (!this.lightbox.contains(document.activeElement)) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     });
   }
 
@@ -8532,11 +8609,38 @@ class PhotoLightbox {
       alt:      card.querySelector('img')?.alt || ''
     });
     card.dataset.lightboxInit = 'true';
+
+    // The cards are divs, so they need the button semantics spelled out —
+    // without this the whole gallery is unreachable by keyboard and screen reader.
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('role', 'button');
+    if (!card.getAttribute('aria-label')) {
+      const where = card.dataset.location ? ` — ${card.dataset.location}` : '';
+      card.setAttribute('aria-label', `Open photo${where}`);
+    }
+
     card.addEventListener('click', () => this.open(index, card));
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();          // stop Space from scrolling the page
+        this.open(index, card);
+      }
+    });
+  }
+
+  // Focusable controls inside the dialog, for the Tab trap.
+  // NOTE: don't test offsetParent here — the lightbox is position:fixed, and
+  // fixed elements report a null offsetParent, which emptied this list and
+  // silently disabled the trap. getClientRects() is the reliable check.
+  _lightboxFocusables() {
+    return [...this.lightbox.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])')]
+      .filter(el => !el.disabled && el.getClientRects().length > 0);
   }
 
   open(index, originCard = null) {
     this.savedScrollY = window.scrollY;
+    // Where focus goes back to on close.
+    this.lastFocused = originCard || document.activeElement;
 
     // Build nav list:
     // "All" active → use all registered photos (load-more is lazy UI, not a filter)
@@ -8583,6 +8687,10 @@ class PhotoLightbox {
       document.body.style.position  = 'fixed';
       document.body.style.width     = '100%';
       document.body.style.top       = `-${this.savedScrollY}px`;
+
+      // Move focus into the dialog so keyboard users aren't left behind it.
+      const closeBtn = this.lightbox.querySelector('.lightbox-close');
+      if (closeBtn) closeBtn.focus({ preventScroll: true });
     };
 
     // View Transition API morph (progressive enhancement)
@@ -8624,8 +8732,17 @@ class PhotoLightbox {
     document.querySelectorAll('.page-ruler, .page-ruler-marker, .page-ruler-value')
       .forEach(el => el.style.visibility = '');
 
+    const mobileToggle = document.querySelector('.mobile-nav-toggle');
+    if (mobileToggle) mobileToggle.style.display = '';   // open() hid this and close() never restored it
+
     // 4. Remove active after fade completes
     setTimeout(() => this.lightbox.classList.remove('active'), 260);
+
+    // 5. Send focus back where it came from
+    if (this.lastFocused && document.contains(this.lastFocused)) {
+      this.lastFocused.focus({ preventScroll: true });
+    }
+    this.lastFocused = null;
   }
 
   _renderPhoto() {
@@ -8658,11 +8775,11 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', () => {
-      // Show all hidden photos
-      const hiddenPhotos = document.querySelectorAll('.hidden-photo');
-      hiddenPhotos.forEach(photo => {
+      // Show all hidden photos. The deferredHidden markers stay put — the
+      // expanded state lives in window.galleryExpanded, not in the cards.
+      window.galleryExpanded = true;
+      document.querySelectorAll('.hidden-photo').forEach(photo => {
         photo.classList.remove('hidden-photo');
-        delete photo.dataset.deferredHidden;
       });
 
       // Hide the button completely
