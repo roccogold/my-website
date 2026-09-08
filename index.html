@@ -7753,7 +7753,11 @@ if (scrollIndicator) {
   // The ruler is display:none below 480px. Without this guard the window-level
   // handlers below still fire, turning the right 32px of every phone screen into
   // an invisible scroll-jump strip that swallows taps on whatever is underneath.
-  const rulerVisible = () => ruler.offsetParent !== null;
+  //
+  // Must NOT use offsetParent: .page-ruler is position:fixed, and fixed elements
+  // always report a null offsetParent, so that test reads "hidden" on desktop too
+  // and silently kills the hover ticks, the click-to-scroll and the tick sound.
+  const rulerVisible = () => ruler.getClientRects().length > 0;
 
   window.addEventListener('mousemove', (e) => {
     if (!rulerVisible()) return;
