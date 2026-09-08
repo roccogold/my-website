@@ -10,8 +10,6 @@ const STATIC_ASSETS = [
   'assets/android-chrome-192x192.png',
   'assets/android-chrome-512x512.png',
   'assets/apple-touch-icon.png',
-  'assets/baby-yoda.svg',
-  'assets/darth-vader.svg',
   'https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
@@ -37,7 +35,15 @@ self.addEventListener('install', event => {
     caches.open(STATIC_CACHE_NAME)
       .then(cache => {
         console.log('Service Worker: Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
+        // Deliberately NOT cache.addAll: it is atomic, so a single missing file
+        // rejects the whole batch and nothing gets precached at all — which is
+        // exactly what two stale .svg paths were doing here. Cache each asset
+        // independently so one bad path only costs that one asset.
+        return Promise.all(STATIC_ASSETS.map(asset =>
+          cache.add(asset).catch(error => {
+            console.warn('Service Worker: skipped precaching', asset, error);
+          })
+        ));
       })
       .catch(error => {
         console.error('Service Worker: Error caching static assets:', error);

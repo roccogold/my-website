@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>404 — Rocco Goldschmidt</title>
 <meta name="description" content="Page not found. Return to Rocco Goldschmidt's portfolio." />
@@ -204,13 +205,14 @@
 </div>
 
 <script>
+  // Match index.html: always start light, don't persist. This page used to
+  // default to dark and remember its own choice, so toggling to dark on the
+  // homepage and then hitting a bad URL gave you a light 404, and vice versa.
   const toggle = document.querySelector('.theme-toggle');
-  const saved = localStorage.getItem('theme');
-  if (saved === 'light') document.body.classList.add('light-theme');
+  document.body.classList.add('light-theme');
 
   toggle.addEventListener('click', () => {
     document.body.classList.toggle('light-theme');
-    localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
   });
 </script>
 </body>

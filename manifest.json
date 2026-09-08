@@ -4,10 +4,14 @@
   "description": "Product Manager blending design, technology & finance to build simple, impactful solutions",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#111111",
+  "background_color": "#ffffff",
   "theme_color": "#9a77c6",
   "orientation": "portrait-primary",
-  "categories": ["portfolio", "business", "productivity"],
+  "categories": [
+    "portfolio",
+    "business",
+    "productivity"
+  ],
   "lang": "en-US",
   "icons": [
     {
@@ -41,20 +45,6 @@
       "src": "assets/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "assets/screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "assets/screenshot-narrow.png",
-      "sizes": "640x1136",
-      "type": "image/png",
-      "form_factor": "narrow"
     }
   ]
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light-theme">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
@@ -24,7 +24,7 @@
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#ffffff">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="msapplication-navbutton-color" content="#111111">
@@ -76,7 +76,7 @@
 <meta name="twitter:image" content="https://roccogold.com/assets/og-hero.png" />
 <meta name="twitter:url" content="https://roccogold.com/" />
 
-<meta name="geo.region" content="IT-25" />
+<meta name="geo.region" content="AT-9" />
 <meta name="geo.placename" content="Vienna" />
 <meta name="geo.position" content="48.2082;16.3738" />
 <meta name="ICBM" content="48.2082, 16.3738" />
@@ -89,7 +89,7 @@
   "name": "Rocco Goldschmidt",
   "jobTitle": "Product Manager",
   "url": "https://roccogold.com",
-  "image": "https://roccogold.com/og-color.png",
+  "image": "https://roccogold.com/assets/og-hero.png",
   "description": "Product Manager at Moody's Analytics specializing in API development, third-party risk management and fintech solutions",
   "email": "roccogold23@gmail.com",
   "address": {
@@ -1377,6 +1377,27 @@ a.hero-btn-primary,
 a.hero-btn-secondary,
 a.view-all-btn {
   font-weight: 600 !important;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 10000;
+  padding: 0.6rem 1rem;
+  background: var(--accent-dark);
+  color: #fff;
+  border-radius: 0 0 8px 0;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+body.light-theme .skip-link {
+  background: var(--accent-light);
 }
 
 /* Hover only — :focus-visible deliberately NOT grouped in here. It used to be,
@@ -5579,7 +5600,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 
 </style>
 </head>
-<body> 
+<body class="light-theme"> 
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- Navigation Bar -->
 <div class="nav-container">
@@ -5604,7 +5626,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 </div>
 
 <!-- Mobile Navigation Toggle -->
-<button class="mobile-nav-toggle" aria-label="Toggle mobile menu">
+<button class="mobile-nav-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-nav-menu">
   <i class="fas fa-bars"></i>
   <i class="fas fa-times"></i>
 </button>
@@ -5613,7 +5635,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="mobile-nav-backdrop"></div>
 
 <!-- Side Drawer Menu -->
-<nav class="mobile-nav-menu" role="navigation" aria-label="Mobile navigation">
+<nav class="mobile-nav-menu" id="mobile-nav-menu" role="navigation" aria-label="Mobile navigation">
   <a href="#experience" class="mobile-nav-item">
     <i class="fas fa-laptop-code"></i>
     Work
@@ -5991,18 +6013,18 @@ body.light-theme .scrolly-step-link:focus-visible {
   </p>
 
   <div class="photo-filter-bar">
-    <button class="photo-filter-btn active" data-country="all">All</button>
-    <button class="photo-filter-btn" data-country="austria">Austria</button>
-    <button class="photo-filter-btn" data-country="canada">Canada</button>
-    <button class="photo-filter-btn" data-country="greece">Greece</button>
-    <button class="photo-filter-btn" data-country="italy">Italy</button>
-    <button class="photo-filter-btn" data-country="kyrgyzstan">Kyrgyzstan</button>
-    <button class="photo-filter-btn" data-country="morocco">Morocco</button>
-    <button class="photo-filter-btn" data-country="nepal">Nepal</button>
-    <button class="photo-filter-btn" data-country="portugal">Portugal</button>
-    <button class="photo-filter-btn" data-country="sweden">Sweden</button>
-    <button class="photo-filter-btn" data-country="switzerland">Switzerland</button>
-    <button class="photo-filter-btn" data-country="united-kingdom">United Kingdom</button>
+    <button class="photo-filter-btn active" aria-pressed="true" data-country="all">All</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="austria">Austria</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="canada">Canada</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="greece">Greece</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="italy">Italy</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="kyrgyzstan">Kyrgyzstan</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="morocco">Morocco</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="nepal">Nepal</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="portugal">Portugal</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="sweden">Sweden</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="switzerland">Switzerland</button>
+    <button class="photo-filter-btn" aria-pressed="false" data-country="united-kingdom">United Kingdom</button>
   </div>
 
   <div class="photo-grid">
@@ -7183,7 +7205,7 @@ View more
     <h2 id="vibes-heading">off-hours</h2>
   </div>
   <div class="spotify-container">
-    <iframe src="https://open.spotify.com/embed/album/79dL7FLiJFOO0EoehUHQBv?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe title="Spotify album player" src="https://open.spotify.com/embed/album/79dL7FLiJFOO0EoehUHQBv?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   </div>
   <div class="interests-tags">
     <span class="interest-tag">Ping Pong</span>
@@ -7200,7 +7222,7 @@ View more
 </section>
 
   <section aria-labelledby="contact-heading" class="reveal" id="contact">
-      <h2 class="closing-section-title">let's build something amazing</h2>
+      <h2 class="closing-section-title" id="contact-heading">let's build something amazing</h2>
         <p class="contact-desc">
         Always up for discussing product concepts, new projects or the best ping pong serve. Have a problem to solve? Let's team up.
         </p>
@@ -7405,6 +7427,7 @@ if (mobileNavToggle && mobileNavMenu && mobileNavBackdrop) {
     mobileNavToggle.classList.toggle('active');
     mobileNavMenu.classList.toggle('active');
     mobileNavBackdrop.classList.toggle('active');
+    mobileNavToggle.setAttribute('aria-expanded', mobileNavMenu.classList.contains('active') ? 'true' : 'false');
     
     // Prevent body scroll when menu is open - SIMPLE METHOD
     if (mobileNavMenu.classList.contains('active')) {
@@ -7419,6 +7442,7 @@ if (mobileNavToggle && mobileNavMenu && mobileNavBackdrop) {
     mobileNavToggle.classList.remove('active');
     mobileNavMenu.classList.remove('active');
     mobileNavBackdrop.classList.remove('active');
+    mobileNavToggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   });
 
@@ -7433,6 +7457,7 @@ if (mobileNavToggle && mobileNavMenu && mobileNavBackdrop) {
       mobileNavToggle.classList.remove('active');
       mobileNavMenu.classList.remove('active');
       mobileNavBackdrop.classList.remove('active');
+      mobileNavToggle.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       
       // Smooth scroll to section — offset comes from scroll-margin-top in CSS
@@ -8410,6 +8435,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function applyFilter() {
+    // Selection is conveyed by a class alone otherwise — screen reader users
+    // get no signal about which of these multi-select filters are on.
+    filterBtns.forEach(b => b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'));
+
     const selected = [...filterBtns]
       .filter(b => b.classList.contains('active') && b.dataset.country !== 'all')
       .map(b => b.dataset.country);
@@ -8874,7 +8903,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 3. TRACK SECTION VIEWS
   function trackSectionViews() {
-    const sections = document.querySelectorAll('[id]');
+    // '[id]' matched every element with an id — error spans, the lightbox, the
+    // load-more button — so the report was mostly noise. Only real sections.
+    const sections = document.querySelectorAll('main section[id], section[id]');
     const observerOptions = {
       threshold: 0.5,
       rootMargin: '0px'
@@ -8884,12 +8915,16 @@ document.addEventListener('DOMContentLoaded', () => {
       entries.forEach(entry => {
         if (entry.isIntersecting && entry.target.id) {
           const sectionName = entry.target.id;
-          
+
           gtag('event', 'section_view', {
             'event_category': 'Content Engagement',
             'event_label': sectionName,
             'section_name': sectionName
           });
+
+          // Fire once per section per page view — without this, every scroll
+          // back and forth re-counted the same section.
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
