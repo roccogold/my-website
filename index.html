@@ -4138,24 +4138,22 @@ body.light-theme .photo-card:hover {
   position: relative;
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Horizontal drags come to JS; vertical pan and pinch-zoom stay native */
-  touch-action: pan-y pinch-zoom;
+  /* The viewer is scroll-locked, so JS owns every touch gesture here: no
+     browser pan to fight with, no pointercancel mid-swipe */
+  touch-action: none;
   will-change: transform;
 }
 
-/* Neighbour photos, one viewport (+1rem gap) to either side of the current one */
-.lightbox-content .lightbox-peek {
+/* Every slide is centred; prev/next sit one viewport (+1rem gap) to either side */
+.lightbox-content .lightbox-slide {
   position: absolute;
   top: 50%;
   left: 50%;
-  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
-.lightbox-content .lightbox-peek--prev { transform: translate(calc(-50% - 100vw - 1rem), -50%); }
-.lightbox-content .lightbox-peek--next { transform: translate(calc(-50% + 100vw + 1rem), -50%); }
-.lightbox-content .lightbox-peek:not([src]) { visibility: hidden; }
+.lightbox-content .lightbox-slide.is-prev { transform: translate(calc(-50% - 100vw - 1rem), -50%); pointer-events: none; }
+.lightbox-content .lightbox-slide.is-next { transform: translate(calc(-50% + 100vw + 1rem), -50%); pointer-events: none; }
+.lightbox-content .lightbox-slide:not([src]) { visibility: hidden; }
 
 /* ── Controls: shared base ────────────────────── */
 .lightbox-close,
@@ -4715,7 +4713,6 @@ body.light-theme .app-pill--ghost:hover {
 @media (max-width: 768px) {
   .app-logo { width: 28px; height: 28px; }
   .app-pill { padding: 0.35rem 0.7rem; }
-  .app-links { justify-content: center; }
 }
 
 
@@ -7523,11 +7520,12 @@ View more
 <!-- Lightbox — all controls inside so CSS hover works -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
   <div class="lightbox-content">
-    <!-- Swipe track (touch): neighbours sit one screen to each side and follow the finger -->
+    <!-- Swipe track (touch): three slides whose roles rotate after each swipe, so the photo
+         that slid in stays on screen instead of being re-loaded into a fixed <img> -->
     <div class="lightbox-track">
-      <img class="lightbox-peek lightbox-peek--prev" alt="" aria-hidden="true">
-      <img src="" alt="" id="lightbox-img">
-      <img class="lightbox-peek lightbox-peek--next" alt="" aria-hidden="true">
+      <img class="lightbox-slide is-prev" alt="" aria-hidden="true" decoding="async">
+      <img class="lightbox-slide is-current" src="" alt="" id="lightbox-img" decoding="async">
+      <img class="lightbox-slide is-next" alt="" aria-hidden="true" decoding="async">
     </div>
   </div>
 
@@ -9140,8 +9138,6 @@ class PhotoLightbox {
     this.lightbox      = document.getElementById('lightbox');
     this.lightboxImg   = document.getElementById('lightbox-img');
     this.track         = this.lightbox.querySelector('.lightbox-track');
-    this.peekPrev      = this.lightbox.querySelector('.lightbox-peek--prev');
-    this.peekNext      = this.lightbox.querySelector('.lightbox-peek--next');
     this.isTouch       = window.matchMedia('(hover: none)');
     this.locationSpan  = document.querySelector('#lightbox-location span');
     this.counter       = document.getElementById('lightbox-counter');
@@ -9345,57 +9341,119 @@ class PhotoLightbox {
     this.lastFocused = null;
   }
 
+  _slide(role) {
+    return this.track.querySelector(`.lightbox-slide.is-${role}`);
+  }
+
   _renderPhoto() {
     // Use navPhotos (filter-aware) when open, fall back to all photos
     const list = this.navPhotos || this.photos;
     const photo = list[this.currentIndex];
     if (!photo) return;
-    this.lightboxImg.src = photo.src;
+    this.track.style.transition = 'none';
+    this.track.style.transform  = '';
+    this.lightboxImg = this._slide('current');
+    this._setSrc(this.lightboxImg, photo.src);
     this.lightboxImg.alt = photo.alt;
+    this._renderMeta(list, photo);
+    this._fillNeighbours(list);
+  }
+
+  _renderMeta(list, photo) {
     this.locationSpan.textContent = photo.location;
     this.counter.textContent = `${this.currentIndex + 1} / ${list.length}`;
+  }
 
-    // Preload neighbours into the swipe track so they're visible while dragging
-    if (this.isTouch.matches && list.length > 1) {
-      const n = list.length;
-      this.peekPrev.src = list[(this.currentIndex - 1 + n) % n].src;
-      this.peekNext.src = list[(this.currentIndex + 1) % n].src;
-    }
+  // Only touches the DOM when the photo actually changes, so a slide that already
+  // shows the right photo is never reloaded
+  _setSrc(img, src) {
+    if (img.dataset.src === src) return;
+    img.dataset.src = src;
+    img.src = src;
+  }
+
+  // Touch only: load and decode the neighbours ahead of time so they are ready
+  // to paint the moment a drag starts (desktop doesn't swipe, so it skips the download)
+  _fillNeighbours(list) {
+    if (!this.isTouch.matches || list.length < 2) return;
+    const n = list.length;
+    [['prev', -1], ['next', 1]].forEach(([role, step]) => {
+      const img = this._slide(role);
+      const src = list[(this.currentIndex + step + n) % n].src;
+      if (img.dataset.src === src) return;
+      this._setSrc(img, src);
+      img.decode?.().catch(() => {});
+    });
+  }
+
+  // After a slide lands: rotate roles instead of swapping image sources.
+  // Going forward, next becomes current, current becomes prev, and the old prev
+  // is recycled as the new next — the only slide that needs a new photo.
+  _commitSwipe(dir) {
+    const list = this.navPhotos || this.photos;
+    const n    = list.length;
+    this.currentIndex = (this.currentIndex + dir + n) % n;
+
+    const prev = this._slide('prev');
+    const cur  = this._slide('current');
+    const next = this._slide('next');
+    const [newPrev, newCur, newNext] = dir > 0 ? [cur, next, prev] : [next, prev, cur];
+
+    [[newPrev, 'prev'], [newCur, 'current'], [newNext, 'next']].forEach(([img, role]) => {
+      img.className = `lightbox-slide is-${role}`;
+      const isCurrent = role === 'current';
+      if (isCurrent) { img.id = 'lightbox-img'; img.removeAttribute('aria-hidden'); }
+      else { img.removeAttribute('id'); img.setAttribute('aria-hidden', 'true'); img.alt = ''; }
+    });
+
+    // Same frame as the role change, so the photo on screen doesn't move
+    this.track.style.transition = 'none';
+    this.track.style.transform  = '';
+
+    const photo = list[this.currentIndex];
+    this.lightboxImg = newCur;
+    newCur.alt = photo.alt;
+    this._renderMeta(list, photo);
+    this._fillNeighbours(list);
   }
 
   _initSwipe() {
     const track = this.track;
     if (!track) return;
-    const SNAP = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)';
+    const LOCK = 6;    // px of movement before deciding horizontal vs vertical
     let pointerId = null;
-    let startX = 0, startY = 0, startT = 0, dx = 0;
-    let axis = null;   // 'x' once a horizontal drag is recognised, 'y' to ignore
+    let startX = 0, startY = 0, originX = 0, dx = 0;
+    let axis = null;
+    let samples = [];  // recent [time, x] for release velocity
     this.swiping = false;
-
-    const setX = (x, animate) => {
-      track.style.transition = animate ? SNAP : 'none';
-      track.style.transform  = x ? `translateX(${x}px)` : '';
-    };
 
     track.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'mouse' || this.swiping || pointerId !== null) return;
       pointerId = e.pointerId;
-      startX = e.clientX; startY = e.clientY; startT = performance.now();
-      dx = 0; axis = null;
+      startX = e.clientX; startY = e.clientY;
+      dx = 0; axis = null; samples = [];
     });
 
     track.addEventListener('pointermove', (e) => {
       if (e.pointerId !== pointerId) return;
       const mx = e.clientX - startX;
       const my = e.clientY - startY;
-      if (axis === null && Math.hypot(mx, my) > 8) {
-        axis = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
-        if (axis === 'x') { try { track.setPointerCapture(pointerId); } catch (_) {} }
+      if (axis === null) {
+        if (Math.hypot(mx, my) < LOCK) return;
+        axis = Math.abs(mx) >= Math.abs(my) ? 'x' : 'y';
+        if (axis !== 'x') return;
+        originX = e.clientX; // measure from here so the photo doesn't jump by the lock distance
+        track.style.transition = 'none';
+        try { track.setPointerCapture(pointerId); } catch (_) {}
       }
       if (axis !== 'x') return;
       const list = this.navPhotos || this.photos;
-      dx = list.length > 1 ? mx : mx * 0.25; // single photo: rubber-band only
-      setX(dx, false);
+      const raw  = e.clientX - originX;
+      dx = list.length > 1 ? raw : raw * 0.25; // single photo: rubber-band only
+      track.style.transform = `translateX(${dx}px)`;
+      const now = performance.now();
+      samples.push([now, e.clientX]);
+      while (samples.length > 2 && now - samples[0][0] > 100) samples.shift();
     });
 
     const finish = (e) => {
@@ -9403,24 +9461,38 @@ class PhotoLightbox {
       pointerId = null;
       if (axis !== 'x') return;
 
-      const list     = this.navPhotos || this.photos;
-      const velocity = dx / Math.max(1, performance.now() - startT); // px per ms
-      const far      = Math.abs(dx) > Math.min(90, window.innerWidth * 0.22);
-      const flick    = Math.abs(dx) > 30 && Math.abs(velocity) > 0.45;
-      const dir      = e.type === 'pointercancel' || list.length < 2 || !(far || flick)
+      const list  = this.navPhotos || this.photos;
+      const width = window.innerWidth + (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16);
+      let velocity = 0; // px/ms over the last ~100ms, so a flick counts even if short
+      if (samples.length > 1) {
+        const [t0, x0] = samples[0];
+        const [t1, x1] = samples[samples.length - 1];
+        velocity = (x1 - x0) / Math.max(1, t1 - t0);
+      }
+      const far   = Math.abs(dx) > window.innerWidth * 0.25;
+      const flick = Math.abs(velocity) > 0.35 && Math.sign(velocity) === Math.sign(dx);
+      const dir   = e.type === 'pointercancel' || list.length < 2 || !(far || flick)
         ? 0 : (dx < 0 ? 1 : -1);
 
-      if (!dir) { setX(0, true); return; }
+      const target   = -dir * width;
+      const distance = Math.abs(target - dx);
+      // Carry the finger's speed into the animation: fast flicks finish fast
+      const duration = Math.round(Math.min(380, Math.max(180, Math.abs(velocity) > 0.05 ? distance / Math.abs(velocity) : 320)));
 
-      // Slide the neighbour fully into place, then swap it in as the current photo
       this.swiping = true;
-      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-      setX(-dir * (window.innerWidth + rem), true);
-      setTimeout(() => {
-        dir > 0 ? this.next() : this.prev();
-        setX(0, false);
+      track.style.transition = `transform ${duration}ms cubic-bezier(0.22, 1, 0.36, 1)`;
+      track.style.transform  = target ? `translateX(${target}px)` : '';
+
+      let done = false;
+      const land = () => {
+        if (done) return;
+        done = true;
+        track.removeEventListener('transitionend', land);
+        if (dir) this._commitSwipe(dir);
         this.swiping = false;
-      }, 320);
+      };
+      track.addEventListener('transitionend', land);
+      setTimeout(land, duration + 60); // in case transitionend never fires
     };
     track.addEventListener('pointerup', finish);
     track.addEventListener('pointercancel', finish);
