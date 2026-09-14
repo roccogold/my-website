@@ -672,6 +672,54 @@ body.light-theme .theme-toggle:focus-visible {
   }
 }
 
+/* Sound toggle — twin of .theme-toggle: same box, glyph size, color and spin on hover */
+.sound-toggle {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Pair spacing: the gap between bulb and speaker equals the pill's inset before the bulb */
+.theme-toggle + .sound-toggle { margin-left: -1rem; }
+
+.sound-toggle__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  /* Offset lives on the wrapper so the spin pivots on the speaker itself, not above it */
+  transform: translateY(2px);
+  transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+/* 18px box gives the speaker the bulb's ink height, 1.75 stroke its line weight */
+.sound-toggle .sound-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.75;
+}
+
+.sound-toggle:hover .sound-toggle__icon,
+.sound-toggle:focus-visible .sound-toggle__icon {
+  transform: translateY(2px) rotate(180deg) scale(1.05);
+}
+
+body.light-theme .sound-toggle { color: var(--accent-light); }
+
+/* Muted/on icon swap, driven by aria-pressed on either toggle */
+[data-sound-toggle] .sound-icon--on { display: none; }
+[data-sound-toggle][aria-pressed="true"] .sound-icon--on { display: block; }
+[data-sound-toggle][aria-pressed="true"] .sound-icon--muted { display: none; }
+
 /* Inline metrics + animated counters (200+, ~30s, ~3s, 100%, etc.) */
 .counter,
 .inline-metric {
@@ -827,6 +875,56 @@ body.light-theme .nav-item:focus-visible {
 body.light-theme .nav-item.active {
   color: var(--accent-light);
   background: rgba(107, 70, 193, 0.14);
+}
+
+/* Sliding hover highlight (after isembard.com): one pill glides between
+   items and stretches slightly mid-travel. Replaces the per-item hover fill. */
+.nav-bar { position: relative; }
+
+.nav-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    transform 0.38s cubic-bezier(0.65, 0, 0.35, 1),
+    width 0.38s cubic-bezier(0.65, 0, 0.35, 1),
+    height 0.38s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.2s ease;
+}
+
+.nav-highlight.is-visible { opacity: 1; }
+
+.nav-highlight__body {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: rgba(154, 119, 198, 0.22);
+}
+
+body.light-theme .nav-highlight__body { background: rgba(107, 70, 193, 0.1); }
+
+.nav-bar.has-highlight .nav-item:hover,
+.nav-bar.has-highlight .nav-item:focus-visible,
+body.light-theme .nav-bar.has-highlight .nav-item:hover,
+body.light-theme .nav-bar.has-highlight .nav-item:focus-visible {
+  background: transparent;
+}
+
+.nav-bar.has-highlight .nav-item.active:hover,
+.nav-bar.has-highlight .nav-item.active:focus-visible {
+  background: rgba(154, 119, 198, 0.28);
+}
+
+body.light-theme .nav-bar.has-highlight .nav-item.active:hover,
+body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
+  background: rgba(107, 70, 193, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-highlight { transition: opacity 0.2s ease; }
 }
 
 /* Mobile: hide nav pill and theme toggle */
@@ -2911,6 +3009,36 @@ body.light-theme .hero-chip {
   border-color: rgba(107, 70, 193, 0.16);
   box-shadow: 0 10px 32px rgba(107, 70, 193, 0.1);
   color: var(--text-light);
+}
+
+.hero-mobile-toggles { display: none; }
+
+@media (max-width: 768px) {
+  .hero-mobile-toggles {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+
+  .hero-mobile-toggles .theme-toggle,
+  .hero-mobile-toggles .sound-toggle {
+    width: 28px;
+    height: 28px;
+    margin-left: 0;
+  }
+
+  /* Plain icons on touch: no spin (hover sticks after a tap) */
+  .hero-mobile-toggles .theme-toggle__icon,
+  .hero-mobile-toggles .sound-toggle__icon { transition: none; }
+  .hero-mobile-toggles .theme-toggle:hover .theme-toggle__icon,
+  .hero-mobile-toggles .theme-toggle:focus-visible .theme-toggle__icon { transform: none; }
+
+  /* Centre both glyphs on the chip text's optical middle (between cap and x-height),
+     replacing the desktop +2px nudge that sat them 3px low here */
+  .hero-mobile-toggles .theme-toggle__icon i { transform: translateY(-1px); }
+  .hero-mobile-toggles .sound-toggle__icon,
+  .hero-mobile-toggles .sound-toggle:hover .sound-toggle__icon,
+  .hero-mobile-toggles .sound-toggle:focus-visible .sound-toggle__icon { transform: translateY(-1px); }
 }
 
 /* Highlight pill around inline keywords */
@@ -5614,6 +5742,10 @@ body.light-theme .scrolly-step-link:focus-visible {
       </svg>
       <span class="theme-toggle__icon"><i class="far fa-lightbulb"></i></span>
     </button>
+    <!-- Sound toggle (after isembard.com): ruler tick sound stays off until pressed -->
+    <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
+      <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
+    </button>
     <nav class="nav-bar" role="navigation" aria-label="Main navigation">
       <a href="#experience" class="nav-item">Work</a>
       <a href="#projects" class="nav-item">Apps</a>
@@ -5688,6 +5820,15 @@ body.light-theme .scrolly-step-link:focus-visible {
     <header class="hero-left reveal">
       <div class="hero-chips">
         <span class="hero-chip"><span class="hero-chip__dot" aria-hidden="true"></span> Vienna, Austria · Product @ Moody's</span>
+        <!-- Mobile only: the nav pill is hidden below 768px, so its two toggles live here -->
+        <span class="hero-mobile-toggles">
+          <button class="theme-toggle" type="button" aria-label="Toggle theme">
+            <span class="theme-toggle__icon"><i class="far fa-lightbulb"></i></span>
+          </button>
+          <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
+            <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
+          </button>
+        </span>
         <span class="hero-chip">v3.0 · 2026</span>
       </div>
 
@@ -7655,13 +7796,12 @@ if (scrollIndicator) {
   const TICK_COUNT = 50;
 
   // ── Audio setup ─────────────────────────────────────────────
-  // Browsers block AudioContext until a trusted user gesture fires
-  // (click / mousedown / keydown — NOT mousemove/mouseenter).
-  // Fix: create + resume the context eagerly on the FIRST mousedown
-  // anywhere on the page, so it's already running when the user
-  // hovers over the ruler.
+  // Sound is opt-in: it stays off until the footer "Enable sound" button
+  // is pressed. That click is also the trusted gesture browsers require
+  // before an AudioContext may start.
   let _audioCtx = null;
   let _tickBuf  = null;
+  let _soundOn  = false;
 
   function _getCtx() {
     if (!_audioCtx || _audioCtx.state === 'closed') {
@@ -7686,9 +7826,10 @@ if (scrollIndicator) {
 
   function _doPlay() {
     try {
+      if (!_soundOn) return;
       if (document.getElementById('lightbox')?.classList.contains('active')) return;
       const ctx = _getCtx();
-      if (ctx.state !== 'running') return; // not yet unlocked — skip silently
+      if (ctx.state !== 'running') return;
       const src  = ctx.createBufferSource();
       src.buffer = _getBuf(ctx);
       const hp   = ctx.createBiquadFilter();
@@ -7701,21 +7842,155 @@ if (scrollIndicator) {
     } catch (_) {}
   }
 
-  // Unlock AudioContext on first mousedown (trusted gesture).
-  // After this the context is 'running' and hover sounds work immediately.
-  function _unlockAudio() {
-    const ctx = _getCtx();
-    if (ctx.state === 'suspended') {
-      ctx.resume().catch(() => {});
-    }
-    // Pre-build the buffer while we're here so first hover has zero latency
-    _getBuf(ctx);
+  // Both toggles (nav pill on desktop, hero chips on mobile) share one state
+  const soundToggles = document.querySelectorAll('[data-sound-toggle]');
+
+  function _setSound(on) {
+    _soundOn = on;
+    soundToggles.forEach(btn => {
+      btn.setAttribute('aria-pressed', String(on));
+      btn.setAttribute('aria-label', on ? 'Mute sound' : 'Enable sound');
+    });
   }
-  document.addEventListener('mousedown', _unlockAudio, { once: true, passive: true });
-  // Also unlock on scroll (works in most browsers as a trusted gesture)
-  document.addEventListener('scroll',    _unlockAudio, { once: true, passive: true });
+
+  soundToggles.forEach(btn => btn.addEventListener('click', () => {
+    try {
+      const ctx = _getCtx();
+      if (!_soundOn) {
+        _setSound(true);
+        _getBuf(ctx); // pre-build so the first ruler tick has zero latency
+        if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+        _loadSnd(ctx).then(() => _playSnd('button'));
+      } else {
+        _playSnd('disabled'); // play before the gate closes
+        _setSound(false);
+      }
+    } catch (_) {}
+  }));
 
   const playTick = _doPlay;
+
+  // ── UI sounds ────────────────────────────────────────────────
+  // SND02 "piano" by Ayako Taniguchi, from SND (https://snd.dev): free to use,
+  // copyright stays with the sound designer. The audio sprite is self-hosted
+  // because the CSP blocks snd-lib's CDN; offsets/durations come from snd-lib's
+  // json/02.json. Loaded only once someone turns sound on.
+  // Hover keeps a short synthesised blip, since SND has no hover sound.
+  // The ruler tick above is untouched.
+  const INTERACTIVE = 'a[href], button:not(:disabled), [role="button"]';
+  const SND_VOLUME  = 0.5;
+  const SND_SPRITE  = {            // key: [offset s, duration s]
+    tap_01: [34, 0.196], tap_02: [36, 0.214], tap_03: [38, 0.234], tap_04: [40, 0.192], tap_05: [42, 0.22],
+    type_01: [52, 0.501], type_02: [54, 0.501], type_03: [56, 0.5], type_04: [58, 0.5], type_05: [60, 0.5],
+    toggle_on: [46, 0.517], toggle_off: [44, 0.55],
+    button: [0, 0.551], disabled: [9, 0.499],  // sound icon: on / off
+    transition_down: [48, 0.75],
+    celebration: [4, 3.001],
+    caution: [2, 0.5],
+  };
+  let _sndBuf = null;
+  let _sndLoading = null;
+
+  function _loadSnd(ctx) {
+    if (_sndBuf) return Promise.resolve(_sndBuf);
+    if (!_sndLoading) {
+      const decode = url => fetch(url)
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+        .then(bytes => ctx.decodeAudioData(bytes));
+      // AAC first (all browsers incl. Safari), Ogg if the platform can't decode it
+      _sndLoading = decode('assets/sounds/snd02/sprite.m4a')
+        .catch(() => decode('assets/sounds/snd02/sprite.ogg'))
+        .then(buf => (_sndBuf = buf))
+        .catch(() => { _sndLoading = null; return null; });
+    }
+    return _sndLoading;
+  }
+
+  function _playSnd(key) {
+    if (!_soundOn || !_sndBuf) return;
+    const [offset, duration] = SND_SPRITE[key];
+    const ctx  = _getCtx();
+    const src  = ctx.createBufferSource();
+    const gain = ctx.createGain();
+    src.buffer = _sndBuf;
+    gain.gain.value = SND_VOLUME;
+    src.connect(gain).connect(ctx.destination);
+    src.start(0, offset, duration);
+  }
+
+  // Taps and keystrokes rotate through SND's five variations, as snd-lib does
+  const variation = prefix => `${prefix}_0${1 + Math.floor(Math.random() * 5)}`;
+
+  function _hoverBlip() {
+    const ctx = _getCtx();
+    const t0  = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const lp  = ctx.createBiquadFilter();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(260, t0);
+    lp.type = 'lowpass';
+    lp.Q.value = 0.5;
+    lp.frequency.value = 900;
+    gain.gain.setValueAtTime(0, t0);
+    gain.gain.linearRampToValueAtTime(0.084, t0 + 0.0025);
+    gain.gain.linearRampToValueAtTime(0, t0 + 0.05);
+    osc.connect(lp).connect(gain).connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + 0.055);
+  }
+
+  const CUES = {
+    click:         () => variation('tap'),
+    type:          () => variation('type'),
+    route:         'transition_down',
+    'theme-light': 'toggle_on',
+    'theme-dark':  'toggle_off',
+    success:       'celebration',
+    error:         'caution',
+  };
+
+  function playCue(cue) {
+    try {
+      if (!_soundOn) return;
+      if (cue === 'hover') { _hoverBlip(); return; }
+      const key = typeof CUES[cue] === 'function' ? CUES[cue]() : CUES[cue];
+      if (key) _playSnd(key);
+    } catch (_) {}
+  }
+
+  // Hover: once per interactive element entered, mouse only
+  let _hoverEl = null;
+  document.addEventListener('pointerover', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    const el = e.target.closest(INTERACTIVE);
+    if (el === _hoverEl) return;
+    _hoverEl = el;
+    if (el) playCue('hover');
+  }, { passive: true });
+
+  // Click: section links get the transition sound, the theme toggle a
+  // toggle on/off, sound toggles play their own; everything else a tap
+  document.addEventListener('click', (e) => {
+    // composedPath, not target.closest: the theme toggle swaps its icon's
+    // innerHTML on click, so e.target is detached by the time this runs
+    const el = e.composedPath().find(n => n instanceof Element && n.matches(INTERACTIVE));
+    if (!el || el.matches('[data-sound-toggle]')) return;
+    if (el.matches('.theme-toggle')) {
+      playCue(document.body.classList.contains('light-theme') ? 'theme-light' : 'theme-dark');
+      return;
+    }
+    const href = el.getAttribute('href');
+    playCue(href && href.startsWith('#') && href.length > 1 ? 'route' : 'click');
+  });
+
+  // Typing in the contact form: SND02 piano keystrokes
+  document.getElementById('contactForm')?.addEventListener('input', (e) => {
+    if (e.target.matches('input, textarea')) playCue('type');
+  });
+
+  // For non-module scripts (contact form status)
+  window.uiSound = { play: playCue };
 
   // ── Build ruler ──────────────────────────────────────────────
   const ruler = document.createElement('div');
@@ -7825,6 +8100,70 @@ if (scrollIndicator) {
   onScroll(); // paint immediately
 })();
 
+
+// ============================================================
+// NAV HOVER HIGHLIGHT — one pill that slides between nav items
+// ============================================================
+(function initNavHighlight() {
+  const bar = document.querySelector('.nav-bar');
+  if (!bar) return;
+
+  const highlight = document.createElement('span');
+  highlight.className = 'nav-highlight';
+  highlight.setAttribute('aria-hidden', 'true');
+  const body = document.createElement('span');
+  body.className = 'nav-highlight__body';
+  highlight.appendChild(body);
+  bar.prepend(highlight);
+  bar.classList.add('has-highlight');
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let current = null;
+
+  function place(item) {
+    highlight.style.width  = item.offsetWidth + 'px';
+    highlight.style.height = item.offsetHeight + 'px';
+    highlight.style.transform = `translate(${item.offsetLeft}px, ${item.offsetTop}px)`;
+  }
+
+  function moveTo(item) {
+    if (item === current) return;
+    if (!current || reduceMotion.matches) {
+      // Arriving from outside the bar: appear in place, no slide
+      highlight.style.transition = 'opacity 0.2s ease';
+      place(item);
+      highlight.getBoundingClientRect(); // commit position before re-enabling transitions
+      highlight.style.transition = '';
+    } else {
+      place(item);
+      // Stretch the pill while it travels, like liquid being pulled along
+      body.animate(
+        [{ transform: 'scaleX(1)' }, { transform: 'scaleX(1.08)' }, { transform: 'scaleX(1)' }],
+        { duration: 380, easing: 'cubic-bezier(0.65, 0, 0.35, 1)' }
+      );
+    }
+    highlight.classList.add('is-visible');
+    current = item;
+  }
+
+  function hide() {
+    highlight.classList.remove('is-visible');
+    current = null;
+  }
+
+  bar.addEventListener('pointerover', (e) => {
+    const item = e.target.closest('.nav-item');
+    if (item) moveTo(item);
+  });
+  bar.addEventListener('pointerleave', hide);
+  bar.addEventListener('focusin', (e) => {
+    const item = e.target.closest('.nav-item');
+    if (item && item.matches(':focus-visible')) moveTo(item);
+  });
+  bar.addEventListener('focusout', (e) => {
+    if (!bar.contains(e.relatedTarget)) hide();
+  });
+})();
 
 // Scroll Animations Module
 class ScrollAnimations {
@@ -8093,7 +8432,8 @@ showStatus(message, type) {
   
   this.status.textContent = message;
   this.status.className = `form-status ${type}`;
-  
+  if (type === 'success' || type === 'error') window.uiSound?.play(type);
+
   // Auto-clear success messages
   if (type === 'success') {
     setTimeout(() => {
