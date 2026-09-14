@@ -3117,6 +3117,27 @@ body.light-theme .hero-now-card {
   color: var(--accent-dark-hover);
 }
 
+/* Same arrow motion as the Let's talk button: diagonal at rest, horizontal on hover */
+.hero-now-card__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-45deg);
+  transform-origin: center center;
+  transition: transform 0.32s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.hero-now-card__arrow svg {
+  width: 1.1em;
+  height: 1.1em;
+  display: block;
+}
+
+.hero-now-card__link:hover .hero-now-card__arrow,
+.hero-now-card__link:focus-visible .hero-now-card__arrow {
+  transform: rotate(0deg) translateX(3px);
+}
+
 body.light-theme .hero-now-card__label,
 body.light-theme .hero-now-card__link {
   color: var(--accent-light);
@@ -4113,6 +4134,29 @@ body.light-theme .photo-card:hover {
   cursor: default;
 }
 
+.lightbox-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Horizontal drags come to JS; vertical pan and pinch-zoom stay native */
+  touch-action: pan-y pinch-zoom;
+  will-change: transform;
+}
+
+/* Neighbour photos, one viewport (+1rem gap) to either side of the current one */
+.lightbox-content .lightbox-peek {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+}
+.lightbox-content .lightbox-peek--prev { transform: translate(calc(-50% - 100vw - 1rem), -50%); }
+.lightbox-content .lightbox-peek--next { transform: translate(calc(-50% + 100vw + 1rem), -50%); }
+.lightbox-content .lightbox-peek:not([src]) { visibility: hidden; }
+
 /* ── Controls: shared base ────────────────────── */
 .lightbox-close,
 .lightbox-nav {
@@ -4671,6 +4715,7 @@ body.light-theme .app-pill--ghost:hover {
 @media (max-width: 768px) {
   .app-logo { width: 28px; height: 28px; }
   .app-pill { padding: 0.35rem 0.7rem; }
+  .app-links { justify-content: center; }
 }
 
 
@@ -5886,7 +5931,15 @@ body.light-theme .scrolly-step-link:focus-visible {
         <p class="hero-now-card__body">
           Delivering developer-first API products to clients — turning fragmented compliance workflows into programmatic real-time risk decisions. On the side, shooting film &amp; digital across borders.
         </p>
-        <a href="#experience" class="hero-now-card__link">Jump to work ↓</a>
+        <a href="#experience" class="hero-now-card__link">
+          Jump to work
+          <span class="hero-now-card__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </span>
+        </a>
       </div>
 
       <div class="hero-photo-grid" aria-label="Selected frames">
@@ -7470,7 +7523,12 @@ View more
 <!-- Lightbox — all controls inside so CSS hover works -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
   <div class="lightbox-content">
-    <img src="" alt="" id="lightbox-img">
+    <!-- Swipe track (touch): neighbours sit one screen to each side and follow the finger -->
+    <div class="lightbox-track">
+      <img class="lightbox-peek lightbox-peek--prev" alt="" aria-hidden="true">
+      <img src="" alt="" id="lightbox-img">
+      <img class="lightbox-peek lightbox-peek--next" alt="" aria-hidden="true">
+    </div>
   </div>
 
   <button class="lightbox-close" aria-label="Close photo viewer">
@@ -9081,6 +9139,10 @@ class PhotoLightbox {
   constructor() {
     this.lightbox      = document.getElementById('lightbox');
     this.lightboxImg   = document.getElementById('lightbox-img');
+    this.track         = this.lightbox.querySelector('.lightbox-track');
+    this.peekPrev      = this.lightbox.querySelector('.lightbox-peek--prev');
+    this.peekNext      = this.lightbox.querySelector('.lightbox-peek--next');
+    this.isTouch       = window.matchMedia('(hover: none)');
     this.locationSpan  = document.querySelector('#lightbox-location span');
     this.counter       = document.getElementById('lightbox-counter');
     this.photos        = [];
@@ -9102,6 +9164,8 @@ class PhotoLightbox {
       .addEventListener('click', (e) => { e.stopPropagation(); this.prev(); });
     this.lightbox.querySelector('.lightbox-next')
       .addEventListener('click', (e) => { e.stopPropagation(); this.next(); });
+
+    this._initSwipe();
 
     // Click the dark backdrop to close
     this.lightbox.addEventListener('click', (e) => {
@@ -9290,6 +9354,76 @@ class PhotoLightbox {
     this.lightboxImg.alt = photo.alt;
     this.locationSpan.textContent = photo.location;
     this.counter.textContent = `${this.currentIndex + 1} / ${list.length}`;
+
+    // Preload neighbours into the swipe track so they're visible while dragging
+    if (this.isTouch.matches && list.length > 1) {
+      const n = list.length;
+      this.peekPrev.src = list[(this.currentIndex - 1 + n) % n].src;
+      this.peekNext.src = list[(this.currentIndex + 1) % n].src;
+    }
+  }
+
+  _initSwipe() {
+    const track = this.track;
+    if (!track) return;
+    const SNAP = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)';
+    let pointerId = null;
+    let startX = 0, startY = 0, startT = 0, dx = 0;
+    let axis = null;   // 'x' once a horizontal drag is recognised, 'y' to ignore
+    this.swiping = false;
+
+    const setX = (x, animate) => {
+      track.style.transition = animate ? SNAP : 'none';
+      track.style.transform  = x ? `translateX(${x}px)` : '';
+    };
+
+    track.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' || this.swiping || pointerId !== null) return;
+      pointerId = e.pointerId;
+      startX = e.clientX; startY = e.clientY; startT = performance.now();
+      dx = 0; axis = null;
+    });
+
+    track.addEventListener('pointermove', (e) => {
+      if (e.pointerId !== pointerId) return;
+      const mx = e.clientX - startX;
+      const my = e.clientY - startY;
+      if (axis === null && Math.hypot(mx, my) > 8) {
+        axis = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+        if (axis === 'x') { try { track.setPointerCapture(pointerId); } catch (_) {} }
+      }
+      if (axis !== 'x') return;
+      const list = this.navPhotos || this.photos;
+      dx = list.length > 1 ? mx : mx * 0.25; // single photo: rubber-band only
+      setX(dx, false);
+    });
+
+    const finish = (e) => {
+      if (e.pointerId !== pointerId) return;
+      pointerId = null;
+      if (axis !== 'x') return;
+
+      const list     = this.navPhotos || this.photos;
+      const velocity = dx / Math.max(1, performance.now() - startT); // px per ms
+      const far      = Math.abs(dx) > Math.min(90, window.innerWidth * 0.22);
+      const flick    = Math.abs(dx) > 30 && Math.abs(velocity) > 0.45;
+      const dir      = e.type === 'pointercancel' || list.length < 2 || !(far || flick)
+        ? 0 : (dx < 0 ? 1 : -1);
+
+      if (!dir) { setX(0, true); return; }
+
+      // Slide the neighbour fully into place, then swap it in as the current photo
+      this.swiping = true;
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      setX(-dir * (window.innerWidth + rem), true);
+      setTimeout(() => {
+        dir > 0 ? this.next() : this.prev();
+        setX(0, false);
+        this.swiping = false;
+      }, 320);
+    };
+    track.addEventListener('pointerup', finish);
+    track.addEventListener('pointercancel', finish);
   }
 
   next() {
