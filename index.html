@@ -3041,6 +3041,16 @@ body.light-theme .hero-chip {
   .hero-mobile-toggles .sound-toggle:focus-visible .sound-toggle__icon { transform: translateY(-1px); }
 }
 
+/* Keep location chip, toggles and version chip on one line on narrow phones */
+@media (max-width: 380px) {
+  .hero-chips .hero-chip {
+    font-size: 0.54rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .hero-chips .hero-mobile-toggles { gap: 0; }
+}
+
 /* Highlight pill around inline keywords */
 .hl {
   display: inline-block;
@@ -3362,9 +3372,14 @@ body.light-theme .hero-photo:focus-visible {
     gap: 0.5rem;
   }
 
+  .hero-chips {
+    flex-wrap: nowrap;
+    gap: 0.3rem;
+  }
+
   .hero-chip {
     font-size: 0.58rem;
-    padding: 0.35rem 0.7rem;
+    padding: 0.35rem 0.6rem;
   }
 
   .hero-now-card {
