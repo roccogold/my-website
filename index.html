@@ -3018,6 +3018,7 @@ body.light-theme .hero-chip {
     display: inline-flex;
     align-items: center;
     gap: 0.15rem;
+    order: 1;
   }
 
   .hero-mobile-toggles .theme-toggle,
@@ -3262,6 +3263,71 @@ body.light-theme .hero-photo:focus-visible {
 .hero-btn-primary:hover .hero-btn-arrow,
 .hero-btn-primary:focus-visible .hero-btn-arrow {
   transform: rotate(0deg) translateX(3px);
+}
+
+/* Hero credentials: where I've built + where I've lived */
+.hero-creds {
+  width: 100%;
+  max-width: 30rem;
+  margin-top: 1.6rem;
+  font-family: var(--main-font);
+  color: var(--text-dark);
+}
+body.light-theme .hero-creds { color: var(--text-light); }
+
+.hero-creds__label {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.hero-creds__row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid rgba(154, 119, 198, 0.22);
+}
+.hero-creds__row:last-child { border-bottom: 1px solid rgba(154, 119, 198, 0.22); }
+.hero-creds__row .hero-creds__label { width: 3.6rem; flex-shrink: 0; }
+body.light-theme .hero-creds__row { border-color: rgba(107, 70, 193, 0.16); }
+
+.hero-creds__items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.9rem;
+}
+
+.hero-creds__logo { height: 13px; width: auto; opacity: 0.85; }
+/* The Bitpanda PNG has ~8px of transparent padding on each side at this height */
+.hero-creds__logo--bitpanda { height: 20px; margin: 0 -8px; }
+.hero-creds__logo--light { display: none; }
+body.light-theme .hero-creds__logo--dark { display: none; }
+body.light-theme .hero-creds__logo--light { display: block; }
+
+.hero-creds__place { font-size: 0.62rem; opacity: 0.85; }
+/* Stacked hero: span the same width as the Now card below */
+@media (max-width: 900px) {
+  .hero-creds { max-width: none; }
+}
+
+@media (max-width: 768px) {
+  .hero-creds {
+    margin: 1.4rem auto 0;
+    text-align: left;
+  }
+  .hero-creds__row { gap: 0.7rem; }
+  .hero-creds__row .hero-creds__label { width: 3rem; }
+  .hero-creds__items { flex-wrap: nowrap; gap: 0.55rem; white-space: nowrap; }
+  .hero-creds__place { font-size: 0.56rem; }
+}
+
+@media (max-width: 380px) {
+  .hero-creds__items { gap: 0.45rem; }
+  .hero-creds__place { font-size: 0.52rem; }
 }
 
 /* Hero responsive — stack columns under 900px */
@@ -5931,6 +5997,29 @@ body.light-theme .scrolly-step-link:focus-visible {
           <i class="fa-solid fa-file-pdf"></i>
           View resume
         </a>
+      </div>
+
+      <div class="hero-creds">
+        <div class="hero-creds__row">
+          <span class="hero-creds__label">Work</span>
+          <span class="hero-creds__items">
+            <img src="assets/bitpanda-logo.png" width="5250" height="1618" class="hero-creds__logo hero-creds__logo--bitpanda hero-creds__logo--dark" alt="Bitpanda">
+            <img src="assets/bitpanda-logo-light.png" width="5250" height="1618" class="hero-creds__logo hero-creds__logo--bitpanda hero-creds__logo--light" alt="Bitpanda">
+            <img src="assets/moodys-logo.png" width="981" height="271" class="hero-creds__logo hero-creds__logo--dark" alt="Moody's">
+            <img src="assets/moodys-logo-light.png" width="981" height="271" class="hero-creds__logo hero-creds__logo--light" alt="Moody's">
+          </span>
+        </div>
+        <div class="hero-creds__row">
+          <span class="hero-creds__label">Lived</span>
+          <span class="hero-creds__items">
+            <span class="hero-creds__place">Italy</span>
+            <span class="hero-creds__place">Switzerland</span>
+            <span class="hero-creds__place">Poland</span>
+            <span class="hero-creds__place">Canada</span>
+            <span class="hero-creds__place">Austria</span>
+            <span class="hero-creds__place">Singapore</span>
+          </span>
+        </div>
       </div>
     </header>
 
@@ -9815,6 +9904,31 @@ document.addEventListener('DOMContentLoaded', () => {
 })();
 </script>
 
+<script>
+  // Desktop: start the hero credentials on the same line as the bottom row of hero photos
+  (() => {
+    const creds = document.querySelector('.hero-creds');
+    const photo = document.querySelectorAll('.hero-photo')[2];
+    const grid = document.querySelector('.hero-grid');
+    if (!creds || !photo || !grid) return;
+
+    const desktop = window.matchMedia('(min-width: 901px)');
+    const pageTop = (el) => { let y = 0; for (; el; el = el.offsetParent) y += el.offsetTop; return y; };
+
+    const align = () => {
+      creds.style.marginTop = '';
+      if (!desktop.matches) return;
+      const natural = parseFloat(getComputedStyle(creds).marginTop);
+      const shift = pageTop(photo) - pageTop(creds);
+      if (shift > 0) creds.style.marginTop = `${natural + shift}px`;
+    };
+
+    new ResizeObserver(align).observe(grid);
+    desktop.addEventListener('change', align);
+    document.fonts?.ready.then(align);
+    window.addEventListener('load', align);
+  })();
+</script>
 
 </body>
 </html>
