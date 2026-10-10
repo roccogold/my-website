@@ -9534,6 +9534,7 @@ class PhotoLightbox {
     this.lightboxImg   = document.getElementById('lightbox-img');
     this.track         = this.lightbox.querySelector('.lightbox-track');
     this.isTouch       = window.matchMedia('(hover: none)');
+    this.isPhone       = window.matchMedia('(max-width: 768px)');
     this.locationSpan  = document.querySelector('#lightbox-location span');
     this.counter       = document.getElementById('lightbox-counter');
     this.photos        = [];
@@ -9760,11 +9761,18 @@ class PhotoLightbox {
   }
 
   // Only touches the DOM when the photo actually changes, so a slide that already
-  // shows the right photo is never reloaded
+  // shows the right photo is never reloaded. dataset.src keeps the full-size path
+  // so comparisons still match the photo list.
   _setSrc(img, src) {
     if (img.dataset.src === src) return;
     img.dataset.src = src;
-    img.src = src;
+    img.src = this._sized(src);
+  }
+
+  // Phones get the 1200px copy: it covers a phone screen at 3x and is a
+  // fraction of the 2560px download
+  _sized(src) {
+    return this.isPhone.matches ? src.replace('assets/photos/', 'assets/photos-1200/') : src;
   }
 
   // Touch only: load and decode the neighbours ahead of time so they are ready
