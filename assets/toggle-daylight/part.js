@@ -1809,6 +1809,10 @@ export function mount(root) {
     bh = needH + (needH & 1);
     ox = (bw - CORE_W) >> 1;
     oy = (bh - CORE_H) >> 1;
+    // [rocco] opt-in data-frame="low": when the window is too short for the whole
+    // scene, frame it halfway between the middle and the bottom, so the house
+    // and the resident on the path both stay in view
+    if (root.dataset.frame === 'low') oy = Math.round((oy + Math.min(oy, bh - MARGIN - CORE_H + 4)) / 2);
     matBuf = new Uint8Array(bw * bh);
     baseBuf = new Uint8Array(bw * bh);
     varBuf = new Uint8Array(bw * bh);
