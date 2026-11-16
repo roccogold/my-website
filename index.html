@@ -483,7 +483,7 @@ body::after {
   background: url('/assets/grain.svg') repeat;
   background-size: 320px 320px;
   mix-blend-mode: soft-light;
-  opacity: 0.18;
+  opacity: 0.24;
 }
 
 /* Force immediate solid background on HTML element */
@@ -717,7 +717,7 @@ body.light-theme .theme-toggle:focus-visible {
 /* Theme cross-fade (see the daylight script): only while switching themes */
 html.theme-fading::view-transition-old(root),
 html.theme-fading::view-transition-new(root) {
-  animation-duration: 700ms;
+  animation-duration: 400ms;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 html.theme-fading [data-ld-part="toggle-daylight"] {
@@ -2573,6 +2573,15 @@ body.light-theme .photo-filter-bar {
   pointer-events: none;
   filter: url(#pf-goo) drop-shadow(0 6px 9px var(--pf-shadow));
 }
+
+/* touch devices: no SVG filter (CPU-rendered there), plain ink shapes */
+.pf-lite .pf-ink-layer { filter: none; }
+.pf-lite .photo-filter-btn {
+  transition:
+    --pf-fill 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    border-radius 0.2s ease;
+}
+.pf-lite .pf-blob { will-change: transform, width; }
 
 .pf-blob {
   position: absolute;
@@ -6264,7 +6273,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           </div>
         </div>
         <p class="scrolly-step-body">
-          Built and integrated developer-first API products that transform fragmented compliance workflows into programmatic real-time risk decisions — cutting client integration time from weeks to days.
+          Built and integrated developer-first API products that transform fragmented compliance workflows into programmatic real-time risk decisions, cutting client integration time from weeks to days.
         </p>
 
         <div class="step-highlights">
@@ -6275,7 +6284,7 @@ body.light-theme .scrolly-step-link:focus-visible {
               <h4 class="step-highlight-title">API Portal</h4>
             </div>
             <p class="step-highlight-text">
-              Designed end-to-end developer documentation — quickstart guides, integration references and code samples — to lower the barrier for clients embedding compliance data into their own products.
+              Designed end-to-end developer documentation, quickstart guides, integration references and code samples, to lower the barrier for clients embedding compliance data into their own products.
             </p>
           </div>
 
@@ -6286,7 +6295,7 @@ body.light-theme .scrolly-step-link:focus-visible {
               <h4 class="step-highlight-title">API Search Performance</h4>
             </div>
             <p class="step-highlight-text">
-              Redesigned entity search by restructuring how upstream calls are orchestrated across multiple data connectors — cutting response times from <span class="counter" data-target="30" data-prefix="~" data-suffix="s">~30s</span> to <span class="counter" data-target="3" data-prefix="~" data-suffix="s">~3s</span> and delivering faster, more relevant results.
+              Redesigned entity search by restructuring how upstream calls are orchestrated across multiple data connectors, cutting response times from <span class="counter" data-target="30" data-prefix="~" data-suffix="s">~30s</span> to <span class="counter" data-target="3" data-prefix="~" data-suffix="s">~3s</span> and delivering faster, more relevant results.
             </p>
           </div>
         </div>
@@ -6321,7 +6330,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           </div>
         </div>
         <p class="scrolly-step-body">
-          Drove product evolution of an operations platform used daily by <span class="inline-metric" id="inlineMetric200">200+</span> users across trading, risk, payments, support and compliance teams — reducing operational friction across the broker's core workflows.
+          Drove product evolution of an operations platform used daily by <span class="inline-metric" id="inlineMetric200">200+</span> users across trading, risk, payments, support and compliance teams, reducing operational friction across the broker's core workflows.
         </p>
         <div class="scrolly-step-meta">
           <a
@@ -6372,7 +6381,7 @@ body.light-theme .scrolly-step-link:focus-visible {
         </svg>
         <h3 class="app-name">Stacca<sup class="app-name-tm app-name-tm--stacca" aria-hidden="true">&trade;</sup></h3>
       </div>
-      <p class="app-tagline">Mobile-first employee management for small teams — track hours, activities and work locations, and manage payroll in one place.</p>
+      <p class="app-tagline">Mobile-first employee management for small teams, track hours, activities and work locations, and manage payroll in one place.</p>
       <div class="app-links">
         <a href="https://stacca-app.vercel.app/" target="_blank" rel="noopener noreferrer" class="app-pill app-pill--primary">
           <span class="app-pill-label">Try it</span>
@@ -6410,7 +6419,7 @@ body.light-theme .scrolly-step-link:focus-visible {
         </svg>
         <h3 class="app-name">Dario<sup class="app-name-tm app-name-tm--dario" aria-hidden="true">&trade;</sup></h3>
       </div>
-      <p class="app-tagline">Digital production management for an artisan cheese farm — batches, protocols and daily activities.</p>
+      <p class="app-tagline">Digital production management for an artisan cheese farm, batches, protocols and daily activities.</p>
       <div class="app-links">
         <a href="https://dario-caseificio.vercel.app/" target="_blank" rel="noopener noreferrer" class="app-pill app-pill--primary">
           <span class="app-pill-label">Try it</span>
@@ -6441,7 +6450,7 @@ body.light-theme .scrolly-step-link:focus-visible {
     <h3 class="thesis-title"><i class="fas fa-train"></i> Insurtrain</h3>
 
     <p class="thesis-description">
-      Delay? Instantly paid. This blockchain solution automatically compensates you the moment your train is late — <span class="counter" data-target="100" data-suffix="%">100%</span> automated, zero paperwork, money sent directly to your wallet.
+      Delay? Instantly paid. This blockchain solution automatically compensates you the moment your train is late, <span class="counter" data-target="100" data-suffix="%">100%</span> automated, zero paperwork, money sent directly to your wallet.
     </p>
 
     <!-- ✨ NEW: Impact Metrics -->
@@ -9691,7 +9700,7 @@ document.addEventListener('DOMContentLoaded', () => {
       b.getAnimations().filter(a => a.id === 'pf-flip').forEach(a => a.cancel());
       const anim = b.animate(
         [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'translate(0, 0)' }],
-        { duration: 700, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }
+        { duration: lite ? 420 : 700, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }
       );
       anim.id = 'pf-flip';
     });
@@ -9728,41 +9737,49 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
   const NECK_MS = 520;
 
+  // Touch devices: the SVG goo filter is drawn on the CPU there and stutters,
+  // so the ink is plain shapes (still pouring and merging, no neck)
+  const lite = matchMedia('(pointer: coarse)').matches;
+  if (lite) filterBar.classList.add('pf-lite');
+
   function drawInk() {
+    // read everything first, then write: one layout per frame, not one per pill
     const bar = filterBar.getBoundingClientRect();
+    const now = performance.now();
+    const reads = [];
     blobs.forEach((el, b) => {
-      const fill = b === allBtn ? 1 : parseFloat(getComputedStyle(b).getPropertyValue('--pf-fill')) || 0;
-      if (fill < 0.005) { el.style.opacity = '0'; return; }
-      const r = b.getBoundingClientRect();
-      const w = r.width * fill;
-      // ink sits on the group side (left): it pours in from there and drains back there
-      const x = r.left - bar.left;
-      el.style.opacity = '1';
-      el.style.width = `${w}px`;
-      el.style.height = `${r.height}px`;
-      el.style.transform = `translate(${x}px, ${r.top - bar.top}px)`;
-      el.style.borderRadius = getComputedStyle(b).borderRadius;
+      const cs = getComputedStyle(b);
+      const fill = b === allBtn ? 1 : parseFloat(cs.getPropertyValue('--pf-fill')) || 0;
+      const r = fill < 0.005 ? null : b.getBoundingClientRect();
+      let neck = null;
+      const t = b._pfNeckStart ? (now - b._pfNeckStart) / NECK_MS : 1;
+      const prev = b.previousElementSibling;
+      if (!lite && r && t < 1 && prev && prev.classList.contains('photo-filter-btn')) {
+        neck = { t, pr: prev.getBoundingClientRect() };
+      }
+      reads.push({ b, el, fill, r, radius: r ? cs.borderRadius : '', neck });
     });
 
-    const now = performance.now();
-    necks.forEach((el, b) => {
-      const t = b._pfNeckStart ? (now - b._pfNeckStart) / NECK_MS : 1;
-      const blob = blobs.get(b);
-      if (t >= 1 || blob.style.opacity === '0') { el.style.opacity = '0'; return; }
-      // anchor: right edge of the filled pill before this one in the bar
-      const prev = b.previousElementSibling;
-      if (!prev || !prev.classList.contains('photo-filter-btn')) { el.style.opacity = '0'; return; }
-      const pr = prev.getBoundingClientRect();
-      const r = b.getBoundingClientRect();
-      const from = pr.right - bar.left - 4;
-      const to = r.left - bar.left + 4;
-      const h = r.height * 0.62 * (1 - t) ** 1.6;   // thins as it stretches
-      if (to <= from || h < 1.5) { el.style.opacity = '0'; return; }
+    reads.forEach(({ b, el, fill, r, radius, neck }) => {
+      const nEl = necks.get(b);
+      if (!r) { el.style.opacity = '0'; nEl.style.opacity = '0'; return; }
+      // ink sits on the group side (left): it pours in from there and drains back there
       el.style.opacity = '1';
-      el.style.width = `${to - from}px`;
-      el.style.height = `${h}px`;
-      el.style.borderRadius = '999px';
-      el.style.transform = `translate(${from}px, ${r.top - bar.top + (r.height - h) / 2}px)`;
+      el.style.width = `${r.width * fill}px`;
+      el.style.height = `${r.height}px`;
+      el.style.transform = `translate(${r.left - bar.left}px, ${r.top - bar.top}px)`;
+      el.style.borderRadius = radius;
+
+      if (!neck) { nEl.style.opacity = '0'; return; }
+      const from = neck.pr.right - bar.left - 4;
+      const to = r.left - bar.left + 4;
+      const h = r.height * 0.62 * (1 - neck.t) ** 1.6;   // thins as it stretches
+      if (to <= from || h < 1.5) { nEl.style.opacity = '0'; return; }
+      nEl.style.opacity = '1';
+      nEl.style.width = `${to - from}px`;
+      nEl.style.height = `${h}px`;
+      nEl.style.borderRadius = '999px';
+      nEl.style.transform = `translate(${from}px, ${r.top - bar.top + (r.height - h) / 2}px)`;
     });
   }
 
@@ -9781,8 +9798,8 @@ document.addEventListener('DOMContentLoaded', () => {
   new ResizeObserver(() => drawInk()).observe(filterBar);
   drawInk();
 
-  const DETACH_MS = 160;  // ink starts draining while the tag is still attached
-  const HOME_MS = 700;    // after the neck has snapped, the tag glides home
+  const DETACH_MS = lite ? 60 : 160;   // ink starts draining while the tag is still attached
+  const HOME_MS = lite ? 380 : 700;    // after the neck has snapped, the tag glides home
 
   function select(btn) {
     clearTimeout(btn._pfDetach);
@@ -10636,8 +10653,8 @@ if (root) {
   // Cross-fade the whole page between themes, so every color eases at once
   // instead of snapping. The switch itself is kept out of the fade.
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  root.addEventListener('daylight:change', (e) => {
-    const isLight = !e.detail.night;
+  const setTheme = (isLight) => {
+    if (document.body.classList.contains('light-theme') === isLight) return;
     if (!document.startViewTransition || reducedMotion.matches) {
       applyTheme(isLight);
       return;
@@ -10646,7 +10663,21 @@ if (root) {
     html.classList.add('theme-fading');
     const vt = document.startViewTransition(() => applyTheme(isLight));
     vt.finished.finally(() => html.classList.remove('theme-fading'));
+  };
+
+  // The switch only reports a change once its knob has settled (~2s). A tap or
+  // Enter/Space always flips it, so switch the page right away on those; drags
+  // can end either way, so they wait for the switch's own daylight:change.
+  const hit = root.querySelector('.hit');
+  let downX = 0;
+  hit.addEventListener('pointerdown', (e) => { downX = e.clientX; });
+  hit.addEventListener('click', (e) => {
+    // same rule as the switch: moved more than 3px is a drag, not a tap.
+    // A tap flips the switch's target, which the page already shows.
+    const tap = e.detail === 0 || Math.abs(e.clientX - downX) <= 3;
+    if (tap) setTheme(!document.body.classList.contains('light-theme'));
   });
+  root.addEventListener('daylight:change', (e) => setTheme(!e.detail.night));
 
   mount(root);
 }
