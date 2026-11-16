@@ -2602,23 +2602,97 @@ body.light-theme .photo-filter-bar {
   filter: url(#pf-goo) drop-shadow(0 6px 9px var(--pf-shadow));
 }
 
-/* Touch devices: same ink layer as desktop without the SVG goo filter (it is
-   CPU-rendered there); the liquid joins are drawn as bridge shapes instead.
-   The soft shadow is a CSS drop-shadow, which phones draw on the GPU. */
-.pf-lite .pf-ink-layer { filter: drop-shadow(0 6px 9px var(--pf-shadow)); }
+/* Phones: the ink lives inside each pill and moves with it (no per-frame
+   script, nothing to trail). The fill sweeps in from the group side with
+   transforms only; a small liquid bridge on the pill's left edge snaps into
+   the group as the pill arrives, and on the way out pinches and breaks. */
+.pf-lclip, .pf-bridge { display: none; }
+.pf-lite .pf-ink-layer,
+.pf-lite .pf-ink { display: none; }
 .pf-lite .photo-filter-btn {
-  transition:
-    --pf-fill 0.6s cubic-bezier(0.6, 0.05, 0.2, 1),
-    border-radius 0.3s ease,
-    scale 0.25s cubic-bezier(0.34, 1.4, 0.5, 1);
+  transition: border-radius 0.3s ease, box-shadow 0.4s ease, scale 0.25s cubic-bezier(0.34, 1.4, 0.5, 1);
 }
-.pf-bridges {
+.pf-lite .photo-filter-btn--count,
+.pf-lite .photo-filter-btn.active:not(.pf-draining) {
+  box-shadow: 0 8px 18px -10px var(--pf-shadow);
+}
+.pf-lite .photo-filter-btn--count { background: var(--pf-accent); }
+.pf-lite .pf-lclip {
+  display: block;
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  fill: var(--pf-accent);
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.pf-lite .pf-lfill {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;            /* white label only shows where the ink is */
+  border-radius: 999px;
+  background: var(--pf-accent);
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.2, 1);
+}
+.pf-lite .pf-lfill-text {
+  width: 100%;                 /* same width as the fill, so the slides cancel exactly */
+  text-align: center;
+  color: #fff;
+  white-space: nowrap;
+  transform: translateX(101%);
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.2, 1);
+}
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-lfill,
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-lfill-text { transform: none; }
+/* once it has swept in, the fill squares off so the pill's own (flattened)
+   corners shape it and merged pills read as one smooth body */
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-lfill {
+  border-radius: 0;
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.2, 1), border-radius 0.15s ease 0.32s;
+}
+.pf-lite .photo-filter-btn.active:not(.pf-draining):not(.photo-filter-btn--count) .pf-text {
+  opacity: 0;
+  transition: opacity 0.15s ease 0.2s;
+}
+.pf-lite .photo-filter-btn .pf-text { transition: opacity 0.15s ease; }
+
+/* liquid bridge: a pinched-waist shape hanging off the pill's left edge */
+.pf-lite .pf-bridge {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -13px;
+  width: 17px;
+  z-index: -2;
+  background: var(--pf-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 28' preserveAspectRatio='none'%3E%3Cpath d='M0 0C6 0 6 7 8 7S10 0 16 0V28C10 28 10 21 8 21S6 28 0 28Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 28' preserveAspectRatio='none'%3E%3Cpath d='M0 0C6 0 6 7 8 7S10 0 16 0V28C10 28 10 21 8 21S6 28 0 28Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  transform-origin: 100% 50%;
+  transform: scale(0.2, 0);
+  pointer-events: none;
+}
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-bridge {
+  animation: pf-bridge-in 0.6s cubic-bezier(0.34, 1.3, 0.5, 1) 0.15s both;
+}
+.pf-lite .photo-filter-btn.pf-draining .pf-bridge {
+  animation: pf-bridge-out 0.36s cubic-bezier(0.5, 0, 0.75, 0) both;
+}
+@keyframes pf-bridge-in {
+  0%   { transform: scale(0.3, 0.25); opacity: 1; }
+  50%  { transform: scale(1, 1); opacity: 1; }
+  80%  { transform: scale(1, 1); opacity: 1; }
+  100% { transform: scale(1, 1); opacity: 0; }   /* gone once the ink is flush */
+}
+@keyframes pf-bridge-out {
+  0%   { transform: scale(1, 1); }
+  55%  { transform: scale(1.25, 0.35); }
+  80%  { transform: scale(1.4, 0.08); }
+  100% { transform: scale(0.2, 0); }
 }
 /* press: a quick squish that springs back */
 .pf-lite .photo-filter-btn:active { scale: 0.95; }
@@ -9685,7 +9759,10 @@ document.addEventListener('DOMContentLoaded', () => {
       ? `<span class="pf-num"><span class="pf-num-cur">${photoCards.length}</span></span>`
       : btn.textContent.trim();
     btn.innerHTML = `<span class="pf-text">${label}</span>`
-      + (isAll ? '<span class="pf-sep" aria-hidden="true"></span>' : `<span class="pf-ink" aria-hidden="true">${label}</span>`);
+      + (isAll ? '<span class="pf-sep" aria-hidden="true"></span>'
+               : `<span class="pf-ink" aria-hidden="true">${label}</span>`
+               + `<span class="pf-lclip" aria-hidden="true"><span class="pf-lfill"><span class="pf-lfill-text">${label}</span></span></span>`
+               + '<span class="pf-bridge" aria-hidden="true"></span>');
     if (isAll) {
       btn.classList.add('photo-filter-btn--count');
       btn.setAttribute('aria-label', 'Show all photos');
@@ -9753,7 +9830,7 @@ document.addEventListener('DOMContentLoaded', () => {
       b.getAnimations().filter(a => a.id === 'pf-flip').forEach(a => a.cancel());
       const anim = b.animate(
         [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'translate(0, 0)' }],
-        { duration: lite ? 600 : 700, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }
+        { duration: lite ? 420 : 700, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }
       );
       anim.id = 'pf-flip';
     });
@@ -9794,18 +9871,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Instead, the liquid joins are drawn as shapes: a curved bridge between the
   // group and a tag that thickens as they meet and pinches as they part.
   const lite = matchMedia('(pointer: coarse)').matches;
-  const bridges = new Map();
-  if (lite) {
-    filterBar.classList.add('pf-lite');
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('class', 'pf-bridges');
-    inkLayer.appendChild(svg);
-    originalOrder.forEach(b => {
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      svg.appendChild(path);
-      bridges.set(b, path);
-    });
-  }
+  const bridges = new Map();   // (unused on phones now: the ink lives inside each pill)
+  if (lite) filterBar.classList.add('pf-lite');
 
   // Liquid bridge from the end of one ink body (xa) to the start of the next (xb)
   function bridgePath(xa, xb, cy, H, t) {
@@ -9895,14 +9962,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (now < inkUntil) inkRaf = requestAnimationFrame(inkFrame);
   }
   function kick(ms = 1100) {
+    if (lite) return;   // phones: ink is inside each pill and moves with it
     inkUntil = Math.max(inkUntil, performance.now() + ms);
     if (!inkRaf) inkRaf = requestAnimationFrame(inkFrame);
   }
-  new ResizeObserver(() => drawInk()).observe(filterBar);
-  drawInk();
+  if (!lite) {
+    new ResizeObserver(() => drawInk()).observe(filterBar);
+    drawInk();
+  }
 
-  const DETACH_MS = lite ? 120 : 160;  // ink starts draining while the tag is still attached
-  const HOME_MS = lite ? 600 : 700;    // after the neck has snapped, the tag glides home
+  const DETACH_MS = lite ? 60 : 160;  // ink starts draining while the tag is still attached
+  const HOME_MS = lite ? 380 : 700;    // after the neck has snapped, the tag glides home
 
   function select(btn) {
     clearTimeout(btn._pfDetach);
@@ -9962,7 +10032,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (lite) {
         rollCount();
         clearTimeout(filterBar._pfApply);
-        filterBar._pfApply = setTimeout(applyFilter, 620);
+        filterBar._pfApply = setTimeout(applyFilter, 420);
       } else {
         applyFilter();
       }
