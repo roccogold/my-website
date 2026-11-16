@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Nav Ideas</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+  :root {
+    --accent: #6b46c1;
+    --accent-soft: rgba(107, 70, 193, 0.1);
+    --accent-line: rgba(107, 70, 193, 0.2);
+    --text: #1a1a1a;
+    --muted: rgba(26, 26, 26, 0.55);
+    --bg: #f6f3fc;
+    --card: #ffffff;
+    --pill-bg: rgba(255, 255, 255, 0.82);
+    --pill-border: rgba(107, 70, 193, 0.16);
+    --pill-shadow: 0 10px 32px rgba(107, 70, 193, 0.1);
+    --font: 'JetBrains Mono', 'Courier New', monospace;
+    --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    padding: 3rem 1rem 6rem;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 980px; margin: 0 auto; }
+  header.intro { margin-bottom: 2.5rem; }
+  header.intro h1 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  header.intro p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; max-width: 62ch; }
+
+  section.demo {
+    background: var(--card);
+    border: 1px solid var(--accent-line);
+    border-radius: 18px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .demo h2 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
+  .demo h2 span { color: var(--accent); margin-right: 0.4rem; }
+  .demo .how { font-size: 0.72rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; max-width: 70ch; }
+  .stage {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 1.75rem 0.5rem;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #f3eefc, #fbfaff);
+    overflow: hidden;
+  }
+
+  /* ---------- shared pill ---------- */
+  .pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0.3rem 0.4rem 1.1rem;
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    border-radius: 999px;
+    box-shadow: var(--pill-shadow);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .controls { display: flex; align-items: center; gap: 12px; }
+  .fake-switch {
+    width: 52px; height: 26px; border-radius: 999px;
+    background: linear-gradient(180deg, #a9c4e8 0 55%, #8fae6a 55%);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+  }
+  .fake-sound { width: 18px; height: 18px; color: var(--accent); }
+  .divider { width: 1px; height: 20px; background: var(--accent-line); margin: 0 4px 0 18px; }
+  .links { position: relative; display: flex; align-items: center; gap: 0.15rem; padding: 0 0.25rem; }
+  .link {
+    position: relative; z-index: 1;
+    font: 600 0.8rem/1 var(--font);
+    color: rgba(26, 26, 26, 0.7);
+    text-decoration: none;
+    padding: 0.55rem 0.8rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+  }
+  .link.is-active { color: var(--accent); }
+  .link:hover { color: var(--text); }
+  .link.is-active:hover { color: var(--accent); }
+
+  /* active = filled pill, hover = outline that glides */
+  .mark {
+    position: absolute; top: 0; left: 0; height: 100%;
+    border-radius: 999px;
+    pointer-events: none;
+    transition: transform 0.45s var(--ease), width 0.45s var(--ease), opacity 0.25s ease;
+  }
+  .mark--active { background: var(--accent-soft); }
+  .mark--hover { box-shadow: inset 0 0 0 1px var(--accent-line); opacity: 0; }
+  .mark--hover.on { opacity: 1; }
+
+  /* ---------- mock scrolling page ---------- */
+  .browser {
+    width: min(100%, 760px);
+    height: 380px;
+    border-radius: 12px;
+    border: 1px solid var(--accent-line);
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+  .browser .scroller { position: absolute; inset: 0; overflow-y: auto; scroll-behavior: smooth; }
+  .browser .navwrap {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; justify-content: center;
+    padding: 12px 0;
+    transition: transform 0.45s var(--ease), opacity 0.3s ease;
+  }
+  .browser .navwrap.hide { transform: translateY(-110%); opacity: 0; }
+  .mock-sec { padding: 2.5rem 2rem; min-height: 300px; border-top: 1px dashed var(--accent-line); }
+  .mock-sec:first-of-type { border-top: 0; }
+  .mock-sec h3 { font-size: 0.95rem; margin-bottom: 0.6rem; color: var(--accent); }
+  .mock-sec .bar { height: 10px; border-radius: 6px; background: #efeaf8; margin: 0.5rem 0; }
+  .hint { font-size: 0.68rem; color: var(--muted); margin-top: 0.75rem; text-align: center; }
+
+  /* scroll progress hairline on the pill's bottom edge */
+  .progress {
+    position: absolute; left: 22px; right: 22px; bottom: -1px; height: 2px;
+    border-radius: 2px; overflow: hidden; pointer-events: none;
+  }
+  .progress i {
+    display: block; height: 100%; width: 100%;
+    background: var(--accent);
+    transform-origin: left; transform: scaleX(0);
+  }
+
+  /* ---------- hover touches ---------- */
+  .lift .link { transition: color 0.2s ease, transform 0.35s var(--ease); }
+  .lift .link:hover { transform: translateY(-2px); }
+  .lift .link .label { display: inline-block; transition: letter-spacing 0.35s var(--ease); }
+  .lift .link:hover .label { letter-spacing: 0.04em; }
+
+  /* ---------- mobile bottom pill ---------- */
+  .phone {
+    width: 320px; height: 560px;
+    border-radius: 36px;
+    border: 10px solid #1d1b22;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone .scroller { position: absolute; inset: 0; overflow-y: auto; scroll-behavior: smooth; }
+  .phone .mock-sec { padding: 2rem 1.25rem; min-height: 420px; }
+  .dock {
+    position: absolute; left: 50%; bottom: 18px; z-index: 5;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: stretch;
+    min-width: 168px;
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    border-radius: 22px;
+    box-shadow: 0 12px 30px rgba(107, 70, 193, 0.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    overflow: hidden;
+    transition: min-width 0.45s var(--ease);
+  }
+  .dock.open { min-width: 220px; }
+  .dock .list {
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows 0.45s var(--ease);
+  }
+  .dock.open .list { grid-template-rows: 1fr; }
+  .dock .list > div { overflow: hidden; }
+  .dock .list a {
+    display: block; padding: 0.6rem 1.1rem;
+    font: 600 0.78rem var(--font); color: rgba(26,26,26,0.75); text-decoration: none;
+  }
+  .dock .list a.is-active { color: var(--accent); }
+  .dock button {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+    padding: 0.7rem 1.1rem;
+    background: none; border: 0; cursor: pointer;
+    font: 700 0.78rem var(--font); color: var(--text);
+  }
+  .dock button .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .dock button .chev { color: var(--muted); transition: transform 0.45s var(--ease); }
+  .dock.open button .chev { transform: rotate(180deg); }
+  .dock .cur { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .dock .cur-name { display: inline-block; transition: transform 0.35s var(--ease), opacity 0.2s ease; }
+
+  @media (max-width: 700px) {
+    .demo .stage .pill .link { padding: 0.5rem 0.55rem; font-size: 0.72rem; }
+    .controls, .divider { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="intro">
+    <h1>nav ideas · demo</h1>
+    <p>Each block is a live version of one idea, using the site's font and light-theme colours. Hover, scroll and click inside them. The fake switch and speaker stand in for the real controls.</p>
+  </header>
+
+  <!-- 1 -->
+  <section class="demo">
+    <h2><span>01</span>reveal on scroll up</h2>
+    <p class="how">Today the nav hides once you're 50px down and only returns at the top. Here it slides away while you scroll down, slides back on any scroll up, and the active pill already sits on the section you're in.</p>
+    <div class="stage">
+      <div class="browser" data-demo="reveal">
+        <div class="scroller">
+          <div class="navwrap"></div>
+        </div>
+      </div>
+    </div>
+    <p class="hint">scroll down inside the frame, then nudge back up</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="demo">
+    <h2><span>02</span>active vs hover</h2>
+    <p class="how">"Where I am" is the filled pill; "where I'm pointing" is a thin outline that glides between links. When the pointer leaves the nav, the outline springs back onto the active link and fades. Click a link to make it active.</p>
+    <div class="stage"><div class="slot" data-demo="active-hover"></div></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="demo">
+    <h2><span>03a</span>hover: lift</h2>
+    <p class="how">A 2px lift and a hair of letter-spacing on the hovered label, on top of the gliding outline.</p>
+    <div class="stage"><div class="slot lift" data-demo="lift"></div></div>
+  </section>
+
+  <section class="demo">
+    <h2><span>03b</span>hover: character scramble</h2>
+    <p class="how">The hovered label briefly scrambles through glyphs and resolves left to right, in the spirit of the site's pixel/mono type.</p>
+    <div class="stage"><div class="slot" data-demo="scramble"></div></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="demo">
+    <h2><span>04</span>scroll progress + glide-then-scroll</h2>
+    <p class="how">A hairline along the pill's bottom edge fills as you read, echoing the ruler on the right of the site. Clicking a link glides the active pill there first, then scrolls, so it reads as one motion.</p>
+    <div class="stage">
+      <div class="browser" data-demo="progress">
+        <div class="scroller">
+          <div class="navwrap"></div>
+        </div>
+      </div>
+    </div>
+    <p class="hint">scroll, or click a link in the frame</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="demo">
+    <h2><span>05</span>mobile: floating section pill</h2>
+    <p class="how">Phones have no nav today. A small pill at the bottom shows the section you're in; tap it to open the links. It updates as you scroll.</p>
+    <div class="stage">
+      <div class="phone" data-demo="dock">
+        <div class="scroller"></div>
+        <div class="dock">
+          <div class="list"><div></div></div>
+          <button type="button" aria-expanded="false">
+            <span class="cur"><span class="dot"></span><span class="cur-name">work</span></span>
+            <span class="chev">⌃</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const SECTIONS = ['work', 'apps', 'thesis', 'perspectives', 'off-hours', 'contact'];
+const SOUND = '<svg class="fake-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg>';
+
+function buildPill({ progress = false } = {}) {
+  const pill = document.createElement('div');
+  pill.className = 'pill';
+  pill.innerHTML = `
+    <div class="controls"><span class="fake-switch"></span>${SOUND}</div>
+    <span class="divider"></span>
+    <div class="links">
+      <span class="mark mark--active"></span>
+      <span class="mark mark--hover"></span>
+      ${SECTIONS.map((s, i) => `<a class="link${i === 0 ? ' is-active' : ''}" data-i="${i}"><span class="label">${s}</span></a>`).join('')}
+    </div>
+    ${progress ? '<span class="progress"><i></i></span>' : ''}`;
+  return pill;
+}
+
+// Active pill + gliding hover outline; returns setActive(i)
+function wireMarks(pill) {
+  const links = [...pill.querySelectorAll('.link')];
+  const box = pill.querySelector('.links');
+  const act = pill.querySelector('.mark--active');
+  const hov = pill.querySelector('.mark--hover');
+  let active = 0;
+  const place = (mark, el) => {
+    mark.style.width = `${el.offsetWidth}px`;
+    mark.style.transform = `translateX(${el.offsetLeft}px)`;
+  };
+  const setActive = (i) => {
+    active = i;
+    links.forEach((l, j) => l.classList.toggle('is-active', j === i));
+    place(act, links[i]);
+  };
+  links.forEach((l, i) => {
+    l.addEventListener('pointerenter', () => { place(hov, l); hov.classList.add('on'); });
+  });
+  box.addEventListener('pointerleave', () => {
+    place(hov, links[active]);           // spring back onto the active link...
+    hov.classList.remove('on');           // ...and fade
+  });
+  requestAnimationFrame(() => setActive(0));
+  addEventListener('resize', () => setActive(active));
+  return { setActive, links };
+}
+
+function fillSections(scroller, compact = false) {
+  SECTIONS.forEach((s) => {
+    const sec = document.createElement('section');
+    sec.className = 'mock-sec';
+    sec.dataset.name = s;
+    sec.innerHTML = `<h3>${s}</h3>` + Array.from({ length: compact ? 7 : 5 }, (_, i) =>
+      `<div class="bar" style="width:${92 - ((i * 17) % 40)}%"></div>`).join('');
+    scroller.appendChild(sec);
+  });
+}
+
+function currentSection(scroller) {
+  const secs = [...scroller.querySelectorAll('.mock-sec')];
+  const line = scroller.scrollTop + scroller.clientHeight * 0.35;
+  let idx = 0;
+  secs.forEach((s, i) => { if (s.offsetTop <= line) idx = i; });
+  return idx;
+}
+
+// 01 reveal on scroll up
+(() => {
+  const frame = document.querySelector('[data-demo="reveal"]');
+  const scroller = frame.querySelector('.scroller');
+  const wrap = frame.querySelector('.navwrap');
+  const pill = buildPill();
+  wrap.appendChild(pill);
+  fillSections(scroller);
+  const { setActive, links } = wireMarks(pill);
+  let lastY = 0;
+  scroller.addEventListener('scroll', () => {
+    const y = scroller.scrollTop;
+    const down = y > lastY + 2;
+    const up = y < lastY - 2;
+    if (down && y > 60) wrap.classList.add('hide');
+    if (up || y < 60) wrap.classList.remove('hide');
+    lastY = y;
+    setActive(currentSection(scroller));
+  }, { passive: true });
+  links.forEach((l, i) => l.addEventListener('click', () => {
+    const sec = scroller.querySelectorAll('.mock-sec')[i];
+    scroller.scrollTo({ top: sec.offsetTop - 70 });
+  }));
+})();
+
+// 02 + 03a static pills
+['active-hover', 'lift'].forEach((name) => {
+  const slot = document.querySelector(`[data-demo="${name}"]`);
+  const pill = buildPill();
+  slot.appendChild(pill);
+  const { setActive, links } = wireMarks(pill);
+  links.forEach((l, i) => l.addEventListener('click', () => setActive(i)));
+});
+
+// 03b scramble
+(() => {
+  const slot = document.querySelector('[data-demo="scramble"]');
+  const pill = buildPill();
+  slot.appendChild(pill);
+  const { setActive, links } = wireMarks(pill);
+  const GLYPHS = '▖▗▘▙▚▛▜▝▞▟░▒▓#%&*+=<>/\\';
+  links.forEach((l, i) => {
+    const label = l.querySelector('.label');
+    const text = label.textContent;
+    label.style.display = 'inline-block';
+    label.style.minWidth = `${text.length}ch`;
+    let raf = 0;
+    l.addEventListener('pointerenter', () => {
+      cancelAnimationFrame(raf);
+      const start = performance.now();
+      const DUR = 380;
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / DUR);
+        const settled = Math.floor(p * text.length);
+        label.textContent = [...text].map((ch, j) =>
+          j < settled || ch === '-' ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0]).join('');
+        if (p < 1) raf = requestAnimationFrame(tick); else label.textContent = text;
+      };
+      raf = requestAnimationFrame(tick);
+    });
+    l.addEventListener('click', () => setActive(i));
+  });
+})();
+
+// 04 progress + glide-then-scroll
+(() => {
+  const frame = document.querySelector('[data-demo="progress"]');
+  const scroller = frame.querySelector('.scroller');
+  const wrap = frame.querySelector('.navwrap');
+  const pill = buildPill({ progress: true });
+  wrap.appendChild(pill);
+  fillSections(scroller);
+  const { setActive, links } = wireMarks(pill);
+  const bar = pill.querySelector('.progress i');
+  let gliding = false;
+  const update = () => {
+    const max = scroller.scrollHeight - scroller.clientHeight;
+    bar.style.transform = `scaleX(${max > 0 ? scroller.scrollTop / max : 0})`;
+    if (!gliding) setActive(currentSection(scroller));
+  };
+  scroller.addEventListener('scroll', update, { passive: true });
+  links.forEach((l, i) => l.addEventListener('click', () => {
+    gliding = true;
+    setActive(i);                                   // glide first...
+    setTimeout(() => {                              // ...then scroll
+      const sec = scroller.querySelectorAll('.mock-sec')[i];
+      scroller.scrollTo({ top: sec.offsetTop - 70 });
+      setTimeout(() => { gliding = false; update(); }, 700);
+    }, 280);
+  }));
+  update();
+})();
+
+// 05 mobile dock
+(() => {
+  const phone = document.querySelector('[data-demo="dock"]');
+  const scroller = phone.querySelector('.scroller');
+  const dock = phone.querySelector('.dock');
+  const btn = dock.querySelector('button');
+  const name = dock.querySelector('.cur-name');
+  const list = dock.querySelector('.list > div');
+  fillSections(scroller, true);
+  list.innerHTML = SECTIONS.map((s, i) => `<a data-i="${i}">${s}</a>`).join('');
+  const items = [...list.querySelectorAll('a')];
+  let cur = -1;
+  const show = (i) => {
+    if (i === cur) return;
+    cur = i;
+    items.forEach((a, j) => a.classList.toggle('is-active', j === i));
+    name.animate([{ transform: 'translateY(60%)', opacity: 0 }, { transform: 'none', opacity: 1 }],
+      { duration: 320, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' });
+    name.textContent = SECTIONS[i];
+  };
+  const toggle = (open) => {
+    dock.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  };
+  btn.addEventListener('click', () => toggle(!dock.classList.contains('open')));
+  items.forEach((a, i) => a.addEventListener('click', () => {
+    toggle(false);
+    scroller.scrollTo({ top: scroller.querySelectorAll('.mock-sec')[i].offsetTop });
+  }));
+  scroller.addEventListener('scroll', () => show(currentSection(scroller)), { passive: true });
+  show(0);
+})();
+</script>
+</body>
+</html>

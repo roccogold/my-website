@@ -252,7 +252,9 @@
   height: 100%;
   width: 100vw;
   height: 100vh;
-  height: 100dvh;
+  /* largest viewport: on iPhone the toolbar collapses while scrolling and a
+     dvh-sized layer leaves a hard white edge underneath it */
+  height: 100lvh;
   z-index: 1;
   overflow: hidden;
   pointer-events: none;
@@ -477,7 +479,11 @@ body {
 body::after {
   content: '';
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  height: 100lvh;
   z-index: 2147483646;
   pointer-events: none;
   background: url('/assets/grain.svg') repeat;
@@ -856,11 +862,31 @@ body.light-theme .status-badge {
   transform: translateY(-20px);
 }
 
+/* Controls cluster (daylight switch + sound) and a hairline divider before the
+   links: ~14px inside the cluster, ~22px on each side of the divider */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 20px;
+  margin: 0 4px 0 12px;
+  flex-shrink: 0;
+  background: rgba(154, 119, 198, 0.32);
+}
+
+body.light-theme .nav-divider { background: rgba(107, 70, 193, 0.2); }
+
 .nav-pill {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding: 0.4rem 1.4rem 0.4rem 0.9rem;
+  gap: 0;
+  /* equal visible padding at both ends (~22px to the switch and to "contact") */
+  padding: 0.4rem 0.3rem 0.4rem 1.3rem;
   background: rgba(17, 17, 17, 0.55);
   border: 1px solid rgba(154, 119, 198, 0.28);
   border-radius: 999px;
@@ -2560,8 +2586,10 @@ body.light-theme .photo-filter-bar {
   transition: border-color 0.2s ease, opacity 0.3s ease;
 }
 
-.photo-filter-btn:hover::before {
-  border-color: var(--pf-line-hover);
+@media (hover: hover) {
+  .photo-filter-btn:hover::before {
+    border-color: var(--pf-line-hover);
+  }
 }
 
 /* Liquid ink: one layer behind all pills; the script draws a blob per filled
@@ -2574,14 +2602,46 @@ body.light-theme .photo-filter-bar {
   filter: url(#pf-goo) drop-shadow(0 6px 9px var(--pf-shadow));
 }
 
-/* touch devices: no SVG filter (CPU-rendered there), plain ink shapes */
-.pf-lite .pf-ink-layer { filter: none; }
+/* Touch devices: the ink is a fill inside each pill that slides in and out
+   with transforms only, so it runs on the compositor and stays smooth even
+   while the gallery below re-lays out. The white label counter-slides so it
+   stays put while the ink sweeps across it. */
+.pf-lfill { display: none; }
+.pf-lite .pf-ink-layer,
+.pf-lite .pf-ink { display: none; }
 .pf-lite .photo-filter-btn {
-  transition:
-    --pf-fill 0.42s cubic-bezier(0.4, 0, 0.2, 1),
-    border-radius 0.2s ease;
+  overflow: hidden;
+  transition: border-radius 0.25s ease, scale 0.25s cubic-bezier(0.34, 1.4, 0.5, 1);
 }
-.pf-lite .pf-blob { will-change: transform, width; }
+.pf-lite .photo-filter-btn--count { background: var(--pf-accent); }
+.pf-lite .pf-lfill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--pf-accent);
+  pointer-events: none;
+  transform: translateX(-101%);
+  transition: transform 0.46s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.pf-lite .pf-lfill-text {
+  color: #fff;
+  white-space: nowrap;
+  transform: translateX(101%);
+  transition: transform 0.46s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-lfill,
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-lfill-text { transform: none; }
+.pf-lite .photo-filter-btn.active .pf-text { opacity: 0; transition: opacity 0.2s ease 0.12s; }
+.pf-lite .photo-filter-btn.active.pf-draining .pf-text { opacity: 0.65; }
+.pf-lite .photo-filter-btn.active.pf-draining .pf-text,
+.pf-lite .photo-filter-btn:not(.active) .pf-text { transition: opacity 0.15s ease; }
+/* press: a quick squish that springs back */
+.pf-lite .photo-filter-btn:active { scale: 0.95; }
 
 .pf-blob {
   position: absolute;
@@ -6038,20 +6098,23 @@ body.light-theme .scrolly-step-link:focus-visible {
 <!-- Navigation Bar -->
 <div class="nav-container">
   <div class="nav-pill">
-    <!-- Daylight switch lives here on desktop; the script moves it next to the sound toggle on mobile -->
-    <div class="daylight-slot daylight-slot--nav" data-daylight-slot="nav">
-      <!-- UI by @Lattice_Node — ludion.ai/p/toggle-daylight (MIT) -->
-      <div data-ld-part="toggle-daylight" data-frame="low" lang="ja">
-        <canvas class="scene" aria-hidden="true"></canvas>
-        <button class="hit" type="button" role="switch" aria-checked="false" aria-label="夜"></button>
-        <span class="vh" role="status" aria-live="polite" data-status></span>
-        <span class="probe" aria-hidden="true"></span>
+    <div class="nav-controls">
+      <!-- Daylight switch lives here on desktop; the script moves it next to the sound toggle on mobile -->
+      <div class="daylight-slot daylight-slot--nav" data-daylight-slot="nav">
+        <!-- UI by @Lattice_Node — ludion.ai/p/toggle-daylight (MIT) -->
+        <div data-ld-part="toggle-daylight" data-frame="low" lang="ja">
+          <canvas class="scene" aria-hidden="true"></canvas>
+          <button class="hit" type="button" role="switch" aria-checked="false" aria-label="夜"></button>
+          <span class="vh" role="status" aria-live="polite" data-status></span>
+          <span class="probe" aria-hidden="true"></span>
+        </div>
       </div>
+      <!-- Sound toggle (after isembard.com): ruler tick sound stays off until pressed -->
+      <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
+        <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
+      </button>
     </div>
-    <!-- Sound toggle (after isembard.com): ruler tick sound stays off until pressed -->
-    <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
-      <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
-    </button>
+    <span class="nav-divider" aria-hidden="true"></span>
     <nav class="nav-bar" role="navigation" aria-label="Main navigation">
       <a href="#experience" class="nav-item">Work</a>
       <a href="#projects" class="nav-item">Apps</a>
@@ -9642,7 +9705,9 @@ document.addEventListener('DOMContentLoaded', () => {
       ? `<span class="pf-num"><span class="pf-num-cur">${photoCards.length}</span></span>`
       : btn.textContent.trim();
     btn.innerHTML = `<span class="pf-text">${label}</span>`
-      + (isAll ? '<span class="pf-sep" aria-hidden="true"></span>' : `<span class="pf-ink" aria-hidden="true">${label}</span>`);
+      + (isAll ? '<span class="pf-sep" aria-hidden="true"></span>'
+               : `<span class="pf-ink" aria-hidden="true">${label}</span>`
+               + `<span class="pf-lfill" aria-hidden="true"><span class="pf-lfill-text">${label}</span></span>`);
     if (isAll) {
       btn.classList.add('photo-filter-btn--count');
       btn.setAttribute('aria-label', 'Show all photos');
@@ -9664,14 +9729,15 @@ document.addEventListener('DOMContentLoaded', () => {
     numEl.appendChild(old);
     if (reduceMotion.matches) { old.remove(); return; }
     const dir = up ? 1 : -1;
+    const soft = matchMedia('(pointer: coarse)').matches; // no blur keyframes on touch
     const ease = 'cubic-bezier(0.3, 0.7, 0.2, 1)';
     old.animate(
-      [{ transform: 'translateY(0)', filter: 'blur(0)', opacity: 1 },
-       { transform: `translateY(${-70 * dir}%)`, filter: 'blur(3px)', opacity: 0 }],
+      [{ transform: 'translateY(0)', filter: soft ? 'none' : 'blur(0)', opacity: 1 },
+       { transform: `translateY(${-70 * dir}%)`, filter: soft ? 'none' : 'blur(3px)', opacity: 0 }],
       { duration: 380, easing: ease, fill: 'forwards' }
     ).onfinish = () => old.remove();
     cur.animate(
-      [{ transform: `translateY(${70 * dir}%)`, filter: 'blur(3px)', opacity: 0 },
+      [{ transform: `translateY(${70 * dir}%)`, filter: soft ? 'none' : 'blur(3px)', opacity: 0 },
        { transform: 'translateY(0)', filter: 'blur(0)', opacity: 1 }],
       { duration: 380, easing: ease }
     );
@@ -9700,7 +9766,9 @@ document.addEventListener('DOMContentLoaded', () => {
       b.getAnimations().filter(a => a.id === 'pf-flip').forEach(a => a.cancel());
       const anim = b.animate(
         [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'translate(0, 0)' }],
-        { duration: lite ? 420 : 700, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }
+        lite
+          ? { duration: 480, easing: 'cubic-bezier(0.34, 1.18, 0.5, 1)' }
+          : { duration: 700, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }
       );
       anim.id = 'pf-flip';
     });
@@ -9792,11 +9860,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (now < inkUntil) inkRaf = requestAnimationFrame(inkFrame);
   }
   function kick(ms = 1100) {
+    if (lite) return;
     inkUntil = Math.max(inkUntil, performance.now() + ms);
     if (!inkRaf) inkRaf = requestAnimationFrame(inkFrame);
   }
-  new ResizeObserver(() => drawInk()).observe(filterBar);
-  drawInk();
+  if (!lite) {
+    new ResizeObserver(() => drawInk()).observe(filterBar);
+    drawInk();
+  }
 
   const DETACH_MS = lite ? 60 : 160;   // ink starts draining while the tag is still attached
   const HOME_MS = lite ? 380 : 700;    // after the neck has snapped, the tag glides home
@@ -9854,7 +9925,10 @@ document.addEventListener('DOMContentLoaded', () => {
         window.galleryExpanded = true;
       }
 
-      applyFilter();
+      // On touch, start the pill motion first and re-lay out the gallery a
+      // couple of frames later, so the tap responds instantly
+      if (lite) requestAnimationFrame(() => requestAnimationFrame(applyFilter));
+      else applyFilter();
     });
   });
   // ──────────────────────────────────────────────────────────────────────
@@ -10681,6 +10755,44 @@ if (root) {
 
   mount(root);
 }
+</script>
+<!-- Nav hover: the label scrambles through glyphs and resolves left to right -->
+<script>
+(() => {
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const GLYPHS = '#%&*+=<>/\\?!~^_';
+  const DUR = 380;
+  document.querySelectorAll('.nav-bar .nav-item').forEach((link) => {
+    const text = link.textContent.trim();
+    link.setAttribute('aria-label', text);   // screen readers keep the real word
+    let raf = 0;
+    let safety = 0;
+    const settle = () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(safety);
+      link.textContent = text;
+      link.style.width = '';
+      link.style.boxSizing = '';
+    };
+    link.addEventListener('pointerenter', () => {
+      cancelAnimationFrame(raf);
+      link.style.boxSizing = 'border-box';                        // no jitter while scrambling
+      link.style.width = `${link.getBoundingClientRect().width}px`;
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / DUR);
+        const done = Math.floor(p * text.length);
+        link.textContent = [...text].map((ch, i) =>
+          i < done || ch === '-' ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0]).join('');
+        if (p < 1) raf = requestAnimationFrame(tick); else settle();
+      };
+      raf = requestAnimationFrame(tick);
+      safety = setTimeout(settle, DUR + 80);   // always land on the real word
+    });
+    link.addEventListener('pointerleave', settle);
+  });
+})();
 </script>
 </body>
 </html>
