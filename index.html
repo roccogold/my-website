@@ -472,6 +472,20 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Film grain over the whole page (after heyato.ai): a tiled grey noise tile,
+   soft-light blended so it only adds texture, never shifts the colours */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+  background: url('/assets/grain.svg') repeat;
+  background-size: 320px 320px;
+  mix-blend-mode: soft-light;
+  opacity: 0.18;
+}
+
 /* Force immediate solid background on HTML element */
 html {
   background: var(--bg-dark);
@@ -6018,7 +6032,7 @@ body.light-theme .scrolly-step-link:focus-visible {
     <!-- Daylight switch lives here on desktop; the script moves it next to the sound toggle on mobile -->
     <div class="daylight-slot daylight-slot--nav" data-daylight-slot="nav">
       <!-- UI by @Lattice_Node — ludion.ai/p/toggle-daylight (MIT) -->
-      <div data-ld-part="toggle-daylight" lang="ja">
+      <div data-ld-part="toggle-daylight" data-frame="low" lang="ja">
         <canvas class="scene" aria-hidden="true"></canvas>
         <button class="hit" type="button" role="switch" aria-checked="false" aria-label="夜"></button>
         <span class="vh" role="status" aria-live="polite" data-status></span>
@@ -6188,7 +6202,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           <span class="hero-now-card__label">Now</span>
         </div>
         <p class="hero-now-card__body">
-          Delivering developer-first API products to clients — turning fragmented compliance workflows into programmatic real-time risk decisions. On the side, a traveling photographer working in film and digital.
+          Delivering developer-first API products to clients, turning fragmented compliance workflows into programmatic real-time risk decisions. On the side, a traveling photographer working in film and digital.
         </p>
         <a href="#experience" class="hero-now-card__link">
           Jump to work
