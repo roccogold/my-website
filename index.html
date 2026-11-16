@@ -672,6 +672,50 @@ body.light-theme .theme-toggle:focus-visible {
   }
 }
 
+/* Daylight toggle (ludion.ai/p/toggle-daylight): the slot only sets its size,
+   the component's own CSS and JS are untouched */
+/* The scene is 112 world pixels tall and never drawn below 1 screen pixel each,
+   so at this size the window shows the middle of it (128px would show it all) */
+.daylight-slot {
+  flex-shrink: 0;
+  width: 96px;
+  /* the component's box includes room for its shadow; pull that space back in */
+  margin: -9px;
+}
+/* Desktop: small, in the nav pill where the bulb used to be */
+.daylight-slot--nav {
+  width: 80px;
+  margin: -7.5px;
+}
+.daylight-slot--mobile {
+  display: block;
+  width: 64px;
+  margin: -6px -2px -6px -6px;
+}
+/* Show only the window inside the shell: no rim, no drop shadow, so the scene
+   sits flat in the page. Insets follow the component's own geometry
+   (pill = 1.85:1 at H/1.32, bezel = 4.6% of the pill's height), plus ~2px
+   more to drop the bright inner edge of the window */
+.daylight-slot [data-ld-part="toggle-daylight"] .scene {
+  clip-path: inset(17.2% 10.4% round 999px);
+}
+
+/* Theme cross-fade (see the daylight script): only while switching themes */
+html.theme-fading::view-transition-old(root),
+html.theme-fading::view-transition-new(root) {
+  animation-duration: 700ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+html.theme-fading [data-ld-part="toggle-daylight"] {
+  view-transition-name: daylight-switch;
+}
+html.theme-fading::view-transition-old(daylight-switch) {
+  display: none;
+}
+html.theme-fading::view-transition-new(daylight-switch) {
+  animation: none;
+}
+
 /* Sound toggle — twin of .theme-toggle: same box, glyph size, color and spin on hover */
 .sound-toggle {
   width: 38px;
@@ -2424,7 +2468,16 @@ body.light-theme .form-social-icons a:focus-visible {
   }
 }
 
-/* ================= PHOTO FILTER — paco.me merging pills ================= */
+/* ================= PHOTO FILTER — liquid merging pills =================
+   Count pill on the left; selected countries flow into it as one filled
+   group. Fill pours in / drains out with a liquid edge, pills glide to and
+   from the group (FLIP in JS), outlines wobble on hover. */
+
+@property --pf-fill {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
 
 .photo-filter-bar {
   display: flex;
@@ -2433,88 +2486,190 @@ body.light-theme .form-social-icons a:focus-visible {
   row-gap: 0.5rem;
   justify-content: center;
   margin-bottom: 1.5rem;
+  position: relative;
+  --pf-accent: var(--accent-dark);
+  --pf-line: rgba(154, 119, 198, 0.3);
+  --pf-line-hover: rgba(154, 119, 198, 0.6);
+  --pf-text: var(--text-dark);
+  --pf-shadow: rgba(154, 119, 198, 0.45);
 }
 
+body.light-theme .photo-filter-bar {
+  --pf-accent: var(--accent-light);
+  --pf-line: rgba(107, 70, 193, 0.28);
+  --pf-line-hover: rgba(107, 70, 193, 0.55);
+  --pf-text: var(--text-light);
+  --pf-shadow: rgba(107, 70, 193, 0.35);
+}
+
+.pf-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
 
 .photo-filter-btn {
+  --pf-fill: 0;
   position: relative;
+  z-index: 1;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
   background: transparent;
-  border: 1px solid rgba(154, 119, 198, 0.3);
+  border: 0;
   border-radius: 999px;
-  color: var(--text-dark);
+  color: var(--pf-text);
   font-family: var(--main-font);
   font-size: var(--font-xs);
   font-weight: 500;
-  padding: 0.32rem 0.85rem;
+  line-height: 1.5;
+  padding: calc(0.32rem + 1px) calc(0.85rem + 1px);
   margin: 0 0.22rem;
   cursor: pointer;
-  opacity: 0.65;
   white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease,
-              border-color 0.15s ease, border-radius 0.15s ease,
-              margin 0.15s ease, opacity 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    --pf-fill 0.75s cubic-bezier(0.6, 0.05, 0.2, 1),
+    border-radius 0.3s ease;
 }
 
-.photo-filter-btn:hover {
-  opacity: 0.9;
-  border-color: rgba(154, 119, 198, 0.6);
+/* Outline ring */
+.photo-filter-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border: 1px solid var(--pf-line);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-color 0.2s ease, opacity 0.3s ease;
 }
 
-/* ── Active (selected) pill ── */
-.photo-filter-btn.active {
-  background: var(--accent-dark);
-  border-color: var(--accent-dark);
+.photo-filter-btn:hover::before {
+  border-color: var(--pf-line-hover);
+}
+
+/* Liquid ink: one layer behind all pills; the script draws a blob per filled
+   pill and the goo filter melts nearby blobs into one body (pour, neck, snap) */
+.pf-ink-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  filter: url(#pf-goo) drop-shadow(0 6px 9px var(--pf-shadow));
+}
+
+.pf-blob {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  background: var(--pf-accent);
+}
+
+/* Label: base copy in the outline colour, white copy clipped to the fill */
+.pf-text {
+  transition: opacity 0.2s ease;
+  opacity: 0.65;
+}
+
+.photo-filter-btn:hover .pf-text { opacity: 0.9; }
+
+.pf-ink {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
-  opacity: 1;
+  pointer-events: none;
+  clip-path: inset(0 calc((1 - var(--pf-fill)) * 100%) 0 0);
+}
+
+/* ── Selected ── */
+.photo-filter-btn.active {
+  --pf-fill: 1;
   margin: 0;
   z-index: 1;
 }
 
-/* ── Merge: flatten RIGHT side of active pill when next sibling is also active ── */
+.photo-filter-btn.active::before { border-color: transparent; }
+
+/* draining: keeps its place in the group while the fill runs out */
+.photo-filter-btn.active.pf-draining {
+  --pf-fill: 0;
+}
+
+.photo-filter-btn.active.pf-draining::before { border-color: var(--pf-line); }
+
+/* ── Merge into one pill ── */
 .photo-filter-btn.active:has(+ .photo-filter-btn.active) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  margin-right: 0;
 }
 
-/* ── Merge: flatten LEFT side of active pill that follows another active pill ── */
-.photo-filter-btn.active + .photo-filter-btn.active {
+.photo-filter-btn.active + .photo-filter-btn.active,
+.photo-filter-btn--count + .photo-filter-btn.active {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-left: none;
-  margin-left: 0;
+  /* overlap by a pixel so neighbouring fills meet without a hairline seam */
+  margin-left: -1px;
 }
 
-/* ── Divider line between merged active pills ── */
-.photo-filter-btn.active + .photo-filter-btn.active::before {
-  content: '';
+/* ── Count pill (data-country="all"): always filled ── */
+.photo-filter-btn--count {
+  --pf-fill: 1;
+  margin: 0 0.22rem 0 0;
+  z-index: 2;
+}
+
+.photo-filter-btn--count::before { border-color: transparent; }
+.photo-filter-btn--count .pf-ink { display: none; }
+.photo-filter-btn--count .pf-text { opacity: 1; color: #fff; }
+
+.photo-filter-btn--count:has(+ .photo-filter-btn.active) {
+  margin-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* divider between the count and the selected group */
+.pf-sep {
   position: absolute;
-  left: 0;
-  top: 22%;
-  height: 56%;
+  right: 0;
+  top: 25%;
+  height: 50%;
   width: 1px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.35);
+  opacity: 0;
+  transition: opacity 0.25s ease;
   pointer-events: none;
 }
 
-/* ── Light theme ── */
-body.light-theme .photo-filter-btn {
-  color: var(--text-light);
-  border-color: rgba(107, 70, 193, 0.28);
+.photo-filter-btn--count:has(+ .photo-filter-btn.active:not(.pf-draining)) .pf-sep { opacity: 1; }
+
+/* Rolling number */
+.pf-num {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  vertical-align: bottom;
 }
 
-body.light-theme .photo-filter-btn:hover {
-  border-color: rgba(107, 70, 193, 0.55);
+.pf-num-old {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
-body.light-theme .photo-filter-btn.active {
-  background: var(--accent-light);
-  border-color: var(--accent-light);
-  color: #fff;
-}
-
-body.light-theme .photo-filter-btn.active + .photo-filter-btn.active::before {
-  background: rgba(255, 255, 255, 0.35);
+@media (prefers-reduced-motion: reduce) {
+  .photo-filter-btn { transition: none; }
+  .pf-ink-layer { filter: url(#pf-goo); }
 }
 
 /* ================= FOOTER ================= */
@@ -5852,6 +6007,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 }
 
 </style>
+<link rel="stylesheet" href="/assets/toggle-daylight/part.css">
 </head>
 <body class="light-theme"> 
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -5859,14 +6015,16 @@ body.light-theme .scrolly-step-link:focus-visible {
 <!-- Navigation Bar -->
 <div class="nav-container">
   <div class="nav-pill">
-    <button class="theme-toggle" type="button" aria-label="Toggle theme">
-      <span class="theme-toggle__hint" aria-hidden="true">buio</span>
-      <svg class="theme-toggle__ring" viewBox="0 0 47.14 45.5" aria-hidden="true">
-        <path class="theme-toggle__draw theme-toggle__draw--2" transform="translate(1.4,-1) rotate(6 23.57 22.75)" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
-        <path class="theme-toggle__draw theme-toggle__draw--1" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
-      </svg>
-      <span class="theme-toggle__icon"><i class="far fa-lightbulb"></i></span>
-    </button>
+    <!-- Daylight switch lives here on desktop; the script moves it next to the sound toggle on mobile -->
+    <div class="daylight-slot daylight-slot--nav" data-daylight-slot="nav">
+      <!-- UI by @Lattice_Node — ludion.ai/p/toggle-daylight (MIT) -->
+      <div data-ld-part="toggle-daylight" lang="ja">
+        <canvas class="scene" aria-hidden="true"></canvas>
+        <button class="hit" type="button" role="switch" aria-checked="false" aria-label="夜"></button>
+        <span class="vh" role="status" aria-live="polite" data-status></span>
+        <span class="probe" aria-hidden="true"></span>
+      </div>
+    </div>
     <!-- Sound toggle (after isembard.com): ruler tick sound stays off until pressed -->
     <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
       <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
@@ -5947,9 +6105,7 @@ body.light-theme .scrolly-step-link:focus-visible {
         <span class="hero-chip"><span class="hero-chip__dot" aria-hidden="true"></span> Singapore · Product @ Moody's</span>
         <!-- Mobile only: the nav pill is hidden below 768px, so its two toggles live here -->
         <span class="hero-mobile-toggles">
-          <button class="theme-toggle" type="button" aria-label="Toggle theme">
-            <span class="theme-toggle__icon"><i class="far fa-lightbulb"></i></span>
-          </button>
+          <span class="daylight-slot daylight-slot--mobile" data-daylight-slot="mobile"></span>
           <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
             <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
           </button>
@@ -7947,7 +8103,7 @@ View more
     <h2 id="vibes-heading">off-hours</h2>
   </div>
   <div class="spotify-container">
-    <iframe title="Spotify player: Midnight Pretenders by Tomoko Aran" src="https://open.spotify.com/embed/track/0JUWF44gfMszGNhjCF7Ufs?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe title="Spotify player: カシミヤのほほえみ" src="https://open.spotify.com/embed/track/2H31Eva4Ijl9SKJ20Z2jKE?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   </div>
   <div class="interests-tags">
     <span class="interest-tag">Ping Pong</span>
@@ -8420,6 +8576,10 @@ if (scrollIndicator) {
     if (el) playCue('hover');
   }, { passive: true });
 
+  document.addEventListener('daylight:change', (e) => {
+    playCue(e.detail.night ? 'theme-dark' : 'theme-light');
+  });
+
   // Click: section links get the transition sound, the theme toggle a
   // toggle on/off, sound toggles play their own; everything else a tap
   document.addEventListener('click', (e) => {
@@ -8427,6 +8587,8 @@ if (scrollIndicator) {
     // innerHTML on click, so e.target is detached by the time this runs
     const el = e.composedPath().find(n => n instanceof Element && n.matches(INTERACTIVE));
     if (!el || el.matches('[data-sound-toggle]')) return;
+    // The daylight switch plays its cue from daylight:change (a drag may not flip it)
+    if (el.matches('[data-ld-part="toggle-daylight"] .hit')) return;
     if (el.matches('.theme-toggle')) {
       playCue(document.body.classList.contains('light-theme') ? 'theme-light' : 'theme-dark');
       return;
@@ -9395,10 +9557,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyFilter() {
     // Selection is conveyed by a class alone otherwise — screen reader users
     // get no signal about which of these multi-select filters are on.
-    filterBtns.forEach(b => b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'));
+    const on = b => b.classList.contains('active') && !b.classList.contains('pf-draining');
+    filterBtns.forEach(b => b.setAttribute('aria-pressed', on(b) ? 'true' : 'false'));
 
     const selected = [...filterBtns]
-      .filter(b => b.classList.contains('active') && b.dataset.country !== 'all')
+      .filter(b => on(b) && b.dataset.country !== 'all')
       .map(b => b.dataset.country);
 
     const showAll = allBtn.classList.contains('active');
@@ -9427,6 +9590,8 @@ document.addEventListener('DOMContentLoaded', () => {
       loadMoreBtn.style.display = (showAll && !window.galleryExpanded) ? '' : 'none';
     }
 
+    setCount(showAll ? photoCards.length : [...photoCards].filter(c => selected.includes(c.dataset.country)).length);
+
     reindexGallery();
   }
 
@@ -9436,21 +9601,220 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial index on page load
   reindexGallery();
 
+  // ── Liquid pills: structure, ordering, motion ──
+  const filterBar = document.querySelector('.photo-filter-bar');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const originalOrder = [...filterBtns];
+  let activeOrder = []; // countries in the order they were picked
+
+  // SVG filter defs (the goo filter is added below)
+  filterBar.insertAdjacentHTML('beforeend', `
+    <svg class="pf-defs" aria-hidden="true" focusable="false">
+    </svg>`);
+
+  // Inner structure: fill layer, outline-coloured label, white label on the fill
+  filterBtns.forEach(btn => {
+    const isAll = btn.dataset.country === 'all';
+    const label = isAll
+      ? `<span class="pf-num"><span class="pf-num-cur">${photoCards.length}</span></span>`
+      : btn.textContent.trim();
+    btn.innerHTML = `<span class="pf-text">${label}</span>`
+      + (isAll ? '<span class="pf-sep" aria-hidden="true"></span>' : `<span class="pf-ink" aria-hidden="true">${label}</span>`);
+    if (isAll) {
+      btn.classList.add('photo-filter-btn--count');
+      btn.setAttribute('aria-label', 'Show all photos');
+    }
+  });
+
+  // Count with a rolling digit swap
+  const numEl = allBtn.querySelector('.pf-num');
+  let shownCount = photoCards.length;
+  function setCount(n) {
+    if (n === shownCount) return;
+    const up = n > shownCount;
+    shownCount = n;
+    const cur = numEl.querySelector('.pf-num-cur');
+    numEl.querySelectorAll('.pf-num-old').forEach(el => el.remove());
+    const old = cur.cloneNode(true);
+    old.className = 'pf-num-old';
+    cur.textContent = n;
+    numEl.appendChild(old);
+    if (reduceMotion.matches) { old.remove(); return; }
+    const dir = up ? 1 : -1;
+    const ease = 'cubic-bezier(0.3, 0.7, 0.2, 1)';
+    old.animate(
+      [{ transform: 'translateY(0)', filter: 'blur(0)', opacity: 1 },
+       { transform: `translateY(${-70 * dir}%)`, filter: 'blur(3px)', opacity: 0 }],
+      { duration: 380, easing: ease, fill: 'forwards' }
+    ).onfinish = () => old.remove();
+    cur.animate(
+      [{ transform: `translateY(${70 * dir}%)`, filter: 'blur(3px)', opacity: 0 },
+       { transform: 'translateY(0)', filter: 'blur(0)', opacity: 1 }],
+      { duration: 380, easing: ease }
+    );
+  }
+
+  // Order: count pill, picked countries (in pick order), the rest as authored
+  function arrange() {
+    const rest = originalOrder.filter(b => b !== allBtn && !activeOrder.includes(b));
+    const order = [allBtn, ...activeOrder, ...rest];
+    if (order.every((b, i) => filterBar.children[i] === b)) return;
+    order.forEach(b => filterBar.insertBefore(b, filterBar.querySelector('.pf-defs')));
+    kick();
+  }
+
+  // FLIP: change the layout, then glide every pill from where it was
+  function withFlip(change) {
+    if (reduceMotion.matches) { change(); return; }
+    const first = new Map(originalOrder.map(b => [b, b.getBoundingClientRect()]));
+    change();
+    originalOrder.forEach(b => {
+      const f = first.get(b);
+      const l = b.getBoundingClientRect();
+      const dx = f.left - l.left;
+      const dy = f.top - l.top;
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
+      b.getAnimations().filter(a => a.id === 'pf-flip').forEach(a => a.cancel());
+      const anim = b.animate(
+        [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'translate(0, 0)' }],
+        { duration: 700, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }
+      );
+      anim.id = 'pf-flip';
+    });
+  }
+
+  // ── Liquid ink layer ──
+  // Every filled shape (count pill + picked tags) is drawn as a blob in one
+  // layer behind the pills. A goo filter (blur → alpha threshold) melts blobs
+  // that come close into one body, so ink pours across gaps, floods a tag,
+  // and on the way out stretches into a neck that thins and snaps.
+  filterBar.querySelector('.pf-defs').insertAdjacentHTML('beforeend', `
+      <filter id="pf-goo" x="-4%" y="-40%" width="108%" height="180%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11" result="goo"/>
+      </filter>`);
+
+  const inkLayer = document.createElement('div');
+  inkLayer.className = 'pf-ink-layer';
+  inkLayer.setAttribute('aria-hidden', 'true');
+  filterBar.appendChild(inkLayer);
+  const blobs = new Map(originalOrder.map(b => {
+    const el = document.createElement('span');
+    el.className = 'pf-blob';
+    inkLayer.appendChild(el);
+    return [b, el];
+  }));
+  // A thin bridge per tag: on the way out it holds the leaving ink to the
+  // group as a neck that stretches, thins and snaps
+  const necks = new Map(originalOrder.map(b => {
+    const el = document.createElement('span');
+    el.className = 'pf-blob';
+    inkLayer.appendChild(el);
+    return [b, el];
+  }));
+  const NECK_MS = 520;
+
+  function drawInk() {
+    const bar = filterBar.getBoundingClientRect();
+    blobs.forEach((el, b) => {
+      const fill = b === allBtn ? 1 : parseFloat(getComputedStyle(b).getPropertyValue('--pf-fill')) || 0;
+      if (fill < 0.005) { el.style.opacity = '0'; return; }
+      const r = b.getBoundingClientRect();
+      const w = r.width * fill;
+      // ink sits on the group side (left): it pours in from there and drains back there
+      const x = r.left - bar.left;
+      el.style.opacity = '1';
+      el.style.width = `${w}px`;
+      el.style.height = `${r.height}px`;
+      el.style.transform = `translate(${x}px, ${r.top - bar.top}px)`;
+      el.style.borderRadius = getComputedStyle(b).borderRadius;
+    });
+
+    const now = performance.now();
+    necks.forEach((el, b) => {
+      const t = b._pfNeckStart ? (now - b._pfNeckStart) / NECK_MS : 1;
+      const blob = blobs.get(b);
+      if (t >= 1 || blob.style.opacity === '0') { el.style.opacity = '0'; return; }
+      // anchor: right edge of the filled pill before this one in the bar
+      const prev = b.previousElementSibling;
+      if (!prev || !prev.classList.contains('photo-filter-btn')) { el.style.opacity = '0'; return; }
+      const pr = prev.getBoundingClientRect();
+      const r = b.getBoundingClientRect();
+      const from = pr.right - bar.left - 4;
+      const to = r.left - bar.left + 4;
+      const h = r.height * 0.62 * (1 - t) ** 1.6;   // thins as it stretches
+      if (to <= from || h < 1.5) { el.style.opacity = '0'; return; }
+      el.style.opacity = '1';
+      el.style.width = `${to - from}px`;
+      el.style.height = `${h}px`;
+      el.style.borderRadius = '999px';
+      el.style.transform = `translate(${from}px, ${r.top - bar.top + (r.height - h) / 2}px)`;
+    });
+  }
+
+  // Redraw the ink every frame while anything moves
+  let inkUntil = 0;
+  let inkRaf = 0;
+  function inkFrame(now) {
+    inkRaf = 0;
+    drawInk();
+    if (now < inkUntil) inkRaf = requestAnimationFrame(inkFrame);
+  }
+  function kick(ms = 1100) {
+    inkUntil = Math.max(inkUntil, performance.now() + ms);
+    if (!inkRaf) inkRaf = requestAnimationFrame(inkFrame);
+  }
+  new ResizeObserver(() => drawInk()).observe(filterBar);
+  drawInk();
+
+  const DETACH_MS = 160;  // ink starts draining while the tag is still attached
+  const HOME_MS = 700;    // after the neck has snapped, the tag glides home
+
+  function select(btn) {
+    clearTimeout(btn._pfDetach);
+    clearTimeout(btn._pfHome);
+    btn.classList.remove('pf-draining');
+    btn._pfNeckStart = 0;
+    allBtn.classList.remove('active');
+    activeOrder = activeOrder.filter(b => b !== btn).concat(btn);
+    withFlip(() => {
+      btn.classList.add('active');
+      arrange();
+    });
+    kick();
+  }
+
+  function deselect(btn) {
+    btn.classList.add('pf-draining');
+    btn._pfNeckStart = performance.now() + DETACH_MS;
+    kick(HOME_MS + 900);
+    btn._pfDetach = setTimeout(() => {
+      // detach: the gap opens while ink is still in the tag, so it necks
+      withFlip(() => btn.classList.remove('active'));
+      btn._pfHome = setTimeout(() => {
+        btn.classList.remove('pf-draining');
+        activeOrder = activeOrder.filter(b => b !== btn);
+        withFlip(arrange);
+        kick();
+      }, reduceMotion.matches ? 0 : HOME_MS - DETACH_MS);
+    }, reduceMotion.matches ? 0 : DETACH_MS);
+  }
+
+  const isOn = b => b.classList.contains('active') && !b.classList.contains('pf-draining');
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const isAll = btn.dataset.country === 'all';
 
       if (isAll) {
-        // All → clear every country selection, activate All
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        // Count pill → clear every country selection
+        filterBtns.forEach(b => { if (b !== allBtn && isOn(b)) deselect(b); });
+        allBtn.classList.add('active');
       } else {
-        // Country → deactivate All, toggle this country
-        allBtn.classList.remove('active');
-        btn.classList.toggle('active');
+        if (isOn(btn)) deselect(btn); else select(btn);
 
         // If nothing left selected → fall back to All
-        const anyActive = [...filterBtns].some(b => b.classList.contains('active'));
+        const anyActive = [...filterBtns].some(b => b !== allBtn && isOn(b));
         if (!anyActive) allBtn.classList.add('active');
 
         // Filtering reveals every match, including cards behind "View more".
@@ -9666,7 +10030,7 @@ class PhotoLightbox {
       // Hide chrome
       const nav = document.querySelector('.nav-container');
       if (nav) nav.style.display = 'none';
-      document.querySelectorAll('.theme-toggle').forEach(t => { t.style.display = 'none'; });
+      document.querySelectorAll('.theme-toggle, .daylight-slot').forEach(t => { t.style.display = 'none'; });
       const mobileToggle = document.querySelector('.mobile-nav-toggle');
       if (mobileToggle) mobileToggle.style.display = 'none';
       const scrollInd = document.querySelector('.scroll-indicator');
@@ -9718,7 +10082,7 @@ class PhotoLightbox {
     // 3. Show chrome
     const nav = document.querySelector('.nav-container');
     if (nav) nav.style.display = 'flex';
-    document.querySelectorAll('.theme-toggle').forEach(t => { t.style.display = ''; });
+    document.querySelectorAll('.theme-toggle, .daylight-slot').forEach(t => { t.style.display = ''; });
     const scrollInd = document.querySelector('.scroll-indicator');
     if (scrollInd && window.innerWidth > 768) scrollInd.style.display = 'flex';
     document.querySelectorAll('.page-ruler, .page-ruler-marker, .page-ruler-value')
@@ -10229,5 +10593,49 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 </script>
 
+<!-- Daylight theme switch (ludion.ai/p/toggle-daylight, MIT): night = dark theme, day = light -->
+<script type="module">
+import { mount } from '/assets/toggle-daylight/part.js';
+
+const root = document.querySelector('[data-ld-part="toggle-daylight"]');
+if (root) {
+  // One switch, one state: nav pill on desktop, next to the sound toggle on mobile
+  const slots = {
+    nav: document.querySelector('[data-daylight-slot="nav"]'),
+    hero: document.querySelector('[data-daylight-slot="mobile"]'),
+  };
+  const mobileQuery = matchMedia('(max-width: 768px)');
+  const place = () => {
+    const slot = mobileQuery.matches ? slots.hero : slots.nav;
+    if (slot && root.parentElement !== slot) slot.appendChild(root);
+  };
+  place();
+  mobileQuery.addEventListener('change', place);
+
+  const applyTheme = (isLight) => {
+    document.body.classList.toggle('light-theme', isLight);
+    document.documentElement.classList.toggle('light-theme', isLight);
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.content = isLight ? '#ffffff' : '#111111';
+  };
+
+  // Cross-fade the whole page between themes, so every color eases at once
+  // instead of snapping. The switch itself is kept out of the fade.
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  root.addEventListener('daylight:change', (e) => {
+    const isLight = !e.detail.night;
+    if (!document.startViewTransition || reducedMotion.matches) {
+      applyTheme(isLight);
+      return;
+    }
+    const html = document.documentElement;
+    html.classList.add('theme-fading');
+    const vt = document.startViewTransition(() => applyTheme(isLight));
+    vt.finished.finally(() => html.classList.remove('theme-fading'));
+  });
+
+  mount(root);
+}
+</script>
 </body>
 </html>
