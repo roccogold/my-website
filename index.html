@@ -339,13 +339,17 @@
 .ink__blobs {
   position: absolute;
   inset: -1rem;
-  filter: blur(40px);
 }
-.ink__blob { position: absolute; }
-.ink__blob--1 { top: 6%;     left: 8%;   height: 48%; width: 56%; border-radius: 42% 58% 64% 36%; background: #A8A29E; opacity: 0.18; }
-.ink__blob--2 { top: 28%;    right: 6%;  height: 42%; width: 50%; border-radius: 58% 42% 38% 62%; background: #78716C; opacity: 0.14; }
-.ink__blob--3 { bottom: 4%;  left: 24%;  height: 46%; width: 54%; border-radius: 36% 64% 58% 42%; background: #57534E; opacity: 0.12; }
-.ink__blob--4 { bottom: 18%; right: 22%; height: 32%; width: 38%; border-radius: 64% 36% 42% 58%; background: #A8A29E; opacity: 0.16; }
+/* soft blots drawn as radial gradients instead of solid shapes + blur(40px):
+   same look, but no large filter for Safari to break into visible tiles */
+.ink__blob {
+  position: absolute;
+  background: radial-gradient(closest-side, currentColor 20%, transparent 100%);
+}
+.ink__blob--1 { top: 6%;     left: 8%;   height: 48%; width: 56%; border-radius: 42% 58% 64% 36%; color: #A8A29E; opacity: 0.18; }
+.ink__blob--2 { top: 28%;    right: 6%;  height: 42%; width: 50%; border-radius: 58% 42% 38% 62%; color: #78716C; opacity: 0.14; }
+.ink__blob--3 { bottom: 4%;  left: 24%;  height: 46%; width: 54%; border-radius: 36% 64% 58% 42%; color: #57534E; opacity: 0.12; }
+.ink__blob--4 { bottom: 18%; right: 22%; height: 32%; width: 38%; border-radius: 64% 36% 42% 58%; color: #A8A29E; opacity: 0.16; }
 .ink__dots {
   position: absolute;
   inset: 0;
@@ -357,9 +361,9 @@
 body:not(.light-theme) .ink {
   background: radial-gradient(circle at 50% 0%, #141414 0%, #0B0B0B 52%, #050505 100%);
 }
-body:not(.light-theme) .ink__blob--1 { top: 10%;    left: 10%;  height: 46%; width: 52%; background: #525252; opacity: 0.16; }
-body:not(.light-theme) .ink__blob--2 { top: 30%;    right: 8%;  height: 40%; width: 48%; background: #404040; opacity: 0.12; }
-body:not(.light-theme) .ink__blob--3 { bottom: 6%;  left: 28%;  height: 44%; width: 50%; background: #737373; opacity: 0.10; }
+body:not(.light-theme) .ink__blob--1 { top: 10%;    left: 10%;  height: 46%; width: 52%; color: #525252; opacity: 0.16; }
+body:not(.light-theme) .ink__blob--2 { top: 30%;    right: 8%;  height: 40%; width: 48%; color: #404040; opacity: 0.12; }
+body:not(.light-theme) .ink__blob--3 { bottom: 6%;  left: 28%;  height: 44%; width: 50%; color: #737373; opacity: 0.10; }
 body:not(.light-theme) .ink__blob--4 { display: none; }
 body:not(.light-theme) .ink__dots {
   background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
@@ -2458,8 +2462,6 @@ body:not(.light-theme) .ig-card { background: #17151c; color: #ececf1; }
   font-size: 0.68rem;
 }
 .ig-card__likes { font-weight: 700; }
-.ig-card__view { color: inherit; opacity: 0.6; text-decoration: none; }
-.ig-card__view:hover { opacity: 1; }
 .follow-btn {
   margin-left: auto;
   display: grid;
@@ -2541,8 +2543,6 @@ body:not(.light-theme) .ig-card a.follow-btn.is-following { color: #b9b4c6; }
 }
 
 /* beat the site-wide link colours inside these cards */
-body .ig-card a.ig-card__view,
-body.light-theme .ig-card a.ig-card__view,
 body .gh-card a.gh-card__user,
 body.light-theme .gh-card a.gh-card__user { color: inherit; }
 
@@ -3797,8 +3797,8 @@ body.light-theme .hl {
   border: 1px solid rgba(154, 119, 198, 0.22);
   border-radius: 18px;
   padding: 1rem 1rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* no backdrop blur: the background behind is already soft, and Safari
+     renders it in visible rectangular tiles over the ink layer */
 }
 
 body.light-theme .hero-now-card {
@@ -8763,14 +8763,13 @@ View more
           <img class="ig-card__avatar" src="assets/instagram/avatar.jpg" alt="" width="30" height="30" loading="lazy" decoding="async">
           <div class="ig-card__who">
             <p class="ig-card__user">roccogold_</p>
-            <p class="ig-card__meta" data-ig-meta>Kyrgyz Republic · 5 Nov 2026</p>
+            <p class="ig-card__meta" data-ig-meta>5 Nov 2026</p>
           </div>
           <span class="ig-card__glyph"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></span>
         </div>
         <p class="ig-card__caption" data-ig-caption>⭐ kyrgyz republic • [olympus mju-1 35mm f3.5 w/ kodak gold 200 + sony a6000 w/ 55-210mm]</p>
         <div class="ig-card__foot">
           <span class="ig-card__likes" data-ig-likes>205 likes</span>
-          <a class="ig-card__view" data-ig-view href="https://www.instagram.com/p/DfXQfVUGSXX/" target="_blank" rel="noopener noreferrer">View post</a>
           <!-- Follow Toggle (opensourceui.in, MIT): opens the profile, then shows "Following" -->
           <a class="follow-btn" data-follow href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer" role="button" aria-pressed="false" aria-label="Follow roccogold_ on Instagram">
             <span class="follow-btn__layer follow-btn__layer--follow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>Follow</span>
@@ -11484,14 +11483,13 @@ if (root) {
       .then(post => {
         if (!post || !post.image) return;
         ig.querySelector('.ig-card__img').src = post.image;
-        ig.querySelectorAll('a.ig-card__media, [data-ig-view]').forEach(a => { a.href = post.permalink; });
+        ig.querySelector('a.ig-card__media').href = post.permalink;
         ig.querySelector('.ig-card__media').setAttribute('aria-label', 'Open the latest post on Instagram');
         ig.querySelector('[data-ig-meta]').textContent = `Latest post · ${ago(post.timestamp)}`;
         const caption = post.caption.replace(/\s+/g, ' ').trim();
         if (caption) ig.querySelector('[data-ig-caption]').textContent = caption;
         const likes = ig.querySelector('[data-ig-likes]');
         if (post.likes != null) { likes.textContent = `${post.likes.toLocaleString('en-US')} likes`; likes.hidden = false; }
-        ig.querySelector('[data-ig-view]').hidden = false;
       })
       .catch(() => { /* no token yet: keep the follow card */ });
   }
