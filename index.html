@@ -674,6 +674,15 @@ body::after {
   opacity: 0.3;
 }
 
+/* Phones: dense screens render the noise finer and fainter, so it's a touch
+   coarser and stronger there */
+@media (max-width: 768px) {
+  body::after {
+    background-size: 380px 380px;
+    opacity: 0.45;
+  }
+}
+
 /* Force immediate solid background on HTML element */
 html {
   background: var(--bg-dark);
@@ -2412,24 +2421,10 @@ body:not(.light-theme) .ig-card { background: #17151c; color: #ececf1; }
   flex: 0 0 auto;
   width: 30px;
   height: 30px;
-  padding: 2px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #facc15, #ec4899, #2563eb);
+  object-fit: cover;
+  display: block;
 }
-.ig-card__avatar span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  background: #1a1a1a;
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 700;
-}
-body:not(.light-theme) .ig-card__avatar span { border-color: #17151c; }
 .ig-card__who { min-width: 0; }
 .ig-card__user { margin: 0; font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
 .ig-card__meta { margin: 0; font-size: 0.62rem; opacity: 0.55; line-height: 1.3; }
@@ -2509,9 +2504,23 @@ body:not(.light-theme) .gh-card {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.75rem;
+  white-space: nowrap;   /* title and username always on one line */
 }
-.gh-card__title { margin: 0; font-size: 0.8rem; font-weight: 600; }
-.gh-card__user { font-size: 0.72rem; color: inherit; opacity: 0.6; text-decoration: none; }
+.gh-card__title {
+  margin: 0;
+  min-width: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gh-card__user { flex-shrink: 0; font-size: 0.72rem; color: inherit; opacity: 0.6; text-decoration: none; }
+@media (max-width: 600px) {
+  .gh-card { padding: 0.85rem 0.9rem 0.8rem; }
+  .gh-card__head { gap: 0.6rem; }
+  .gh-card__title { font-size: 0.66rem; }
+  .gh-card__user { font-size: 0.62rem; }
+}
 .gh-card__user:hover { opacity: 1; }
 .gh-card__scroll {
   overflow-x: auto;
@@ -8676,22 +8685,24 @@ View more
        Filled from /api/instagram when a token is set; otherwise a follow card. -->
   <div class="spotify-container ig-wrap">
     <div class="ig-card" data-ig-card>
-      <a class="ig-card__media" href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer" aria-label="Open @roccogold_ on Instagram">
-        <img class="ig-card__img" src="assets/photos-600/agadir-sunset-crowd.jpg" alt="" loading="lazy" decoding="async">
+      <!-- Featured post (set by hand): to change it, swap the image, link, caption,
+           likes and date below. /api/instagram overrides it when a token is set. -->
+      <a class="ig-card__media" href="https://www.instagram.com/p/DfXQfVUGSXX/" target="_blank" rel="noopener noreferrer" aria-label="Open the post on Instagram">
+        <img class="ig-card__img" src="assets/instagram/featured.jpg" alt="Film photo of a blue sky with soft clouds, Kyrgyz Republic" loading="lazy" decoding="async">
       </a>
       <div class="ig-card__body">
         <div class="ig-card__head">
-          <span class="ig-card__avatar" aria-hidden="true"><span>R</span></span>
+          <img class="ig-card__avatar" src="assets/instagram/avatar.jpg" alt="" width="30" height="30" loading="lazy" decoding="async">
           <div class="ig-card__who">
             <p class="ig-card__user">roccogold_</p>
-            <p class="ig-card__meta" data-ig-meta>Photos on Instagram</p>
+            <p class="ig-card__meta" data-ig-meta>Kyrgyz Republic · 5 Nov 2026</p>
           </div>
           <span class="ig-card__glyph"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></span>
         </div>
-        <p class="ig-card__caption" data-ig-caption>Film and digital, from wherever I am. Follow along for the latest rolls.</p>
+        <p class="ig-card__caption" data-ig-caption>⭐ kyrgyz republic • [olympus mju-1 35mm f3.5 w/ kodak gold 200 + sony a6000 w/ 55-210mm]</p>
         <div class="ig-card__foot">
-          <span class="ig-card__likes" data-ig-likes hidden></span>
-          <a class="ig-card__view" data-ig-view href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer" hidden>View post</a>
+          <span class="ig-card__likes" data-ig-likes>205 likes</span>
+          <a class="ig-card__view" data-ig-view href="https://www.instagram.com/p/DfXQfVUGSXX/" target="_blank" rel="noopener noreferrer">View post</a>
           <a class="ig-card__follow" href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer">Follow</a>
         </div>
       </div>
