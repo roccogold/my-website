@@ -267,6 +267,188 @@
   transition: opacity 0.8s ease;
 }
 
+/* Arc Bands background + Fine Grain pattern (opensourceui.in, MIT; ported from
+   the Tailwind classes to plain CSS, same values). Light theme only: it replaces
+   the lavender spheres; dark theme keeps them. */
+.arc-bands {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Step 1: Fine Grain only, over the existing lavender spheres. To bring the
+   Arc Bands back, remove this rule and add back the base gradient and the
+   sphere-hiding rule (see git history). */
+.arc-bands__band,
+.arc-bands__dots { display: none; }
+
+/* Sunrise Horizon (opensourceui.in, MIT; Tailwind classes ported to plain CSS,
+   same values). Light theme only: it replaces the lavender spheres. The hills'
+   wrapper is given full size here; in the original it has none. */
+.gradient-background > :not(.arc-bands) { display: none; }
+.sunrise {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, #FFF8F3 0%, #FFE8D8 42%, #FFD9C8 68%, #C8E8EE 100%);
+}
+.sunrise__hills {
+  position: absolute;
+  inset: 0;
+  filter: blur(40px);
+}
+.sunrise__hill {
+  position: absolute;
+  border-radius: 100%;
+}
+.sunrise__hill--1 { bottom: 8%;  left: -15%;  height: 55%; width: 70%; background: #FFB38A; opacity: 0.55; }
+.sunrise__hill--2 { bottom: 12%; left: 28%;   height: 42%; width: 48%; background: #FF8F6B; opacity: 0.45; }
+.sunrise__hill--3 { bottom: 6%;  right: -10%; height: 50%; width: 58%; background: #7DD3C7; opacity: 0.40; }
+.sunrise__sun {
+  position: absolute;
+  bottom: 22%;
+  left: 50%;
+  width: 7rem;
+  height: 7rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #FFF1DC;
+  opacity: 0.9;
+  filter: blur(12px);
+}
+.sunrise__dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, #000 1px, transparent 1px);
+  background-size: 5px 5px;
+  opacity: 0.04;
+}
+
+/* Trying Ink Wash / Dark Ink Field instead: Sunrise is kept but switched off */
+.sunrise { display: none !important; }
+
+/* Ink Wash (light) and Dark Ink Field (dark), opensourceui.in, MIT; Tailwind
+   classes ported to plain CSS, same values */
+.ink {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #FAFAF8 55%, #F5F5F2 100%);
+}
+.ink__blobs {
+  position: absolute;
+  inset: -1rem;
+  filter: blur(40px);
+}
+.ink__blob { position: absolute; }
+.ink__blob--1 { top: 6%;     left: 8%;   height: 48%; width: 56%; border-radius: 42% 58% 64% 36%; background: #A8A29E; opacity: 0.18; }
+.ink__blob--2 { top: 28%;    right: 6%;  height: 42%; width: 50%; border-radius: 58% 42% 38% 62%; background: #78716C; opacity: 0.14; }
+.ink__blob--3 { bottom: 4%;  left: 24%;  height: 46%; width: 54%; border-radius: 36% 64% 58% 42%; background: #57534E; opacity: 0.12; }
+.ink__blob--4 { bottom: 18%; right: 22%; height: 32%; width: 38%; border-radius: 64% 36% 42% 58%; background: #A8A29E; opacity: 0.16; }
+.ink__dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, #292524 1px, transparent 1px);
+  background-size: 5px 5px;
+  opacity: 0.025;
+}
+
+body:not(.light-theme) .ink {
+  background: radial-gradient(circle at 50% 0%, #141414 0%, #0B0B0B 52%, #050505 100%);
+}
+body:not(.light-theme) .ink__blob--1 { top: 10%;    left: 10%;  height: 46%; width: 52%; background: #525252; opacity: 0.16; }
+body:not(.light-theme) .ink__blob--2 { top: 30%;    right: 8%;  height: 40%; width: 48%; background: #404040; opacity: 0.12; }
+body:not(.light-theme) .ink__blob--3 { bottom: 6%;  left: 28%;  height: 44%; width: 50%; background: #737373; opacity: 0.10; }
+body:not(.light-theme) .ink__blob--4 { display: none; }
+body:not(.light-theme) .ink__dots {
+  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
+  opacity: 0.03;
+}
+
+/* Dark mode: the same sunrise at dusk. Deep warm umber sky into a dark teal
+   floor, ember-coloured hills, a low amber sun glowing through. */
+body:not(.light-theme) .sunrise {
+  background: linear-gradient(180deg, #120D0B 0%, #1C1210 42%, #2A1712 68%, #0E2226 100%);
+}
+body:not(.light-theme) .sunrise__hill--1 { background: #B8572E; opacity: 0.38; }
+body:not(.light-theme) .sunrise__hill--2 { background: #D9603B; opacity: 0.32; }
+body:not(.light-theme) .sunrise__hill--3 { background: #1F6F68; opacity: 0.42; }
+body:not(.light-theme) .sunrise__sun {
+  background: #FFB070;
+  opacity: 0.38;
+  filter: blur(18px);
+}
+body:not(.light-theme) .sunrise__dots {
+  background-image: radial-gradient(circle at center, #fff 1px, transparent 1px);
+  opacity: 0.025;
+}
+.arc-bands__band {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 100%;
+  pointer-events: none;
+}
+.arc-bands__band--1 {
+  bottom: -28%;
+  height: 92%;
+  width: 150%;
+  /* retinted to the site palette: violet core → lavender → lilac → soft pink edge */
+  background: radial-gradient(ellipse 120% 88% at 50% 100%,
+    rgba(124, 77, 230, 0.46) 0%, rgba(139, 92, 246, 0.40) 18%,
+    rgba(196, 167, 252, 0.36) 40%, rgba(240, 171, 214, 0.28) 62%,
+    rgba(252, 251, 255, 0) 82%);
+}
+.arc-bands__band--2 {
+  bottom: -22%;
+  height: 78%;
+  width: 128%;
+  filter: blur(40px);
+  background: radial-gradient(ellipse 110% 80% at 50% 100%,
+    rgba(107, 70, 193, 0.26) 0%, rgba(139, 92, 246, 0.22) 22%,
+    rgba(216, 180, 254, 0.20) 46%, rgba(249, 168, 212, 0.16) 68%,
+    transparent 86%);
+}
+.arc-bands__band--3 {
+  bottom: -18%;
+  height: 64%;
+  width: 108%;
+  filter: blur(64px);
+  background: radial-gradient(ellipse 100% 72% at 50% 100%,
+    rgba(255, 255, 255, 0.55) 0%, rgba(252, 251, 255, 0.18) 38%,
+    transparent 72%);
+}
+.arc-bands__dots,
+.fine-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.arc-bands__dots {
+  background-image: radial-gradient(circle at center, #000 1px, transparent 1px);
+  background-size: 4px 4px;
+  opacity: 0.03;
+}
+/* the grain: two offset dot grids, so the texture never reads as a pattern */
+.fine-grain--a {
+  background-image: radial-gradient(circle, #d4d4d4 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.55;
+}
+.fine-grain--b {
+  background-image: radial-gradient(circle, #e5e5e5 1px, transparent 1px);
+  background-size: 5px 5px;
+  opacity: 0.4;
+}
+/* dark mode: light dots on a dark page read much stronger, so far lower opacity */
+body:not(.light-theme) .fine-grain--a { opacity: 0.07; }
+body:not(.light-theme) .fine-grain--b { opacity: 0.05; }
+/* Off for now: stacked on Sunrise's own 5px dot grid, the 3px + 5px grids
+   interfere into a busy moiré. Sunrise's single grid is the texture. */
+.fine-grain { display: none; }
+
 .gradient-background.visible {
   opacity: 1;
 }
@@ -2193,6 +2375,177 @@ body.light-theme .spotify-container {
 body.light-theme .spotify-container:hover {
   box-shadow: 0 12px 35px rgba(107, 70, 193, 0.3);
 }
+
+/* Instagram latest post, same footprint as the Spotify embed (152px tall) */
+.ig-card {
+  display: flex;
+  height: 152px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: var(--main-font);
+}
+body:not(.light-theme) .ig-card { background: #17151c; color: #ececf1; }
+.ig-card__media {
+  position: relative;
+  flex: 0 0 152px;
+  overflow: hidden;
+  background: #e9e5f2;
+}
+.ig-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.ig-card__media:hover .ig-card__img { transform: scale(1.05); }
+.ig-card__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  padding: 0.7rem 0.9rem 0.75rem;
+}
+.ig-card__head { display: flex; align-items: center; gap: 0.55rem; }
+.ig-card__avatar {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #facc15, #ec4899, #2563eb);
+}
+.ig-card__avatar span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+body:not(.light-theme) .ig-card__avatar span { border-color: #17151c; }
+.ig-card__who { min-width: 0; }
+.ig-card__user { margin: 0; font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
+.ig-card__meta { margin: 0; font-size: 0.62rem; opacity: 0.55; line-height: 1.3; }
+.ig-card__glyph { margin-left: auto; width: 18px; height: 18px; opacity: 0.6; }
+.ig-card__glyph svg { width: 100%; height: 100%; display: block; }
+.ig-card__caption {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  opacity: 0.85;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ig-card__foot {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+  font-size: 0.68rem;
+}
+.ig-card__likes { font-weight: 700; }
+.ig-card__view { color: inherit; opacity: 0.6; text-decoration: none; }
+.ig-card__view:hover { opacity: 1; }
+.ig-card__follow {
+  margin-left: auto;
+  padding: 0.38rem 0.95rem;
+  border-radius: 999px;
+  background: var(--accent-light);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+body:not(.light-theme) .ig-card__follow { background: var(--accent-dark); }
+.ig-card__follow:hover { transform: translateY(-1px); filter: brightness(1.08); }
+@media (max-width: 480px) {
+  .ig-card__media { flex-basis: 112px; }
+  .ig-card__body { padding: 0.6rem 0.7rem; }
+}
+
+/* beat the site-wide link colours inside these cards */
+body .ig-card a.ig-card__follow,
+body.light-theme .ig-card a.ig-card__follow { color: #fff; }
+body .ig-card a.ig-card__view,
+body.light-theme .ig-card a.ig-card__view,
+body .gh-card a.gh-card__user,
+body.light-theme .gh-card a.gh-card__user { color: inherit; }
+
+/* GitHub contribution graph, site palette instead of GitHub green */
+.gh-card {
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem 0.9rem;
+  border-radius: 16px;
+  border: 1px solid rgba(107, 70, 193, 0.14);
+  background: rgba(255, 255, 255, 0.6);
+  font-family: var(--main-font);
+  --gh-0: rgba(107, 70, 193, 0.08);
+  --gh-1: #dacdf6;
+  --gh-2: #b69ceb;
+  --gh-3: #8b5cf6;
+  --gh-4: #6b46c1;
+}
+body:not(.light-theme) .gh-card {
+  border-color: rgba(154, 119, 198, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  --gh-0: rgba(255, 255, 255, 0.06);
+  --gh-1: #3a2c5e;
+  --gh-2: #5a3f9e;
+  --gh-3: #8b5cf6;
+  --gh-4: #c4a8f5;
+}
+.gh-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.gh-card__title { margin: 0; font-size: 0.8rem; font-weight: 600; }
+.gh-card__user { font-size: 0.72rem; color: inherit; opacity: 0.6; text-decoration: none; }
+.gh-card__user:hover { opacity: 1; }
+.gh-card__scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.gh-card__scroll::-webkit-scrollbar { display: none; }
+.gh-graph {
+  display: grid;
+  /* fills the card; cells stay square and never shrink below 10px (then it scrolls) */
+  grid-template-columns: 26px repeat(53, minmax(10px, 1fr));
+  grid-template-rows: 14px repeat(7, auto);
+  gap: 3px;
+  min-width: max-content;
+  font-size: 0.6rem;
+}
+.gh-graph .gh-month { grid-row: 1; white-space: nowrap; opacity: 0.55; line-height: 14px; }
+.gh-graph .gh-day { grid-column: 1; opacity: 0.55; align-self: center; line-height: 1; }
+.gh-graph .gh-cell { aspect-ratio: 1; min-width: 10px; border-radius: 2px; }
+.gh-l0 { background: var(--gh-0); }
+.gh-l1 { background: var(--gh-1); }
+.gh-l2 { background: var(--gh-2); }
+.gh-l3 { background: var(--gh-3); }
+.gh-l4 { background: var(--gh-4); }
+.gh-card__legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  margin-top: 0.6rem;
+  font-size: 0.6rem;
+  opacity: 0.7;
+}
+.gh-card__legend i { width: 10px; height: 10px; border-radius: 2px; }
+.gh-card__legend span { margin: 0 4px; }
 
 .spotify-container iframe {
   display: block;
@@ -4653,6 +5006,37 @@ body.light-theme .photo-card:hover {
   .lightbox-next   { right: 0.75rem; }
 }
 
+/* "+N" overlay on the last visible photo replaces the View more button */
+.view-all-container { display: none; }
+.photo-more {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-family: var(--main-font);
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+.photo-more__count {
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+.photo-more:hover { background: rgba(0, 0, 0, 0.6); }
+.photo-more:hover .photo-more__count { transform: scale(1.08); }
+.photo-more:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -6px;
+}
+
 /* Hidden photos (until View More or country filter) */
 .hidden-photo {
   display: none;
@@ -6227,6 +6611,34 @@ body.light-theme .scrolly-step-link:focus-visible {
   <div class="gradient-sphere sphere-2"></div>
   <div class="gradient-sphere sphere-3"></div>
   <div class="glow"></div>
+  <!-- Sunrise Horizon (light theme), Arc Bands (off) and Fine Grain: opensourceui.in, MIT, ported to plain CSS -->
+  <div class="arc-bands" aria-hidden="true">
+    <!-- Ink Wash (light) / Dark Ink Field (dark): opensourceui.in, MIT -->
+    <span class="ink">
+      <span class="ink__blobs">
+        <span class="ink__blob ink__blob--1"></span>
+        <span class="ink__blob ink__blob--2"></span>
+        <span class="ink__blob ink__blob--3"></span>
+        <span class="ink__blob ink__blob--4"></span>
+      </span>
+      <span class="ink__dots"></span>
+    </span>
+    <span class="sunrise">
+      <span class="sunrise__hills">
+        <span class="sunrise__hill sunrise__hill--1"></span>
+        <span class="sunrise__hill sunrise__hill--2"></span>
+        <span class="sunrise__hill sunrise__hill--3"></span>
+      </span>
+      <span class="sunrise__sun"></span>
+      <span class="sunrise__dots"></span>
+    </span>
+    <span class="arc-bands__band arc-bands__band--1"></span>
+    <span class="arc-bands__band arc-bands__band--2"></span>
+    <span class="arc-bands__band arc-bands__band--3"></span>
+    <span class="arc-bands__dots"></span>
+    <span class="fine-grain fine-grain--a"></span>
+    <span class="fine-grain fine-grain--b"></span>
+  </div>
 </div>
 <!-- Scroll progress bar -->
 <div class="scroll-progress"></div>
@@ -6555,6 +6967,21 @@ body.light-theme .scrolly-step-link:focus-visible {
 
     <!-- To add another app: copy an <article class="app-card"> block above and update logo/name/tagline/links. -->
 
+  </div>
+
+  <!-- GitHub contributions (after the Github Contribution card, opensourceui.in, MIT).
+       Data from /api/github-contributions; falls back to a snapshot file. -->
+  <div class="gh-card" data-gh-card>
+    <div class="gh-card__head">
+      <p class="gh-card__title"><span data-gh-total>…</span> contributions in the last year</p>
+      <a class="gh-card__user" href="https://github.com/roccogold" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i> roccogold</a>
+    </div>
+    <div class="gh-card__scroll" data-gh-scroll>
+      <div class="gh-graph" data-gh-graph role="img" aria-label="GitHub contribution graph for the last year"></div>
+    </div>
+    <div class="gh-card__legend" aria-hidden="true">
+      <span>Less</span><i class="gh-l0"></i><i class="gh-l1"></i><i class="gh-l2"></i><i class="gh-l3"></i><i class="gh-l4"></i><span>More</span>
+    </div>
   </div>
 </section>
 
@@ -8245,6 +8672,31 @@ View more
   <div class="spotify-container">
     <iframe title="Spotify player: カシミヤのほほえみ" src="https://open.spotify.com/embed/track/2H31Eva4Ijl9SKJ20Z2jKE?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   </div>
+  <!-- Latest Instagram post (after the Instagram Post card, opensourceui.in, MIT).
+       Filled from /api/instagram when a token is set; otherwise a follow card. -->
+  <div class="spotify-container ig-wrap">
+    <div class="ig-card" data-ig-card>
+      <a class="ig-card__media" href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer" aria-label="Open @roccogold_ on Instagram">
+        <img class="ig-card__img" src="assets/photos-600/agadir-sunset-crowd.jpg" alt="" loading="lazy" decoding="async">
+      </a>
+      <div class="ig-card__body">
+        <div class="ig-card__head">
+          <span class="ig-card__avatar" aria-hidden="true"><span>R</span></span>
+          <div class="ig-card__who">
+            <p class="ig-card__user">roccogold_</p>
+            <p class="ig-card__meta" data-ig-meta>Photos on Instagram</p>
+          </div>
+          <span class="ig-card__glyph"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></span>
+        </div>
+        <p class="ig-card__caption" data-ig-caption>Film and digital, from wherever I am. Follow along for the latest rolls.</p>
+        <div class="ig-card__foot">
+          <span class="ig-card__likes" data-ig-likes hidden></span>
+          <a class="ig-card__view" data-ig-view href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer" hidden>View post</a>
+          <a class="ig-card__follow" href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer">Follow</a>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="interests-tags">
     <span class="interest-tag">Ping Pong</span>
     <span class="interest-tag">Fly Fishing</span>
@@ -9692,6 +10144,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+    updateMoreTile();
+  }
+
+  // "+N" on the last visible photo, in place of the View more button
+  // (after the Gallery Grid card, opensourceui.in). Clicking it runs the
+  // existing View more logic: reveal, re-index, lightbox, analytics.
+  function updateMoreTile() {
+    document.querySelectorAll('.photo-more').forEach(el => el.remove());
+    const showAll = allBtn && allBtn.classList.contains('active');
+    const hidden = document.querySelectorAll('.photo-card.hidden-photo').length;
+    if (!showAll || window.galleryExpanded || !hidden || !loadMoreBtn) return;
+    const visible = [...document.querySelectorAll('.photo-card')]
+      .filter(c => getComputedStyle(c).display !== 'none');
+    const last = visible[visible.length - 1];
+    if (!last) return;
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'photo-more';
+    more.setAttribute('aria-label', `Show ${hidden} more photos`);
+    more.innerHTML = `<span class="photo-more__count">+${hidden}</span>`;
+    const stop = (e) => e.stopPropagation();   // don't open the lightbox
+    more.addEventListener('click', (e) => {
+      stop(e);
+      e.preventDefault();
+      loadMoreBtn.click();
+    });
+    more.addEventListener('keydown', stop);
+    last.appendChild(more);
   }
 
   function applyFilter() {
@@ -10899,6 +11379,94 @@ if (root) {
     });
     link.addEventListener('pointerleave', settle);
   });
+})();
+</script>
+<!-- Instagram latest post + GitHub contributions -->
+<script>
+(() => {
+  // Instagram: fill the card with the latest post when /api/instagram has a token
+  const ig = document.querySelector('[data-ig-card]');
+  if (ig) {
+    const ago = (iso) => {
+      const s = (Date.now() - new Date(iso)) / 1000;
+      const units = [[31536000, 'year'], [2592000, 'month'], [604800, 'week'], [86400, 'day'], [3600, 'hour'], [60, 'minute']];
+      for (const [sec, name] of units) {
+        const n = Math.floor(s / sec);
+        if (n >= 1) return `${n} ${name}${n > 1 ? 's' : ''} ago`;
+      }
+      return 'just now';
+    };
+    fetch('/api/instagram')
+      .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then(post => {
+        if (!post || !post.image) return;
+        ig.querySelector('.ig-card__img').src = post.image;
+        ig.querySelectorAll('a.ig-card__media, [data-ig-view]').forEach(a => { a.href = post.permalink; });
+        ig.querySelector('.ig-card__media').setAttribute('aria-label', 'Open the latest post on Instagram');
+        ig.querySelector('[data-ig-meta]').textContent = `Latest post · ${ago(post.timestamp)}`;
+        const caption = post.caption.replace(/\s+/g, ' ').trim();
+        if (caption) ig.querySelector('[data-ig-caption]').textContent = caption;
+        const likes = ig.querySelector('[data-ig-likes]');
+        if (post.likes != null) { likes.textContent = `${post.likes.toLocaleString('en-US')} likes`; likes.hidden = false; }
+        ig.querySelector('[data-ig-view]').hidden = false;
+      })
+      .catch(() => { /* no token yet: keep the follow card */ });
+  }
+
+  // GitHub: contribution graph for the last year
+  const gh = document.querySelector('[data-gh-card]');
+  if (!gh) return;
+  const graph = gh.querySelector('[data-gh-graph]');
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const render = (data) => {
+    const days = data.days.slice(-371);
+    if (!days.length) return;
+    const first = new Date(days[0].date + 'T00:00:00');
+    const lead = first.getDay();               // Sunday-first rows, like GitHub
+    const frag = document.createDocumentFragment();
+    [['Mon', 2], ['Wed', 4], ['Fri', 6]].forEach(([label, row]) => {
+      const el = document.createElement('span');
+      el.className = 'gh-day';
+      el.style.gridRow = row + 1;
+      el.textContent = label;
+      frag.appendChild(el);
+    });
+    let lastMonth = -1;
+    days.forEach((d, i) => {
+      const idx = i + lead;
+      const col = Math.floor(idx / 7);
+      if (col > 52) return;
+      const row = idx % 7;
+      const date = new Date(d.date + 'T00:00:00');
+      if (row === 0 || i === 0) {
+        const m = date.getMonth();
+        if (m !== lastMonth && date.getDate() <= 7) {
+          const lab = document.createElement('span');
+          lab.className = 'gh-month';
+          lab.style.gridColumn = `${col + 2} / span 3`;
+          lab.textContent = MONTHS[m];
+          frag.appendChild(lab);
+          lastMonth = m;
+        }
+      }
+      const cell = document.createElement('span');
+      cell.className = `gh-cell gh-l${Math.max(0, Math.min(4, d.level))}`;
+      cell.style.gridColumn = col + 2;
+      cell.style.gridRow = row + 2;
+      const n = d.count;
+      cell.title = `${n == null ? 'Some' : n === 0 ? 'No' : n} contribution${n === 1 ? '' : 's'} on ${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+      frag.appendChild(cell);
+    });
+    graph.replaceChildren(frag);
+    gh.querySelector('[data-gh-total]').textContent = data.total.toLocaleString('en-US');
+    const scroll = gh.querySelector('[data-gh-scroll]');
+    scroll.scrollLeft = scroll.scrollWidth;    // most recent weeks in view on small screens
+  };
+  fetch('/api/github-contributions')
+    .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+    .catch(() => fetch('/assets/github-contributions.json').then(r => r.json()))
+    .then(render)
+    .catch(() => { gh.hidden = true; });
 })();
 </script>
 </body>
