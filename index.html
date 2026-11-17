@@ -2450,26 +2450,87 @@ body:not(.light-theme) .ig-card { background: #17151c; color: #ececf1; }
 .ig-card__likes { font-weight: 700; }
 .ig-card__view { color: inherit; opacity: 0.6; text-decoration: none; }
 .ig-card__view:hover { opacity: 1; }
-.ig-card__follow {
+.follow-btn {
   margin-left: auto;
-  padding: 0.38rem 0.95rem;
+  display: grid;
+  place-items: stretch;
+  height: 32px;
+  padding: 0 0.85rem;
   border-radius: 999px;
-  background: var(--accent-light);
-  color: #fff;
-  font-weight: 700;
+  font-family: var(--main-font);
+  font-size: 0.68rem;
+  font-weight: 600;
   text-decoration: none;
-  transition: transform 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              box-shadow 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  /* 3D key in the site purple: soft top sheen, lift, bottom recess */
+  --follow-bg: var(--accent-light);
+  --follow-bg-hover: #7a55d3;
+  --follow-bg-active: #5b39a8;
+  --follow-shade: rgba(52, 28, 110, 0.35);
+  background: var(--follow-bg);
+  box-shadow: 0 1px 1px var(--follow-shade), 0 3px 6px rgba(52, 28, 110, 0.25),
+              0 8px 16px rgba(52, 28, 110, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.25),
+              inset 0 -3px 6px rgba(30, 12, 70, 0.35);
 }
-body:not(.light-theme) .ig-card__follow { background: var(--accent-dark); }
-.ig-card__follow:hover { transform: translateY(-1px); filter: brightness(1.08); }
+body:not(.light-theme) .follow-btn {
+  --follow-bg: var(--accent-dark);
+  --follow-bg-hover: #a886d4;
+  --follow-bg-active: #8662b6;
+}
+body .ig-card a.follow-btn,
+body.light-theme .ig-card a.follow-btn { color: #fff; }
+.follow-btn:hover { background: var(--follow-bg-hover); }
+.follow-btn:active {
+  background: var(--follow-bg-active);
+  box-shadow: 0 1px 2px rgba(52, 28, 110, 0.25), inset 0 2px 6px rgba(30, 12, 70, 0.45),
+              inset 0 -1px 1px rgba(255, 255, 255, 0.08);
+}
+.follow-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+/* following: quiet light raised key */
+.follow-btn.is-following {
+  background: #fafafa;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.1),
+              0 2px 4px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.4),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.08);
+}
+body .ig-card a.follow-btn.is-following,
+body.light-theme .ig-card a.follow-btn.is-following { color: #525252; }
+.follow-btn.is-following:active { background: #f5f5f5; }
+/* dark mode "Following": a quiet dark key instead of a bright one */
+body:not(.light-theme) .follow-btn.is-following {
+  background: #26232e;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.4),
+              inset 0 1px 1px rgba(255, 255, 255, 0.06), inset 0 -2px 4px rgba(0, 0, 0, 0.35);
+}
+body:not(.light-theme) .ig-card a.follow-btn.is-following { color: #b9b4c6; }
+/* both labels share one cell, so the width never jumps; out fades first, in follows */
+.follow-btn__layer {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: opacity 0.3s ease-out 0.2s;
+}
+.follow-btn__layer svg { width: 14px; height: 14px; flex-shrink: 0; }
+.follow-btn__layer--following { opacity: 0; transition: opacity 0.2s ease-out; }
+.follow-btn.is-following .follow-btn__layer--follow { opacity: 0; transition: opacity 0.2s ease-out; }
+.follow-btn.is-following .follow-btn__layer--following { opacity: 1; transition: opacity 0.3s ease-out 0.2s; }
+@media (prefers-reduced-motion: reduce) {
+  .follow-btn, .follow-btn__layer { transition: none !important; }
+}
 @media (max-width: 480px) {
   .ig-card__media { flex-basis: 112px; }
   .ig-card__body { padding: 0.6rem 0.7rem; }
 }
 
 /* beat the site-wide link colours inside these cards */
-body .ig-card a.ig-card__follow,
-body.light-theme .ig-card a.ig-card__follow { color: #fff; }
 body .ig-card a.ig-card__view,
 body.light-theme .ig-card a.ig-card__view,
 body .gh-card a.gh-card__user,
@@ -8703,7 +8764,11 @@ View more
         <div class="ig-card__foot">
           <span class="ig-card__likes" data-ig-likes>205 likes</span>
           <a class="ig-card__view" data-ig-view href="https://www.instagram.com/p/DfXQfVUGSXX/" target="_blank" rel="noopener noreferrer">View post</a>
-          <a class="ig-card__follow" href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer">Follow</a>
+          <!-- Follow Toggle (opensourceui.in, MIT): opens the profile, then shows "Following" -->
+          <a class="follow-btn" data-follow href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer" role="button" aria-pressed="false" aria-label="Follow roccogold_ on Instagram">
+            <span class="follow-btn__layer follow-btn__layer--follow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>Follow</span>
+            <span class="follow-btn__layer follow-btn__layer--following" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>Following</span>
+          </a>
         </div>
       </div>
     </div>
@@ -11423,6 +11488,24 @@ if (root) {
       })
       .catch(() => { /* no token yet: keep the follow card */ });
   }
+
+  // Follow toggle: first click opens the profile and shows "Following"
+  // (remembered on this device); a click while following just switches back
+  document.querySelectorAll('[data-follow]').forEach(btn => {
+    const KEY = 'ig-following-roccogold_';
+    const set = (on) => {
+      btn.classList.toggle('is-following', on);
+      btn.setAttribute('aria-pressed', String(on));
+      btn.querySelector('.follow-btn__layer--follow').setAttribute('aria-hidden', String(on));
+      btn.querySelector('.follow-btn__layer--following').setAttribute('aria-hidden', String(!on));
+      try { on ? localStorage.setItem(KEY, '1') : localStorage.removeItem(KEY); } catch (e) {}
+    };
+    try { if (localStorage.getItem(KEY) === '1') set(true); } catch (e) {}
+    btn.addEventListener('click', (e) => {
+      if (btn.classList.contains('is-following')) { e.preventDefault(); set(false); }
+      else set(true);          // the link itself opens the profile in a new tab
+    });
+  });
 
   // GitHub: contribution graph for the last year
   const gh = document.querySelector('[data-gh-card]');
