@@ -2803,7 +2803,7 @@ body.light-theme .form-location-badge i {
   color: var(--accent-light);
 }
 
-/* Submit Button - Same UI as View More button (outlined pill) */
+/* Submit button: solid purple with white text, like the other primary buttons */
 .form-submit-btn {
   width: 100%;
   display: inline-flex;
@@ -2811,44 +2811,41 @@ body.light-theme .form-location-badge i {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 1.2rem !important;
-  background: rgba(154, 119, 198, 0.12) !important;
-  color: var(--accent-dark) !important;
-  border: 1px solid rgba(154, 119, 198, 0.3) !important;
+  background: var(--accent-dark) !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
   border-radius: 20px !important;
   font-size: 0.78rem !important;
   font-weight: 600 !important;
   font-family: var(--main-font) !important;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
-  box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15) !important;
+  box-shadow: 0 2px 8px rgba(154, 119, 198, 0.3) !important;
 }
 
 .form-submit-btn i {
-  color: var(--accent-dark) !important;
+  color: #fff !important;
 }
 
 .form-submit-btn:hover:not(:disabled) {
-  background: rgba(154, 119, 198, 0.25) !important;
-  border-color: rgba(154, 119, 198, 0.3) !important;
+  background: var(--accent-dark-hover) !important;
   transform: translateY(-3px) !important;
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.4) !important;
 }
 
 body.light-theme .form-submit-btn {
-  background: rgba(107, 70, 193, 0.12) !important;
-  color: var(--accent-light) !important;
-  border-color: rgba(107, 70, 193, 0.3) !important;
-  box-shadow: 0 2px 8px rgba(107, 70, 193, 0.15) !important;
+  background: var(--accent-light) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(107, 70, 193, 0.3) !important;
 }
 
 body.light-theme .form-submit-btn i {
-  color: var(--accent-light) !important;
+  color: #fff !important;
 }
 
 body.light-theme .form-submit-btn:hover:not(:disabled) {
-  background: rgba(107, 70, 193, 0.25) !important;
-  border-color: rgba(107, 70, 193, 0.3) !important;
-  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3) !important;
+  background: var(--accent-light-hover) !important;
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.4) !important;
 }
 
 /* OR CONNECT Divider */
@@ -5479,13 +5476,13 @@ body.light-theme .app-name { color: var(--text-light); }
 }
 .app-pill--primary {
   background: var(--accent-dark);
-  color: #0f0d14;
+  color: #ffffff;
   border: 1px solid transparent;
 }
 .app-pill--primary:hover,
 .app-pill--primary:focus-visible {
   background: var(--accent-dark-hover);
-  color: #0f0d14;
+  color: #ffffff;
   transform: translateY(-1px);
 }
 body.light-theme .app-pill--primary {
