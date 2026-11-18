@@ -1242,14 +1242,16 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
 @media (max-width: 768px) {
   .menu-pill {
     position: fixed;
-    top: max(7px, env(safe-area-inset-top));
+    top: max(8px, env(safe-area-inset-top));
     right: 1rem; /* same 16px inset as the page gutter on the left */
     z-index: 1003;
+    /* icon-only round button; the Menu/Close word stays for screen readers */
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
-    height: 30px;
-    padding: 0 0.7rem;
+    justify-content: center;
+    width: 28px; /* same height as the location chip next to it */
+    height: 28px;
+    padding: 0;
     border: 0;
     border-radius: 999px;
     background: var(--text-dark);
@@ -1264,6 +1266,12 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
   }
   body.light-theme .menu-pill { background: var(--text-light); color: #fff; }
   .menu-pill:active { transform: scale(0.95); }
+  /* invisible 40px tap area around the 28px button */
+  .menu-pill::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+  }
   /* Like the desktop nav: only shown near the top of the page */
   .menu-pill.is-hidden {
     opacity: 0;
@@ -1275,7 +1283,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
   .menu-pill__bars { display: grid; gap: 3px; }
   .menu-pill__bars b {
     display: block;
-    width: 14px;
+    width: 12px;
     height: 1.5px;
     border-radius: 1px;
     background: currentColor;
@@ -1301,10 +1309,12 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     padding: calc(20vh + 5.5rem) 1.5rem calc(20vh + 2rem + env(safe-area-inset-bottom));
     background: #050505; /* fallback under the cloned Ink background */
     isolation: isolate;
-    clip-path: circle(0px at calc(100% - 3.2rem) calc(20vh + 22px));
+    clip-path: circle(0px at calc(100% - 30px) calc(20vh + 22px));
     opacity: 0;
     visibility: hidden;
-    touch-action: manipulation;
+    /* no panning or rubber-band inside the menu: it's a fixed screen */
+    touch-action: none;
+    overscroll-behavior: none;
     /* Close: a quick fade, then the circle resets out of sight for the next open */
     transition: opacity 0.16s ease-out, visibility 0s linear 0.16s, clip-path 0s linear 0.16s;
   }
@@ -1324,7 +1334,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
   }
   .menu-open .menu-overlay {
     /* just large enough to cover the screen plus the overshooting backing layer */
-    clip-path: circle(170vmax at calc(100% - 3.2rem) calc(20vh + 22px));
+    clip-path: circle(170vmax at calc(100% - 30px) calc(20vh + 22px));
     opacity: 1;
     visibility: visible;
     /* Open: a short circular reveal from the pill */
@@ -1377,28 +1387,24 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     justify-content: flex-start;
     /* row ends where the fixed Menu pill ends (both 16px from the edge), so the
        pill's own width is the space to keep free; the chip centres in what's left */
-    padding-right: calc(4.5rem + 6px);
+    padding-right: calc(28px + 6px);
   }
   .hero-chips > .hero-chip:first-child { margin-inline: auto; }
 }
 
-/* Phones under 410px (390/393px and 375px iPhones, 360px Android): shorter location chip so the row breathes */
-@media (max-width: 409px) {
+/* Narrow phones (under 360px, e.g. 320px): shorter location chip so the row still fits */
+@media (max-width: 359px) {
   .hero-chip__long { display: none; }
 }
 
-/* Tiny phones (320px): the pill drops its label so the row still fits */
-@media (max-width: 340px) {
-  .menu-pill { width: 30px; padding: 0; justify-content: center; }
-  .menu-pill__label {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-  .hero-chips { padding-right: calc(30px + 6px); }
+/* The Menu/Close word is for screen readers only */
+.menu-pill__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* Container Queries Support */
@@ -8891,11 +8897,30 @@ if (menuPill && menuOverlay) {
     bg.appendChild(pageBg.cloneNode(true));
     menuOverlay.prepend(bg);
   }
+  // iOS Safari ignores overflow:hidden on body, so pin the body in place
+  // (the lightbox does the same) and put the reader back where they were on close
+  let menuScrollY = 0;
   const setMenu = (open) => {
+    const isOpen = document.body.classList.contains('menu-open');
+    if (open === isOpen) return;
+    if (open) {
+      menuScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${menuScrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      window.scrollTo({ top: menuScrollY, behavior: 'instant' });
+    }
     document.body.classList.toggle('menu-open', open);
     menuPill.setAttribute('aria-expanded', open ? 'true' : 'false');
     menuPill.querySelector('.menu-pill__label').textContent = open ? 'Close' : 'Menu';
-    document.body.style.overflow = open ? 'hidden' : '';
+    // Closed away from the top: the pill goes away straight after (it only lives at the top)
+    if (!open) requestAnimationFrame(() => syncPill());
   };
   menuPill.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
   document.addEventListener('keydown', (e) => {
