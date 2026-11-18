@@ -1138,6 +1138,18 @@ body.light-theme .nav-pill {
   font-family: var(--main-font);
 }
 
+/* Desktop nav links use the same display font as the phone menu (Bagel Fat One).
+   It ships one weight, so override the link reset's 600 instead of faking bold. */
+.nav-bar .nav-item {
+  font-family: var(--font-pixel-mobile);
+  font-weight: 400 !important;
+  font-synthesis: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
 .nav-item:hover,
 .nav-item:focus-visible {
   color: #ffffff;
