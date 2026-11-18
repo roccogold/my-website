@@ -1243,13 +1243,13 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
   .menu-pill {
     position: fixed;
     top: max(7px, env(safe-area-inset-top));
-    right: 0.75rem;
+    right: 1rem; /* same 16px inset as the page gutter on the left */
     z-index: 1003;
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
     height: 30px;
-    padding: 0 0.8rem;
+    padding: 0 0.7rem;
     border: 0;
     border-radius: 999px;
     background: var(--text-dark);
@@ -1259,10 +1259,18 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     cursor: pointer;
     box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.45);
     -webkit-tap-highlight-color: transparent;
-    transition: transform 0.3s var(--ease-out-expo), background 0.3s, color 0.3s;
+    touch-action: manipulation;
+    transition: transform 0.2s var(--ease-out-expo), background 0.3s, color 0.3s;
   }
   body.light-theme .menu-pill { background: var(--text-light); color: #fff; }
   .menu-pill:active { transform: scale(0.95); }
+  /* Like the desktop nav: only shown near the top of the page */
+  .menu-pill.is-hidden {
+    opacity: 0;
+    transform: translateY(-140%);
+    pointer-events: none;
+    transition: transform 0.25s var(--ease-out-expo), opacity 0.2s;
+  }
 
   .menu-pill__bars { display: grid; gap: 3px; }
   .menu-pill__bars b {
@@ -1271,7 +1279,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     height: 1.5px;
     border-radius: 1px;
     background: currentColor;
-    transition: transform 0.4s var(--ease-out-expo);
+    transition: transform 0.25s var(--ease-out-expo);
   }
   .menu-open .menu-pill__bars b:first-child { transform: translateY(2.25px) rotate(45deg); }
   .menu-open .menu-pill__bars b:last-child  { transform: translateY(-2.25px) rotate(-45deg); }
@@ -1287,14 +1295,33 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     padding: 5.5rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
     background: #050505;
     clip-path: circle(0px at calc(100% - 3.2rem) 22px);
+    opacity: 0;
     visibility: hidden;
-    transition: clip-path 0.75s var(--ease-out-expo), visibility 0s linear 0.75s;
+    touch-action: manipulation;
+    /* Close: a quick fade, then the circle resets out of sight for the next open */
+    transition: opacity 0.16s ease-out, visibility 0s linear 0.16s, clip-path 0s linear 0.16s;
   }
   body.light-theme .menu-overlay { background: #f5f5f2; }
+  /* Backing layer reaches well past both screen edges (like the Ink background):
+     on iPhone, Safari's bars float over the page and an exactly-sized layer lets
+     the page show through underneath them. The links stay centred on screen. */
+  .menu-overlay::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -20vh;
+    bottom: -20vh;
+    z-index: -1;
+    background: inherit;
+  }
   .menu-open .menu-overlay {
-    clip-path: circle(150% at calc(100% - 3.2rem) 22px);
+    /* just large enough to cover the screen plus the overshooting backing layer */
+    clip-path: circle(165vmax at calc(100% - 3.2rem) 22px);
+    opacity: 1;
     visibility: visible;
-    transition: clip-path 0.75s var(--ease-out-expo), visibility 0s;
+    /* Open: a short circular reveal from the pill */
+    transition: clip-path 0.42s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0s, visibility 0s;
   }
 
   .menu-overlay__link {
@@ -1305,8 +1332,8 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     color: var(--text-dark);
     text-decoration: none;
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.4s, transform 0.55s var(--ease-out-expo), color 0.2s;
+    transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.35s var(--ease-out-expo), color 0.15s;
   }
   body.light-theme .menu-overlay__link { color: var(--text-light); }
   .menu-overlay__link small {
@@ -1319,15 +1346,42 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
   body.light-theme .menu-overlay__link--accent { color: var(--accent-light); }
 
   .menu-open .menu-overlay__link { opacity: 1; transform: none; }
-  .menu-open .menu-overlay__link:nth-child(2) { transition-delay: 0.05s; }
-  .menu-open .menu-overlay__link:nth-child(3) { transition-delay: 0.10s; }
-  .menu-open .menu-overlay__link:nth-child(4) { transition-delay: 0.15s; }
-  .menu-open .menu-overlay__link:nth-child(5) { transition-delay: 0.20s; }
-  .menu-open .menu-overlay__link:nth-child(6) { transition-delay: 0.25s; }
+  .menu-open .menu-overlay__link:nth-child(2) { transition-delay: 0.03s; }
+  .menu-open .menu-overlay__link:nth-child(3) { transition-delay: 0.06s; }
+  .menu-open .menu-overlay__link:nth-child(4) { transition-delay: 0.09s; }
+  .menu-open .menu-overlay__link:nth-child(5) { transition-delay: 0.12s; }
+  .menu-open .menu-overlay__link:nth-child(6) { transition-delay: 0.15s; }
 
 
-  /* Chip row: leave room for the fixed Menu pill */
-  .hero-chips { justify-content: flex-start; padding-right: 5.6rem; }
+  /* Chip row: [theme + sound] [location chip, centred in what's left] [fixed Menu pill] */
+  .hero-chips {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    /* row ends where the fixed Menu pill ends (both 16px from the edge), so the
+       pill's own width is the space to keep free; the chip centres in what's left */
+    padding-right: calc(4.5rem + 6px);
+  }
+  .hero-chips > .hero-chip:first-child { margin-inline: auto; }
+}
+
+/* Phones under 410px (390/393px and 375px iPhones, 360px Android): shorter location chip so the row breathes */
+@media (max-width: 409px) {
+  .hero-chip__long { display: none; }
+}
+
+/* Tiny phones (320px): the pill drops its label so the row still fits */
+@media (max-width: 340px) {
+  .menu-pill { width: 30px; padding: 0; justify-content: center; }
+  .menu-pill__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .hero-chips { padding-right: calc(30px + 6px); }
 }
 
 /* Container Queries Support */
@@ -1997,7 +2051,7 @@ body.light-theme .view-all-btn:hover {
 
 .tron-header h2 {
   font-family: var(--font-pixel-mobile);
-  font-size: clamp(1.2rem, 3.4vw, 1.75rem);
+  font-size: clamp(1.6rem, 4.4vw, 2.5rem);
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1.1;
@@ -3584,7 +3638,7 @@ body.light-theme .hero-chip {
     display: inline-flex;
     align-items: center;
     gap: 0.15rem;
-    order: 1;
+    order: -1; /* toggles first, then the location chip, Menu pill on the right */
   }
 
   .hero-mobile-toggles .theme-toggle,
@@ -3612,7 +3666,7 @@ body.light-theme .hero-chip {
 @media (max-width: 380px) {
   .hero-chips .hero-chip {
     font-size: 0.54rem;
-    padding: 0.35rem 0.5rem;
+    padding: 0.35rem 0.42rem;
   }
 
   .hero-chips .hero-mobile-toggles { gap: 0; }
@@ -4039,7 +4093,7 @@ body.light-theme .hero-creds__logo--light { display: block; }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: 1.3rem !important;
+    font-size: clamp(1.5rem, 7.6vw, 2.1rem) !important;
   }
 
   .top-bar header p.neon-subtitle {
@@ -4060,7 +4114,7 @@ body.light-theme .hero-creds__logo--light { display: block; }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: 1.15rem !important;
+    font-size: clamp(1.5rem, 7.6vw, 2.1rem) !important;
   }
 
   .top-bar header p.neon-subtitle {
@@ -5651,7 +5705,7 @@ body.light-theme [title]:hover {
 /* Closing section title — same pixel scale as .tron-header h2 */
 .closing-section-title {
   font-family: var(--font-pixel-mobile);
-  font-size: clamp(1.2rem, 3.4vw, 1.75rem);
+  font-size: clamp(1.6rem, 4.4vw, 2.5rem);
   font-weight: 400;
   text-align: center;
   margin-top: 2rem;
@@ -6425,7 +6479,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 
   .tron-header h2,
   .closing-section-title {
-    font-size: clamp(1.15rem, 5.2vw, 1.6rem) !important;
+    font-size: clamp(1.5rem, 7.6vw, 2.1rem) !important;
     letter-spacing: 0.01em !important;
     line-height: 1.25 !important;
   }
@@ -6538,7 +6592,7 @@ body.light-theme .scrolly-step-link:focus-visible {
     <!-- LEFT: name, kicker, tagline, description, CTAs -->
     <header class="hero-left reveal">
       <div class="hero-chips">
-        <span class="hero-chip"><span class="hero-chip__dot" aria-hidden="true"></span> Singapore · Product @ Moody's</span>
+        <span class="hero-chip"><span class="hero-chip__dot" aria-hidden="true"></span> Singapore · <span class="hero-chip__long">Product @ </span>Moody's</span>
         <!-- Mobile only: the nav pill is hidden below 768px, so its two toggles live here -->
         <span class="hero-mobile-toggles">
           <span class="daylight-slot daylight-slot--mobile" data-daylight-slot="mobile"></span>
@@ -8825,6 +8879,18 @@ if (menuPill && menuOverlay) {
     });
   });
   window.matchMedia('(min-width: 769px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
+
+  // Hide the pill once the page is scrolled; bring it back at the top (as the desktop nav does)
+  let pillTicking = false;
+  const syncPill = () => {
+    pillTicking = false;
+    if (document.body.classList.contains('menu-open')) return;
+    menuPill.classList.toggle('is-hidden', window.scrollY > 50);
+  };
+  window.addEventListener('scroll', () => {
+    if (!pillTicking) { pillTicking = true; requestAnimationFrame(syncPill); }
+  }, { passive: true });
+  syncPill();
 }
 
 // NEW: Scroll indicator functionality
