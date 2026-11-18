@@ -907,10 +907,15 @@ body.light-theme .theme-toggle:focus-visible {
   /* the component's box includes room for its shadow; pull that space back in */
   margin: -9px;
 }
-/* Desktop: small, in the nav pill where the bulb used to be */
-.daylight-slot--nav {
+/* Desktop: in the hero chip row, where the version chip used to be */
+.daylight-slot--hero {
+  display: inline-block;
+  align-self: center;
   width: 80px;
-  margin: -7.5px;
+  margin: -7.5px -7.5px -7.5px -4px;
+}
+@media (max-width: 768px) {
+  .daylight-slot--hero { display: none; }
 }
 .daylight-slot--mobile {
   display: block;
@@ -1321,9 +1326,8 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
   .menu-open .menu-overlay__link:nth-child(6) { transition-delay: 0.25s; }
 
 
-  /* Chip row: version chip steps aside so the fixed Menu pill has room */
+  /* Chip row: leave room for the fixed Menu pill */
   .hero-chips { justify-content: flex-start; padding-right: 5.6rem; }
-  .hero-chips .hero-chip--version { display: none; }
 }
 
 /* Container Queries Support */
@@ -6454,16 +6458,6 @@ body.light-theme .scrolly-step-link:focus-visible {
 <div class="nav-container">
   <div class="nav-pill">
     <div class="nav-controls">
-      <!-- Daylight switch lives here on desktop; the script moves it next to the sound toggle on mobile -->
-      <div class="daylight-slot daylight-slot--nav" data-daylight-slot="nav">
-        <!-- UI by @Lattice_Node — ludion.ai/p/toggle-daylight (MIT) -->
-        <div data-ld-part="toggle-daylight" data-frame="low" lang="ja">
-          <canvas class="scene" aria-hidden="true"></canvas>
-          <button class="hit" type="button" role="switch" aria-checked="false" aria-label="夜"></button>
-          <span class="vh" role="status" aria-live="polite" data-status></span>
-          <span class="probe" aria-hidden="true"></span>
-        </div>
-      </div>
       <!-- Sound toggle (after isembard.com): ruler tick sound stays off until pressed -->
       <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
         <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
@@ -6552,7 +6546,16 @@ body.light-theme .scrolly-step-link:focus-visible {
             <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
           </button>
         </span>
-        <span class="hero-chip hero-chip--version">v3.4 · 2026</span>
+        <!-- Desktop: the daylight switch sits in the chip row; the script moves it next to the sound toggle on mobile -->
+        <span class="daylight-slot daylight-slot--hero" data-daylight-slot="hero">
+            <!-- UI by @Lattice_Node — ludion.ai/p/toggle-daylight (MIT) -->
+            <div data-ld-part="toggle-daylight" data-frame="low" lang="ja">
+              <canvas class="scene" aria-hidden="true"></canvas>
+              <button class="hit" type="button" role="switch" aria-checked="false" aria-label="夜"></button>
+              <span class="vh" role="status" aria-live="polite" data-status></span>
+              <span class="probe" aria-hidden="true"></span>
+            </div>
+        </span>
       </div>
 
       <h1 class="neon-title hero-pixel-mobile">ROCCO</h1>
@@ -11159,14 +11162,14 @@ import { mount } from '/assets/toggle-daylight/part.js';
 
 const root = document.querySelector('[data-ld-part="toggle-daylight"]');
 if (root) {
-  // One switch, one state: nav pill on desktop, next to the sound toggle on mobile
+  // One switch, one state: hero chip row on desktop, next to the sound toggle on mobile
   const slots = {
-    nav: document.querySelector('[data-daylight-slot="nav"]'),
-    hero: document.querySelector('[data-daylight-slot="mobile"]'),
+    desktop: document.querySelector('[data-daylight-slot="hero"]'),
+    mobile: document.querySelector('[data-daylight-slot="mobile"]'),
   };
   const mobileQuery = matchMedia('(max-width: 768px)');
   const place = () => {
-    const slot = mobileQuery.matches ? slots.hero : slots.nav;
+    const slot = mobileQuery.matches ? slots.mobile : slots.desktop;
     if (slot && root.parentElement !== slot) slot.appendChild(root);
   };
   place();
