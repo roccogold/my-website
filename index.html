@@ -1674,6 +1674,8 @@ html body .top-bar header h1.neon-title.heat-ready {
   html body .menu-pill {
     transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
   }
+  /* never over the photo lightbox */
+  html body:has(#lightbox.active) .hero-chips { visibility: hidden; opacity: 0; }
   html body.chrome-away:not(.menu-open) .hero-chips,
   html body.chrome-away:not(.menu-open) .menu-pill {
     opacity: 0;
