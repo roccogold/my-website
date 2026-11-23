@@ -1042,6 +1042,35 @@ html.theme-fading::view-transition-new(daylight-switch) {
 
 body.light-theme .sound-toggle { color: var(--accent-light); }
 
+/* Eye buddy (after bencho.dev's Eye tracker, Cube + Slant): a soft square whose
+   eyes follow the cursor, sat beside the speaker at the speaker's size */
+.eye-buddy {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.sound-toggle + .eye-buddy { margin-left: -0.6rem; }
+
+.eye-buddy svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+  overflow: visible;
+  transform: translateY(2px);
+}
+
+/* dark: the dark cube, white eyes */
+.eye-buddy__body { fill: #2a2a2e; stroke: rgba(255, 255, 255, 0.16); stroke-width: 3; }
+.eye-buddy__eyes rect { fill: #fff; }
+
+/* light: the white cube, dark eyes */
+body.light-theme .eye-buddy__body { fill: #fff; stroke: rgba(107, 70, 193, 0.28); }
+body.light-theme .eye-buddy__eyes rect { fill: #1a1a1e; }
+
 /* Muted/on icon swap, driven by aria-pressed on either toggle */
 [data-sound-toggle] .sound-icon--on { display: none; }
 [data-sound-toggle][aria-pressed="true"] .sound-icon--on { display: block; }
@@ -3753,11 +3782,13 @@ body.light-theme .hero-chip {
   }
 
   .hero-mobile-toggles .theme-toggle,
-  .hero-mobile-toggles .sound-toggle {
+  .hero-mobile-toggles .sound-toggle,
+  .hero-mobile-toggles .eye-buddy {
     width: 28px;
     height: 28px;
     margin-left: 0;
   }
+  .hero-mobile-toggles .eye-buddy svg { transform: translateY(-1px); }
 
   /* Plain icons on touch: no spin (hover sticks after a tap) */
   .hero-mobile-toggles .theme-toggle__icon,
@@ -4040,6 +4071,25 @@ body.light-theme .swap-card {
     transform var(--speed) cubic-bezier(0.55, 0, 0.75, 0.3),
     opacity var(--speed) ease-in;
 }
+
+/* Swipe: the front card under a finger, then flung off the side it was thrown to */
+.card-swap { touch-action: pan-y; }
+
+.card-swap .swap-card.is-dragging {
+  transform: translate3d(var(--drag-x, 0), var(--drag-y, 0), 0) rotate(var(--drag-r, 0deg)) skewY(5deg) !important;
+  transition: none !important;
+  cursor: grabbing;
+}
+
+.swap-card.is-flung {
+  transform: translate3d(calc(var(--fling) * 140%), -6%, 40px) rotate(calc(var(--fling) * 16deg)) skewY(5deg);
+  opacity: 0;
+  transition:
+    transform var(--speed) cubic-bezier(0.3, 0.6, 0.5, 1),
+    opacity var(--speed) ease-in;
+}
+
+.swap-card img { -webkit-user-drag: none; user-select: none; }
 
 .swap-card.no-anim {
   transition: none !important;
@@ -6745,6 +6795,7 @@ body.light-theme .scrolly-step-link:focus-visible {
       <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
         <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
       </button>
+      <span class="eye-buddy" aria-hidden="true"><svg viewBox="0 0 100 100"><path class="eye-buddy__body" d="M30 6 H70 A24 24 0 0 1 94 30 V70 A24 24 0 0 1 70 94 H30 A24 24 0 0 1 6 70 V30 A24 24 0 0 1 30 6 Z"/><g class="eye-buddy__eyes"><g><rect/></g><g><rect/></g></g></svg></span>
     </div>
     <span class="nav-divider" aria-hidden="true"></span>
     <nav class="nav-bar" role="navigation" aria-label="Main navigation">
@@ -6829,6 +6880,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
             <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
           </button>
+          <span class="eye-buddy" aria-hidden="true"><svg viewBox="0 0 100 100"><path class="eye-buddy__body" d="M30 6 H70 A24 24 0 0 1 94 30 V70 A24 24 0 0 1 70 94 H30 A24 24 0 0 1 6 70 V30 A24 24 0 0 1 30 6 Z"/><g class="eye-buddy__eyes"><g><rect/></g><g><rect/></g></g></svg></span>
         </span>
         <!-- Desktop: the daylight switch sits in the chip row; the script moves it next to the sound toggle on mobile -->
         <span class="daylight-slot daylight-slot--hero" data-daylight-slot="hero">
@@ -11704,6 +11756,113 @@ document.addEventListener('DOMContentLoaded', () => {
     new MutationObserver(() => { readRest(); paint(); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
   })();
 
+  // Eye buddy (after bencho.dev's Eye tracker): each eye is a point on a sphere,
+  // the pointer turns the sphere, so the eye heading for the rim narrows and moves
+  // less. One sprung turn per buddy; blinks now and then; parks when nothing moves.
+  (() => {
+    const buddies = [...document.querySelectorAll('.eye-buddy')].map((el, n) => {
+      const svg = el.querySelector('svg');
+      const ns = 'http://www.w3.org/2000/svg';
+      const clip = document.createElementNS(ns, 'clipPath');
+      clip.id = `eye-buddy-clip-${n}`;
+      const shape = el.querySelector('.eye-buddy__body').cloneNode();
+      shape.removeAttribute('class');
+      clip.appendChild(shape);
+      const defs = document.createElementNS(ns, 'defs');
+      defs.appendChild(clip);
+      svg.prepend(defs);
+      const eyes = el.querySelector('.eye-buddy__eyes');
+      eyes.setAttribute('clip-path', `url(#${clip.id})`);
+      return {
+        el,
+        eyes: [...eyes.children],
+        t: { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 },
+        blink: 0,
+        nextBlink: performance.now() + 1500 + Math.random() * 2500,
+      };
+    });
+    if (!buddies.length) return;
+
+    const FOLLOW = 60, BOUNCE = 30;
+    const EYE = { w: 9 * 1.5, h: 15 * 1.5, r: 4.5 * 1.5 };   // Slant, enlarged to read at icon size
+    const GAP = 0.19 * 1.2, TILT = 64, R = 50;
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const draw = (b, now) => {
+      let lid = 1;
+      if (now > b.nextBlink) { b.blink = now; b.nextBlink = now + 2600 + Math.random() * 3200; }
+      const since = now - b.blink;
+      if (since < 160) lid = 1 - 0.9 * Math.sin((since / 160) * Math.PI);
+      const as = (v) => Math.asin(clamp(v, -0.92, 0.92));
+      const yaw = as(b.t.x), pitch = -as(b.t.y);
+      const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+      const tilt = TILT * b.t.x * b.t.y;
+      [-GAP, GAP].forEach((x0, i) => {
+        const g = b.eyes[i];
+        const z0 = Math.sqrt(1 - x0 * x0);
+        const x1 = x0 * cy + z0 * sy;
+        const z1 = -x0 * sy + z0 * cy;
+        const y2 = -z1 * sp;
+        const z2 = z1 * cp;
+        const near = clamp(z2, 0, 1);
+        const k = 0.45 + 0.55 * near;
+        const w = EYE.w * k * (0.7 + 0.3 * near);
+        const h = Math.max(0.6, EYE.h * k * lid);
+        const rect = g.firstElementChild;
+        rect.setAttribute('x', (-w / 2).toFixed(2));
+        rect.setAttribute('y', (-h / 2).toFixed(2));
+        rect.setAttribute('width', w.toFixed(2));
+        rect.setAttribute('height', h.toFixed(2));
+        rect.setAttribute('rx', Math.min(EYE.r, w / 2, h / 2).toFixed(2));
+        g.setAttribute('transform', `translate(${(50 + x1 * R).toFixed(2)} ${(50 + y2 * R).toFixed(2)}) rotate(${tilt.toFixed(2)})`);
+        g.style.opacity = z2 < 0.05 ? '0' : '1';
+      });
+    };
+
+    let raf = 0, prev = 0;
+    const shown = () => buddies.filter((b) => b.el.offsetParent !== null);
+    const tick = (now) => {
+      if (document.hidden) { raf = 0; prev = 0; return; }
+      const dt = prev ? Math.min(2.5, (now - prev) / 16.67) : 1;
+      prev = now;
+      for (const b of shown()) {
+        const t = b.t;
+        if (still) { t.x = t.tx; t.y = t.ty; }
+        else {
+          const k = 0.06, d = 0.34 - (BOUNCE / 100) * 0.22;   // Bounce loosens the damping
+          t.vx += ((t.tx - t.x) * k - t.vx * d) * dt;
+          t.vy += ((t.ty - t.y) * k - t.vy * d) * dt;
+          t.x += t.vx * dt;
+          t.y += t.vy * dt;
+        }
+        draw(b, now);
+      }
+      raf = requestAnimationFrame(tick);   // keeps running for the blinks; stops in a hidden tab
+    };
+    const resume = () => { if (!raf && !document.hidden) { prev = 0; raf = requestAnimationFrame(tick); } };
+    resume();
+    document.addEventListener('visibilitychange', resume);
+
+    // They watch the pointer anywhere on the page, and face front when it leaves
+    window.addEventListener('pointermove', (e) => {
+      const reach = Math.max(60, Math.min(innerWidth, innerHeight) * 0.28);
+      for (const b of buddies) {
+        const r = b.el.getBoundingClientRect();
+        if (!r.width) continue;
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        const dd = Math.hypot(dx, dy) || 1;
+        const far = Math.min(0.85, Math.tanh(dd / reach) * (FOLLOW / 100) * 1.5);
+        b.t.tx = (dx / dd) * far;
+        b.t.ty = (dy / dd) * far;
+      }
+    }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', () => {
+      for (const b of buddies) { b.t.tx = 0; b.t.ty = 0; }
+    });
+  })();
+
   // Hero card swap: cycles every gallery photo through a 3D stack, front card to the back
   (() => {
     const stack = document.querySelector('.card-swap');
@@ -11769,22 +11928,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let order = cards.slice();  // order[0] is the front card
     let busy = false;
 
-    const swap = () => {
+    // dir: undefined drops the card down; -1 / 1 flings it off left / right (a swipe)
+    const swap = (dir) => {
       if (busy || order.length < 2) return;
       busy = true;
       const hadFocus = document.activeElement === order[0];
       const front = order.shift();
-      front.setAttribute('style', '--s:-1');   // out of the slot rules while it falls
+      // out of the slot rules while it leaves
+      front.setAttribute('style', dir ? `--s:-1; --fling:${dir}` : '--s:-1');
       front.setAttribute('aria-hidden', 'true');
       front.tabIndex = -1;
-      front.classList.add('is-dropping');
+      front.classList.remove('is-dragging');
+      front.classList.add(dir ? 'is-flung' : 'is-dropping');
       order.forEach((c, i) => setSlot(c, i));
       order.push(front);
       if (hadFocus) order[0].focus({ preventScroll: true });
 
       setTimeout(() => {
         front.classList.add('no-anim');
-        front.classList.remove('is-dropping');
+        front.classList.remove('is-dropping', 'is-flung');
         setSlot(front, order.length - 1);
         fill(front, pool[next++ % pool.length]);
         void front.offsetWidth;
@@ -11804,8 +11966,52 @@ document.addEventListener('DOMContentLoaded', () => {
       timer = setInterval(swap, EVERY);
     };
 
+    // Swipe: the front card follows a finger (or a mouse drag) sideways; flick it
+    // past a threshold and it flies off and goes to the back. Vertical moves are
+    // left to the page so the stack never traps a scroll.
+    let drag = null;
+    let swallowClick = false;
+    stack.addEventListener('pointerdown', (e) => {
+      const card = e.target.closest('.swap-card');
+      if (busy || !card || card !== order[0] || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      drag = { card, id: e.pointerId, x0: e.clientX, y0: e.clientY, t0: performance.now(), dx: 0, live: false };
+    });
+    stack.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x0, dy = e.clientY - drag.y0;
+      if (!drag.live) {
+        if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) { drag = null; return; }  // a scroll
+        if (Math.abs(dx) < 8) return;
+        drag.live = true;
+        drag.card.setPointerCapture?.(e.pointerId);
+        drag.card.classList.add('is-dragging');
+        stop();
+      }
+      drag.dx = dx;
+      drag.card.setAttribute('style', `--s:0; --drag-x:${dx}px; --drag-y:${dy * 0.15}px; --drag-r:${dx * 0.05}deg`);
+    });
+    const release = (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const { card, live, dx, t0 } = drag;
+      drag = null;
+      if (!live) return;
+      swallowClick = true;                         // the click after a drag is not a tap
+      setTimeout(() => (swallowClick = false), 0);
+      const v = Math.abs(dx) / Math.max(1, performance.now() - t0);   // px per ms
+      if (e.type !== 'pointercancel' && (Math.abs(dx) > 60 || v > 0.5)) {
+        swap(dx > 0 ? 1 : -1);
+      } else {
+        card.classList.remove('is-dragging');      // springs back to the front slot
+        setSlot(card, 0);
+      }
+      start();
+    };
+    stack.addEventListener('pointerup', release);
+    stack.addEventListener('pointercancel', release);
+
     stack.addEventListener('click', (e) => {
       if (!e.target.closest('.swap-card')) return;
+      if (swallowClick) { swallowClick = false; return; }
       swap();
       start();
     });
