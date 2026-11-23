@@ -24,7 +24,7 @@
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#d5e2ec">
+<meta name="theme-color" content="#bed6e1">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="msapplication-navbutton-color" content="#111111">
@@ -256,6 +256,34 @@
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
+  /* never seen (the photo covers it), but Safari 26 tints its bars from the
+     background-color of fixed layers at the screen edges, never from images */
+  background-color: #37403b;
+}
+body.light-theme .scenic-background { background-color: #d0ddd0; }
+
+/* Safari 26 on iPhone: thin fixed strips tucked under the status bar and the
+   floating toolbar, so the top bar takes the washed sky and the bottom the
+   washed grass (jahir.dev/blog/safari-toolbar). Off everywhere else. */
+.safari-tint { display: none; }
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 767px) {
+    .safari-tint {
+      display: block;
+      position: fixed;
+      left: 0;
+      width: 100%;
+      min-height: 12px;
+      margin: 0;
+      padding: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .safari-tint--top { top: -8px; background-color: #2c3b45; }
+    .safari-tint--bottom { bottom: -8px; background-color: #3c4231; }
+    body.light-theme .safari-tint--top { background-color: #bed6e1; }
+    body.light-theme .safari-tint--bottom { background-color: #d8e1c1; }
+  }
 }
 
 .scenic-background::before {
@@ -743,11 +771,11 @@ body::after {
    fixed background doesn't cover (behind Safari's bars) blends in */
 html,
 html body {
-  background-color: #050505 !important;
+  background-color: #37403b !important; /* the meadow's average under the dark wash */
 }
 html.light-theme,
 html body.light-theme {
-  background-color: #f5f5f2 !important;
+  background-color: #d0ddd0 !important; /* the meadow's average under the light wash */
 }
 
 /* Force immediate solid background on HTML element */
@@ -1410,7 +1438,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     justify-content: center;
     gap: 0.2rem;
     padding: calc(20vh + 5.5rem) 1.5rem calc(20vh + 2rem + env(safe-area-inset-bottom));
-    background: #050505; /* fallback under the cloned Ink background */
+    background: #37403b; /* under the cloned meadow; also the colour Safari 26 tints its bars from */
     isolation: isolate;
     clip-path: circle(0px at calc(100% - 30px) calc(20vh + 22px));
     opacity: 0;
@@ -1421,7 +1449,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     /* Close: a quick fade, then the circle resets out of sight for the next open */
     transition: opacity 0.16s ease-out, visibility 0s linear 0.16s, clip-path 0s linear 0.16s;
   }
-  body.light-theme .menu-overlay { background: #f5f5f2; }
+  body.light-theme .menu-overlay { background: #d0ddd0; }
   /* The page's own Ink background, cloned in by the menu script and placed
      exactly where .gradient-background sits (15vh above the screen), so the
      menu shows the same wash and dots; the film grain (body::after) stays on top */
@@ -1479,7 +1507,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
      finished, hide everything else: the strip under the bar then shows the
      page background, which is the same colour as the menu in both themes.
      Closing removes the class, so the page reappears instantly. */
-  body.menu-open > *:not(.menu-overlay):not(.menu-pill):not(script):not(style):not(link) {
+  body.menu-open > *:not(.menu-overlay):not(.menu-pill):not(.safari-tint):not(script):not(style):not(link) {
     visibility: hidden;
     transition: visibility 0s linear 0.42s;
   }
@@ -1632,14 +1660,6 @@ html body .top-bar header h1.neon-title.heat-ready {
   z-index: 3;
 }
 
-/* The closing title gets the same heat word; its letters' scroll colours are
-   repainted on the canvas, so the spans themselves go transparent */
-.closing-section-title { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-html body .closing-section-title.heat-ready span.char,
-html body .closing-section-title.heat-ready span.char.active {
-  color: transparent !important;
-  transition: none !important;
-}
       
 .hero-greeting-row {
   display: flex;
@@ -6933,6 +6953,8 @@ body.light-theme .scrolly-step-link:focus-visible {
 </nav>
 
 <!-- Animated background system -->
+<div class="safari-tint safari-tint--top" aria-hidden="true"></div>
+<div class="safari-tint safari-tint--bottom" aria-hidden="true"></div>
 <div class="scenic-background" aria-hidden="true"></div>
 <div class="gradient-background">
   <div class="gradient-sphere sphere-1"></div>
@@ -10292,7 +10314,7 @@ class EnhancedWebsite {
     // Update theme color meta tag immediately
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
-      themeColor.content = isLight ? '#d5e2ec' : '#1c232b';
+      themeColor.content = isLight ? '#bed6e1' : '#2c3b45';
     }
 
     // Re-enable transitions after a short delay
@@ -11660,8 +11682,8 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-  // Heat word (after bencho.dev's Heat word, Pop palette), on ROCCO and the closing
-  // title. Each letter is drawn once, blurred, into a brightness field; the cursor
+  // Heat word (after bencho.dev's Heat word, Pop palette), on ROCCO. (heatWord() also handles a
+  // title split into letters.) Each letter is drawn once, blurred, into a brightness field; the cursor
   // cools a soft disc of it and every pixel there is looked up in a heat-map palette.
   // Outside the disc the canvas shows a crisp copy of the text in each letter's own
   // colour, so the closing title's scroll reveal looks exactly as before.
@@ -11978,13 +12000,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const rocco = document.querySelector('.top-bar header h1.neon-title');
     if (rocco) heatWord(rocco, () => themeVar(light() ? '--neon-light' : '--neon-dark') || '#7c3aed');
 
-    // let's build something amazing: lit letters full purple, the rest dim, as the scroll sets them
-    const closing = document.querySelector('.closing-section-title');
-    if (closing) heatWord(closing, (host) => {
-      const lit = !host.classList.contains('char') || host.classList.contains('active');
-      if (lit) return themeVar(light() ? '--neon-light' : '--neon-dark') || '#7c3aed';
-      return light() ? 'rgba(107, 70, 193, 0.3)' : 'rgba(154, 119, 198, 0.3)';
-    });
   })();
 
   // Tilt (after bencho.dev's Tilt, tilt 10 / shade 25): the box SINKS under the
@@ -12391,7 +12406,7 @@ if (root) {
     document.body.classList.toggle('light-theme', isLight);
     document.documentElement.classList.toggle('light-theme', isLight);
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.content = isLight ? '#d5e2ec' : '#1c232b';
+    if (themeColor) themeColor.content = isLight ? '#bed6e1' : '#2c3b45';
   };
 
   // Cross-fade the whole page between themes, so every color eases at once
