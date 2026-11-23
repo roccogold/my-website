@@ -24,7 +24,7 @@
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#f7f7f4">
+<meta name="theme-color" content="#d5e2ec">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="msapplication-navbutton-color" content="#111111">
@@ -246,7 +246,13 @@
 /* Scenic image background (experiment) */
 .scenic-background {
   position: fixed;
-  inset: 0;
+  /* reaches well past both screen edges, like .gradient-background: on iPhone
+     Safari's bars float over the page, and an exactly-sized layer leaves strips */
+  top: -15vh;
+  left: 0;
+  width: 100%;
+  height: 130vh;
+  height: calc(100lvh + 30vh);
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
@@ -9331,6 +9337,40 @@ if (scrollIndicator) {
     osc.stop(t0 + 0.055);
   }
 
+  // Nav links, dock-style (after bencho.dev's Dock): crossing onto a link plays a
+  // quiet pluck pitched by its position, so running along the nav is a scale.
+  // Floored, so a fast sweep doesn't stack notes.
+  const DOCK_SCALE = [523.25, 587.33, 659.25, 783.99, 880.0, 1046.5, 1174.66]; // C major pentatonic
+  let _dockLast = 0;
+  function _dockNote(i) {
+    const ctx = _getCtx();
+    if (ctx.state !== 'running') return;
+    const t0 = ctx.currentTime;
+    if (t0 - _dockLast < 0.035) return;
+    _dockLast = t0;
+    const f = DOCK_SCALE[Math.max(0, Math.min(DOCK_SCALE.length - 1, i))];
+    const out = ctx.createGain();
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 2600;
+    out.gain.setValueAtTime(0, t0);
+    out.gain.linearRampToValueAtTime(0.07, t0 + 0.004);
+    out.gain.exponentialRampToValueAtTime(0.0008, t0 + 0.16);
+    const body = ctx.createOscillator();      // the note
+    body.type = 'sine';
+    body.frequency.setValueAtTime(f, t0);
+    const shine = ctx.createOscillator();     // a faint octave for a glassy edge
+    const shineGain = ctx.createGain();
+    shine.type = 'triangle';
+    shine.frequency.setValueAtTime(f * 2, t0);
+    shineGain.gain.value = 0.18;
+    body.connect(lp);
+    shine.connect(shineGain).connect(lp);
+    lp.connect(out).connect(ctx.destination);
+    body.start(t0); shine.start(t0);
+    body.stop(t0 + 0.18); shine.stop(t0 + 0.18);
+  }
+
   const CUES = {
     click:         () => variation('tap'),
     type:          () => variation('type'),
@@ -9357,7 +9397,13 @@ if (scrollIndicator) {
     const el = e.target.closest(INTERACTIVE);
     if (el === _hoverEl) return;
     _hoverEl = el;
-    if (el) playCue('hover');
+    if (!el) return;
+    if (el.matches('.nav-item')) {
+      const items = [...el.parentElement.querySelectorAll('.nav-item')];
+      try { if (_soundOn) _dockNote(items.indexOf(el)); } catch (_) {}
+      return;
+    }
+    playCue('hover');
   }, { passive: true });
 
   document.addEventListener('daylight:change', (e) => {
@@ -10084,7 +10130,7 @@ class EnhancedWebsite {
     // Update theme color meta tag immediately
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
-      themeColor.content = isLight ? '#f7f7f4' : '#0b0b0b';
+      themeColor.content = isLight ? '#d5e2ec' : '#1c232b';
     }
 
     // Re-enable transitions after a short delay
@@ -11821,7 +11867,7 @@ if (root) {
     document.body.classList.toggle('light-theme', isLight);
     document.documentElement.classList.toggle('light-theme', isLight);
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.content = isLight ? '#f7f7f4' : '#0b0b0b';
+    if (themeColor) themeColor.content = isLight ? '#d5e2ec' : '#1c232b';
   };
 
   // Cross-fade the whole page between themes, so every color eases at once
