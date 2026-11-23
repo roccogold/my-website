@@ -1607,6 +1607,15 @@ body.light-theme .top-bar header h1.neon-title {
 html body .top-bar header h1.neon-title.heat-ready {
   color: transparent !important;
 }
+
+/* The closing title gets the same heat word; its letters' scroll colours are
+   repainted on the canvas, so the spans themselves go transparent */
+.closing-section-title { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+html body .closing-section-title.heat-ready span.char,
+html body .closing-section-title.heat-ready span.char.active {
+  color: transparent !important;
+  transition: none !important;
+}
       
 .hero-greeting-row {
   display: flex;
@@ -11591,12 +11600,13 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-  // ROCCO heat word (after bencho.dev's Heat word, Pop palette): the title is drawn
-  // once, blurred, into a brightness field; the cursor cools a soft disc of it and
-  // every pixel there is looked up in a heat-map palette. Elsewhere it stays flat purple.
+  // Heat word (after bencho.dev's Heat word, Pop palette), on ROCCO and the closing
+  // title. Each letter is drawn once, blurred, into a brightness field; the cursor
+  // cools a soft disc of it and every pixel there is looked up in a heat-map palette.
+  // Outside the disc the canvas shows a crisp copy of the text in each letter's own
+  // colour, so the closing title's scroll reveal looks exactly as before.
   (() => {
-    const title = document.querySelector('.top-bar header h1.neon-title');
-    if (!title || !document.createElement('canvas').getContext) return;
+    if (!document.createElement('canvas').getContext) return;
 
     const HEAT = 60, SOFT = 40, AREA = 50;            // the knobs, 0..100
     const spread = 0.5 + AREA / 100;
@@ -11611,7 +11621,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     const FLOOR = 34;
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-
     const LUT = new Uint8ClampedArray(256 * 4);
     for (let i = FLOOR; i < 256; i++) {
       const u = (i - FLOOR) / (255 - FLOOR);
@@ -11623,92 +11632,131 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let c = 0; c < 3; c++) LUT[i * 4 + c] = c0[c] + (c1[c] - c0[c]) * f;
       LUT[i * 4 + 3] = 255 * clamp((i - FLOOR) / 26, 0, 1);   // the rim is a glow, not a line
     }
-    const REST_A = new Uint8ClampedArray(256);                  // the resting word's alpha per brightness
-    for (let i = 0; i < 256; i++) REST_A[i] = 255 * clamp((i - 70) / 45, 0, 1);
 
-    const shown = document.createElement('canvas');
-    shown.className = 'heat-canvas';
-    shown.setAttribute('aria-hidden', 'true');
-    title.appendChild(shown);
-    const base = document.createElement('canvas');
-    const work = document.createElement('canvas');
+    const light = () => document.body.classList.contains('light-theme');
+    const themeVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
-    const s = { px: 0.5, py: 0.5, tx: 0.5, ty: 0.5, power: 0, want: 0, raf: 0, ratio: 1, em: 60, pad: 0, rest: [124, 58, 237] };
+    function heatWord(el, colorFor) {
+      const shown = document.createElement('canvas');
+      shown.className = 'heat-canvas';
+      shown.setAttribute('aria-hidden', 'true');
+      el.appendChild(shown);
+      const field = document.createElement('canvas');   // the blurred letters, white on black
+      const rest = document.createElement('canvas');    // the letters as they look at rest
+      const work = document.createElement('canvas');    // field, cooled under the cursor
+      const s = { px: 0, py: 0, tx: 0, ty: 0, power: 0, want: 0, raf: 0, ratio: 1, em: 40, ready: false, box: null };
 
-    // The title's own colour, read from the theme variable (the h1 itself goes transparent)
-    const readRest = () => {
-      const light = document.body.classList.contains('light-theme');
-      const v = getComputedStyle(document.documentElement).getPropertyValue(light ? '--neon-light' : '--neon-dark').trim();
-      const g = work.getContext('2d');
-      g.fillStyle = '#7c3aed';
-      g.fillStyle = v || '#7c3aed';
-      const hex = g.fillStyle;
-      if (hex[0] === '#') s.rest = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-      else {
-        const m = hex.match(/[\d.]+/g);
-        if (m) s.rest = m.slice(0, 3).map(Number);
-      }
-    };
+      // Every character of the element, with where it sits and how it is coloured
+      const glyphs = () => {
+        const out = [];
+        const base = el.getBoundingClientRect();
+        const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        const range = document.createRange();
+        for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+          if (shown.contains(n)) continue;
+          const host = n.parentElement;
+          for (let i = 0; i < n.length; i++) {
+            const ch = n.data[i];
+            if (!ch.trim()) continue;
+            range.setStart(n, i); range.setEnd(n, i + 1);
+            const r = range.getBoundingClientRect();
+            if (!r.width) continue;
+            out.push({ ch, host, x: r.left - base.left, y: r.top - base.top, h: r.height });
+          }
+        }
+        return out;
+      };
 
-    const build = () => {
-      const cs = getComputedStyle(title);
-      const em = parseFloat(cs.fontSize) || 60;
-      const r = Math.min(2, window.devicePixelRatio || 1);
-      const pad = Math.round(em * 0.5);
-      const bw = title.clientWidth, bh = title.clientHeight;
-      if (!bw || !bh) return false;
-      s.em = em; s.ratio = r; s.pad = pad;
-      const W = bw + pad * 2, H = bh + pad * 2;
-      const w = Math.round(W * r), h = Math.round(H * r);
-      for (const c of [base, work, shown]) { c.width = w; c.height = h; }
-      Object.assign(shown.style, { left: `${-pad}px`, top: `${-pad}px`, width: `${W}px`, height: `${H}px` });
+      const sizeAll = () => {
+        const cs = getComputedStyle(el);
+        const em = parseFloat(cs.fontSize) || 40;
+        const r = Math.min(2, window.devicePixelRatio || 1);
+        const pad = Math.round(em * 0.5);
+        const bw = el.clientWidth, bh = el.clientHeight;
+        if (!bw || !bh) return null;
+        s.em = em; s.ratio = r; s.pad = pad;
+        const W = bw + pad * 2, H = bh + pad * 2;
+        const w = Math.round(W * r), h = Math.round(H * r);
+        for (const c of [field, rest, work, shown]) { c.width = w; c.height = h; }
+        Object.assign(shown.style, { left: `${-pad}px`, top: `${-pad}px`, width: `${W}px`, height: `${H}px` });
+        return cs;
+      };
 
-      // The field: the word, blurred, white on black. Drawn far off the canvas with
-      // its shadow thrown back on, so only the blurred shadow lands (Safari-safe).
-      const g = base.getContext('2d');
-      g.setTransform(1, 0, 0, 1, 0, 0);
-      g.shadowColor = 'transparent';
-      g.fillStyle = '#000';
-      g.fillRect(0, 0, w, h);
-      const blur = (2 + (SOFT / 100) * 5) * (em / 100) * r;   // Bagel is very fat: less blur than the reference, or the counters close
-      const off = w * 3;
-      g.shadowColor = '#fff';
-      g.shadowBlur = blur;
-      g.shadowOffsetX = off;
-      g.fillStyle = '#fff';
-      g.font = `${cs.fontWeight} ${em * r}px ${cs.fontFamily}`;
-      g.textBaseline = 'alphabetic';
-      if ('letterSpacing' in g) g.letterSpacing = `${(parseFloat(cs.letterSpacing) || 0) * r}px`;
-      const text = (title.firstChild && title.firstChild.nodeType === 3 ? title.firstChild.nodeValue : title.textContent).trim().toUpperCase();
-      const m = g.measureText(text);
-      const asc = m.fontBoundingBoxAscent ?? m.actualBoundingBoxAscent;
-      const desc = m.fontBoundingBoxDescent ?? m.actualBoundingBoxDescent;
-      const contentH = bh - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
-      const y = (pad + parseFloat(cs.paddingTop)) * r + (contentH * r - (asc + desc)) / 2 + asc;
-      const innerW = (bw - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) * r;
-      let x = (pad + parseFloat(cs.paddingLeft)) * r;
-      if (cs.textAlign === 'center') x += (innerW - m.width) / 2;
-      else if (cs.textAlign === 'right' || cs.textAlign === 'end') x += innerW - m.width;
-      // twice over, so the thick of a stroke saturates
-      g.fillText(text, x - off, y);
-      g.fillText(text, x - off, y);
-      return true;
-    };
+      const fontOf = (cs, r) => `${cs.fontStyle} ${cs.fontWeight} ${parseFloat(cs.fontSize) * r}px ${cs.fontFamily}`;
+      const baseline = (g, cs, r, gl) => {
+        const m = g.measureText(gl.ch);
+        const asc = m.fontBoundingBoxAscent ?? m.actualBoundingBoxAscent;
+        const desc = m.fontBoundingBoxDescent ?? m.actualBoundingBoxDescent;
+        return (s.pad + gl.y) * r + (gl.h * r - (asc + desc)) / 2 + asc;
+      };
 
-    // One frame: the field, cooled under the cursor, through the palette
-    const paint = () => {
-      const w = shown.width, h = shown.height;
-      if (!w || !h) return;
-      const g = work.getContext('2d', { willReadFrequently: true });
-      g.globalCompositeOperation = 'source-over';
-      g.drawImage(base, 0, 0);
-      const unit = (s.em / 100) * s.ratio * spread;
-      const cx = s.px * w, cy = s.py * h;
-      if (s.power > 0.002) {
+      let list = [];
+      // the field: the letters blurred, drawn far off the canvas with their shadow
+      // thrown back on, so only the blurred shadow lands (Safari has no ctx.filter)
+      const buildField = (cs) => {
+        const r = s.ratio, w = field.width, h = field.height;
+        const g = field.getContext('2d');
+        g.setTransform(1, 0, 0, 1, 0, 0);
+        g.shadowColor = 'transparent';
+        g.fillStyle = '#000';
+        g.fillRect(0, 0, w, h);
+        const off = w * 3;
+        g.shadowColor = '#fff';
+        g.shadowBlur = (2 + (SOFT / 100) * 5) * (s.em / 100) * r;   // the display face is fat: less blur than the reference
+        g.shadowOffsetX = off;
+        g.fillStyle = '#fff';
+        g.font = fontOf(cs, r);
+        g.textBaseline = 'alphabetic';
+        for (const gl of list) {
+          const y = baseline(g, cs, r, gl);
+          g.fillText(gl.ch, (s.pad + gl.x) * r - off, y);
+          g.fillText(gl.ch, (s.pad + gl.x) * r - off, y);       // twice, so a stroke's thick saturates
+        }
+      };
+      // the rest layer: the text, crisp, each letter in its colour of the moment
+      const buildRest = (cs) => {
+        const r = s.ratio;
+        const g = rest.getContext('2d');
+        g.setTransform(1, 0, 0, 1, 0, 0);
+        g.clearRect(0, 0, rest.width, rest.height);
+        g.font = fontOf(cs, r);
+        g.textBaseline = 'alphabetic';
+        for (const gl of list) {
+          g.fillStyle = colorFor(gl.host);
+          g.fillText(gl.ch, (s.pad + gl.x) * r, baseline(g, cs, r, gl));
+        }
+      };
+
+      let lastBox = null;
+      const paint = () => {
+        const w = shown.width, h = shown.height;
+        if (!w || !h) return;
+        const out = shown.getContext('2d');
+        const unit = (s.em / 100) * s.ratio * spread;
+        const RR = (95 + (HEAT / 100) * 55) * unit;
+        const cx = s.px * w, cy = s.py * h;
+        // only the disc around the cursor (and where it just was) is worked per pixel
+        const box = s.power > 0.002
+          ? [Math.max(0, Math.floor(cx - RR)), Math.max(0, Math.floor(cy - RR)), Math.min(w, Math.ceil(cx + RR)), Math.min(h, Math.ceil(cy + RR))]
+          : null;
+        const dirty = [box, lastBox].filter(Boolean);
+        lastBox = box;
+        if (!dirty.length) { out.clearRect(0, 0, w, h); out.drawImage(rest, 0, 0); return; }
+        for (const [x0, y0, x1, y1] of dirty) {
+          out.clearRect(x0, y0, x1 - x0, y1 - y0);
+          out.drawImage(rest, x0, y0, x1 - x0, y1 - y0, x0, y0, x1 - x0, y1 - y0);
+        }
+        if (!box) return;
+        const [x0, y0, x1, y1] = box;
+        const bw = x1 - x0, bh = y1 - y0;
+        if (bw <= 0 || bh <= 0) return;
+        const g = work.getContext('2d', { willReadFrequently: true });
+        g.globalCompositeOperation = 'source-over';
+        g.drawImage(field, x0, y0, bw, bh, x0, y0, bw, bh);
+        // the cursor COOLS the field: the navy cores open into rings of violet and
+        // pink and the strokes thin there, the letters melting under the hand
         const rad = (60 + (HEAT / 100) * 50) * unit;
         const amt = s.power * (0.35 + (HEAT / 100) * 0.55);
-        // a multiply that dims the field toward the pointer, so the navy cores open
-        // into rings of violet and pink and the strokes thin: the letters melting
         g.globalCompositeOperation = 'multiply';
         const cool = g.createRadialGradient(cx, cy, 0, cx, cy, rad);
         const v = (k) => Math.round(255 * (1 - amt * k));
@@ -11716,85 +11764,109 @@ document.addEventListener('DOMContentLoaded', () => {
         cool.addColorStop(0.45, `rgb(${v(0.6)},${v(0.6)},${v(0.6)})`);
         cool.addColorStop(1, 'rgb(255,255,255)');
         g.fillStyle = cool;
-        g.fillRect(0, 0, w, h);
-      }
-      const src = g.getImageData(0, 0, w, h).data;
-      const sctx = shown.getContext('2d');
-      const out = sctx.createImageData(w, h);
-      const d = out.data;
-      const [R0, G0, B0] = s.rest;
-      const RR = (95 + (HEAT / 100) * 55) * unit;
-      const R2 = RR * RR;
-      const on = s.power;
-      for (let y = 0, i = 0; y < h; y++) {
-        const dy2 = (y - cy) * (y - cy);
-        for (let x = 0; x < w; x++, i += 4) {
-          const f = src[i];
-          let m = 0;
-          if (on > 0.002) {
-            const q = ((x - cx) * (x - cx) + dy2) / R2;
+        g.fillRect(x0, y0, bw, bh);
+        const src = g.getImageData(x0, y0, bw, bh).data;
+        const base = rest.getContext('2d', { willReadFrequently: true }).getImageData(x0, y0, bw, bh).data;
+        const img = out.createImageData(bw, bh);
+        const d = img.data;
+        const R2 = RR * RR, on = s.power;
+        for (let y = 0, i = 0; y < bh; y++) {
+          const dy2 = (y + y0 - cy) * (y + y0 - cy);
+          for (let x = 0; x < bw; x++, i += 4) {
+            const q = ((x + x0 - cx) * (x + x0 - cx) + dy2) / R2;
+            let m = 0;
             if (q < 1) { const t = 1 - q; m = on * t * t * (3 - 2 * t); }
+            const ra = base[i + 3];
+            if (m <= 0) { d[i] = base[i]; d[i + 1] = base[i + 1]; d[i + 2] = base[i + 2]; d[i + 3] = ra; continue; }
+            const li = src[i] * 4;
+            const la = LUT[li + 3];
+            const wr = ra * (1 - m), wl = la * m, a = wr + wl;
+            if (a <= 0) { d[i + 3] = 0; continue; }
+            d[i] = (base[i] * wr + LUT[li] * wl) / a;
+            d[i + 1] = (base[i + 1] * wr + LUT[li + 1] * wl) / a;
+            d[i + 2] = (base[i + 2] * wr + LUT[li + 2] * wl) / a;
+            d[i + 3] = a;
           }
-          const ga = REST_A[f];
-          if (m <= 0) {
-            if (ga) { d[i] = R0; d[i + 1] = G0; d[i + 2] = B0; d[i + 3] = ga; }
-            continue;
-          }
-          const k = 1 - m, v = f * 4;
-          d[i] = R0 * k + LUT[v] * m;
-          d[i + 1] = G0 * k + LUT[v + 1] * m;
-          d[i + 2] = B0 * k + LUT[v + 2] * m;
-          d[i + 3] = ga * k + LUT[v + 3] * m;
         }
-      }
-      sctx.putImageData(out, 0, 0);
-    };
-
-    // The loop runs only while something is moving
-    const run = () => {
-      if (s.raf) return;
-      let prev = performance.now();
-      const step = (t) => {
-        const dt = Math.min(0.05, (t - prev) / 1000);
-        prev = t;
-        const k = 1 - Math.pow(0.002, dt);
-        s.px += (s.tx - s.px) * k;
-        s.py += (s.ty - s.py) * k;
-        s.power += (s.want - s.power) * (1 - Math.pow(0.01, dt));
-        const still = Math.abs(s.want - s.power) < 0.004 && Math.abs(s.tx - s.px) < 0.001 && Math.abs(s.ty - s.py) < 0.001;
-        if (still && s.want === 0) s.power = 0;
-        paint();
-        s.raf = still ? 0 : requestAnimationFrame(step);
+        out.putImageData(img, x0, y0);
       };
-      s.raf = requestAnimationFrame(step);
-    };
 
-    const aim = (e) => {
-      const r = shown.getBoundingClientRect();
-      s.tx = (e.clientX - r.left) / r.width;
-      s.ty = (e.clientY - r.top) / r.height;
-    };
-    title.addEventListener('pointerenter', (e) => { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); });
-    title.addEventListener('pointermove', (e) => { aim(e); s.want = 1; run(); });
-    title.addEventListener('pointerleave', () => { s.want = 0; run(); });
-    // touch: a tap or drag warms it, lifting the finger lets it cool
-    title.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); } });
-    title.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') { setTimeout(() => { s.want = 0; run(); }, 600); } });
+      // the loop runs only while something is moving
+      const run = () => {
+        if (s.raf || !s.ready) return;
+        let prev = performance.now();
+        const step = (t) => {
+          const dt = Math.min(0.05, (t - prev) / 1000);
+          prev = t;
+          const k = 1 - Math.pow(0.002, dt);
+          s.px += (s.tx - s.px) * k;
+          s.py += (s.ty - s.py) * k;
+          s.power += (s.want - s.power) * (1 - Math.pow(0.01, dt));
+          const still = Math.abs(s.want - s.power) < 0.004 && Math.abs(s.tx - s.px) < 0.001 && Math.abs(s.ty - s.py) < 0.001;
+          if (still && s.want === 0) s.power = 0;
+          paint();
+          s.raf = still ? 0 : requestAnimationFrame(step);
+        };
+        s.raf = requestAnimationFrame(step);
+      };
 
-    const go = () => {
-      readRest();
-      if (!build()) return;
-      paint();
-      title.classList.add('heat-ready');
-    };
-    const face = getComputedStyle(title);
-    (document.fonts ? document.fonts.load(`${face.fontWeight} ${parseFloat(face.fontSize)}px ${face.fontFamily}`).catch(() => {}) : Promise.resolve())
-      .then(() => document.fonts?.ready)
-      .then(go);
+      const aim = (e) => {
+        const r = shown.getBoundingClientRect();
+        s.tx = (e.clientX - r.left) / r.width;
+        s.ty = (e.clientY - r.top) / r.height;
+      };
+      el.addEventListener('pointerenter', (e) => { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); });
+      el.addEventListener('pointermove', (e) => { aim(e); s.want = 1; run(); });
+      el.addEventListener('pointerleave', () => { s.want = 0; run(); });
+      // touch: a tap or drag warms it, lifting the finger lets it cool
+      el.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); } });
+      el.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') setTimeout(() => { s.want = 0; run(); }, 600); });
 
-    let sized = 0;
-    new ResizeObserver(() => { if (sized++) go(); }).observe(title);
-    new MutationObserver(() => { readRest(); paint(); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      const build = () => {
+        if (!el.contains(shown)) el.appendChild(shown);   // the letter splitter rewrites the title's HTML
+        const cs = sizeAll();
+        if (!cs) return;
+        list = glyphs();
+        buildField(cs);
+        buildRest(cs);
+        lastBox = null;
+        s.ready = true;
+        paint();
+        el.classList.add('heat-ready');
+      };
+      // colours changed (theme, or a letter lit by the scroll): only the rest layer
+      const recolor = () => {
+        if (!s.ready) return;
+        buildRest(getComputedStyle(el));
+        lastBox = null;
+        paint();
+      };
+
+      const face = getComputedStyle(el);
+      (document.fonts ? document.fonts.load(`${face.fontWeight} ${parseFloat(face.fontSize)}px ${face.fontFamily}`).catch(() => {}) : Promise.resolve())
+        .then(() => document.fonts?.ready)
+        .then(build);
+      let sized = 0;
+      new ResizeObserver(() => { if (sized++) build(); }).observe(el);
+      new MutationObserver(recolor).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      // the closing title is split into letters after load, and lights them on scroll
+      new MutationObserver((muts) => {
+        if (muts.some((m) => m.type === 'childList' && [...m.addedNodes].some((n) => n !== shown))) build();
+        else recolor();
+      }).observe(el, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+    }
+
+    // ROCCO: its theme colour (the h1's own colour goes transparent under the canvas)
+    const rocco = document.querySelector('.top-bar header h1.neon-title');
+    if (rocco) heatWord(rocco, () => themeVar(light() ? '--neon-light' : '--neon-dark') || '#7c3aed');
+
+    // let's build something amazing: lit letters full purple, the rest dim, as the scroll sets them
+    const closing = document.querySelector('.closing-section-title');
+    if (closing) heatWord(closing, (host) => {
+      const lit = !host.classList.contains('char') || host.classList.contains('active');
+      if (lit) return themeVar(light() ? '--neon-light' : '--neon-dark') || '#7c3aed';
+      return light() ? 'rgba(107, 70, 193, 0.3)' : 'rgba(154, 119, 198, 0.3)';
+    });
   })();
 
   // Eye buddy (after bencho.dev's Eye tracker): each eye is a point on a sphere,
