@@ -243,6 +243,52 @@
   --photo-tile-radius-hover: 16px;
 }
 
+/* Scenic image background (experiment) */
+.scenic-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.scenic-background::before {
+  /* The photo, softened so its detail doesn't fight the text */
+  content: '';
+  position: absolute;
+  inset: -24px;
+  background: url('assets/meadow-bg.webp') center / cover no-repeat;
+  filter: blur(6px) saturate(0.9);
+}
+
+.scenic-background::after {
+  /* Frosted wash + film grain on top of the photo */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(rgba(12, 12, 16, 0.78), rgba(12, 12, 16, 0.78));
+  background-size: 200px 200px, cover;
+  transition: background var(--transition-normal);
+}
+
+body.light-theme .scenic-background::after {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.68));
+  background-size: 200px 200px, cover;
+}
+
+html body,
+html body.light-theme {
+  background: transparent !important;
+}
+
+.gradient-background {
+  display: none !important;
+}
+
 /* Gradient background system */
 .gradient-background {
   position: fixed;
@@ -5924,6 +5970,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 </nav>
 
 <!-- Animated background system -->
+<div class="scenic-background" aria-hidden="true"></div>
 <div class="gradient-background">
   <div class="gradient-sphere sphere-1"></div>
   <div class="gradient-sphere sphere-2"></div>
