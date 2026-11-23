@@ -24,7 +24,7 @@
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#f7f7f4">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="msapplication-navbutton-color" content="#111111">
@@ -292,13 +292,14 @@ html body.light-theme {
 /* Gradient background system */
 .gradient-background {
   position: fixed;
-  top: 0;
+  /* reaches well past both screen edges: on iPhone the toolbars collapse and
+     float while scrolling, and an exactly-sized layer leaves a hard edge */
+  top: -15vh;
   left: 0;
   width: 100%;
-  height: 100%;
   width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  height: 130vh;
+  height: calc(100lvh + 30vh);
   z-index: 1;
   overflow: hidden;
   pointer-events: none;
@@ -310,6 +311,192 @@ html body.light-theme {
   opacity: 0;
   transition: opacity 0.8s ease;
 }
+
+/* Arc Bands background + Fine Grain pattern (opensourceui.in, MIT; ported from
+   the Tailwind classes to plain CSS, same values). Light theme only: it replaces
+   the lavender spheres; dark theme keeps them. */
+.arc-bands {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Step 1: Fine Grain only, over the existing lavender spheres. To bring the
+   Arc Bands back, remove this rule and add back the base gradient and the
+   sphere-hiding rule (see git history). */
+.arc-bands__band,
+.arc-bands__dots { display: none; }
+
+/* Sunrise Horizon (opensourceui.in, MIT; Tailwind classes ported to plain CSS,
+   same values). Light theme only: it replaces the lavender spheres. The hills'
+   wrapper is given full size here; in the original it has none. */
+.gradient-background > :not(.arc-bands) { display: none; }
+.sunrise {
+  display: block;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, #FFF8F3 0%, #FFE8D8 42%, #FFD9C8 68%, #C8E8EE 100%);
+}
+.sunrise__hills {
+  position: absolute;
+  inset: 0;
+  filter: blur(40px);
+}
+.sunrise__hill {
+  position: absolute;
+  border-radius: 100%;
+}
+.sunrise__hill--1 { bottom: 8%;  left: -15%;  height: 55%; width: 70%; background: #FFB38A; opacity: 0.55; }
+.sunrise__hill--2 { bottom: 12%; left: 28%;   height: 42%; width: 48%; background: #FF8F6B; opacity: 0.45; }
+.sunrise__hill--3 { bottom: 6%;  right: -10%; height: 50%; width: 58%; background: #7DD3C7; opacity: 0.40; }
+.sunrise__sun {
+  position: absolute;
+  bottom: 22%;
+  left: 50%;
+  width: 7rem;
+  height: 7rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #FFF1DC;
+  opacity: 0.9;
+  filter: blur(12px);
+}
+.sunrise__dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, #000 1px, transparent 1px);
+  background-size: 5px 5px;
+  opacity: 0.04;
+}
+
+/* Trying Ink Wash / Dark Ink Field instead: Sunrise is kept but switched off */
+.sunrise { display: none !important; }
+
+/* Ink Wash (light) and Dark Ink Field (dark), opensourceui.in, MIT; Tailwind
+   classes ported to plain CSS, same values */
+.ink {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #FAFAF8 55%, #F5F5F2 100%);
+}
+.ink__blobs {
+  position: absolute;
+  inset: -1rem;
+}
+/* soft blots drawn as radial gradients instead of solid shapes + blur(40px):
+   same look, but no large filter for Safari to break into visible tiles */
+.ink__blob {
+  position: absolute;
+  background: radial-gradient(closest-side, currentColor 20%, transparent 100%);
+}
+.ink__blob--1 { top: 6%;     left: 8%;   height: 48%; width: 56%; border-radius: 42% 58% 64% 36%; color: #A8A29E; opacity: 0.18; }
+.ink__blob--2 { top: 28%;    right: 6%;  height: 42%; width: 50%; border-radius: 58% 42% 38% 62%; color: #78716C; opacity: 0.14; }
+.ink__blob--3 { bottom: 4%;  left: 24%;  height: 46%; width: 54%; border-radius: 36% 64% 58% 42%; color: #57534E; opacity: 0.12; }
+.ink__blob--4 { bottom: 18%; right: 22%; height: 32%; width: 38%; border-radius: 64% 36% 42% 58%; color: #A8A29E; opacity: 0.16; }
+.ink__dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at center, #292524 1px, transparent 1px);
+  background-size: 5px 5px;
+  opacity: 0.025;
+}
+
+body:not(.light-theme) .ink {
+  background: radial-gradient(circle at 50% 0%, #141414 0%, #0B0B0B 52%, #050505 100%);
+}
+body:not(.light-theme) .ink__blob--1 { top: 10%;    left: 10%;  height: 46%; width: 52%; color: #525252; opacity: 0.16; }
+body:not(.light-theme) .ink__blob--2 { top: 30%;    right: 8%;  height: 40%; width: 48%; color: #404040; opacity: 0.12; }
+body:not(.light-theme) .ink__blob--3 { bottom: 6%;  left: 28%;  height: 44%; width: 50%; color: #737373; opacity: 0.10; }
+body:not(.light-theme) .ink__blob--4 { display: none; }
+body:not(.light-theme) .ink__dots {
+  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
+  opacity: 0.03;
+}
+
+/* Dark mode: the same sunrise at dusk. Deep warm umber sky into a dark teal
+   floor, ember-coloured hills, a low amber sun glowing through. */
+body:not(.light-theme) .sunrise {
+  background: linear-gradient(180deg, #120D0B 0%, #1C1210 42%, #2A1712 68%, #0E2226 100%);
+}
+body:not(.light-theme) .sunrise__hill--1 { background: #B8572E; opacity: 0.38; }
+body:not(.light-theme) .sunrise__hill--2 { background: #D9603B; opacity: 0.32; }
+body:not(.light-theme) .sunrise__hill--3 { background: #1F6F68; opacity: 0.42; }
+body:not(.light-theme) .sunrise__sun {
+  background: #FFB070;
+  opacity: 0.38;
+  filter: blur(18px);
+}
+body:not(.light-theme) .sunrise__dots {
+  background-image: radial-gradient(circle at center, #fff 1px, transparent 1px);
+  opacity: 0.025;
+}
+.arc-bands__band {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 100%;
+  pointer-events: none;
+}
+.arc-bands__band--1 {
+  bottom: -28%;
+  height: 92%;
+  width: 150%;
+  /* retinted to the site palette: violet core → lavender → lilac → soft pink edge */
+  background: radial-gradient(ellipse 120% 88% at 50% 100%,
+    rgba(124, 77, 230, 0.46) 0%, rgba(139, 92, 246, 0.40) 18%,
+    rgba(196, 167, 252, 0.36) 40%, rgba(240, 171, 214, 0.28) 62%,
+    rgba(252, 251, 255, 0) 82%);
+}
+.arc-bands__band--2 {
+  bottom: -22%;
+  height: 78%;
+  width: 128%;
+  filter: blur(40px);
+  background: radial-gradient(ellipse 110% 80% at 50% 100%,
+    rgba(107, 70, 193, 0.26) 0%, rgba(139, 92, 246, 0.22) 22%,
+    rgba(216, 180, 254, 0.20) 46%, rgba(249, 168, 212, 0.16) 68%,
+    transparent 86%);
+}
+.arc-bands__band--3 {
+  bottom: -18%;
+  height: 64%;
+  width: 108%;
+  filter: blur(64px);
+  background: radial-gradient(ellipse 100% 72% at 50% 100%,
+    rgba(255, 255, 255, 0.55) 0%, rgba(252, 251, 255, 0.18) 38%,
+    transparent 72%);
+}
+.arc-bands__dots,
+.fine-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.arc-bands__dots {
+  background-image: radial-gradient(circle at center, #000 1px, transparent 1px);
+  background-size: 4px 4px;
+  opacity: 0.03;
+}
+/* the grain: two offset dot grids, so the texture never reads as a pattern */
+.fine-grain--a {
+  background-image: radial-gradient(circle, #d4d4d4 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.55;
+}
+.fine-grain--b {
+  background-image: radial-gradient(circle, #e5e5e5 1px, transparent 1px);
+  background-size: 5px 5px;
+  opacity: 0.4;
+}
+/* dark mode: light dots on a dark page read much stronger, so far lower opacity */
+body:not(.light-theme) .fine-grain--a { opacity: 0.07; }
+body:not(.light-theme) .fine-grain--b { opacity: 0.05; }
+/* Off for now: stacked on Sunrise's own 5px dot grid, the 3px + 5px grids
+   interfere into a busy moiré. Sunrise's single grid is the texture. */
+.fine-grain { display: none; }
 
 .gradient-background.visible {
   opacity: 1;
@@ -518,6 +705,44 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Film grain over the whole page (after heyato.ai): a tiled grey noise tile,
+   soft-light blended so it only adds texture, never shifts the colours */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  height: 100lvh;
+  z-index: 2147483646;
+  pointer-events: none;
+  background: url('/assets/grain.svg') repeat;
+  background-size: 320px 320px;
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+}
+
+/* Phones: dense screens render the noise finer and fainter, so it's a touch
+   coarser and stronger there */
+@media (max-width: 768px) {
+  body::after {
+    background-size: 380px 380px;
+    opacity: 0.45;
+  }
+}
+
+/* The page colour matches the bottom of the Ink backgrounds, so any strip the
+   fixed background doesn't cover (behind Safari's bars) blends in */
+html,
+html body {
+  background-color: #050505 !important;
+}
+html.light-theme,
+html body.light-theme {
+  background-color: #f5f5f2 !important;
+}
+
 /* Force immediate solid background on HTML element */
 html {
   background: var(--bg-dark);
@@ -718,6 +943,55 @@ body.light-theme .theme-toggle:focus-visible {
   }
 }
 
+/* Daylight toggle (ludion.ai/p/toggle-daylight): the slot only sets its size,
+   the component's own CSS and JS are untouched */
+/* The scene is 112 world pixels tall and never drawn below 1 screen pixel each,
+   so at this size the window shows the middle of it (128px would show it all) */
+.daylight-slot {
+  flex-shrink: 0;
+  width: 96px;
+  /* the component's box includes room for its shadow; pull that space back in */
+  margin: -9px;
+}
+/* Desktop: in the hero chip row, where the version chip used to be */
+.daylight-slot--hero {
+  display: inline-block;
+  align-self: center;
+  width: 80px;
+  margin: -7.5px -7.5px -7.5px -4px;
+}
+@media (max-width: 768px) {
+  .daylight-slot--hero { display: none; }
+}
+.daylight-slot--mobile {
+  display: block;
+  width: 64px;
+  margin: -6px -2px -6px -6px;
+}
+/* Show only the window inside the shell: no rim, no drop shadow, so the scene
+   sits flat in the page. Insets follow the component's own geometry
+   (pill = 1.85:1 at H/1.32, bezel = 4.6% of the pill's height), plus ~2px
+   more to drop the bright inner edge of the window */
+.daylight-slot [data-ld-part="toggle-daylight"] .scene {
+  clip-path: inset(17.2% 10.4% round 999px);
+}
+
+/* Theme cross-fade (see the daylight script): only while switching themes */
+html.theme-fading::view-transition-old(root),
+html.theme-fading::view-transition-new(root) {
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+html.theme-fading [data-ld-part="toggle-daylight"] {
+  view-transition-name: daylight-switch;
+}
+html.theme-fading::view-transition-old(daylight-switch) {
+  display: none;
+}
+html.theme-fading::view-transition-new(daylight-switch) {
+  animation: none;
+}
+
 /* Sound toggle — twin of .theme-toggle: same box, glyph size, color and spin on hover */
 .sound-toggle {
   width: 38px;
@@ -844,11 +1118,31 @@ body.light-theme .status-badge {
   transform: translateY(-20px);
 }
 
+/* Controls cluster (daylight switch + sound) and a hairline divider before the
+   links: ~14px inside the cluster, ~22px on each side of the divider */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.nav-divider {
+  width: 1px;
+  height: 20px;
+  margin: 0 4px 0 12px;
+  flex-shrink: 0;
+  background: rgba(154, 119, 198, 0.32);
+}
+
+body.light-theme .nav-divider { background: rgba(107, 70, 193, 0.2); }
+
 .nav-pill {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding: 0.4rem 1.4rem 0.4rem 0.9rem;
+  gap: 0;
+  /* equal visible padding at both ends (~22px to the switch and to "contact") */
+  padding: 0.4rem 0.3rem 0.4rem 1.3rem;
   background: rgba(17, 17, 17, 0.55);
   border: 1px solid rgba(154, 119, 198, 0.28);
   border-radius: 999px;
@@ -888,6 +1182,21 @@ body.light-theme .nav-pill {
   transition: color 0.2s ease, background 0.2s ease;
   cursor: pointer;
   font-family: var(--main-font);
+}
+
+/* Desktop nav links use the same display font as the phone menu (Bagel Fat One).
+   It ships one weight, so override the link reset's 600 instead of faking bold. */
+.nav-bar .nav-item {
+  font-family: var(--font-pixel-mobile);
+  font-weight: 400 !important;
+  font-synthesis: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+  /* Bagel sits low in its line box: same total height, text nudged up 1.5px
+     so it reads centred inside the hover pill */
+  padding: calc(0.4rem - 1.5px) 0.85rem calc(0.4rem + 1.5px);
 }
 
 .nav-item:hover,
@@ -986,245 +1295,177 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
 }
 
 /* ===============================================
-   MOBILE NAVIGATION - SIDE DRAWER
+   MOBILE NAVIGATION — "Menu" pill + full-screen overlay (from mockup D)
    =============================================== */
+.menu-pill { display: none; }
+.menu-overlay { display: none; }
 
-/* Mobile menu toggle button */
-.mobile-nav-toggle {
-  display: none;
-  position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
-  width: 50px;
-  height: 50px;
-  background: var(--accent-dark);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 1003;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-normal);
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3);
-  opacity: 1;  /* ← ADD THIS */
-  visibility: visible;  /* ← ADD THIS */
-}
-
-/* ← ADD THIS NEW RULE */
-.mobile-nav-toggle.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
-/* Hide theme toggle when mobile menu drawer is open */
-body:has(.mobile-nav-menu.active) .nav-container .theme-toggle {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.mobile-nav-toggle:hover {
-  background: var(--accent-dark-hover);
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(154, 119, 198, 0.4);
-}
-
-.mobile-nav-toggle i {
-  color: white;
-  font-size: 18px;
-  position: absolute;
-  transition: all 0.3s ease;
-}
-
-.mobile-nav-toggle .fa-bars {
-  opacity: 1;
-  transform: rotate(0deg);
-}
-
-.mobile-nav-toggle .fa-times {
-  opacity: 0;
-  transform: rotate(-90deg);
-}
-
-.mobile-nav-toggle.active .fa-bars {
-  opacity: 0;
-  transform: rotate(90deg);
-}
-
-.mobile-nav-toggle.active .fa-times {
-  opacity: 1;
-  transform: rotate(0deg);
-}
-
-body.light-theme .mobile-nav-toggle {
-  background: var(--accent-light);
-}
-
-body.light-theme .mobile-nav-toggle:hover {
-  background: var(--accent-light-hover);
-}
-
-/* Backdrop overlay */
-.mobile-nav-backdrop {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  z-index: 1001;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.mobile-nav-backdrop.active {
-  display: block;
-  opacity: 1;
-}
-
-/* Side Drawer Menu */
-.mobile-nav-menu {
-  display: block;
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 280px;
-  max-width: 85vw;
-  height: 100vh;
-  height: 100dvh;
-  background: rgba(17, 17, 17, 0.98);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-left: 1px solid rgba(154, 119, 198, 0.3);
-  z-index: 1002;
-  overflow-y: auto;
-  transition: right 0.4s var(--ease-out-cubic);
-  padding: 5rem 1.5rem 2rem 1.5rem;
-  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
-}
-
-.mobile-nav-menu.active {
-  right: 0;
-}
-
-body.light-theme .mobile-nav-menu {
-  background: rgba(255, 255, 255, 0.98);
-  border-left-color: rgba(107, 70, 193, 0.3);
-}
-
-/* Menu items */
-.mobile-nav-item {
-  padding: 1rem 1.25rem;
-  color: var(--text-dark);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  background: rgba(154, 119, 198, 0.08);
-  border: 1px solid rgba(154, 119, 198, 0.15);
-}
-
-.mobile-nav-item:last-child {
-  margin-bottom: 0;
-}
-
-.mobile-nav-item i {
-  font-size: 1.1rem;
-  color: var(--accent-dark);
-  width: 24px;
-  text-align: center;
-}
-
-.mobile-nav-item:hover,
-.mobile-nav-item:active {
-  background: rgba(154, 119, 198, 0.2);
-  transform: translateX(-4px);
-  border-color: rgba(154, 119, 198, 0.3);
-}
-
-/* Divider line before Contact */
-.menu-divider {
-  height: 1px;
-  background: rgba(154, 119, 198, 0.3);
-  margin: 1.5rem 0;
-}
-
-body.light-theme .menu-divider {
-  background: rgba(107, 70, 193, 0.3);
-}
-
-/* Contact item - special gradient styling */
-.mobile-nav-item.contact {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.25), rgba(181, 140, 217, 0.15));
-  border-color: rgba(154, 119, 198, 0.3);
-  margin-top: 1rem;
-}
-
-.mobile-nav-item.contact:hover,
-.mobile-nav-item.contact:active {
-  background: linear-gradient(135deg, rgba(154, 119, 198, 0.35), rgba(181, 140, 217, 0.25));
-  border-color: rgba(154, 119, 198, 0.4);
-}
-
-/* Light theme support */
-body.light-theme .mobile-nav-item {
-  color: var(--text-light);
-  background: rgba(107, 70, 193, 0.08);
-  border-color: rgba(107, 70, 193, 0.15);
-}
-
-body.light-theme .mobile-nav-item i {
-  color: var(--accent-light);
-}
-
-body.light-theme .mobile-nav-item:hover,
-body.light-theme .mobile-nav-item:active {
-  background: rgba(107, 70, 193, 0.2);
-  border-color: rgba(107, 70, 193, 0.3);
-}
-
-body.light-theme .mobile-nav-item.contact {
-  background: linear-gradient(135deg, rgba(107, 70, 193, 0.25), rgba(124, 58, 237, 0.15));
-  border-color: rgba(107, 70, 193, 0.3);
-}
-
-body.light-theme .mobile-nav-item.contact:hover,
-body.light-theme .mobile-nav-item.contact:active {
-  background: linear-gradient(135deg, rgba(107, 70, 193, 0.35), rgba(124, 58, 237, 0.25));
-  border-color: rgba(107, 70, 193, 0.4);
-}
-
-/* Show mobile nav only on mobile */
 @media (max-width: 768px) {
-  .mobile-nav-toggle {
+  .menu-pill {
+    position: fixed;
+    top: max(8px, env(safe-area-inset-top));
+    right: 1rem; /* same 16px inset as the page gutter on the left */
+    z-index: 1003;
+    /* icon-only round button; the Menu/Close word stays for screen readers */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; /* same height as the location chip next to it */
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: var(--text-dark);
+    color: var(--bg-dark);
+    font: 600 0.72rem/1 var(--main-font);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.45);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: transform 0.2s var(--ease-out-expo), background 0.3s, color 0.3s;
+  }
+  body.light-theme .menu-pill { background: var(--text-light); color: #fff; }
+  .menu-pill:active { transform: scale(0.95); }
+  /* invisible 40px tap area around the 28px button */
+  .menu-pill::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+  }
+  /* Like the desktop nav: only shown near the top of the page */
+  .menu-pill.is-hidden {
+    opacity: 0;
+    transform: translateY(-140%);
+    pointer-events: none;
+    transition: transform 0.25s var(--ease-out-expo), opacity 0.2s;
+  }
+
+  .menu-pill__bars { display: grid; gap: 3px; }
+  .menu-pill__bars b {
+    display: block;
+    width: 12px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: currentColor;
+    transition: transform 0.25s var(--ease-out-expo);
+  }
+  .menu-open .menu-pill__bars b:first-child { transform: translateY(2.25px) rotate(45deg); }
+  .menu-open .menu-pill__bars b:last-child  { transform: translateY(-2.25px) rotate(-45deg); }
+
+  .menu-overlay {
+    position: fixed;
+    /* The overlay itself reaches 20vh past both screen edges (like the Ink
+       background), so Safari's floating bars sit over menu colour, never the
+       page. Equal padding brings the content back inside the visible screen. */
+    top: -20vh;
+    bottom: -20vh;
+    left: 0;
+    right: 0;
+    z-index: 1002;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2rem;
+    padding: calc(20vh + 5.5rem) 1.5rem calc(20vh + 2rem + env(safe-area-inset-bottom));
+    background: #050505; /* fallback under the cloned Ink background */
+    isolation: isolate;
+    clip-path: circle(0px at calc(100% - 30px) calc(20vh + 22px));
+    opacity: 0;
+    visibility: hidden;
+    /* no panning or rubber-band inside the menu: it's a fixed screen */
+    touch-action: none;
+    overscroll-behavior: none;
+    /* Close: a quick fade, then the circle resets out of sight for the next open */
+    transition: opacity 0.16s ease-out, visibility 0s linear 0.16s, clip-path 0s linear 0.16s;
   }
+  body.light-theme .menu-overlay { background: #f5f5f2; }
+  /* The page's own Ink background, cloned in by the menu script and placed
+     exactly where .gradient-background sits (15vh above the screen), so the
+     menu shows the same wash and dots; the film grain (body::after) stays on top */
+  .menu-overlay__bg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 5vh; /* overlay starts 20vh above the screen; the page background 15vh */
+    height: 130vh;
+    height: calc(100lvh + 30vh);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .menu-open .menu-overlay {
+    /* just large enough to cover the screen plus the overshooting backing layer */
+    clip-path: circle(170vmax at calc(100% - 30px) calc(20vh + 22px));
+    opacity: 1;
+    visibility: visible;
+    /* Open: a short circular reveal from the pill */
+    transition: clip-path 0.42s cubic-bezier(0.3, 0.7, 0.2, 1), opacity 0s, visibility 0s;
+  }
+
+  .menu-overlay__link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    font: 400 clamp(2.4rem, 12vw, 3.4rem)/1.08 var(--font-pixel-mobile);
+    color: var(--text-dark);
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.25s, transform 0.35s var(--ease-out-expo), color 0.15s;
+  }
+  body.light-theme .menu-overlay__link { color: var(--text-light); }
+  .menu-overlay__link small {
+    font: 500 0.7rem var(--main-font);
+    color: var(--accent-dark);
+    min-width: 1.3rem;
+  }
+  body.light-theme .menu-overlay__link small { color: var(--accent-light); }
+  .menu-overlay__link--accent { color: var(--accent-dark); }
+  body.light-theme .menu-overlay__link--accent { color: var(--accent-light); }
+
+  /* iPhone Safari never paints fixed layers under its floating bottom bar, so
+     whatever page content scrolls there stays visible. Once the reveal has
+     finished, hide everything else: the strip under the bar then shows the
+     page background, which is the same colour as the menu in both themes.
+     Closing removes the class, so the page reappears instantly. */
+  body.menu-open > *:not(.menu-overlay):not(.menu-pill):not(script):not(style):not(link) {
+    visibility: hidden;
+    transition: visibility 0s linear 0.42s;
+  }
+
+  .menu-open .menu-overlay__link { opacity: 1; transform: none; }
+  .menu-open .menu-overlay__link:nth-of-type(2) { transition-delay: 0.03s; }
+  .menu-open .menu-overlay__link:nth-of-type(3) { transition-delay: 0.06s; }
+  .menu-open .menu-overlay__link:nth-of-type(4) { transition-delay: 0.09s; }
+  .menu-open .menu-overlay__link:nth-of-type(5) { transition-delay: 0.12s; }
+  .menu-open .menu-overlay__link:nth-of-type(6) { transition-delay: 0.15s; }
+
+
+  /* Chip row: [theme + sound] [location chip, centred in what's left] [fixed Menu pill] */
+  .hero-chips {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    /* row ends where the fixed Menu pill ends (both 16px from the edge), so the
+       pill's own width is the space to keep free; the chip centres in what's left */
+    padding-right: calc(28px + 6px);
+  }
+  .hero-chips > .hero-chip:first-child { margin-inline: auto; }
 }
 
-/* Mobile specific adjustments */
-@media (max-width: 768px) {
-  .mobile-nav-toggle {
-    width: 38px;
-    height: 38px;
-    top: 1rem;
-    right: 1rem;
-  }
+/* Narrow phones (under 360px, e.g. 320px): shorter location chip so the row still fits */
+@media (max-width: 359px) {
+  .hero-chip__long { display: none; }
+}
 
-  .mobile-nav-toggle i {
-    font-size: 14px;
-  }
-  
-  .mobile-nav-menu {
-    padding: 4rem 1rem 2rem 1rem;
-  }
+/* The Menu/Close word is for screen readers only */
+.menu-pill__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* Container Queries Support */
@@ -1894,7 +2135,7 @@ body.light-theme .view-all-btn:hover {
 
 .tron-header h2 {
   font-family: var(--font-pixel-mobile);
-  font-size: clamp(1.2rem, 3.4vw, 1.75rem);
+  font-size: clamp(1.6rem, 4.4vw, 2.5rem);
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1.1;
@@ -2156,6 +2397,234 @@ body.light-theme .spotify-container:hover {
   box-shadow: 0 12px 35px rgba(107, 70, 193, 0.3);
 }
 
+/* Instagram latest post, same footprint as the Spotify embed (152px tall) */
+.ig-card {
+  display: flex;
+  height: 152px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: var(--main-font);
+}
+body:not(.light-theme) .ig-card { background: #17151c; color: #ececf1; }
+.ig-card__media {
+  position: relative;
+  flex: 0 0 152px;
+  overflow: hidden;
+  background: #e9e5f2;
+}
+.ig-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.ig-card__media:hover .ig-card__img { transform: scale(1.05); }
+.ig-card__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  padding: 0.7rem 0.9rem 0.75rem;
+}
+.ig-card__head { display: flex; align-items: center; gap: 0.55rem; }
+.ig-card__avatar {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.ig-card__who { min-width: 0; }
+.ig-card__user { margin: 0; font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
+.ig-card__meta { margin: 0; font-size: 0.62rem; opacity: 0.55; line-height: 1.3; }
+.ig-card__glyph { margin-left: auto; width: 18px; height: 18px; opacity: 0.6; }
+.ig-card__glyph svg { width: 100%; height: 100%; display: block; }
+.ig-card__caption {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  opacity: 0.85;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ig-card__foot {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+  font-size: 0.68rem;
+}
+.ig-card__likes { font-weight: 700; }
+.follow-btn {
+  margin-left: auto;
+  display: grid;
+  place-items: stretch;
+  height: 32px;
+  padding: 0 0.85rem;
+  border-radius: 999px;
+  font-family: var(--main-font);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              box-shadow 0.3s cubic-bezier(0.32, 0.72, 0, 1),
+              color 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  /* 3D key in the site purple: soft top sheen, lift, bottom recess */
+  --follow-bg: var(--accent-light);
+  --follow-bg-hover: #7a55d3;
+  --follow-bg-active: #5b39a8;
+  --follow-shade: rgba(52, 28, 110, 0.35);
+  background: var(--follow-bg);
+  box-shadow: 0 1px 1px var(--follow-shade), 0 3px 6px rgba(52, 28, 110, 0.25),
+              0 8px 16px rgba(52, 28, 110, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.25),
+              inset 0 -3px 6px rgba(30, 12, 70, 0.35);
+}
+body:not(.light-theme) .follow-btn {
+  --follow-bg: var(--accent-dark);
+  --follow-bg-hover: #a886d4;
+  --follow-bg-active: #8662b6;
+}
+body .ig-card a.follow-btn,
+body.light-theme .ig-card a.follow-btn { color: #fff; }
+.follow-btn:hover { background: var(--follow-bg-hover); }
+.follow-btn:active {
+  background: var(--follow-bg-active);
+  box-shadow: 0 1px 2px rgba(52, 28, 110, 0.25), inset 0 2px 6px rgba(30, 12, 70, 0.45),
+              inset 0 -1px 1px rgba(255, 255, 255, 0.08);
+}
+.follow-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+/* following: quiet light raised key */
+.follow-btn.is-following {
+  background: #fafafa;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.1),
+              0 2px 4px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.4),
+              inset 0 -2px 4px rgba(0, 0, 0, 0.08);
+}
+body .ig-card a.follow-btn.is-following,
+body.light-theme .ig-card a.follow-btn.is-following { color: #525252; }
+.follow-btn.is-following:active { background: #f5f5f5; }
+/* dark mode "Following": a quiet dark key instead of a bright one */
+body:not(.light-theme) .follow-btn.is-following {
+  background: #26232e;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 1px 2px rgba(0, 0, 0, 0.4),
+              inset 0 1px 1px rgba(255, 255, 255, 0.06), inset 0 -2px 4px rgba(0, 0, 0, 0.35);
+}
+body:not(.light-theme) .ig-card a.follow-btn.is-following { color: #b9b4c6; }
+/* both labels share one cell, so the width never jumps; out fades first, in follows */
+.follow-btn__layer {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: opacity 0.3s ease-out 0.2s;
+}
+.follow-btn__layer svg { width: 14px; height: 14px; flex-shrink: 0; }
+.follow-btn__layer--following { opacity: 0; transition: opacity 0.2s ease-out; }
+.follow-btn.is-following .follow-btn__layer--follow { opacity: 0; transition: opacity 0.2s ease-out; }
+.follow-btn.is-following .follow-btn__layer--following { opacity: 1; transition: opacity 0.3s ease-out 0.2s; }
+@media (prefers-reduced-motion: reduce) {
+  .follow-btn, .follow-btn__layer { transition: none !important; }
+}
+@media (max-width: 480px) {
+  .ig-card__media { flex-basis: 112px; }
+  .ig-card__body { padding: 0.6rem 0.7rem; }
+}
+
+/* beat the site-wide link colours inside these cards */
+body .gh-card a.gh-card__user,
+body.light-theme .gh-card a.gh-card__user { color: inherit; }
+
+/* GitHub contribution graph, site palette instead of GitHub green */
+.gh-card {
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem 0.9rem;
+  border-radius: 16px;
+  border: 1px solid rgba(107, 70, 193, 0.14);
+  background: rgba(255, 255, 255, 0.6);
+  font-family: var(--main-font);
+  --gh-0: rgba(107, 70, 193, 0.08);
+  --gh-1: #dacdf6;
+  --gh-2: #b69ceb;
+  --gh-3: #8b5cf6;
+  --gh-4: #6b46c1;
+}
+body:not(.light-theme) .gh-card {
+  border-color: rgba(154, 119, 198, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  --gh-0: rgba(255, 255, 255, 0.06);
+  --gh-1: #3a2c5e;
+  --gh-2: #5a3f9e;
+  --gh-3: #8b5cf6;
+  --gh-4: #c4a8f5;
+}
+.gh-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  white-space: nowrap;   /* title and username always on one line */
+}
+.gh-card__title {
+  margin: 0;
+  min-width: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gh-card__user { flex-shrink: 0; font-size: 0.72rem; color: inherit; opacity: 0.6; text-decoration: none; }
+@media (max-width: 600px) {
+  .gh-card { padding: 0.85rem 0.9rem 0.8rem; }
+  .gh-card__head { gap: 0.6rem; }
+  .gh-card__title { font-size: 0.66rem; }
+  .gh-card__user { font-size: 0.62rem; }
+}
+.gh-card__user:hover { opacity: 1; }
+.gh-card__scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.gh-card__scroll::-webkit-scrollbar { display: none; }
+.gh-graph {
+  display: grid;
+  /* fills the card; cells stay square and never shrink below 10px (then it scrolls) */
+  grid-template-columns: 26px repeat(53, minmax(10px, 1fr));
+  grid-template-rows: 14px repeat(7, auto);
+  gap: 3px;
+  min-width: max-content;
+  font-size: 0.6rem;
+}
+.gh-graph .gh-month { grid-row: 1; white-space: nowrap; opacity: 0.55; line-height: 14px; }
+.gh-graph .gh-day { grid-column: 1; opacity: 0.55; align-self: center; line-height: 1; }
+.gh-graph .gh-cell { aspect-ratio: 1; min-width: 10px; border-radius: 2px; }
+.gh-l0 { background: var(--gh-0); }
+.gh-l1 { background: var(--gh-1); }
+.gh-l2 { background: var(--gh-2); }
+.gh-l3 { background: var(--gh-3); }
+.gh-l4 { background: var(--gh-4); }
+.gh-card__legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  margin-top: 0.6rem;
+  font-size: 0.6rem;
+  opacity: 0.7;
+}
+.gh-card__legend i { width: 10px; height: 10px; border-radius: 2px; }
+.gh-card__legend span { margin: 0 4px; }
+
 .spotify-container iframe {
   display: block;
   width: 100%;
@@ -2174,7 +2643,9 @@ body.light-theme .spotify-container:hover {
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 8px 32px 0 rgba(154, 119, 198, 0.37);
-  transition: all var(--transition-normal);
+  /* Only colour and shadow animate: moving a large backdrop-filter panel makes
+     Safari leave rectangular repaint seams in the blur */
+  transition: background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
   position: relative;
   overflow: hidden;
 }
@@ -2182,7 +2653,6 @@ body.light-theme .spotify-container:hover {
 #contactForm:hover {
   background: rgba(154, 119, 198, 0.15);
   border-color: rgba(154, 119, 198, 0.4);
-  transform: translateY(-2px);
   box-shadow: 0 12px 35px rgba(154, 119, 198, 0.4);
 }
 
@@ -2342,7 +2812,7 @@ body.light-theme .form-location-badge i {
   color: var(--accent-light);
 }
 
-/* Submit Button - Same UI as View More button (outlined pill) */
+/* Submit button: solid purple with white text, like the other primary buttons */
 .form-submit-btn {
   width: 100%;
   display: inline-flex;
@@ -2350,44 +2820,41 @@ body.light-theme .form-location-badge i {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.5rem 1.2rem !important;
-  background: rgba(154, 119, 198, 0.12) !important;
-  color: var(--accent-dark) !important;
-  border: 1px solid rgba(154, 119, 198, 0.3) !important;
+  background: var(--accent-dark) !important;
+  color: #fff !important;
+  border: 1px solid transparent !important;
   border-radius: 20px !important;
   font-size: 0.78rem !important;
   font-weight: 600 !important;
   font-family: var(--main-font) !important;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
-  box-shadow: 0 2px 8px rgba(154, 119, 198, 0.15) !important;
+  box-shadow: 0 2px 8px rgba(154, 119, 198, 0.3) !important;
 }
 
 .form-submit-btn i {
-  color: var(--accent-dark) !important;
+  color: #fff !important;
 }
 
 .form-submit-btn:hover:not(:disabled) {
-  background: rgba(154, 119, 198, 0.25) !important;
-  border-color: rgba(154, 119, 198, 0.3) !important;
+  background: var(--accent-dark-hover) !important;
   transform: translateY(-3px) !important;
-  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(154, 119, 198, 0.4) !important;
 }
 
 body.light-theme .form-submit-btn {
-  background: rgba(107, 70, 193, 0.12) !important;
-  color: var(--accent-light) !important;
-  border-color: rgba(107, 70, 193, 0.3) !important;
-  box-shadow: 0 2px 8px rgba(107, 70, 193, 0.15) !important;
+  background: var(--accent-light) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(107, 70, 193, 0.3) !important;
 }
 
 body.light-theme .form-submit-btn i {
-  color: var(--accent-light) !important;
+  color: #fff !important;
 }
 
 body.light-theme .form-submit-btn:hover:not(:disabled) {
-  background: rgba(107, 70, 193, 0.25) !important;
-  border-color: rgba(107, 70, 193, 0.3) !important;
-  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.3) !important;
+  background: var(--accent-light-hover) !important;
+  box-shadow: 0 4px 15px rgba(107, 70, 193, 0.4) !important;
 }
 
 /* OR CONNECT Divider */
@@ -2470,7 +2937,16 @@ body.light-theme .form-social-icons a:focus-visible {
   }
 }
 
-/* ================= PHOTO FILTER — paco.me merging pills ================= */
+/* ================= PHOTO FILTER — liquid merging pills =================
+   Count pill on the left; selected countries flow into it as one filled
+   group. Fill pours in / drains out with a liquid edge, pills glide to and
+   from the group (FLIP in JS), outlines wobble on hover. */
+
+@property --pf-fill {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
 
 .photo-filter-bar {
   display: flex;
@@ -2479,88 +2955,287 @@ body.light-theme .form-social-icons a:focus-visible {
   row-gap: 0.5rem;
   justify-content: center;
   margin-bottom: 1.5rem;
+  position: relative;
+  --pf-accent: var(--accent-dark);
+  --pf-line: rgba(154, 119, 198, 0.3);
+  --pf-line-hover: rgba(154, 119, 198, 0.6);
+  --pf-text: var(--text-dark);
+  --pf-shadow: rgba(154, 119, 198, 0.45);
 }
 
+body.light-theme .photo-filter-bar {
+  --pf-accent: var(--accent-light);
+  --pf-line: rgba(107, 70, 193, 0.28);
+  --pf-line-hover: rgba(107, 70, 193, 0.55);
+  --pf-text: var(--text-light);
+  --pf-shadow: rgba(107, 70, 193, 0.35);
+}
+
+.pf-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
 
 .photo-filter-btn {
+  --pf-fill: 0;
   position: relative;
+  z-index: 1;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
   background: transparent;
-  border: 1px solid rgba(154, 119, 198, 0.3);
+  border: 0;
   border-radius: 999px;
-  color: var(--text-dark);
+  color: var(--pf-text);
   font-family: var(--main-font);
   font-size: var(--font-xs);
   font-weight: 500;
-  padding: 0.32rem 0.85rem;
+  line-height: 1.5;
+  padding: calc(0.32rem + 1px) calc(0.85rem + 1px);
   margin: 0 0.22rem;
   cursor: pointer;
-  opacity: 0.65;
   white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease,
-              border-color 0.15s ease, border-radius 0.15s ease,
-              margin 0.15s ease, opacity 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    --pf-fill 0.75s cubic-bezier(0.6, 0.05, 0.2, 1),
+    border-radius 0.3s ease;
 }
 
-.photo-filter-btn:hover {
-  opacity: 0.9;
-  border-color: rgba(154, 119, 198, 0.6);
+/* Outline ring */
+.photo-filter-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border: 1px solid var(--pf-line);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-color 0.2s ease, opacity 0.3s ease;
 }
 
-/* ── Active (selected) pill ── */
-.photo-filter-btn.active {
-  background: var(--accent-dark);
-  border-color: var(--accent-dark);
+@media (hover: hover) {
+  .photo-filter-btn:hover::before {
+    border-color: var(--pf-line-hover);
+  }
+}
+
+/* Liquid ink: one layer behind all pills; the script draws a blob per filled
+   pill and the goo filter melts nearby blobs into one body (pour, neck, snap) */
+.pf-ink-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  filter: url(#pf-goo) drop-shadow(0 6px 9px var(--pf-shadow));
+}
+
+/* Phones: the ink lives inside each pill and moves with it (no per-frame
+   script, nothing to trail). The fill sweeps in from the group side with
+   transforms only; a small liquid bridge on the pill's left edge snaps into
+   the group as the pill arrives, and on the way out pinches and breaks. */
+.pf-lclip, .pf-bridge { display: none; }
+.pf-lite .pf-ink-layer,
+.pf-lite .pf-ink { display: none; }
+.pf-lite .photo-filter-btn {
+  transition: border-radius 0.3s ease, box-shadow 0.4s ease, scale 0.25s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+.pf-lite .photo-filter-btn--count,
+.pf-lite .photo-filter-btn.active:not(.pf-draining) {
+  box-shadow: 0 8px 18px -10px var(--pf-shadow);
+}
+.pf-lite .photo-filter-btn--count { background: var(--pf-accent); }
+.pf-lite .pf-lclip {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.pf-lite .pf-lfill {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;            /* white label only shows where the ink is */
+  border-radius: 999px;
+  background: var(--pf-accent);
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.2, 1);
+}
+.pf-lite .pf-lfill-text {
+  width: 100%;                 /* same width as the fill, so the slides cancel exactly */
+  text-align: center;
   color: #fff;
-  opacity: 1;
+  white-space: nowrap;
+  transform: translateX(101%);
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.2, 1);
+}
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-lfill,
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-lfill-text { transform: none; }
+/* once it has swept in, the fill squares off so the pill's own (flattened)
+   corners shape it and merged pills read as one smooth body */
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-lfill {
+  border-radius: 0;
+  transition: transform 0.4s cubic-bezier(0.55, 0, 0.2, 1), border-radius 0.15s ease 0.32s;
+}
+.pf-lite .photo-filter-btn.active:not(.pf-draining):not(.photo-filter-btn--count) .pf-text {
+  opacity: 0;
+  transition: opacity 0.15s ease 0.2s;
+}
+.pf-lite .photo-filter-btn .pf-text { transition: opacity 0.15s ease; }
+
+/* liquid bridge: a pinched-waist shape hanging off the pill's left edge */
+.pf-lite .pf-bridge {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -13px;
+  width: 17px;
+  z-index: -2;
+  background: var(--pf-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 28' preserveAspectRatio='none'%3E%3Cpath d='M0 0C6 0 6 7 8 7S10 0 16 0V28C10 28 10 21 8 21S6 28 0 28Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 28' preserveAspectRatio='none'%3E%3Cpath d='M0 0C6 0 6 7 8 7S10 0 16 0V28C10 28 10 21 8 21S6 28 0 28Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  transform-origin: 100% 50%;
+  transform: scale(0.2, 0);
+  pointer-events: none;
+}
+.pf-lite .photo-filter-btn.active:not(.pf-draining) .pf-bridge {
+  animation: pf-bridge-in 0.6s cubic-bezier(0.34, 1.3, 0.5, 1) 0.15s both;
+}
+.pf-lite .photo-filter-btn.pf-draining .pf-bridge {
+  animation: pf-bridge-out 0.36s cubic-bezier(0.5, 0, 0.75, 0) both;
+}
+@keyframes pf-bridge-in {
+  0%   { transform: scale(0.3, 0.25); opacity: 1; }
+  50%  { transform: scale(1, 1); opacity: 1; }
+  80%  { transform: scale(1, 1); opacity: 1; }
+  100% { transform: scale(1, 1); opacity: 0; }   /* gone once the ink is flush */
+}
+@keyframes pf-bridge-out {
+  0%   { transform: scale(1, 1); }
+  55%  { transform: scale(1.25, 0.35); }
+  80%  { transform: scale(1.4, 0.08); }
+  100% { transform: scale(0.2, 0); }
+}
+/* press: a quick squish that springs back */
+.pf-lite .photo-filter-btn:active { scale: 0.95; }
+
+.pf-blob {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  background: var(--pf-accent);
+}
+
+/* Label: base copy in the outline colour, white copy clipped to the fill */
+.pf-text {
+  transition: opacity 0.2s ease;
+  opacity: 0.65;
+}
+
+.photo-filter-btn:hover .pf-text { opacity: 0.9; }
+
+.pf-ink {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  pointer-events: none;
+  clip-path: inset(0 calc((1 - var(--pf-fill)) * 100%) 0 0);
+}
+
+/* ── Selected ── */
+.photo-filter-btn.active {
+  --pf-fill: 1;
   margin: 0;
   z-index: 1;
 }
 
-/* ── Merge: flatten RIGHT side of active pill when next sibling is also active ── */
+.photo-filter-btn.active::before { border-color: transparent; }
+
+/* draining: keeps its place in the group while the fill runs out */
+.photo-filter-btn.active.pf-draining {
+  --pf-fill: 0;
+}
+
+.photo-filter-btn.active.pf-draining::before { border-color: var(--pf-line); }
+
+/* ── Merge into one pill ── */
 .photo-filter-btn.active:has(+ .photo-filter-btn.active) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  margin-right: 0;
 }
 
-/* ── Merge: flatten LEFT side of active pill that follows another active pill ── */
-.photo-filter-btn.active + .photo-filter-btn.active {
+.photo-filter-btn.active + .photo-filter-btn.active,
+.photo-filter-btn--count + .photo-filter-btn.active {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-left: none;
-  margin-left: 0;
+  /* overlap by a pixel so neighbouring fills meet without a hairline seam */
+  margin-left: -1px;
 }
 
-/* ── Divider line between merged active pills ── */
-.photo-filter-btn.active + .photo-filter-btn.active::before {
-  content: '';
+/* ── Count pill (data-country="all"): always filled ── */
+.photo-filter-btn--count {
+  --pf-fill: 1;
+  margin: 0 0.22rem 0 0;
+  z-index: 2;
+}
+
+.photo-filter-btn--count::before { border-color: transparent; }
+.photo-filter-btn--count .pf-ink { display: none; }
+.photo-filter-btn--count .pf-text { opacity: 1; color: #fff; }
+
+.photo-filter-btn--count:has(+ .photo-filter-btn.active) {
+  margin-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* divider between the count and the selected group */
+.pf-sep {
   position: absolute;
-  left: 0;
-  top: 22%;
-  height: 56%;
+  right: 0;
+  top: 25%;
+  height: 50%;
   width: 1px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.35);
+  opacity: 0;
+  transition: opacity 0.25s ease;
   pointer-events: none;
 }
 
-/* ── Light theme ── */
-body.light-theme .photo-filter-btn {
-  color: var(--text-light);
-  border-color: rgba(107, 70, 193, 0.28);
+.photo-filter-btn--count:has(+ .photo-filter-btn.active:not(.pf-draining)) .pf-sep { opacity: 1; }
+
+/* Rolling number */
+.pf-num {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  vertical-align: bottom;
 }
 
-body.light-theme .photo-filter-btn:hover {
-  border-color: rgba(107, 70, 193, 0.55);
+.pf-num-old {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
-body.light-theme .photo-filter-btn.active {
-  background: var(--accent-light);
-  border-color: var(--accent-light);
-  color: #fff;
-}
-
-body.light-theme .photo-filter-btn.active + .photo-filter-btn.active::before {
-  background: rgba(255, 255, 255, 0.35);
+@media (prefers-reduced-motion: reduce) {
+  .photo-filter-btn { transition: none; }
+  .pf-ink-layer { filter: url(#pf-goo); }
 }
 
 /* ================= FOOTER ================= */
@@ -2730,11 +3405,6 @@ body.light-theme pre {
     margin-top: 0;
   }
 
-  /* Hide hamburger menu on mobile */
-  .mobile-nav-toggle {
-    display: none !important;
-  }
-
   /* Hide scroll indicator (three dots) on mobile - completely remove from layout */
   .scroll-indicator {
     display: none !important;
@@ -2838,17 +3508,6 @@ body.light-theme pre {
     margin: var(--space-sm) auto;
   }
   
-
-  .mobile-nav-toggle {
-    width: 44px;   /* ← CHANGED from 38px to 44px */
-    height: 44px;  /* ← CHANGED from 38px to 44px */
-    top: 1rem;
-    right: 1rem;
-  }
-
-  .mobile-nav-toggle i {
-    font-size: 16px;  /* ← CHANGED from 14px to 16px */
-  }
 
   .social {
     gap: 1rem;
@@ -3064,7 +3723,7 @@ body.light-theme .hero-chip {
     display: inline-flex;
     align-items: center;
     gap: 0.15rem;
-    order: 1;
+    order: -1; /* toggles first, then the location chip, Menu pill on the right */
   }
 
   .hero-mobile-toggles .theme-toggle,
@@ -3092,7 +3751,7 @@ body.light-theme .hero-chip {
 @media (max-width: 380px) {
   .hero-chips .hero-chip {
     font-size: 0.54rem;
-    padding: 0.35rem 0.5rem;
+    padding: 0.35rem 0.42rem;
   }
 
   .hero-chips .hero-mobile-toggles { gap: 0; }
@@ -3121,8 +3780,8 @@ body.light-theme .hl {
   border: 1px solid rgba(154, 119, 198, 0.22);
   border-radius: 18px;
   padding: 1rem 1rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* no backdrop blur: the background behind is already soft, and Safari
+     renders it in visible rectangular tiles over the ink layer */
 }
 
 body.light-theme .hero-now-card {
@@ -3519,7 +4178,7 @@ body.light-theme .hero-creds__logo--light { display: block; }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: 1.3rem !important;
+    font-size: clamp(1.5rem, 7.6vw, 2.1rem) !important;
   }
 
   .top-bar header p.neon-subtitle {
@@ -3540,7 +4199,7 @@ body.light-theme .hero-creds__logo--light { display: block; }
 
   .tron-header h2,
   .closing-section-title {
-    font-size: 1.15rem !important;
+    font-size: clamp(1.5rem, 7.6vw, 2.1rem) !important;
   }
 
   .top-bar header p.neon-subtitle {
@@ -3846,7 +4505,9 @@ body.light-theme .title-links a:focus-visible {
   margin: var(--space-sm) 0;
   position: relative;
   overflow: hidden;
-  transition: all var(--transition-normal);
+  /* Permanent layer + named transitions so the blur isn't rebuilt mid-hover (Safari seams) */
+  transform: translateZ(0);
+  transition: transform var(--transition-normal), background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
   text-align: left;
   box-shadow: var(--glass-shadow);
 }
@@ -4407,6 +5068,37 @@ body.light-theme .photo-card:hover {
   .lightbox-next   { right: 0.75rem; }
 }
 
+/* "+N" overlay on the last visible photo replaces the View more button */
+.view-all-container { display: none; }
+.photo-more {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-family: var(--main-font);
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+.photo-more__count {
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+.photo-more:hover { background: rgba(0, 0, 0, 0.6); }
+.photo-more:hover .photo-more__count { transform: scale(1.08); }
+.photo-more:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: -6px;
+}
+
 /* Hidden photos (until View More or country filter) */
 .hidden-photo {
   display: none;
@@ -4681,7 +5373,10 @@ body.light-theme .apps-intro a:focus-visible {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 1rem;
-  transition: all var(--transition-normal);
+  /* A permanent layer + named transitions: the blur isn't rebuilt mid-hover,
+     which is what leaves rectangular seams in Safari */
+  transform: translateZ(0);
+  transition: transform var(--transition-normal), background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -4779,13 +5474,13 @@ body.light-theme .app-name { color: var(--text-light); }
 }
 .app-pill--primary {
   background: var(--accent-dark);
-  color: #0f0d14;
+  color: #ffffff;
   border: 1px solid transparent;
 }
 .app-pill--primary:hover,
 .app-pill--primary:focus-visible {
   background: var(--accent-dark-hover);
-  color: #0f0d14;
+  color: #ffffff;
   transform: translateY(-1px);
 }
 body.light-theme .app-pill--primary {
@@ -5100,7 +5795,7 @@ body.light-theme [title]:hover {
 /* Closing section title — same pixel scale as .tron-header h2 */
 .closing-section-title {
   font-family: var(--font-pixel-mobile);
-  font-size: clamp(1.2rem, 3.4vw, 1.75rem);
+  font-size: clamp(1.6rem, 4.4vw, 2.5rem);
   font-weight: 400;
   text-align: center;
   margin-top: 2rem;
@@ -5874,7 +6569,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 
   .tron-header h2,
   .closing-section-title {
-    font-size: clamp(1.15rem, 5.2vw, 1.6rem) !important;
+    font-size: clamp(1.5rem, 7.6vw, 2.1rem) !important;
     letter-spacing: 0.01em !important;
     line-height: 1.25 !important;
   }
@@ -5898,6 +6593,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 }
 
 </style>
+<link rel="stylesheet" href="/assets/toggle-daylight/part.css">
 </head>
 <body class="light-theme"> 
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -5905,18 +6601,13 @@ body.light-theme .scrolly-step-link:focus-visible {
 <!-- Navigation Bar -->
 <div class="nav-container">
   <div class="nav-pill">
-    <button class="theme-toggle" type="button" aria-label="Toggle theme">
-      <span class="theme-toggle__hint" aria-hidden="true">buio</span>
-      <svg class="theme-toggle__ring" viewBox="0 0 47.14 45.5" aria-hidden="true">
-        <path class="theme-toggle__draw theme-toggle__draw--2" transform="translate(1.4,-1) rotate(6 23.57 22.75)" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
-        <path class="theme-toggle__draw theme-toggle__draw--1" d="M33.72 1.25A28.4 28.4 0 0012.43 4.7a22.6 22.6 0 00-7.77 7.75 21.33 21.33 0 00-1.81 16.69 22.75 22.75 0 0014.47 14.8 22.79 22.79 0 0020.42-3.41 22.79 22.79 0 008.89-18.7A20.86 20.86 0 0035.88 4.29C29.14.77 20.89 2 14.4 5.5 8.23 8.82 3.05 14.32 1.2 21.22a19.9 19.9 0 00-.46 2.14 15.44 15.44 0 001 8.93 19.1 19.1 0 001 1.92"/>
-      </svg>
-      <span class="theme-toggle__icon"><i class="far fa-lightbulb"></i></span>
-    </button>
-    <!-- Sound toggle (after isembard.com): ruler tick sound stays off until pressed -->
-    <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
-      <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
-    </button>
+    <div class="nav-controls">
+      <!-- Sound toggle (after isembard.com): ruler tick sound stays off until pressed -->
+      <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
+        <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
+      </button>
+    </div>
+    <span class="nav-divider" aria-hidden="true"></span>
     <nav class="nav-bar" role="navigation" aria-label="Main navigation">
       <a href="#experience" class="nav-item">Work</a>
       <a href="#projects" class="nav-item">Apps</a>
@@ -5928,45 +6619,18 @@ body.light-theme .scrolly-step-link:focus-visible {
   </div>
 </div>
 
-<!-- Mobile Navigation Toggle -->
-<button class="mobile-nav-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="mobile-nav-menu">
-  <i class="fas fa-bars"></i>
-  <i class="fas fa-times"></i>
+<!-- Mobile navigation: "Menu" pill + full-screen overlay (phones only) -->
+<button class="menu-pill" type="button" aria-expanded="false" aria-controls="menu-overlay">
+  <span class="menu-pill__bars" aria-hidden="true"><b></b><b></b></span>
+  <span class="menu-pill__label">Menu</span>
 </button>
-
-<!-- Backdrop overlay -->
-<div class="mobile-nav-backdrop"></div>
-
-<!-- Side Drawer Menu -->
-<nav class="mobile-nav-menu" id="mobile-nav-menu" role="navigation" aria-label="Mobile navigation">
-  <a href="#experience" class="mobile-nav-item">
-    <i class="fas fa-laptop-code"></i>
-    Work
-  </a>
-  <a href="#projects" class="mobile-nav-item">
-    <i class="fas fa-rocket"></i>
-    Apps
-  </a>
-  <a href="#thesis" class="mobile-nav-item">
-    <i class="fas fa-graduation-cap"></i>
-    Thesis
-  </a>
-  <a href="#photos" class="mobile-nav-item">
-    <i class="fas fa-camera"></i>
-    Perspectives
-  </a>
-  <a href="#vibes" class="mobile-nav-item">
-    <i class="fas fa-music"></i>
-    Off-hours
-  </a>
-
-  <!-- Divider before Contact -->
-  <div class="menu-divider"></div>
-  
-  <a href="#contact" class="mobile-nav-item contact">
-    <i class="fas fa-envelope"></i>
-    Contact
-  </a>
+<nav class="menu-overlay" id="menu-overlay" aria-label="Mobile navigation">
+  <a href="#experience" class="menu-overlay__link"><small>01</small>Work</a>
+  <a href="#projects" class="menu-overlay__link"><small>02</small>Apps</a>
+  <a href="#thesis" class="menu-overlay__link"><small>03</small>Thesis</a>
+  <a href="#photos" class="menu-overlay__link"><small>04</small>Perspectives</a>
+  <a href="#vibes" class="menu-overlay__link"><small>05</small>Off-hours</a>
+  <a href="#contact" class="menu-overlay__link menu-overlay__link--accent"><small>06</small>Contact ↗</a>
 </nav>
 
 <!-- Animated background system -->
@@ -5976,6 +6640,34 @@ body.light-theme .scrolly-step-link:focus-visible {
   <div class="gradient-sphere sphere-2"></div>
   <div class="gradient-sphere sphere-3"></div>
   <div class="glow"></div>
+  <!-- Sunrise Horizon (light theme), Arc Bands (off) and Fine Grain: opensourceui.in, MIT, ported to plain CSS -->
+  <div class="arc-bands" aria-hidden="true">
+    <!-- Ink Wash (light) / Dark Ink Field (dark): opensourceui.in, MIT -->
+    <span class="ink">
+      <span class="ink__blobs">
+        <span class="ink__blob ink__blob--1"></span>
+        <span class="ink__blob ink__blob--2"></span>
+        <span class="ink__blob ink__blob--3"></span>
+        <span class="ink__blob ink__blob--4"></span>
+      </span>
+      <span class="ink__dots"></span>
+    </span>
+    <span class="sunrise">
+      <span class="sunrise__hills">
+        <span class="sunrise__hill sunrise__hill--1"></span>
+        <span class="sunrise__hill sunrise__hill--2"></span>
+        <span class="sunrise__hill sunrise__hill--3"></span>
+      </span>
+      <span class="sunrise__sun"></span>
+      <span class="sunrise__dots"></span>
+    </span>
+    <span class="arc-bands__band arc-bands__band--1"></span>
+    <span class="arc-bands__band arc-bands__band--2"></span>
+    <span class="arc-bands__band arc-bands__band--3"></span>
+    <span class="arc-bands__dots"></span>
+    <span class="fine-grain fine-grain--a"></span>
+    <span class="fine-grain fine-grain--b"></span>
+  </div>
 </div>
 <!-- Scroll progress bar -->
 <div class="scroll-progress"></div>
@@ -5991,17 +6683,24 @@ body.light-theme .scrolly-step-link:focus-visible {
     <!-- LEFT: name, kicker, tagline, description, CTAs -->
     <header class="hero-left reveal">
       <div class="hero-chips">
-        <span class="hero-chip"><span class="hero-chip__dot" aria-hidden="true"></span> Singapore · Product @ Moody's</span>
+        <span class="hero-chip"><span class="hero-chip__dot" aria-hidden="true"></span> Singapore · <span class="hero-chip__long">Product @ </span>Moody's</span>
         <!-- Mobile only: the nav pill is hidden below 768px, so its two toggles live here -->
         <span class="hero-mobile-toggles">
-          <button class="theme-toggle" type="button" aria-label="Toggle theme">
-            <span class="theme-toggle__icon"><i class="far fa-lightbulb"></i></span>
-          </button>
+          <span class="daylight-slot daylight-slot--mobile" data-daylight-slot="mobile"></span>
           <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
             <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
           </button>
         </span>
-        <span class="hero-chip">v3.4 · 2026</span>
+        <!-- Desktop: the daylight switch sits in the chip row; the script moves it next to the sound toggle on mobile -->
+        <span class="daylight-slot daylight-slot--hero" data-daylight-slot="hero">
+            <!-- UI by @Lattice_Node — ludion.ai/p/toggle-daylight (MIT) -->
+            <div data-ld-part="toggle-daylight" data-frame="low" lang="ja">
+              <canvas class="scene" aria-hidden="true"></canvas>
+              <button class="hit" type="button" role="switch" aria-checked="false" aria-label="夜"></button>
+              <span class="vh" role="status" aria-live="polite" data-status></span>
+              <span class="probe" aria-hidden="true"></span>
+            </div>
+        </span>
       </div>
 
       <h1 class="neon-title hero-pixel-mobile">ROCCO</h1>
@@ -6079,7 +6778,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           <span class="hero-now-card__label">Now</span>
         </div>
         <p class="hero-now-card__body">
-          Delivering developer-first API products to clients — turning fragmented compliance workflows into programmatic real-time risk decisions. On the side, a traveling photographer working in film and digital.
+          Delivering developer-first API products to clients, turning fragmented compliance workflows into programmatic real-time risk decisions. On the side, a traveling photographer working in film and digital.
         </p>
         <a href="#experience" class="hero-now-card__link">
           Jump to work
@@ -6141,7 +6840,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           </div>
         </div>
         <p class="scrolly-step-body">
-          Built and integrated developer-first API products that transform fragmented compliance workflows into programmatic real-time risk decisions — cutting client integration time from weeks to days.
+          Built and integrated developer-first API products that transform fragmented compliance workflows into programmatic real-time risk decisions, cutting client integration time from weeks to days.
         </p>
 
         <div class="step-highlights">
@@ -6152,7 +6851,7 @@ body.light-theme .scrolly-step-link:focus-visible {
               <h4 class="step-highlight-title">API Portal</h4>
             </div>
             <p class="step-highlight-text">
-              Designed end-to-end developer documentation — quickstart guides, integration references and code samples — to lower the barrier for clients embedding compliance data into their own products.
+              Designed end-to-end developer documentation, quickstart guides, integration references and code samples, to lower the barrier for clients embedding compliance data into their own products.
             </p>
           </div>
 
@@ -6163,7 +6862,7 @@ body.light-theme .scrolly-step-link:focus-visible {
               <h4 class="step-highlight-title">API Search Performance</h4>
             </div>
             <p class="step-highlight-text">
-              Redesigned entity search by restructuring how upstream calls are orchestrated across multiple data connectors — cutting response times from <span class="counter" data-target="30" data-prefix="~" data-suffix="s">~30s</span> to <span class="counter" data-target="3" data-prefix="~" data-suffix="s">~3s</span> and delivering faster, more relevant results.
+              Redesigned entity search by restructuring how upstream calls are orchestrated across multiple data connectors, cutting response times from <span class="counter" data-target="30" data-prefix="~" data-suffix="s">~30s</span> to <span class="counter" data-target="3" data-prefix="~" data-suffix="s">~3s</span> and delivering faster, more relevant results.
             </p>
           </div>
         </div>
@@ -6198,7 +6897,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           </div>
         </div>
         <p class="scrolly-step-body">
-          Drove product evolution of an operations platform used daily by <span class="inline-metric" id="inlineMetric200">200+</span> users across trading, risk, payments, support and compliance teams — reducing operational friction across the broker's core workflows.
+          Drove product evolution of an operations platform used daily by <span class="inline-metric" id="inlineMetric200">200+</span> users across trading, risk, payments, support and compliance teams, reducing operational friction across the broker's core workflows.
         </p>
         <div class="scrolly-step-meta">
           <a
@@ -6249,7 +6948,7 @@ body.light-theme .scrolly-step-link:focus-visible {
         </svg>
         <h3 class="app-name">Stacca<sup class="app-name-tm app-name-tm--stacca" aria-hidden="true">&trade;</sup></h3>
       </div>
-      <p class="app-tagline">Mobile-first employee management for small teams — track hours, activities and work locations, and manage payroll in one place.</p>
+      <p class="app-tagline">Mobile-first employee management for small teams, track hours, activities and work locations, and manage payroll in one place.</p>
       <div class="app-links">
         <a href="https://stacca-app.vercel.app/" target="_blank" rel="noopener noreferrer" class="app-pill app-pill--primary">
           <span class="app-pill-label">Try it</span>
@@ -6287,7 +6986,7 @@ body.light-theme .scrolly-step-link:focus-visible {
         </svg>
         <h3 class="app-name">Dario<sup class="app-name-tm app-name-tm--dario" aria-hidden="true">&trade;</sup></h3>
       </div>
-      <p class="app-tagline">Digital production management for an artisan cheese farm — batches, protocols and daily activities.</p>
+      <p class="app-tagline">Digital production management for an artisan cheese farm, batches, protocols and daily activities.</p>
       <div class="app-links">
         <a href="https://dario-caseificio.vercel.app/" target="_blank" rel="noopener noreferrer" class="app-pill app-pill--primary">
           <span class="app-pill-label">Try it</span>
@@ -6307,6 +7006,21 @@ body.light-theme .scrolly-step-link:focus-visible {
     <!-- To add another app: copy an <article class="app-card"> block above and update logo/name/tagline/links. -->
 
   </div>
+
+  <!-- GitHub contributions (after the Github Contribution card, opensourceui.in, MIT).
+       Data from /api/github-contributions; falls back to a snapshot file. -->
+  <div class="gh-card" data-gh-card>
+    <div class="gh-card__head">
+      <p class="gh-card__title"><span data-gh-total>…</span> contributions in the last year</p>
+      <a class="gh-card__user" href="https://github.com/roccogold" target="_blank" rel="noopener noreferrer"><i class="fab fa-github" aria-hidden="true"></i> roccogold</a>
+    </div>
+    <div class="gh-card__scroll" data-gh-scroll>
+      <div class="gh-graph" data-gh-graph role="img" aria-label="GitHub contribution graph for the last year"></div>
+    </div>
+    <div class="gh-card__legend" aria-hidden="true">
+      <span>Less</span><i class="gh-l0"></i><i class="gh-l1"></i><i class="gh-l2"></i><i class="gh-l3"></i><i class="gh-l4"></i><span>More</span>
+    </div>
+  </div>
 </section>
 
 <section aria-labelledby="thesis-heading" class="reveal" id="thesis">
@@ -6318,7 +7032,7 @@ body.light-theme .scrolly-step-link:focus-visible {
     <h3 class="thesis-title"><i class="fas fa-train"></i> Insurtrain</h3>
 
     <p class="thesis-description">
-      Delay? Instantly paid. This blockchain solution automatically compensates you the moment your train is late — <span class="counter" data-target="100" data-suffix="%">100%</span> automated, zero paperwork, money sent directly to your wallet.
+      Delay? Instantly paid. This blockchain solution automatically compensates you the moment your train is late, <span class="counter" data-target="100" data-suffix="%">100%</span> automated, zero paperwork, money sent directly to your wallet.
     </p>
 
     <!-- ✨ NEW: Impact Metrics -->
@@ -7994,7 +8708,37 @@ View more
     <h2 id="vibes-heading">off-hours</h2>
   </div>
   <div class="spotify-container">
-    <iframe title="Spotify player: Midnight Pretenders by Tomoko Aran" src="https://open.spotify.com/embed/track/0JUWF44gfMszGNhjCF7Ufs?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe title="Spotify player: カシミヤのほほえみ" src="https://open.spotify.com/embed/track/2H31Eva4Ijl9SKJ20Z2jKE?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
+  <!-- Latest Instagram post (after the Instagram Post card, opensourceui.in, MIT).
+       Filled from /api/instagram when a token is set; otherwise a follow card. -->
+  <div class="spotify-container ig-wrap">
+    <div class="ig-card" data-ig-card>
+      <!-- Featured post (set by hand): to change it, swap the image, link, caption,
+           likes and date below. /api/instagram overrides it when a token is set. -->
+      <a class="ig-card__media" href="https://www.instagram.com/p/DfXQfVUGSXX/" target="_blank" rel="noopener noreferrer" aria-label="Open the post on Instagram">
+        <img class="ig-card__img" src="assets/instagram/featured.jpg" alt="Film photo of a blue sky with soft clouds, Kyrgyz Republic" loading="lazy" decoding="async">
+      </a>
+      <div class="ig-card__body">
+        <div class="ig-card__head">
+          <img class="ig-card__avatar" src="assets/instagram/avatar.jpg" alt="" width="30" height="30" loading="lazy" decoding="async">
+          <div class="ig-card__who">
+            <p class="ig-card__user">roccogold_</p>
+            <p class="ig-card__meta" data-ig-meta>5 Nov 2026</p>
+          </div>
+          <span class="ig-card__glyph"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></span>
+        </div>
+        <p class="ig-card__caption" data-ig-caption>⭐ kyrgyz republic • [olympus mju-1 35mm f3.5 w/ kodak gold 200 + sony a6000 w/ 55-210mm]</p>
+        <div class="ig-card__foot">
+          <span class="ig-card__likes" data-ig-likes>205 likes</span>
+          <!-- Follow Toggle (opensourceui.in, MIT): opens the profile, then shows "Following" -->
+          <a class="follow-btn" data-follow href="https://www.instagram.com/roccogold_/" target="_blank" rel="noopener noreferrer" role="button" aria-pressed="false" aria-label="Follow roccogold_ on Instagram">
+            <span class="follow-btn__layer follow-btn__layer--follow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>Follow</span>
+            <span class="follow-btn__layer follow-btn__layer--following" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>Following</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="interests-tags">
     <span class="interest-tag">Ping Pong</span>
@@ -8174,7 +8918,6 @@ navigation = new Navigation();
 // Hide theme toggle and mobile menu on scroll (desktop only)
 let lastScrollY = window.scrollY;
 const themeToggle = document.querySelector('.theme-toggle');
-const mobileNavToggle = document.querySelector('.mobile-nav-toggle');  // ← ONLY ONE DECLARATION
 
 const navContainer = document.querySelector('.nav-container');
 
@@ -8204,56 +8947,69 @@ window.addEventListener('scroll', () => {
   lastScrollY = currentScrollY;
 });
 
-// Mobile Navigation Toggle - Side Drawer
-// ← REMOVE THE DUPLICATE LINE HERE
-const mobileNavMenu = document.querySelector('.mobile-nav-menu');
-const mobileNavBackdrop = document.querySelector('.mobile-nav-backdrop');
-const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
-
-if (mobileNavToggle && mobileNavMenu && mobileNavBackdrop) {
-  // Toggle menu
-  mobileNavToggle.addEventListener('click', () => {
-    mobileNavToggle.classList.toggle('active');
-    mobileNavMenu.classList.toggle('active');
-    mobileNavBackdrop.classList.toggle('active');
-    mobileNavToggle.setAttribute('aria-expanded', mobileNavMenu.classList.contains('active') ? 'true' : 'false');
-    
-    // Prevent body scroll when menu is open - SIMPLE METHOD
-    if (mobileNavMenu.classList.contains('active')) {
+// Mobile navigation — "Menu" pill opens a full-screen overlay (circular reveal from the pill)
+const menuPill = document.querySelector('.menu-pill');
+const menuOverlay = document.querySelector('.menu-overlay');
+if (menuPill && menuOverlay) {
+  const pageBg = document.querySelector('.gradient-background .arc-bands');
+  if (pageBg) {
+    const bg = document.createElement('div');
+    bg.className = 'menu-overlay__bg';
+    bg.setAttribute('aria-hidden', 'true');
+    bg.appendChild(pageBg.cloneNode(true));
+    menuOverlay.prepend(bg);
+  }
+  // iOS Safari ignores overflow:hidden on body, so pin the body in place
+  // (the lightbox does the same) and put the reader back where they were on close
+  let menuScrollY = 0;
+  const setMenu = (open) => {
+    const isOpen = document.body.classList.contains('menu-open');
+    if (open === isOpen) return;
+    if (open) {
+      menuScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${menuScrollY}px`;
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
     } else {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
       document.body.style.overflow = '';
+      window.scrollTo({ top: menuScrollY, behavior: 'instant' });
     }
+    document.body.classList.toggle('menu-open', open);
+    menuPill.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menuPill.querySelector('.menu-pill__label').textContent = open ? 'Close' : 'Menu';
+    // Closed away from the top: the pill goes away straight after (it only lives at the top)
+    if (!open) requestAnimationFrame(() => syncPill());
+  };
+  menuPill.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) { setMenu(false); menuPill.focus(); }
   });
-
-  // Close menu when clicking backdrop
-  mobileNavBackdrop.addEventListener('click', () => {
-    mobileNavToggle.classList.remove('active');
-    mobileNavMenu.classList.remove('active');
-    mobileNavBackdrop.classList.remove('active');
-    mobileNavToggle.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-  });
-
-  // Close menu when clicking on a nav item
-  mobileNavItems.forEach(item => {
-    item.addEventListener('click', (e) => {
+  menuOverlay.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
-      const targetId = item.getAttribute('href');
-      const targetSection = document.querySelector(targetId);
-      
-      // Close the menu
-      mobileNavToggle.classList.remove('active');
-      mobileNavMenu.classList.remove('active');
-      mobileNavBackdrop.classList.remove('active');
-      mobileNavToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-      
-      // Smooth scroll to section — offset comes from scroll-margin-top in CSS
-      targetSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = document.querySelector(link.getAttribute('href'));
+      setMenu(false);
+      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
-} // ← This closes the if statement
+  window.matchMedia('(min-width: 769px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
+
+  // Hide the pill once the page is scrolled; bring it back at the top (as the desktop nav does)
+  let pillTicking = false;
+  const syncPill = () => {
+    pillTicking = false;
+    if (document.body.classList.contains('menu-open')) return;
+    menuPill.classList.toggle('is-hidden', window.scrollY > 50);
+  };
+  window.addEventListener('scroll', () => {
+    if (!pillTicking) { pillTicking = true; requestAnimationFrame(syncPill); }
+  }, { passive: true });
+  syncPill();
+}
 
 // NEW: Scroll indicator functionality
 const scrollIndicator = document.querySelector('.scroll-indicator');
@@ -8467,6 +9223,10 @@ if (scrollIndicator) {
     if (el) playCue('hover');
   }, { passive: true });
 
+  document.addEventListener('daylight:change', (e) => {
+    playCue(e.detail.night ? 'theme-dark' : 'theme-light');
+  });
+
   // Click: section links get the transition sound, the theme toggle a
   // toggle on/off, sound toggles play their own; everything else a tap
   document.addEventListener('click', (e) => {
@@ -8474,6 +9234,8 @@ if (scrollIndicator) {
     // innerHTML on click, so e.target is detached by the time this runs
     const el = e.composedPath().find(n => n instanceof Element && n.matches(INTERACTIVE));
     if (!el || el.matches('[data-sound-toggle]')) return;
+    // The daylight switch plays its cue from daylight:change (a drag may not flip it)
+    if (el.matches('[data-ld-part="toggle-daylight"] .hit')) return;
     if (el.matches('.theme-toggle')) {
       playCue(document.body.classList.contains('light-theme') ? 'theme-light' : 'theme-dark');
       return;
@@ -9185,7 +9947,7 @@ class EnhancedWebsite {
     // Update theme color meta tag immediately
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
-      themeColor.content = isLight ? '#ffffff' : '#111111';
+      themeColor.content = isLight ? '#f7f7f4' : '#0b0b0b';
     }
 
     // Re-enable transitions after a short delay
@@ -9437,15 +10199,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+    updateMoreTile();
+  }
+
+  // "+N" on the last visible photo, in place of the View more button
+  // (after the Gallery Grid card, opensourceui.in). Clicking it runs the
+  // existing View more logic: reveal, re-index, lightbox, analytics.
+  function updateMoreTile() {
+    document.querySelectorAll('.photo-more').forEach(el => el.remove());
+    const showAll = allBtn && allBtn.classList.contains('active');
+    const hidden = document.querySelectorAll('.photo-card.hidden-photo').length;
+    if (!showAll || window.galleryExpanded || !hidden || !loadMoreBtn) return;
+    const visible = [...document.querySelectorAll('.photo-card')]
+      .filter(c => getComputedStyle(c).display !== 'none');
+    const last = visible[visible.length - 1];
+    if (!last) return;
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'photo-more';
+    more.setAttribute('aria-label', `Show ${hidden} more photos`);
+    more.innerHTML = `<span class="photo-more__count">+${hidden}</span>`;
+    const stop = (e) => e.stopPropagation();   // don't open the lightbox
+    more.addEventListener('click', (e) => {
+      stop(e);
+      e.preventDefault();
+      loadMoreBtn.click();
+    });
+    more.addEventListener('keydown', stop);
+    last.appendChild(more);
   }
 
   function applyFilter() {
     // Selection is conveyed by a class alone otherwise — screen reader users
     // get no signal about which of these multi-select filters are on.
-    filterBtns.forEach(b => b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'));
+    const on = b => b.classList.contains('active') && !b.classList.contains('pf-draining');
+    filterBtns.forEach(b => b.setAttribute('aria-pressed', on(b) ? 'true' : 'false'));
 
     const selected = [...filterBtns]
-      .filter(b => b.classList.contains('active') && b.dataset.country !== 'all')
+      .filter(b => on(b) && b.dataset.country !== 'all')
       .map(b => b.dataset.country);
 
     const showAll = allBtn.classList.contains('active');
@@ -9474,6 +10265,8 @@ document.addEventListener('DOMContentLoaded', () => {
       loadMoreBtn.style.display = (showAll && !window.galleryExpanded) ? '' : 'none';
     }
 
+    setCount(showAll ? photoCards.length : [...photoCards].filter(c => selected.includes(c.dataset.country)).length);
+
     reindexGallery();
   }
 
@@ -9483,21 +10276,284 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial index on page load
   reindexGallery();
 
+  // ── Liquid pills: structure, ordering, motion ──
+  const filterBar = document.querySelector('.photo-filter-bar');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const originalOrder = [...filterBtns];
+  let activeOrder = []; // countries in the order they were picked
+
+  // SVG filter defs (the goo filter is added below)
+  filterBar.insertAdjacentHTML('beforeend', `
+    <svg class="pf-defs" aria-hidden="true" focusable="false">
+    </svg>`);
+
+  // Inner structure: fill layer, outline-coloured label, white label on the fill
+  filterBtns.forEach(btn => {
+    const isAll = btn.dataset.country === 'all';
+    const label = isAll
+      ? `<span class="pf-num"><span class="pf-num-cur">${photoCards.length}</span></span>`
+      : btn.textContent.trim();
+    btn.innerHTML = `<span class="pf-text">${label}</span>`
+      + (isAll ? '<span class="pf-sep" aria-hidden="true"></span>'
+               : `<span class="pf-ink" aria-hidden="true">${label}</span>`
+               + `<span class="pf-lclip" aria-hidden="true"><span class="pf-lfill"><span class="pf-lfill-text">${label}</span></span></span>`
+               + '<span class="pf-bridge" aria-hidden="true"></span>');
+    if (isAll) {
+      btn.classList.add('photo-filter-btn--count');
+      btn.setAttribute('aria-label', 'Show all photos');
+    }
+  });
+
+  // Count with a rolling digit swap
+  const numEl = allBtn.querySelector('.pf-num');
+  let shownCount = photoCards.length;
+  function setCount(n) {
+    if (n === shownCount) return;
+    const up = n > shownCount;
+    shownCount = n;
+    const cur = numEl.querySelector('.pf-num-cur');
+    numEl.querySelectorAll('.pf-num-old').forEach(el => el.remove());
+    const old = cur.cloneNode(true);
+    old.className = 'pf-num-old';
+    cur.textContent = n;
+    numEl.appendChild(old);
+    if (reduceMotion.matches) { old.remove(); return; }
+    const dir = up ? 1 : -1;
+    const soft = matchMedia('(pointer: coarse)').matches; // no blur keyframes on touch
+    const ease = 'cubic-bezier(0.3, 0.7, 0.2, 1)';
+    old.animate(
+      [{ transform: 'translateY(0)', filter: soft ? 'none' : 'blur(0)', opacity: 1 },
+       { transform: `translateY(${-70 * dir}%)`, filter: soft ? 'none' : 'blur(3px)', opacity: 0 }],
+      { duration: 380, easing: ease, fill: 'forwards' }
+    ).onfinish = () => old.remove();
+    cur.animate(
+      [{ transform: `translateY(${70 * dir}%)`, filter: soft ? 'none' : 'blur(3px)', opacity: 0 },
+       { transform: 'translateY(0)', filter: 'blur(0)', opacity: 1 }],
+      { duration: 380, easing: ease }
+    );
+  }
+
+  // Count only (no DOM changes to the grid): used to roll the number on tap
+  function rollCount() {
+    const on = b => b.classList.contains('active') && !b.classList.contains('pf-draining');
+    const picked = [...filterBtns].filter(b => b !== allBtn && on(b)).map(b => b.dataset.country);
+    setCount(picked.length
+      ? [...photoCards].filter(c => picked.includes(c.dataset.country)).length
+      : photoCards.length);
+  }
+
+  // Order: count pill, picked countries (in pick order), the rest as authored
+  function arrange() {
+    const rest = originalOrder.filter(b => b !== allBtn && !activeOrder.includes(b));
+    const order = [allBtn, ...activeOrder, ...rest];
+    if (order.every((b, i) => filterBar.children[i] === b)) return;
+    order.forEach(b => filterBar.insertBefore(b, filterBar.querySelector('.pf-defs')));
+    kick();
+  }
+
+  // FLIP: change the layout, then glide every pill from where it was
+  function withFlip(change) {
+    if (reduceMotion.matches) { change(); return; }
+    const first = new Map(originalOrder.map(b => [b, b.getBoundingClientRect()]));
+    change();
+    originalOrder.forEach(b => {
+      const f = first.get(b);
+      const l = b.getBoundingClientRect();
+      const dx = f.left - l.left;
+      const dy = f.top - l.top;
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) return;
+      b.getAnimations().filter(a => a.id === 'pf-flip').forEach(a => a.cancel());
+      const anim = b.animate(
+        [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'translate(0, 0)' }],
+        { duration: lite ? 420 : 700, easing: 'cubic-bezier(0.32, 0.72, 0, 1)' }
+      );
+      anim.id = 'pf-flip';
+    });
+  }
+
+  // ── Liquid ink layer ──
+  // Every filled shape (count pill + picked tags) is drawn as a blob in one
+  // layer behind the pills. A goo filter (blur → alpha threshold) melts blobs
+  // that come close into one body, so ink pours across gaps, floods a tag,
+  // and on the way out stretches into a neck that thins and snaps.
+  filterBar.querySelector('.pf-defs').insertAdjacentHTML('beforeend', `
+      <filter id="pf-goo" x="-4%" y="-40%" width="108%" height="180%" color-interpolation-filters="sRGB">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11" result="goo"/>
+      </filter>`);
+
+  const inkLayer = document.createElement('div');
+  inkLayer.className = 'pf-ink-layer';
+  inkLayer.setAttribute('aria-hidden', 'true');
+  filterBar.appendChild(inkLayer);
+  const blobs = new Map(originalOrder.map(b => {
+    const el = document.createElement('span');
+    el.className = 'pf-blob';
+    inkLayer.appendChild(el);
+    return [b, el];
+  }));
+  // A thin bridge per tag: on the way out it holds the leaving ink to the
+  // group as a neck that stretches, thins and snaps
+  const necks = new Map(originalOrder.map(b => {
+    const el = document.createElement('span');
+    el.className = 'pf-blob';
+    inkLayer.appendChild(el);
+    return [b, el];
+  }));
+  const NECK_MS = 520;
+
+  // Touch devices: the SVG goo filter is drawn on the CPU there and stutters.
+  // Instead, the liquid joins are drawn as shapes: a curved bridge between the
+  // group and a tag that thickens as they meet and pinches as they part.
+  const lite = matchMedia('(pointer: coarse)').matches;
+  const bridges = new Map();   // (unused on phones now: the ink lives inside each pill)
+  if (lite) filterBar.classList.add('pf-lite');
+
+  // Liquid bridge from the end of one ink body (xa) to the start of the next (xb)
+  function bridgePath(xa, xb, cy, H, t) {
+    const R = H / 2;
+    const x0 = xa - R, x3 = xb + R, xm = (xa + xb) / 2;
+    const y0 = cy - R, y1 = cy + R, n0 = cy - t / 2, n1 = cy + t / 2;
+    const k = Math.max(1.5, (xb - xa) * 0.35);
+    const s = Math.min(1, t / H);                 // thick neck → full shoulders
+    const ca = x0 + (xa - x0 + 2) * s, cb = x3 - (x3 - xb + 2) * s;
+    return `M${x0},${y0}C${ca},${y0} ${xm - k},${n0} ${xm},${n0}`
+      + `C${xm + k},${n0} ${cb},${y0} ${x3},${y0}L${x3},${y1}`
+      + `C${cb},${y1} ${xm + k},${n1} ${xm},${n1}`
+      + `C${xm - k},${n1} ${ca},${y1} ${x0},${y1}Z`;
+  }
+
+  function drawInk() {
+    // read everything first, then write: one layout per frame, not one per pill
+    const bar = filterBar.getBoundingClientRect();
+    const now = performance.now();
+    const reads = [];
+    blobs.forEach((el, b) => {
+      const cs = getComputedStyle(b);
+      const fill = b === allBtn ? 1 : parseFloat(cs.getPropertyValue('--pf-fill')) || 0;
+      const r = fill < 0.005 ? null : b.getBoundingClientRect();
+      let neck = null;
+      const t = b._pfNeckStart ? (now - b._pfNeckStart) / NECK_MS : 1;
+      const prev = b.previousElementSibling;
+      const prevIsPill = prev && prev.classList.contains('photo-filter-btn');
+      if (!lite && r && t < 1 && prevIsPill) {
+        neck = { t, pr: prev.getBoundingClientRect() };
+      }
+      // phones: bridge to the ink before this tag, if that pill holds ink
+      let bridge = null;
+      if (lite && r && prevIsPill) {
+        const pf = prev === allBtn ? 1 : parseFloat(getComputedStyle(prev).getPropertyValue('--pf-fill')) || 0;
+        if (pf > 0.005) bridge = { t, pr: prev.getBoundingClientRect(), pf };
+      }
+      reads.push({ b, el, fill, r, radius: r ? cs.borderRadius : '', neck, bridge });
+    });
+
+    reads.forEach(({ b, el, fill, r, radius, neck, bridge }) => {
+      const nEl = necks.get(b);
+      const path = bridges.get(b);
+      if (path) {
+        let d = '';
+        if (r && bridge && Math.abs(bridge.pr.top - r.top) < 4) {
+          const xa = bridge.pr.left - bar.left + bridge.pr.width * bridge.pf;
+          const xb = r.left - bar.left;
+          const gap = xb - xa;
+          const H = r.height;
+          // closing in: thickens as the gap shrinks; leaving: pinches over time
+          let th = gap > 0 ? H * Math.max(0, 1 - gap / 22) ** 1.3 : 0;
+          if (b.classList.contains('pf-draining') && bridge.t < 1) {
+            th = Math.max(th, H * 0.7 * (1 - bridge.t) ** 1.6);
+          }
+          if (gap > 0.5 && th > 1.5) d = bridgePath(xa, xb, r.top - bar.top + H / 2, H, Math.min(th, H));
+        }
+        path.setAttribute('d', d);
+      }
+      if (!r) { el.style.opacity = '0'; nEl.style.opacity = '0'; return; }
+      // ink sits on the group side (left): it pours in from there and drains back there
+      el.style.opacity = '1';
+      el.style.width = `${r.width * fill}px`;
+      el.style.height = `${r.height}px`;
+      el.style.transform = `translate(${r.left - bar.left}px, ${r.top - bar.top}px)`;
+      el.style.borderRadius = radius;
+
+      if (!neck) { nEl.style.opacity = '0'; return; }
+      const from = neck.pr.right - bar.left - 4;
+      const to = r.left - bar.left + 4;
+      const h = r.height * 0.62 * (1 - neck.t) ** 1.6;   // thins as it stretches
+      if (to <= from || h < 1.5) { nEl.style.opacity = '0'; return; }
+      nEl.style.opacity = '1';
+      nEl.style.width = `${to - from}px`;
+      nEl.style.height = `${h}px`;
+      nEl.style.borderRadius = '999px';
+      nEl.style.transform = `translate(${from}px, ${r.top - bar.top + (r.height - h) / 2}px)`;
+    });
+  }
+
+  // Redraw the ink every frame while anything moves
+  let inkUntil = 0;
+  let inkRaf = 0;
+  function inkFrame(now) {
+    inkRaf = 0;
+    drawInk();
+    if (now < inkUntil) inkRaf = requestAnimationFrame(inkFrame);
+  }
+  function kick(ms = 1100) {
+    if (lite) return;   // phones: ink is inside each pill and moves with it
+    inkUntil = Math.max(inkUntil, performance.now() + ms);
+    if (!inkRaf) inkRaf = requestAnimationFrame(inkFrame);
+  }
+  if (!lite) {
+    new ResizeObserver(() => drawInk()).observe(filterBar);
+    drawInk();
+  }
+
+  const DETACH_MS = lite ? 60 : 160;  // ink starts draining while the tag is still attached
+  const HOME_MS = lite ? 380 : 700;    // after the neck has snapped, the tag glides home
+
+  function select(btn) {
+    clearTimeout(btn._pfDetach);
+    clearTimeout(btn._pfHome);
+    btn.classList.remove('pf-draining');
+    btn._pfNeckStart = 0;
+    allBtn.classList.remove('active');
+    activeOrder = activeOrder.filter(b => b !== btn).concat(btn);
+    withFlip(() => {
+      btn.classList.add('active');
+      arrange();
+    });
+    kick();
+  }
+
+  function deselect(btn) {
+    btn.classList.add('pf-draining');
+    btn._pfNeckStart = performance.now() + DETACH_MS;
+    kick(HOME_MS + 900);
+    btn._pfDetach = setTimeout(() => {
+      // detach: the gap opens while ink is still in the tag, so it necks
+      withFlip(() => btn.classList.remove('active'));
+      btn._pfHome = setTimeout(() => {
+        btn.classList.remove('pf-draining');
+        activeOrder = activeOrder.filter(b => b !== btn);
+        withFlip(arrange);
+        kick();
+      }, reduceMotion.matches ? 0 : HOME_MS - DETACH_MS);
+    }, reduceMotion.matches ? 0 : DETACH_MS);
+  }
+
+  const isOn = b => b.classList.contains('active') && !b.classList.contains('pf-draining');
+
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const isAll = btn.dataset.country === 'all';
 
       if (isAll) {
-        // All → clear every country selection, activate All
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+        // Count pill → clear every country selection
+        filterBtns.forEach(b => { if (b !== allBtn && isOn(b)) deselect(b); });
+        allBtn.classList.add('active');
       } else {
-        // Country → deactivate All, toggle this country
-        allBtn.classList.remove('active');
-        btn.classList.toggle('active');
+        if (isOn(btn)) deselect(btn); else select(btn);
 
         // If nothing left selected → fall back to All
-        const anyActive = [...filterBtns].some(b => b.classList.contains('active'));
+        const anyActive = [...filterBtns].some(b => b !== allBtn && isOn(b));
         if (!anyActive) allBtn.classList.add('active');
 
         // Filtering reveals every match, including cards behind "View more".
@@ -9506,7 +10562,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.galleryExpanded = true;
       }
 
-      applyFilter();
+      // On phones the photo grid re-lays out after the pills have moved, so
+      // nothing competes with the motion; the count rolls right away
+      if (lite) {
+        rollCount();
+        clearTimeout(filterBar._pfApply);
+        filterBar._pfApply = setTimeout(applyFilter, 420);
+      } else {
+        applyFilter();
+      }
     });
   });
   // ──────────────────────────────────────────────────────────────────────
@@ -9713,8 +10777,8 @@ class PhotoLightbox {
       // Hide chrome
       const nav = document.querySelector('.nav-container');
       if (nav) nav.style.display = 'none';
-      document.querySelectorAll('.theme-toggle').forEach(t => { t.style.display = 'none'; });
-      const mobileToggle = document.querySelector('.mobile-nav-toggle');
+      document.querySelectorAll('.theme-toggle, .daylight-slot').forEach(t => { t.style.display = 'none'; });
+      const mobileToggle = document.querySelector('.menu-pill');
       if (mobileToggle) mobileToggle.style.display = 'none';
       const scrollInd = document.querySelector('.scroll-indicator');
       if (scrollInd) scrollInd.style.display = 'none';
@@ -9765,13 +10829,13 @@ class PhotoLightbox {
     // 3. Show chrome
     const nav = document.querySelector('.nav-container');
     if (nav) nav.style.display = 'flex';
-    document.querySelectorAll('.theme-toggle').forEach(t => { t.style.display = ''; });
+    document.querySelectorAll('.theme-toggle, .daylight-slot').forEach(t => { t.style.display = ''; });
     const scrollInd = document.querySelector('.scroll-indicator');
     if (scrollInd && window.innerWidth > 768) scrollInd.style.display = 'flex';
     document.querySelectorAll('.page-ruler, .page-ruler-marker, .page-ruler-value')
       .forEach(el => el.style.visibility = '');
 
-    const mobileToggle = document.querySelector('.mobile-nav-toggle');
+    const mobileToggle = document.querySelector('.menu-pill');
     if (mobileToggle) mobileToggle.style.display = '';   // open() hid this and close() never restored it
 
     // 4. Remove active after fade completes
@@ -10097,7 +11161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. TRACK NAVIGATION CLICKS
   function trackNavigation() {
-    document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(link => {
+    document.querySelectorAll('.nav-item, .menu-overlay__link').forEach(link => {
       link.addEventListener('click', function() {
         const linkText = this.textContent.trim();
         const linkHref = this.getAttribute('href');
@@ -10276,5 +11340,206 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 </script>
 
+<!-- Daylight theme switch (ludion.ai/p/toggle-daylight, MIT): night = dark theme, day = light -->
+<script type="module">
+import { mount } from '/assets/toggle-daylight/part.js';
+
+const root = document.querySelector('[data-ld-part="toggle-daylight"]');
+if (root) {
+  // One switch, one state: hero chip row on desktop, next to the sound toggle on mobile
+  const slots = {
+    desktop: document.querySelector('[data-daylight-slot="hero"]'),
+    mobile: document.querySelector('[data-daylight-slot="mobile"]'),
+  };
+  const mobileQuery = matchMedia('(max-width: 768px)');
+  const place = () => {
+    const slot = mobileQuery.matches ? slots.mobile : slots.desktop;
+    if (slot && root.parentElement !== slot) slot.appendChild(root);
+  };
+  place();
+  mobileQuery.addEventListener('change', place);
+
+  const applyTheme = (isLight) => {
+    document.body.classList.toggle('light-theme', isLight);
+    document.documentElement.classList.toggle('light-theme', isLight);
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.content = isLight ? '#f7f7f4' : '#0b0b0b';
+  };
+
+  // Cross-fade the whole page between themes, so every color eases at once
+  // instead of snapping. The switch itself is kept out of the fade.
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const setTheme = (isLight) => {
+    if (document.body.classList.contains('light-theme') === isLight) return;
+    if (!document.startViewTransition || reducedMotion.matches) {
+      applyTheme(isLight);
+      return;
+    }
+    const html = document.documentElement;
+    html.classList.add('theme-fading');
+    const vt = document.startViewTransition(() => applyTheme(isLight));
+    vt.finished.finally(() => html.classList.remove('theme-fading'));
+  };
+
+  // The switch only reports a change once its knob has settled (~2s). A tap or
+  // Enter/Space always flips it, so switch the page right away on those; drags
+  // can end either way, so they wait for the switch's own daylight:change.
+  const hit = root.querySelector('.hit');
+  let downX = 0;
+  hit.addEventListener('pointerdown', (e) => { downX = e.clientX; });
+  hit.addEventListener('click', (e) => {
+    // same rule as the switch: moved more than 3px is a drag, not a tap.
+    // A tap flips the switch's target, which the page already shows.
+    const tap = e.detail === 0 || Math.abs(e.clientX - downX) <= 3;
+    if (tap) setTheme(!document.body.classList.contains('light-theme'));
+  });
+  root.addEventListener('daylight:change', (e) => setTheme(!e.detail.night));
+
+  mount(root);
+}
+</script>
+<!-- Nav hover: the label scrambles through glyphs and resolves left to right -->
+<script>
+(() => {
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const GLYPHS = '#%&*+=<>/\\?!~^_';
+  const DUR = 380;
+  document.querySelectorAll('.nav-bar .nav-item').forEach((link) => {
+    const text = link.textContent.trim();
+    link.setAttribute('aria-label', text);   // screen readers keep the real word
+    let raf = 0;
+    let safety = 0;
+    const settle = () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(safety);
+      link.textContent = text;
+      link.style.width = '';
+      link.style.boxSizing = '';
+    };
+    link.addEventListener('pointerenter', () => {
+      cancelAnimationFrame(raf);
+      link.style.boxSizing = 'border-box';                        // no jitter while scrambling
+      link.style.width = `${link.getBoundingClientRect().width}px`;
+      const start = performance.now();
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / DUR);
+        const done = Math.floor(p * text.length);
+        link.textContent = [...text].map((ch, i) =>
+          i < done || ch === '-' ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0]).join('');
+        if (p < 1) raf = requestAnimationFrame(tick); else settle();
+      };
+      raf = requestAnimationFrame(tick);
+      safety = setTimeout(settle, DUR + 80);   // always land on the real word
+    });
+    link.addEventListener('pointerleave', settle);
+  });
+})();
+</script>
+<!-- Instagram latest post + GitHub contributions -->
+<script>
+(() => {
+  // Instagram: fill the card with the latest post when /api/instagram has a token
+  const ig = document.querySelector('[data-ig-card]');
+  if (ig) {
+    const ago = (iso) => {
+      const s = (Date.now() - new Date(iso)) / 1000;
+      const units = [[31536000, 'year'], [2592000, 'month'], [604800, 'week'], [86400, 'day'], [3600, 'hour'], [60, 'minute']];
+      for (const [sec, name] of units) {
+        const n = Math.floor(s / sec);
+        if (n >= 1) return `${n} ${name}${n > 1 ? 's' : ''} ago`;
+      }
+      return 'just now';
+    };
+    fetch('/api/instagram')
+      .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then(post => {
+        if (!post || !post.image) return;
+        ig.querySelector('.ig-card__img').src = post.image;
+        ig.querySelector('a.ig-card__media').href = post.permalink;
+        ig.querySelector('.ig-card__media').setAttribute('aria-label', 'Open the latest post on Instagram');
+        ig.querySelector('[data-ig-meta]').textContent = `Latest post · ${ago(post.timestamp)}`;
+        const caption = post.caption.replace(/\s+/g, ' ').trim();
+        if (caption) ig.querySelector('[data-ig-caption]').textContent = caption;
+        const likes = ig.querySelector('[data-ig-likes]');
+        if (post.likes != null) { likes.textContent = `${post.likes.toLocaleString('en-US')} likes`; likes.hidden = false; }
+      })
+      .catch(() => { /* no token yet: keep the follow card */ });
+  }
+
+  // Follow toggle: first click opens the profile and shows "Following"
+  // (remembered on this device); a click while following just switches back
+  document.querySelectorAll('[data-follow]').forEach(btn => {
+    const KEY = 'ig-following-roccogold_';
+    const set = (on) => {
+      btn.classList.toggle('is-following', on);
+      btn.setAttribute('aria-pressed', String(on));
+      btn.querySelector('.follow-btn__layer--follow').setAttribute('aria-hidden', String(on));
+      btn.querySelector('.follow-btn__layer--following').setAttribute('aria-hidden', String(!on));
+      try { on ? localStorage.setItem(KEY, '1') : localStorage.removeItem(KEY); } catch (e) {}
+    };
+    try { if (localStorage.getItem(KEY) === '1') set(true); } catch (e) {}
+    btn.addEventListener('click', (e) => {
+      if (btn.classList.contains('is-following')) { e.preventDefault(); set(false); }
+      else set(true);          // the link itself opens the profile in a new tab
+    });
+  });
+
+  // GitHub: contribution graph for the last year
+  const gh = document.querySelector('[data-gh-card]');
+  if (!gh) return;
+  const graph = gh.querySelector('[data-gh-graph]');
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const render = (data) => {
+    const days = data.days.slice(-371);
+    if (!days.length) return;
+    const first = new Date(days[0].date + 'T00:00:00');
+    const lead = first.getDay();               // Sunday-first rows, like GitHub
+    const frag = document.createDocumentFragment();
+    [['Mon', 2], ['Wed', 4], ['Fri', 6]].forEach(([label, row]) => {
+      const el = document.createElement('span');
+      el.className = 'gh-day';
+      el.style.gridRow = row + 1;
+      el.textContent = label;
+      frag.appendChild(el);
+    });
+    let lastMonth = -1;
+    days.forEach((d, i) => {
+      const idx = i + lead;
+      const col = Math.floor(idx / 7);
+      if (col > 52) return;
+      const row = idx % 7;
+      const date = new Date(d.date + 'T00:00:00');
+      if (row === 0 || i === 0) {
+        const m = date.getMonth();
+        if (m !== lastMonth && date.getDate() <= 7) {
+          const lab = document.createElement('span');
+          lab.className = 'gh-month';
+          lab.style.gridColumn = `${col + 2} / span 3`;
+          lab.textContent = MONTHS[m];
+          frag.appendChild(lab);
+          lastMonth = m;
+        }
+      }
+      const cell = document.createElement('span');
+      cell.className = `gh-cell gh-l${Math.max(0, Math.min(4, d.level))}`;
+      cell.style.gridColumn = col + 2;
+      cell.style.gridRow = row + 2;
+      const n = d.count;
+      cell.title = `${n == null ? 'Some' : n === 0 ? 'No' : n} contribution${n === 1 ? '' : 's'} on ${date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+      frag.appendChild(cell);
+    });
+    graph.replaceChildren(frag);
+    gh.querySelector('[data-gh-total]').textContent = data.total.toLocaleString('en-US');
+    const scroll = gh.querySelector('[data-gh-scroll]');
+    scroll.scrollLeft = scroll.scrollWidth;    // most recent weeks in view on small screens
+  };
+  fetch('/api/github-contributions')
+    .then(r => (r.ok ? r.json() : Promise.reject(r.status)))
+    .catch(() => fetch('/assets/github-contributions.json').then(r => r.json()))
+    .then(render)
+    .catch(() => { gh.hidden = true; });
+})();
+</script>
 </body>
 </html>
