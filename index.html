@@ -1366,9 +1366,9 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
 
 @media (max-width: 768px) {
   .menu-pill {
-    /* in the page like the row beside it, so the two scroll away together;
-       pinned (below) only while the menu is open */
-    position: absolute;
+    /* pinned with the phone top row; both hold for the first stretch of
+       scrolling, then fade away together (body.chrome-away) */
+    position: fixed;
     top: max(8px, env(safe-area-inset-top));
     right: 1rem; /* same 16px inset as the page gutter on the left */
     z-index: 1003;
@@ -1392,7 +1392,6 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     transition: transform 0.2s var(--ease-out-expo), background 0.3s, color 0.3s;
   }
   body.light-theme .menu-pill { background: var(--text-light); color: #fff; }
-  .menu-open .menu-pill { position: fixed; }
   .menu-pill:active { transform: scale(0.95); }
   /* invisible 40px tap area around the 28px button */
   .menu-pill::before {
@@ -1658,6 +1657,33 @@ html body .top-bar header h1.neon-title.heat-ready {
   html body .hero-chips .hero-mobile-toggles .eye-buddy { width: 28px; }
   html body .hero-chips .hero-mobile-toggles .eye-buddy svg { margin-inline: -1.5px; }
   html body .hero-chips { align-items: center; }
+  /* Pinned with the Menu pill, same top and 16px inset. Both hold while the
+     page starts to move, then fade away together, and come back near the top.
+     The hero keeps the row's old space (28px + its margin + the column gap). */
+  html body .hero-chips {
+    position: fixed;
+    top: max(8px, env(safe-area-inset-top));
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    margin: 0;
+    z-index: 1001;          /* under the Menu pill (1003) and its overlay (1002) */
+  }
+  html body .hero-left { padding-top: calc(28px + 0.4rem + 0.4rem); }
+  html body .hero-chips,
+  html body .menu-pill {
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s;
+  }
+  /* never over the photo lightbox */
+  html body:has(#lightbox.active) .hero-chips { visibility: hidden; opacity: 0; }
+  html body.chrome-away:not(.menu-open) .hero-chips,
+  html body.chrome-away:not(.menu-open) .menu-pill {
+    opacity: 0;
+    transform: translateY(-12px);
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.6s;
+  }
   html body .hero-chips > .hero-chip {
     flex: 1 1 auto;
     min-width: 0;
@@ -7473,7 +7499,7 @@ body.light-theme .scrolly-step-link:focus-visible {
   </div>
 
   <p class="photos-intro">
-    The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <b>sony a6000</b> [tt-artisan 35mm f0.95, sigma 18-50mm f2.8 & sony 55-210mm f4.5] and <b>olympus mju -1</b> [35mm].
+    The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <span class="hl">sony a6000</span> [tt-artisan 35mm f0.95, sigma 18-50mm f2.8 & sony 55-210mm f4.5] and <span class="hl">olympus mju -1</span> [35mm].
   </p>
 
   <div class="photo-filter-bar">
@@ -9397,8 +9423,36 @@ if (menuPill && menuOverlay) {
   });
   window.matchMedia('(min-width: 769px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 
-  // The pill scrolls away with the phone top row (it sits in the page, not
-  // pinned; see .menu-pill), and is pinned only while the menu is open
+  // Phone top row + pill: pinned, they hold for the first stretch of scrolling,
+  // then fade away together (body.chrome-away), and return near the top. Two
+  // thresholds so they don't flicker at the boundary.
+  // The row lives at page level on phones, beside the pill: inside the hero
+  // column its z-index only counted within the column, so later sections could
+  // paint over it. A comment marks its desktop spot for when the window widens.
+  const heroRow = document.querySelector('.hero-chips');
+  if (heroRow) {
+    const home = document.createComment('hero-chips');
+    heroRow.before(home);
+    const phone = window.matchMedia('(max-width: 768px)');
+    const place = () => {
+      if (phone.matches) { if (heroRow.parentElement !== document.body) document.body.appendChild(heroRow); }
+      else if (heroRow.parentElement === document.body) home.after(heroRow);
+    };
+    place();
+    phone.addEventListener('change', place);
+  }
+  const AWAY_AT = 160, BACK_AT = 110;
+  let chromeTicking = false;
+  const syncChrome = () => {
+    chromeTicking = false;
+    const y = window.scrollY, away = document.body.classList.contains('chrome-away');
+    if (!away && y > AWAY_AT) document.body.classList.add('chrome-away');
+    else if (away && y < BACK_AT) document.body.classList.remove('chrome-away');
+  };
+  window.addEventListener('scroll', () => {
+    if (!chromeTicking) { chromeTicking = true; requestAnimationFrame(syncChrome); }
+  }, { passive: true });
+  syncChrome();
 }
 
 // NEW: Scroll indicator functionality
@@ -12428,18 +12482,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // A tap opens the front photo in the gallery's own lightbox, morphing out of
     // the card; swipes (above) and the timer move the stack
+    // The card under the finger when it lands is the one that opens, even if the
+    // timer would have moved the stack before the tap completes
+    let pressed = null;
+    stack.addEventListener('pointerdown', (e) => {
+      const card = e.target.closest('.swap-card');
+      if (card && card === order[0]) { pressed = card; stop(); }
+    }, true);
     const openFront = () => {
       const lb = window.photoLightbox;
-      const front = order[0];
+      const front = pressed && !pressed.classList.contains('is-dropping') && !pressed.classList.contains('is-flung') ? pressed : order[0];
+      pressed = null;
       const file = fileOf(front.querySelector('img').getAttribute('src'));
       const i = lb?.photos?.findIndex((p) => fileOf(p.src || '') === file) ?? -1;
       if (i < 0) { swap(); return; }
       stop();
-      lb.open(i, front);
+      const from = front.getBoundingClientRect();
+      const thumb = front.querySelector('img');
+      // no origin card: the browser's morph would grow it out of a slanted 3D card.
+      lb.open(i, null);
+      if (reduceMotion.matches) return;
+      // A ghost of the card's photo (already loaded) grows from the card to
+      // exactly where the lightbox shows the photo, uncropping from the card's
+      // square to the photo's own shape; then the real slide takes over.
+      const slide = lb.lightboxImg;
+      requestAnimationFrame(() => {
+        const box = slide.getBoundingClientRect();          // the slide's full-screen box
+        const nw = thumb.naturalWidth || 3, nh = thumb.naturalHeight || 2;
+        const k = Math.min(box.width / nw, box.height / nh); // object-fit: contain
+        const w = nw * k, h = nh * k;
+        const to = { left: box.left + (box.width - w) / 2, top: box.top + (box.height - h) / 2, width: w, height: h };
+        const ghost = document.createElement('img');
+        ghost.src = thumb.currentSrc || thumb.src;
+        ghost.alt = '';
+        ghost.setAttribute('aria-hidden', 'true');
+        Object.assign(ghost.style, {
+          position: 'fixed', zIndex: '100000', margin: '0', objectFit: 'cover',
+          pointerEvents: 'none', left: '0', top: '0',
+          width: `${to.width}px`, height: `${to.height}px`, borderRadius: '8px',
+        });
+        document.body.appendChild(ghost);
+        slide.style.opacity = '0';
+        // the ghost is laid out at its final size and moved with a transform from
+        // the card, while its crop (clip-path) opens from the card's square
+        const sx = from.width / to.width, sy = from.height / to.height;
+        const s0 = Math.max(sx, sy);                          // fill the card, like the card's cover crop
+        const cw = from.width / s0, ch = from.height / s0;    // the card's window, in final-size pixels
+        const insetX = (to.width - cw) / 2, insetY = (to.height - ch) / 2;
+        const anim = ghost.animate(
+          [
+            {
+              transform: `translate(${from.left + from.width / 2 - to.width / 2}px, ${from.top + from.height / 2 - to.height / 2}px) scale(${s0})`,
+              clipPath: `inset(${insetY}px ${insetX}px round ${14 / s0}px)`,
+            },
+            {
+              transform: `translate(${to.left}px, ${to.top}px) scale(1)`,
+              clipPath: 'inset(0px 0px round 8px)',
+            },
+          ],
+          { duration: 480, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: 'forwards' }
+        );
+        const done = () => { slide.style.opacity = ''; ghost.remove(); };
+        anim.finished.then(done, done);
+      });
     };
     stack.addEventListener('click', (e) => {
       if (!e.target.closest('.swap-card')) return;
-      if (swallowClick) { swallowClick = false; return; }
+      if (swallowClick) { swallowClick = false; pressed = null; return; }
       openFront();
     });
     stack.addEventListener('keydown', (e) => {
