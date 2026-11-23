@@ -24,7 +24,7 @@
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#f7f7f4">
+<meta name="theme-color" content="#d5e2ec">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="msapplication-navbutton-color" content="#111111">
@@ -246,7 +246,13 @@
 /* Scenic image background (experiment) */
 .scenic-background {
   position: fixed;
-  inset: 0;
+  /* reaches well past both screen edges, like .gradient-background: on iPhone
+     Safari's bars float over the page, and an exactly-sized layer leaves strips */
+  top: -15vh;
+  left: 0;
+  width: 100%;
+  height: 130vh;
+  height: calc(100lvh + 30vh);
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
@@ -1036,6 +1042,41 @@ html.theme-fading::view-transition-new(daylight-switch) {
 
 body.light-theme .sound-toggle { color: var(--accent-light); }
 
+/* Eye buddy (after bencho.dev's Eye tracker, Cube + Slant): a soft square whose
+   eyes follow the cursor, sat beside the speaker at the speaker's size */
+.eye-buddy {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.sound-toggle + .eye-buddy { margin-left: -0.6rem; }
+
+.eye-buddy svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+  overflow: visible;
+  transform: translateY(2px);
+}
+
+/* The cube wears the hero chips' colours, so it matches the location chip.
+   dark: the dark chip, white eyes */
+.eye-buddy__body {
+  fill: rgba(17, 17, 17, 0.55);
+  stroke: rgba(154, 119, 198, 0.28);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;   /* a 1px rim at any size, like the chip's border */
+}
+.eye-buddy__eyes rect { fill: #fff; }
+
+/* light: the white chip, dark eyes */
+body.light-theme .eye-buddy__body { fill: rgba(255, 255, 255, 0.78); stroke: rgba(107, 70, 193, 0.16); }
+body.light-theme .eye-buddy__eyes rect { fill: #1a1a1e; }
+
 /* Muted/on icon swap, driven by aria-pressed on either toggle */
 [data-sound-toggle] .sound-icon--on { display: none; }
 [data-sound-toggle][aria-pressed="true"] .sound-icon--on { display: block; }
@@ -1394,6 +1435,15 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     z-index: -1;
     pointer-events: none;
   }
+  /* the cloned meadow fills the backing layer instead of fixing itself to the screen */
+  .menu-overlay__bg .scenic-background {
+    position: absolute;
+    inset: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
   .menu-open .menu-overlay {
     /* just large enough to cover the screen plus the overshooting backing layer */
     clip-path: circle(170vmax at calc(100% - 30px) calc(20vh + 22px));
@@ -1557,6 +1607,39 @@ body.light-theme .top-bar header h1.neon-title {
 html body .top-bar header h1.neon-title.heat-ready {
   color: transparent !important;
 }
+
+/* Tilt (after bencho.dev's Tilt): content boxes give under the pointer, the point
+   you're over sinking away. The transform is written per frame from the script;
+   while it runs, the boxes' own transform transition and hover lift step aside. */
+.tilt-live {
+  transition: background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal) !important;
+}
+/* No more left-to-right shine sweep on hover: the tilt is the hover now */
+.app-card::after,
+.thesis-card::after,
+.minimal-card::before,
+.discovery-card::after,
+.minimal-tag::after,
+.interest-tag::before {
+  display: none !important;
+}
+
+.tilt-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* The closing title gets the same heat word; its letters' scroll colours are
+   repainted on the canvas, so the spans themselves go transparent */
+.closing-section-title { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+html body .closing-section-title.heat-ready span.char,
+html body .closing-section-title.heat-ready span.char.active {
+  color: transparent !important;
+  transition: none !important;
+}
       
 .hero-greeting-row {
   display: flex;
@@ -1617,7 +1700,7 @@ body.light-theme .neon-greeting {
   opacity: 1;
   font-family: var(--main-font);
   color: var(--accent-dark);
-  font-weight: 500;
+  font-weight: 700;
   text-shadow: none;
   min-height: 1.5em; /* Prevent layout shift */
   white-space: nowrap;
@@ -3041,6 +3124,22 @@ body.light-theme .photo-filter-bar {
   }
 }
 
+/* On the meadow the outline-only pills got lost: the idle ones wear the hero
+   chips' frosted fill. Active/draining pills stay clear so the purple ink that
+   pours in behind them still shows. */
+.photo-filter-btn:not(.active):not(.pf-draining):not(.photo-filter-btn--count)::before {
+  background: rgba(17, 17, 17, 0.55);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+body.light-theme .photo-filter-btn:not(.active):not(.pf-draining):not(.photo-filter-btn--count)::before {
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 10px 32px rgba(107, 70, 193, 0.1);
+}
+.photo-filter-btn:not(.active):not(.pf-draining) { color: rgba(255, 255, 255, 0.92); }
+body.light-theme .photo-filter-btn:not(.active):not(.pf-draining) { color: #2b2540; }
+
 /* Liquid ink: one layer behind all pills; the script draws a blob per filled
    pill and the goo filter melts nearby blobs into one body (pour, neck, snap) */
 .pf-ink-layer {
@@ -3314,7 +3413,9 @@ body.light-theme .footer-links a:hover { color: var(--accent-light); }
 .footer-meta {
   font-family: var(--main-font);
   font-size: var(--font-xs);
-  opacity: 0.2;
+  /* readable on the meadow: the page's text colour, a step quieter than the links */
+  color: var(--text-dark);
+  opacity: 0.75;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3328,6 +3429,7 @@ body.light-theme .footer-links a:hover { color: var(--accent-light); }
 }
 
 .footer-meta a:hover { opacity: 0.6; }
+body.light-theme .footer-meta { color: var(--text-light); }
 
 /* Mobile */
 @media (max-width: 480px) {
@@ -3747,10 +3849,37 @@ body.light-theme .hero-chip {
   }
 
   .hero-mobile-toggles .theme-toggle,
-  .hero-mobile-toggles .sound-toggle {
+  .hero-mobile-toggles .sound-toggle,
+  .hero-mobile-toggles .eye-buddy {
     width: 28px;
     height: 28px;
     margin-left: 0;
+  }
+  /* Phone row: every item is 28px tall like the daylight pill, the chip and Menu —
+     the speaker sits in a round chip like the location chip, the face fills 28px */
+  .hero-mobile-toggles { gap: 0.4rem; }
+  .hero-mobile-toggles .sound-toggle {
+    border-radius: 50%;
+    background: rgba(17, 17, 17, 0.55);
+    border: 1px solid rgba(154, 119, 198, 0.28);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+  }
+  body.light-theme .hero-mobile-toggles .sound-toggle {
+    background: rgba(255, 255, 255, 0.78);
+    border-color: rgba(107, 70, 193, 0.16);
+    box-shadow: 0 10px 32px rgba(107, 70, 193, 0.1);
+  }
+  .hero-mobile-toggles .sound-toggle .sound-icon { width: 15px; height: 15px; }
+  .hero-mobile-toggles .sound-toggle__icon,
+  .hero-mobile-toggles .sound-toggle:hover .sound-toggle__icon,
+  .hero-mobile-toggles .sound-toggle:focus-visible .sound-toggle__icon { transform: none !important; }
+  .hero-mobile-toggles .eye-buddy svg {
+    width: 31px;      /* the cube's path spans 88 of 100 units, so it draws 28px */
+    height: 31px;
+    transform: none;
   }
 
   /* Plain icons on touch: no spin (hover sticks after a tap) */
@@ -4035,6 +4164,25 @@ body.light-theme .swap-card {
     opacity var(--speed) ease-in;
 }
 
+/* Swipe: the front card under a finger, then flung off the side it was thrown to */
+.card-swap { touch-action: pan-y; }
+
+.card-swap .swap-card.is-dragging {
+  transform: translate3d(var(--drag-x, 0), var(--drag-y, 0), 0) rotate(var(--drag-r, 0deg)) skewY(5deg) !important;
+  transition: none !important;
+  cursor: grabbing;
+}
+
+.swap-card.is-flung {
+  transform: translate3d(calc(var(--fling) * 140%), -6%, 40px) rotate(calc(var(--fling) * 16deg)) skewY(5deg);
+  opacity: 0;
+  transition:
+    transform var(--speed) cubic-bezier(0.3, 0.6, 0.5, 1),
+    opacity var(--speed) ease-in;
+}
+
+.swap-card img { -webkit-user-drag: none; user-select: none; }
+
 .swap-card.no-anim {
   transition: none !important;
 }
@@ -4232,7 +4380,7 @@ body.light-theme .hero-creds__logo--light { display: block; }
   /* Hero tagline — mono only (never the pixel title font) */
   .top-bar header p.neon-subtitle {
     font-family: var(--main-font) !important;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     font-size: clamp(0.58rem, calc((100cqi - 1.25rem) / 42), 0.72rem) !important;
     letter-spacing: 0.02em;
     line-height: 1.45;
@@ -4249,7 +4397,7 @@ body.light-theme .hero-creds__logo--light { display: block; }
   .top-bar header p.neon-subtitle b,
   .top-bar header p.neon-subtitle .typewriter {
     font-family: inherit !important;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     color: inherit !important;
     text-shadow: none !important;
     white-space: nowrap;
@@ -6739,6 +6887,7 @@ body.light-theme .scrolly-step-link:focus-visible {
       <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
         <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
       </button>
+      <span class="eye-buddy" aria-hidden="true"><svg viewBox="0 0 100 100"><path class="eye-buddy__body" d="M30 6 H70 A24 24 0 0 1 94 30 V70 A24 24 0 0 1 70 94 H30 A24 24 0 0 1 6 70 V30 A24 24 0 0 1 30 6 Z"/><g class="eye-buddy__eyes"><g><rect/></g><g><rect/></g></g></svg></span>
     </div>
     <span class="nav-divider" aria-hidden="true"></span>
     <nav class="nav-bar" role="navigation" aria-label="Main navigation">
@@ -6823,6 +6972,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           <button class="sound-toggle" type="button" data-sound-toggle aria-pressed="false" aria-label="Enable sound">
             <span class="sound-toggle__icon"><svg class="sound-icon sound-icon--muted" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z"/><path d="m16.5 14.5 5-5"/><path d="m16.5 9.5 5 5"/></svg><svg class="sound-icon sound-icon--on" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></span>
           </button>
+          <span class="eye-buddy" aria-hidden="true"><svg viewBox="0 0 100 100"><path class="eye-buddy__body" d="M30 6 H70 A24 24 0 0 1 94 30 V70 A24 24 0 0 1 70 94 H30 A24 24 0 0 1 6 70 V30 A24 24 0 0 1 30 6 Z"/><g class="eye-buddy__eyes"><g><rect/></g><g><rect/></g></g></svg></span>
         </span>
         <!-- Desktop: the daylight switch sits in the chip row; the script moves it next to the sound toggle on mobile -->
         <span class="daylight-slot daylight-slot--hero" data-daylight-slot="hero">
@@ -9088,7 +9238,8 @@ window.addEventListener('scroll', () => {
 const menuPill = document.querySelector('.menu-pill');
 const menuOverlay = document.querySelector('.menu-overlay');
 if (menuPill && menuOverlay) {
-  const pageBg = document.querySelector('.gradient-background .arc-bands');
+  // The meadow (with its wash and grain) when it's on, else the Ink background
+  const pageBg = document.querySelector('.scenic-background') || document.querySelector('.gradient-background .arc-bands');
   if (pageBg) {
     const bg = document.createElement('div');
     bg.className = 'menu-overlay__bg';
@@ -9331,6 +9482,40 @@ if (scrollIndicator) {
     osc.stop(t0 + 0.055);
   }
 
+  // Nav links, dock-style (after bencho.dev's Dock): crossing onto a link plays a
+  // quiet pluck pitched by its position, so running along the nav is a scale.
+  // Floored, so a fast sweep doesn't stack notes.
+  const DOCK_SCALE = [523.25, 587.33, 659.25, 783.99, 880.0, 1046.5, 1174.66]; // C major pentatonic
+  let _dockLast = 0;
+  function _dockNote(i) {
+    const ctx = _getCtx();
+    if (ctx.state !== 'running') return;
+    const t0 = ctx.currentTime;
+    if (t0 - _dockLast < 0.035) return;
+    _dockLast = t0;
+    const f = DOCK_SCALE[Math.max(0, Math.min(DOCK_SCALE.length - 1, i))];
+    const out = ctx.createGain();
+    const lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.value = 2600;
+    out.gain.setValueAtTime(0, t0);
+    out.gain.linearRampToValueAtTime(0.07, t0 + 0.004);
+    out.gain.exponentialRampToValueAtTime(0.0008, t0 + 0.16);
+    const body = ctx.createOscillator();      // the note
+    body.type = 'sine';
+    body.frequency.setValueAtTime(f, t0);
+    const shine = ctx.createOscillator();     // a faint octave for a glassy edge
+    const shineGain = ctx.createGain();
+    shine.type = 'triangle';
+    shine.frequency.setValueAtTime(f * 2, t0);
+    shineGain.gain.value = 0.18;
+    body.connect(lp);
+    shine.connect(shineGain).connect(lp);
+    lp.connect(out).connect(ctx.destination);
+    body.start(t0); shine.start(t0);
+    body.stop(t0 + 0.18); shine.stop(t0 + 0.18);
+  }
+
   const CUES = {
     click:         () => variation('tap'),
     type:          () => variation('type'),
@@ -9357,7 +9542,13 @@ if (scrollIndicator) {
     const el = e.target.closest(INTERACTIVE);
     if (el === _hoverEl) return;
     _hoverEl = el;
-    if (el) playCue('hover');
+    if (!el) return;
+    if (el.matches('.nav-item')) {
+      const items = [...el.parentElement.querySelectorAll('.nav-item')];
+      try { if (_soundOn) _dockNote(items.indexOf(el)); } catch (_) {}
+      return;
+    }
+    playCue('hover');
   }, { passive: true });
 
   document.addEventListener('daylight:change', (e) => {
@@ -10084,7 +10275,7 @@ class EnhancedWebsite {
     // Update theme color meta tag immediately
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
-      themeColor.content = isLight ? '#f7f7f4' : '#0b0b0b';
+      themeColor.content = isLight ? '#d5e2ec' : '#1c232b';
     }
 
     // Re-enable transitions after a short delay
@@ -11452,12 +11643,13 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-  // ROCCO heat word (after bencho.dev's Heat word, Pop palette): the title is drawn
-  // once, blurred, into a brightness field; the cursor cools a soft disc of it and
-  // every pixel there is looked up in a heat-map palette. Elsewhere it stays flat purple.
+  // Heat word (after bencho.dev's Heat word, Pop palette), on ROCCO and the closing
+  // title. Each letter is drawn once, blurred, into a brightness field; the cursor
+  // cools a soft disc of it and every pixel there is looked up in a heat-map palette.
+  // Outside the disc the canvas shows a crisp copy of the text in each letter's own
+  // colour, so the closing title's scroll reveal looks exactly as before.
   (() => {
-    const title = document.querySelector('.top-bar header h1.neon-title');
-    if (!title || !document.createElement('canvas').getContext) return;
+    if (!document.createElement('canvas').getContext) return;
 
     const HEAT = 60, SOFT = 40, AREA = 50;            // the knobs, 0..100
     const spread = 0.5 + AREA / 100;
@@ -11472,7 +11664,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     const FLOOR = 34;
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-
     const LUT = new Uint8ClampedArray(256 * 4);
     for (let i = FLOOR; i < 256; i++) {
       const u = (i - FLOOR) / (255 - FLOOR);
@@ -11484,92 +11675,180 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let c = 0; c < 3; c++) LUT[i * 4 + c] = c0[c] + (c1[c] - c0[c]) * f;
       LUT[i * 4 + 3] = 255 * clamp((i - FLOOR) / 26, 0, 1);   // the rim is a glow, not a line
     }
-    const REST_A = new Uint8ClampedArray(256);                  // the resting word's alpha per brightness
-    for (let i = 0; i < 256; i++) REST_A[i] = 255 * clamp((i - 70) / 45, 0, 1);
 
-    const shown = document.createElement('canvas');
-    shown.className = 'heat-canvas';
-    shown.setAttribute('aria-hidden', 'true');
-    title.appendChild(shown);
-    const base = document.createElement('canvas');
-    const work = document.createElement('canvas');
+    const light = () => document.body.classList.contains('light-theme');
+    const themeVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
-    const s = { px: 0.5, py: 0.5, tx: 0.5, ty: 0.5, power: 0, want: 0, raf: 0, ratio: 1, em: 60, pad: 0, rest: [124, 58, 237] };
+    function heatWord(el, colorFor) {
+      const shown = document.createElement('canvas');
+      shown.className = 'heat-canvas';
+      shown.setAttribute('aria-hidden', 'true');
+      el.appendChild(shown);
+      const field = document.createElement('canvas');   // the blurred letters, white on black
+      const rest = document.createElement('canvas');    // the letters as they look at rest
+      const work = document.createElement('canvas');    // field, cooled under the cursor
+      const s = { px: 0, py: 0, tx: 0, ty: 0, power: 0, want: 0, raf: 0, ratio: 1, em: 40, ready: false, box: null };
 
-    // The title's own colour, read from the theme variable (the h1 itself goes transparent)
-    const readRest = () => {
-      const light = document.body.classList.contains('light-theme');
-      const v = getComputedStyle(document.documentElement).getPropertyValue(light ? '--neon-light' : '--neon-dark').trim();
-      const g = work.getContext('2d');
-      g.fillStyle = '#7c3aed';
-      g.fillStyle = v || '#7c3aed';
-      const hex = g.fillStyle;
-      if (hex[0] === '#') s.rest = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-      else {
-        const m = hex.match(/[\d.]+/g);
-        if (m) s.rest = m.slice(0, 3).map(Number);
-      }
-    };
+      // Every character of the element, with where it sits and how it is coloured
+      const glyphs = () => {
+        const out = [];
+        const base = el.getBoundingClientRect();
+        const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        const range = document.createRange();
+        for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+          if (shown.contains(n)) continue;
+          const host = n.parentElement;
+          for (let i = 0; i < n.length; i++) {
+            const ch = n.data[i];
+            if (!ch.trim()) continue;
+            range.setStart(n, i); range.setEnd(n, i + 1);
+            const r = range.getBoundingClientRect();
+            if (!r.width) continue;
+            out.push({ ch, host, x: r.left - base.left, y: r.top - base.top, h: r.height });
+          }
+        }
+        return out;
+      };
 
-    const build = () => {
-      const cs = getComputedStyle(title);
-      const em = parseFloat(cs.fontSize) || 60;
-      const r = Math.min(2, window.devicePixelRatio || 1);
-      const pad = Math.round(em * 0.5);
-      const bw = title.clientWidth, bh = title.clientHeight;
-      if (!bw || !bh) return false;
-      s.em = em; s.ratio = r; s.pad = pad;
-      const W = bw + pad * 2, H = bh + pad * 2;
-      const w = Math.round(W * r), h = Math.round(H * r);
-      for (const c of [base, work, shown]) { c.width = w; c.height = h; }
-      Object.assign(shown.style, { left: `${-pad}px`, top: `${-pad}px`, width: `${W}px`, height: `${H}px` });
+      const sizeAll = () => {
+        const cs = getComputedStyle(el);
+        const em = parseFloat(cs.fontSize) || 40;
+        const r = Math.min(2, window.devicePixelRatio || 1);
+        const pad = Math.round(em * 0.5);
+        const bw = el.clientWidth, bh = el.clientHeight;
+        if (!bw || !bh) return null;
+        s.em = em; s.ratio = r; s.pad = pad;
+        const W = bw + pad * 2, H = bh + pad * 2;
+        const w = Math.round(W * r), h = Math.round(H * r);
+        for (const c of [field, rest, work, shown]) { c.width = w; c.height = h; }
+        Object.assign(shown.style, { left: `${-pad}px`, top: `${-pad}px`, width: `${W}px`, height: `${H}px` });
+        return cs;
+      };
 
-      // The field: the word, blurred, white on black. Drawn far off the canvas with
-      // its shadow thrown back on, so only the blurred shadow lands (Safari-safe).
-      const g = base.getContext('2d');
-      g.setTransform(1, 0, 0, 1, 0, 0);
-      g.shadowColor = 'transparent';
-      g.fillStyle = '#000';
-      g.fillRect(0, 0, w, h);
-      const blur = (2 + (SOFT / 100) * 5) * (em / 100) * r;   // Bagel is very fat: less blur than the reference, or the counters close
-      const off = w * 3;
-      g.shadowColor = '#fff';
-      g.shadowBlur = blur;
-      g.shadowOffsetX = off;
-      g.fillStyle = '#fff';
-      g.font = `${cs.fontWeight} ${em * r}px ${cs.fontFamily}`;
-      g.textBaseline = 'alphabetic';
-      if ('letterSpacing' in g) g.letterSpacing = `${(parseFloat(cs.letterSpacing) || 0) * r}px`;
-      const text = (title.firstChild && title.firstChild.nodeType === 3 ? title.firstChild.nodeValue : title.textContent).trim().toUpperCase();
-      const m = g.measureText(text);
-      const asc = m.fontBoundingBoxAscent ?? m.actualBoundingBoxAscent;
-      const desc = m.fontBoundingBoxDescent ?? m.actualBoundingBoxDescent;
-      const contentH = bh - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
-      const y = (pad + parseFloat(cs.paddingTop)) * r + (contentH * r - (asc + desc)) / 2 + asc;
-      const innerW = (bw - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) * r;
-      let x = (pad + parseFloat(cs.paddingLeft)) * r;
-      if (cs.textAlign === 'center') x += (innerW - m.width) / 2;
-      else if (cs.textAlign === 'right' || cs.textAlign === 'end') x += innerW - m.width;
-      // twice over, so the thick of a stroke saturates
-      g.fillText(text, x - off, y);
-      g.fillText(text, x - off, y);
-      return true;
-    };
+      const fontOf = (cs, r) => `${cs.fontStyle} ${cs.fontWeight} ${parseFloat(cs.fontSize) * r}px ${cs.fontFamily}`;
+      const baseline = (g, cs, r, gl) => {
+        const m = g.measureText(gl.ch);
+        const asc = m.fontBoundingBoxAscent ?? m.actualBoundingBoxAscent;
+        const desc = m.fontBoundingBoxDescent ?? m.actualBoundingBoxDescent;
+        return (s.pad + gl.y) * r + (gl.h * r - (asc + desc)) / 2 + asc;
+      };
 
-    // One frame: the field, cooled under the cursor, through the palette
-    const paint = () => {
-      const w = shown.width, h = shown.height;
-      if (!w || !h) return;
-      const g = work.getContext('2d', { willReadFrequently: true });
-      g.globalCompositeOperation = 'source-over';
-      g.drawImage(base, 0, 0);
-      const unit = (s.em / 100) * s.ratio * spread;
-      const cx = s.px * w, cy = s.py * h;
-      if (s.power > 0.002) {
+      let list = [];
+      // the field: the letters blurred, drawn far off the canvas with their shadow
+      // thrown back on, so only the blurred shadow lands (Safari has no ctx.filter)
+      const buildField = (cs) => {
+        const r = s.ratio, w = field.width, h = field.height;
+        const g = field.getContext('2d');
+        g.setTransform(1, 0, 0, 1, 0, 0);
+        g.shadowColor = 'transparent';
+        g.fillStyle = '#000';
+        g.fillRect(0, 0, w, h);
+        const off = w * 3;
+        g.shadowColor = '#fff';
+        g.shadowBlur = (2 + (SOFT / 100) * 5) * (s.em / 100) * r;   // the display face is fat: less blur than the reference
+        g.shadowOffsetX = off;
+        g.fillStyle = '#fff';
+        g.font = fontOf(cs, r);
+        g.textBaseline = 'alphabetic';
+        for (const gl of list) {
+          const y = baseline(g, cs, r, gl);
+          g.fillText(gl.ch, (s.pad + gl.x) * r - off, y);
+          g.fillText(gl.ch, (s.pad + gl.x) * r - off, y);       // twice, so a stroke's thick saturates
+        }
+      };
+      // Each letter's colour, eased like the spans' own `transition: all 0.3s ease`,
+      // so a letter lit by the scroll fades up exactly as it used to
+      const FADE = 300;
+      const tints = new Map();   // host -> { from, to, now, t0 }
+      const probe = document.createElement('canvas').getContext('2d');
+      const rgba = (css) => {
+        probe.fillStyle = '#000';
+        probe.fillStyle = css;
+        const v = probe.fillStyle;
+        if (v[0] === '#') return [parseInt(v.slice(1, 3), 16), parseInt(v.slice(3, 5), 16), parseInt(v.slice(5, 7), 16), 1];
+        const m = v.match(/[\d.]+/g).map(Number);
+        return [m[0], m[1], m[2], m[3] ?? 1];
+      };
+      const ease = (t) => { // CSS `ease`, cubic-bezier(0.25, 0.1, 0.25, 1)
+        let a = t;
+        for (let i = 0; i < 6; i++) {
+          const x = 3 * 0.25 * a * (1 - a) ** 2 + 3 * 0.25 * a * a * (1 - a) + a ** 3 - t;
+          const dx = 3 * 0.25 * (1 - a) ** 2 + 6 * (0.25 - 0.25) * a * (1 - a) + 3 * (1 - 0.25) * a * a;
+          if (Math.abs(dx) < 1e-6) break;
+          a = clamp(a - x / dx, 0, 1);
+        }
+        return 3 * 0.1 * a * (1 - a) ** 2 + 3 * 1 * a * a * (1 - a) + a ** 3;
+      };
+      const retint = (instant) => {
+        const now = performance.now();
+        let moving = false;
+        for (const gl of list) {
+          if (tints.has(gl.host) && tints.get(gl.host).seen === now) continue;
+          const to = rgba(colorFor(gl.host));
+          let tt = tints.get(gl.host);
+          if (!tt || instant) tt = { from: to, to, now: to, t0: now };
+          else if (to.some((v, i) => v !== tt.to[i])) tt = { from: tt.now, to, now: tt.now, t0: now };
+          tt.seen = now;
+          tints.set(gl.host, tt);
+          if (tt.now.some((v, i) => v !== tt.to[i])) moving = true;
+        }
+        return moving;
+      };
+      const stepTints = (now) => {
+        let moving = false;
+        for (const tt of tints.values()) {
+          const k = clamp((now - tt.t0) / FADE, 0, 1);
+          const e = ease(k);
+          tt.now = tt.from.map((v, i) => v + (tt.to[i] - v) * e);
+          if (k < 1) moving = true;
+        }
+        return moving;
+      };
+      // the rest layer: the text, crisp, each letter in its colour of the moment
+      const buildRest = (cs) => {
+        const r = s.ratio;
+        const g = rest.getContext('2d');
+        g.setTransform(1, 0, 0, 1, 0, 0);
+        g.clearRect(0, 0, rest.width, rest.height);
+        g.font = fontOf(cs, r);
+        g.textBaseline = 'alphabetic';
+        for (const gl of list) {
+          const c = tints.get(gl.host)?.now || rgba(colorFor(gl.host));
+          g.fillStyle = `rgba(${c[0]}, ${c[1]}, ${c[2]}, ${c[3]})`;
+          g.fillText(gl.ch, (s.pad + gl.x) * r, baseline(g, cs, r, gl));
+        }
+      };
+
+      let lastBox = null;
+      const paint = () => {
+        const w = shown.width, h = shown.height;
+        if (!w || !h) return;
+        const out = shown.getContext('2d');
+        const unit = (s.em / 100) * s.ratio * spread;
+        const RR = (95 + (HEAT / 100) * 55) * unit;
+        const cx = s.px * w, cy = s.py * h;
+        // only the disc around the cursor (and where it just was) is worked per pixel
+        const box = s.power > 0.002
+          ? [Math.max(0, Math.floor(cx - RR)), Math.max(0, Math.floor(cy - RR)), Math.min(w, Math.ceil(cx + RR)), Math.min(h, Math.ceil(cy + RR))]
+          : null;
+        const dirty = [box, lastBox].filter(Boolean);
+        lastBox = box;
+        if (!dirty.length) { out.clearRect(0, 0, w, h); out.drawImage(rest, 0, 0); return; }
+        for (const [x0, y0, x1, y1] of dirty) {
+          out.clearRect(x0, y0, x1 - x0, y1 - y0);
+          out.drawImage(rest, x0, y0, x1 - x0, y1 - y0, x0, y0, x1 - x0, y1 - y0);
+        }
+        if (!box) return;
+        const [x0, y0, x1, y1] = box;
+        const bw = x1 - x0, bh = y1 - y0;
+        if (bw <= 0 || bh <= 0) return;
+        const g = work.getContext('2d', { willReadFrequently: true });
+        g.globalCompositeOperation = 'source-over';
+        g.drawImage(field, x0, y0, bw, bh, x0, y0, bw, bh);
+        // the cursor COOLS the field: the navy cores open into rings of violet and
+        // pink and the strokes thin there, the letters melting under the hand
         const rad = (60 + (HEAT / 100) * 50) * unit;
         const amt = s.power * (0.35 + (HEAT / 100) * 0.55);
-        // a multiply that dims the field toward the pointer, so the navy cores open
-        // into rings of violet and pink and the strokes thin: the letters melting
         g.globalCompositeOperation = 'multiply';
         const cool = g.createRadialGradient(cx, cy, 0, cx, cy, rad);
         const v = (k) => Math.round(255 * (1 - amt * k));
@@ -11577,85 +11856,312 @@ document.addEventListener('DOMContentLoaded', () => {
         cool.addColorStop(0.45, `rgb(${v(0.6)},${v(0.6)},${v(0.6)})`);
         cool.addColorStop(1, 'rgb(255,255,255)');
         g.fillStyle = cool;
-        g.fillRect(0, 0, w, h);
-      }
-      const src = g.getImageData(0, 0, w, h).data;
-      const sctx = shown.getContext('2d');
-      const out = sctx.createImageData(w, h);
-      const d = out.data;
-      const [R0, G0, B0] = s.rest;
-      const RR = (95 + (HEAT / 100) * 55) * unit;
-      const R2 = RR * RR;
-      const on = s.power;
-      for (let y = 0, i = 0; y < h; y++) {
-        const dy2 = (y - cy) * (y - cy);
-        for (let x = 0; x < w; x++, i += 4) {
-          const f = src[i];
-          let m = 0;
-          if (on > 0.002) {
-            const q = ((x - cx) * (x - cx) + dy2) / R2;
+        g.fillRect(x0, y0, bw, bh);
+        const src = g.getImageData(x0, y0, bw, bh).data;
+        const base = rest.getContext('2d', { willReadFrequently: true }).getImageData(x0, y0, bw, bh).data;
+        const img = out.createImageData(bw, bh);
+        const d = img.data;
+        const R2 = RR * RR, on = s.power;
+        for (let y = 0, i = 0; y < bh; y++) {
+          const dy2 = (y + y0 - cy) * (y + y0 - cy);
+          for (let x = 0; x < bw; x++, i += 4) {
+            const q = ((x + x0 - cx) * (x + x0 - cx) + dy2) / R2;
+            let m = 0;
             if (q < 1) { const t = 1 - q; m = on * t * t * (3 - 2 * t); }
+            const ra = base[i + 3];
+            if (m <= 0) { d[i] = base[i]; d[i + 1] = base[i + 1]; d[i + 2] = base[i + 2]; d[i + 3] = ra; continue; }
+            const li = src[i] * 4;
+            const la = LUT[li + 3];
+            const wr = ra * (1 - m), wl = la * m, a = wr + wl;
+            if (a <= 0) { d[i + 3] = 0; continue; }
+            d[i] = (base[i] * wr + LUT[li] * wl) / a;
+            d[i + 1] = (base[i + 1] * wr + LUT[li + 1] * wl) / a;
+            d[i + 2] = (base[i + 2] * wr + LUT[li + 2] * wl) / a;
+            d[i + 3] = a;
           }
-          const ga = REST_A[f];
-          if (m <= 0) {
-            if (ga) { d[i] = R0; d[i + 1] = G0; d[i + 2] = B0; d[i + 3] = ga; }
-            continue;
-          }
-          const k = 1 - m, v = f * 4;
-          d[i] = R0 * k + LUT[v] * m;
-          d[i + 1] = G0 * k + LUT[v + 1] * m;
-          d[i + 2] = B0 * k + LUT[v + 2] * m;
-          d[i + 3] = ga * k + LUT[v + 3] * m;
         }
-      }
-      sctx.putImageData(out, 0, 0);
-    };
-
-    // The loop runs only while something is moving
-    const run = () => {
-      if (s.raf) return;
-      let prev = performance.now();
-      const step = (t) => {
-        const dt = Math.min(0.05, (t - prev) / 1000);
-        prev = t;
-        const k = 1 - Math.pow(0.002, dt);
-        s.px += (s.tx - s.px) * k;
-        s.py += (s.ty - s.py) * k;
-        s.power += (s.want - s.power) * (1 - Math.pow(0.01, dt));
-        const still = Math.abs(s.want - s.power) < 0.004 && Math.abs(s.tx - s.px) < 0.001 && Math.abs(s.ty - s.py) < 0.001;
-        if (still && s.want === 0) s.power = 0;
-        paint();
-        s.raf = still ? 0 : requestAnimationFrame(step);
+        out.putImageData(img, x0, y0);
       };
-      s.raf = requestAnimationFrame(step);
+
+      // the loop runs only while something is moving
+      const run = () => {
+        if (s.raf || !s.ready) return;
+        let prev = performance.now();
+        const step = (t) => {
+          const dt = Math.min(0.05, (t - prev) / 1000);
+          prev = t;
+          const k = 1 - Math.pow(0.002, dt);
+          s.px += (s.tx - s.px) * k;
+          s.py += (s.ty - s.py) * k;
+          s.power += (s.want - s.power) * (1 - Math.pow(0.01, dt));
+          const still = Math.abs(s.want - s.power) < 0.004 && Math.abs(s.tx - s.px) < 0.001 && Math.abs(s.ty - s.py) < 0.001;
+          if (still && s.want === 0) s.power = 0;
+          paint();
+          s.raf = still ? 0 : requestAnimationFrame(step);
+        };
+        s.raf = requestAnimationFrame(step);
+      };
+
+      const aim = (e) => {
+        const r = shown.getBoundingClientRect();
+        s.tx = (e.clientX - r.left) / r.width;
+        s.ty = (e.clientY - r.top) / r.height;
+      };
+      el.addEventListener('pointerenter', (e) => { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); });
+      el.addEventListener('pointermove', (e) => { aim(e); s.want = 1; run(); });
+      el.addEventListener('pointerleave', () => { s.want = 0; run(); });
+      // touch: a tap or drag warms it, lifting the finger lets it cool
+      el.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); } });
+      el.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') setTimeout(() => { s.want = 0; run(); }, 600); });
+
+      const build = () => {
+        if (!el.contains(shown)) el.appendChild(shown);   // the letter splitter rewrites the title's HTML
+        const cs = sizeAll();
+        if (!cs) return;
+        list = glyphs();
+        tints.clear();
+        retint(true);
+        buildField(cs);
+        buildRest(cs);
+        lastBox = null;
+        s.ready = true;
+        paint();
+        el.classList.add('heat-ready');
+      };
+      // colours changed (theme, or a letter lit by the scroll): fade the rest layer
+      let fading = 0;
+      const recolor = () => {
+        if (!s.ready || !retint(false) || fading) return;
+        const cs = getComputedStyle(el);
+        const frame = (now) => {
+          const more = stepTints(now);
+          buildRest(cs);
+          lastBox = null;
+          paint();
+          fading = more ? requestAnimationFrame(frame) : 0;
+        };
+        fading = requestAnimationFrame(frame);
+      };
+
+      const face = getComputedStyle(el);
+      (document.fonts ? document.fonts.load(`${face.fontWeight} ${parseFloat(face.fontSize)}px ${face.fontFamily}`).catch(() => {}) : Promise.resolve())
+        .then(() => document.fonts?.ready)
+        .then(build);
+      let sized = 0;
+      new ResizeObserver(() => { if (sized++) build(); }).observe(el);
+      new MutationObserver(recolor).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      // the closing title is split into letters after load, and lights them on scroll
+      new MutationObserver((muts) => {
+        if (muts.some((m) => m.type === 'childList' && [...m.addedNodes].some((n) => n !== shown))) build();
+        else recolor();
+      }).observe(el, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+    }
+
+    // ROCCO: its theme colour (the h1's own colour goes transparent under the canvas)
+    const rocco = document.querySelector('.top-bar header h1.neon-title');
+    if (rocco) heatWord(rocco, () => themeVar(light() ? '--neon-light' : '--neon-dark') || '#7c3aed');
+
+    // let's build something amazing: lit letters full purple, the rest dim, as the scroll sets them
+    const closing = document.querySelector('.closing-section-title');
+    if (closing) heatWord(closing, (host) => {
+      const lit = !host.classList.contains('char') || host.classList.contains('active');
+      if (lit) return themeVar(light() ? '--neon-light' : '--neon-dark') || '#7c3aed';
+      return light() ? 'rgba(107, 70, 193, 0.3)' : 'rgba(154, 119, 198, 0.3)';
+    });
+  })();
+
+  // Tilt (after bencho.dev's Tilt, tilt 10 / shade 25): the box SINKS under the
+  // pointer rather than lifting to it, the dent darkening where you are and the rim
+  // opposite catching light. The pointer position is sprung (with a third spring for
+  // how much of it applies), measured against the box's resting rect, and the loop
+  // parks once settled, handing the box back to its own CSS.
+  (() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const BOXES = '.hero-now-card, .app-card, .gh-card, .thesis-card, .spotify-container, #contactForm';
+    const TILT = 10, SHADE = 25, SINK = 14, DEPTH = 800;
+    const K = 0.16, D = 0.72;                       // springOf(50): stiffness, decay per frame
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+    document.querySelectorAll(BOXES).forEach((box) => {
+      if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
+      const sheen = document.createElement('span');
+      sheen.className = 'tilt-sheen';
+      sheen.setAttribute('aria-hidden', 'true');
+      box.appendChild(sheen);
+
+      const s = { x: 0, y: 0, vx: 0, vy: 0, lit: 0, vl: 0, tx: 0, ty: 0, on: false, raf: 0, rect: null };
+      // a big box would swing too far at 10°, so the most it turns shrinks with its size
+      const maxTilt = () => {
+        const r = s.rect;
+        return r ? TILT * clamp(340 / Math.max(r.width, r.height), 0.25, 1) : TILT;
+      };
+
+      const tick = (now) => {
+        const dt = s.prev ? clamp((now - s.prev) / 16.67, 0, 2.5) : 1;
+        s.prev = now;
+        const tx = s.on ? s.tx : 0, ty = s.on ? s.ty : 0, tl = s.on ? 1 : 0;
+        s.vx = (s.vx + (tx - s.x) * K * dt) * Math.pow(D, dt); s.x += s.vx * dt;
+        s.vy = (s.vy + (ty - s.y) * K * dt) * Math.pow(D, dt); s.y += s.vy * dt;
+        s.vl = (s.vl + (tl - s.lit) * K * dt) * Math.pow(D, dt); s.lit += s.vl * dt;
+        const settled = !s.on && Math.abs(s.x) + Math.abs(s.y) + Math.abs(s.lit) < 0.002 &&
+          Math.abs(s.vx) + Math.abs(s.vy) + Math.abs(s.vl) < 0.002;
+        if (settled) {
+          box.style.transform = '';
+          sheen.style.backgroundImage = '';
+          box.classList.remove('tilt-live');
+          s.raf = 0; s.prev = 0; s.x = s.y = s.lit = s.vx = s.vy = s.vl = 0;
+          return;
+        }
+        const m = maxTilt();
+        const rx = -s.y * m;          // pointer at the top: the top goes back
+        const ry = s.x * m;           // pointer right: the right goes back
+        const lit = clamp(s.lit, 0, 1.2);
+        // translateZ first, so the retreat is in the room's axes, not the turned box's
+        box.style.transform = `perspective(${DEPTH}px) translateZ(${(-SINK * lit).toFixed(2)}px) rotateX(${rx.toFixed(3)}deg) rotateY(${ry.toFixed(3)}deg)`;
+        const px = ((s.x + 1) / 2) * 100, py = ((s.y + 1) / 2) * 100;
+        const dark = (SHADE / 100) * 0.55 * clamp(s.lit, 0, 1);
+        const rim = (SHADE / 100) * 0.34 * clamp(s.lit, 0, 1);
+        sheen.style.backgroundImage =
+          `radial-gradient(42% 34% at ${px.toFixed(1)}% ${py.toFixed(1)}%, rgba(9, 14, 28, ${dark.toFixed(3)}) 0%, rgba(9, 14, 28, 0) 100%),` +
+          `radial-gradient(52% 42% at ${(100 - px).toFixed(1)}% ${(100 - py).toFixed(1)}%, rgba(255, 255, 255, ${rim.toFixed(3)}) 0%, rgba(255, 255, 255, 0) 100%)`;
+        s.raf = requestAnimationFrame(tick);
+      };
+      const run = () => {
+        if (s.raf) return;
+        box.classList.add('tilt-live');
+        s.raf = requestAnimationFrame(tick);
+      };
+
+      const track = (e) => {
+        // typing in the contact form: the form holds still
+        if (box.matches(':focus-within') && box.matches('form')) { s.on = false; run(); return; }
+        // measured against where the box rests, never the turned box
+        if (!s.rect || !s.on) {
+          const saved = box.style.transform;
+          box.style.transform = '';
+          s.rect = box.getBoundingClientRect();
+          box.style.transform = saved;
+        }
+        const r = s.rect;
+        s.tx = clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1);
+        s.ty = clamp(((e.clientY - r.top) / r.height) * 2 - 1, -1, 1);
+        s.on = true;
+        run();
+      };
+      const off = () => { s.on = false; s.rect = null; run(); };
+      box.addEventListener('pointermove', track);
+      box.addEventListener('pointerout', (e) => { if (!e.relatedTarget || !box.contains(e.relatedTarget)) off(); });
+      box.addEventListener('pointercancel', off);   // a touch taken over by a scroll
+      box.addEventListener('focusin', () => { if (box.matches('form')) off(); });
+      window.addEventListener('scroll', () => { if (s.on) s.rect = null; }, { passive: true });
+    });
+  })();
+
+  // Eye buddy (after bencho.dev's Eye tracker): each eye is a point on a sphere,
+  // the pointer turns the sphere, so the eye heading for the rim narrows and moves
+  // less. One sprung turn per buddy; blinks now and then; parks when nothing moves.
+  (() => {
+    const buddies = [...document.querySelectorAll('.eye-buddy')].map((el, n) => {
+      const svg = el.querySelector('svg');
+      const ns = 'http://www.w3.org/2000/svg';
+      const clip = document.createElementNS(ns, 'clipPath');
+      clip.id = `eye-buddy-clip-${n}`;
+      const shape = el.querySelector('.eye-buddy__body').cloneNode();
+      shape.removeAttribute('class');
+      clip.appendChild(shape);
+      const defs = document.createElementNS(ns, 'defs');
+      defs.appendChild(clip);
+      svg.prepend(defs);
+      const eyes = el.querySelector('.eye-buddy__eyes');
+      eyes.setAttribute('clip-path', `url(#${clip.id})`);
+      return {
+        el,
+        eyes: [...eyes.children],
+        t: { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 },
+        blink: 0,
+        nextBlink: performance.now() + 1500 + Math.random() * 2500,
+      };
+    });
+    if (!buddies.length) return;
+
+    const FOLLOW = 60, BOUNCE = 30;
+    const EYE = { w: 9 * 1.5, h: 15 * 1.5, r: 4.5 * 1.5 };   // Slant, enlarged to read at icon size
+    const GAP = 0.19 * 1.2, TILT = 64, R = 50;
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const draw = (b, now) => {
+      let lid = 1;
+      if (now > b.nextBlink) { b.blink = now; b.nextBlink = now + 2600 + Math.random() * 3200; }
+      const since = now - b.blink;
+      if (since < 160) lid = 1 - 0.9 * Math.sin((since / 160) * Math.PI);
+      const as = (v) => Math.asin(clamp(v, -0.92, 0.92));
+      const yaw = as(b.t.x), pitch = -as(b.t.y);
+      const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+      const tilt = TILT * b.t.x * b.t.y;
+      [-GAP, GAP].forEach((x0, i) => {
+        const g = b.eyes[i];
+        const z0 = Math.sqrt(1 - x0 * x0);
+        const x1 = x0 * cy + z0 * sy;
+        const z1 = -x0 * sy + z0 * cy;
+        const y2 = -z1 * sp;
+        const z2 = z1 * cp;
+        const near = clamp(z2, 0, 1);
+        const k = 0.45 + 0.55 * near;
+        const w = EYE.w * k * (0.7 + 0.3 * near);
+        const h = Math.max(0.6, EYE.h * k * lid);
+        const rect = g.firstElementChild;
+        rect.setAttribute('x', (-w / 2).toFixed(2));
+        rect.setAttribute('y', (-h / 2).toFixed(2));
+        rect.setAttribute('width', w.toFixed(2));
+        rect.setAttribute('height', h.toFixed(2));
+        rect.setAttribute('rx', Math.min(EYE.r, w / 2, h / 2).toFixed(2));
+        g.setAttribute('transform', `translate(${(50 + x1 * R).toFixed(2)} ${(50 + y2 * R).toFixed(2)}) rotate(${tilt.toFixed(2)})`);
+        g.style.opacity = z2 < 0.05 ? '0' : '1';
+      });
     };
 
-    const aim = (e) => {
-      const r = shown.getBoundingClientRect();
-      s.tx = (e.clientX - r.left) / r.width;
-      s.ty = (e.clientY - r.top) / r.height;
+    let raf = 0, prev = 0;
+    const shown = () => buddies.filter((b) => b.el.offsetParent !== null);
+    const tick = (now) => {
+      if (document.hidden) { raf = 0; prev = 0; return; }
+      const dt = prev ? Math.min(2.5, (now - prev) / 16.67) : 1;
+      prev = now;
+      for (const b of shown()) {
+        const t = b.t;
+        if (still) { t.x = t.tx; t.y = t.ty; }
+        else {
+          const k = 0.06, d = 0.34 - (BOUNCE / 100) * 0.22;   // Bounce loosens the damping
+          t.vx += ((t.tx - t.x) * k - t.vx * d) * dt;
+          t.vy += ((t.ty - t.y) * k - t.vy * d) * dt;
+          t.x += t.vx * dt;
+          t.y += t.vy * dt;
+        }
+        draw(b, now);
+      }
+      raf = requestAnimationFrame(tick);   // keeps running for the blinks; stops in a hidden tab
     };
-    title.addEventListener('pointerenter', (e) => { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); });
-    title.addEventListener('pointermove', (e) => { aim(e); s.want = 1; run(); });
-    title.addEventListener('pointerleave', () => { s.want = 0; run(); });
-    // touch: a tap or drag warms it, lifting the finger lets it cool
-    title.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); } });
-    title.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') { setTimeout(() => { s.want = 0; run(); }, 600); } });
+    const resume = () => { if (!raf && !document.hidden) { prev = 0; raf = requestAnimationFrame(tick); } };
+    resume();
+    document.addEventListener('visibilitychange', resume);
 
-    const go = () => {
-      readRest();
-      if (!build()) return;
-      paint();
-      title.classList.add('heat-ready');
-    };
-    const face = getComputedStyle(title);
-    (document.fonts ? document.fonts.load(`${face.fontWeight} ${parseFloat(face.fontSize)}px ${face.fontFamily}`).catch(() => {}) : Promise.resolve())
-      .then(() => document.fonts?.ready)
-      .then(go);
-
-    let sized = 0;
-    new ResizeObserver(() => { if (sized++) go(); }).observe(title);
-    new MutationObserver(() => { readRest(); paint(); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    // They watch the pointer anywhere on the page, and face front when it leaves
+    window.addEventListener('pointermove', (e) => {
+      const reach = Math.max(60, Math.min(innerWidth, innerHeight) * 0.28);
+      for (const b of buddies) {
+        const r = b.el.getBoundingClientRect();
+        if (!r.width) continue;
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        const dd = Math.hypot(dx, dy) || 1;
+        const far = Math.min(0.85, Math.tanh(dd / reach) * (FOLLOW / 100) * 1.5);
+        b.t.tx = (dx / dd) * far;
+        b.t.ty = (dy / dd) * far;
+      }
+    }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', () => {
+      for (const b of buddies) { b.t.tx = 0; b.t.ty = 0; }
+    });
   })();
 
   // Hero card swap: cycles every gallery photo through a 3D stack, front card to the back
@@ -11723,22 +12229,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let order = cards.slice();  // order[0] is the front card
     let busy = false;
 
-    const swap = () => {
+    // dir: undefined drops the card down; -1 / 1 flings it off left / right (a swipe)
+    const swap = (dir) => {
       if (busy || order.length < 2) return;
       busy = true;
       const hadFocus = document.activeElement === order[0];
       const front = order.shift();
-      front.setAttribute('style', '--s:-1');   // out of the slot rules while it falls
+      // out of the slot rules while it leaves
+      front.setAttribute('style', dir ? `--s:-1; --fling:${dir}` : '--s:-1');
       front.setAttribute('aria-hidden', 'true');
       front.tabIndex = -1;
-      front.classList.add('is-dropping');
+      front.classList.remove('is-dragging');
+      front.classList.add(dir ? 'is-flung' : 'is-dropping');
       order.forEach((c, i) => setSlot(c, i));
       order.push(front);
       if (hadFocus) order[0].focus({ preventScroll: true });
 
       setTimeout(() => {
         front.classList.add('no-anim');
-        front.classList.remove('is-dropping');
+        front.classList.remove('is-dropping', 'is-flung');
         setSlot(front, order.length - 1);
         fill(front, pool[next++ % pool.length]);
         void front.offsetWidth;
@@ -11758,8 +12267,52 @@ document.addEventListener('DOMContentLoaded', () => {
       timer = setInterval(swap, EVERY);
     };
 
+    // Swipe: the front card follows a finger (or a mouse drag) sideways; flick it
+    // past a threshold and it flies off and goes to the back. Vertical moves are
+    // left to the page so the stack never traps a scroll.
+    let drag = null;
+    let swallowClick = false;
+    stack.addEventListener('pointerdown', (e) => {
+      const card = e.target.closest('.swap-card');
+      if (busy || !card || card !== order[0] || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      drag = { card, id: e.pointerId, x0: e.clientX, y0: e.clientY, t0: performance.now(), dx: 0, live: false };
+    });
+    stack.addEventListener('pointermove', (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x0, dy = e.clientY - drag.y0;
+      if (!drag.live) {
+        if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) { drag = null; return; }  // a scroll
+        if (Math.abs(dx) < 8) return;
+        drag.live = true;
+        drag.card.setPointerCapture?.(e.pointerId);
+        drag.card.classList.add('is-dragging');
+        stop();
+      }
+      drag.dx = dx;
+      drag.card.setAttribute('style', `--s:0; --drag-x:${dx}px; --drag-y:${dy * 0.15}px; --drag-r:${dx * 0.05}deg`);
+    });
+    const release = (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const { card, live, dx, t0 } = drag;
+      drag = null;
+      if (!live) return;
+      swallowClick = true;                         // the click after a drag is not a tap
+      setTimeout(() => (swallowClick = false), 0);
+      const v = Math.abs(dx) / Math.max(1, performance.now() - t0);   // px per ms
+      if (e.type !== 'pointercancel' && (Math.abs(dx) > 60 || v > 0.5)) {
+        swap(dx > 0 ? 1 : -1);
+      } else {
+        card.classList.remove('is-dragging');      // springs back to the front slot
+        setSlot(card, 0);
+      }
+      start();
+    };
+    stack.addEventListener('pointerup', release);
+    stack.addEventListener('pointercancel', release);
+
     stack.addEventListener('click', (e) => {
       if (!e.target.closest('.swap-card')) return;
+      if (swallowClick) { swallowClick = false; return; }
       swap();
       start();
     });
@@ -11821,7 +12374,7 @@ if (root) {
     document.body.classList.toggle('light-theme', isLight);
     document.documentElement.classList.toggle('light-theme', isLight);
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.content = isLight ? '#f7f7f4' : '#0b0b0b';
+    if (themeColor) themeColor.content = isLight ? '#d5e2ec' : '#1c232b';
   };
 
   // Cross-fade the whole page between themes, so every color eases at once
