@@ -1063,12 +1063,18 @@ body.light-theme .sound-toggle { color: var(--accent-light); }
   transform: translateY(2px);
 }
 
-/* dark: the dark cube, white eyes */
-.eye-buddy__body { fill: #2a2a2e; stroke: rgba(255, 255, 255, 0.16); stroke-width: 3; }
+/* The cube wears the hero chips' colours, so it matches the location chip.
+   dark: the dark chip, white eyes */
+.eye-buddy__body {
+  fill: rgba(17, 17, 17, 0.55);
+  stroke: rgba(154, 119, 198, 0.28);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;   /* a 1px rim at any size, like the chip's border */
+}
 .eye-buddy__eyes rect { fill: #fff; }
 
-/* light: the white cube, dark eyes */
-body.light-theme .eye-buddy__body { fill: #fff; stroke: rgba(107, 70, 193, 0.28); }
+/* light: the white chip, dark eyes */
+body.light-theme .eye-buddy__body { fill: rgba(255, 255, 255, 0.78); stroke: rgba(107, 70, 193, 0.16); }
 body.light-theme .eye-buddy__eyes rect { fill: #1a1a1e; }
 
 /* Muted/on icon swap, driven by aria-pressed on either toggle */
@@ -1428,6 +1434,15 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     height: calc(100lvh + 30vh);
     z-index: -1;
     pointer-events: none;
+  }
+  /* the cloned meadow fills the backing layer instead of fixing itself to the screen */
+  .menu-overlay__bg .scenic-background {
+    position: absolute;
+    inset: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
   }
   .menu-open .menu-overlay {
     /* just large enough to cover the screen plus the overshooting backing layer */
@@ -3788,7 +3803,32 @@ body.light-theme .hero-chip {
     height: 28px;
     margin-left: 0;
   }
-  .hero-mobile-toggles .eye-buddy svg { transform: translateY(-1px); }
+  /* Phone row: every item is 28px tall like the daylight pill, the chip and Menu —
+     the speaker sits in a round chip like the location chip, the face fills 28px */
+  .hero-mobile-toggles { gap: 0.4rem; }
+  .hero-mobile-toggles .sound-toggle {
+    border-radius: 50%;
+    background: rgba(17, 17, 17, 0.55);
+    border: 1px solid rgba(154, 119, 198, 0.28);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+  }
+  body.light-theme .hero-mobile-toggles .sound-toggle {
+    background: rgba(255, 255, 255, 0.78);
+    border-color: rgba(107, 70, 193, 0.16);
+    box-shadow: 0 10px 32px rgba(107, 70, 193, 0.1);
+  }
+  .hero-mobile-toggles .sound-toggle .sound-icon { width: 15px; height: 15px; }
+  .hero-mobile-toggles .sound-toggle__icon,
+  .hero-mobile-toggles .sound-toggle:hover .sound-toggle__icon,
+  .hero-mobile-toggles .sound-toggle:focus-visible .sound-toggle__icon { transform: none !important; }
+  .hero-mobile-toggles .eye-buddy svg {
+    width: 31px;      /* the cube's path spans 88 of 100 units, so it draws 28px */
+    height: 31px;
+    transform: none;
+  }
 
   /* Plain icons on touch: no spin (hover sticks after a tap) */
   .hero-mobile-toggles .theme-toggle__icon,
@@ -9146,7 +9186,8 @@ window.addEventListener('scroll', () => {
 const menuPill = document.querySelector('.menu-pill');
 const menuOverlay = document.querySelector('.menu-overlay');
 if (menuPill && menuOverlay) {
-  const pageBg = document.querySelector('.gradient-background .arc-bands');
+  // The meadow (with its wash and grain) when it's on, else the Ink background
+  const pageBg = document.querySelector('.scenic-background') || document.querySelector('.gradient-background .arc-bands');
   if (pageBg) {
     const bg = document.createElement('div');
     bg.className = 'menu-overlay__bg';
