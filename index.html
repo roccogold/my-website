@@ -24,7 +24,7 @@
 
 <!-- PWA Manifest -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#d5e2ec">
+<meta name="theme-color" content="#bed6e1">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="msapplication-navbutton-color" content="#111111">
@@ -256,6 +256,34 @@
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
+  /* never seen (the photo covers it), but Safari 26 tints its bars from the
+     background-color of fixed layers at the screen edges, never from images */
+  background-color: #37403b;
+}
+body.light-theme .scenic-background { background-color: #d0ddd0; }
+
+/* Safari 26 on iPhone: thin fixed strips tucked under the status bar and the
+   floating toolbar, so the top bar takes the washed sky and the bottom the
+   washed grass (jahir.dev/blog/safari-toolbar). Off everywhere else. */
+.safari-tint { display: none; }
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 767px) {
+    .safari-tint {
+      display: block;
+      position: fixed;
+      left: 0;
+      width: 100%;
+      min-height: 12px;
+      margin: 0;
+      padding: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .safari-tint--top { top: -8px; background-color: #2c3b45; }
+    .safari-tint--bottom { bottom: -8px; background-color: #3c4231; }
+    body.light-theme .safari-tint--top { background-color: #bed6e1; }
+    body.light-theme .safari-tint--bottom { background-color: #d8e1c1; }
+  }
 }
 
 .scenic-background::before {
@@ -743,11 +771,11 @@ body::after {
    fixed background doesn't cover (behind Safari's bars) blends in */
 html,
 html body {
-  background-color: #050505 !important;
+  background-color: #37403b !important; /* the meadow's average under the dark wash */
 }
 html.light-theme,
 html body.light-theme {
-  background-color: #f5f5f2 !important;
+  background-color: #d0ddd0 !important; /* the meadow's average under the light wash */
 }
 
 /* Force immediate solid background on HTML element */
@@ -1344,6 +1372,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
 
 @media (max-width: 768px) {
   .menu-pill {
+    /* pinned, with the phone top row beside it (both stay while scrolling) */
     position: fixed;
     top: max(8px, env(safe-area-inset-top));
     right: 1rem; /* same 16px inset as the page gutter on the left */
@@ -1410,7 +1439,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     justify-content: center;
     gap: 0.2rem;
     padding: calc(20vh + 5.5rem) 1.5rem calc(20vh + 2rem + env(safe-area-inset-bottom));
-    background: #050505; /* fallback under the cloned Ink background */
+    background: #37403b; /* under the cloned meadow; also the colour Safari 26 tints its bars from */
     isolation: isolate;
     clip-path: circle(0px at calc(100% - 30px) calc(20vh + 22px));
     opacity: 0;
@@ -1421,7 +1450,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     /* Close: a quick fade, then the circle resets out of sight for the next open */
     transition: opacity 0.16s ease-out, visibility 0s linear 0.16s, clip-path 0s linear 0.16s;
   }
-  body.light-theme .menu-overlay { background: #f5f5f2; }
+  body.light-theme .menu-overlay { background: #d0ddd0; }
   /* The page's own Ink background, cloned in by the menu script and placed
      exactly where .gradient-background sits (15vh above the screen), so the
      menu shows the same wash and dots; the film grain (body::after) stays on top */
@@ -1479,7 +1508,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
      finished, hide everything else: the strip under the bar then shows the
      page background, which is the same colour as the menu in both themes.
      Closing removes the class, so the page reappears instantly. */
-  body.menu-open > *:not(.menu-overlay):not(.menu-pill):not(script):not(style):not(link) {
+  body.menu-open > *:not(.menu-overlay):not(.menu-pill):not(.safari-tint):not(script):not(style):not(link) {
     visibility: hidden;
     transition: visibility 0s linear 0.42s;
   }
@@ -1614,6 +1643,75 @@ html body .top-bar header h1.neon-title.heat-ready {
 .tilt-live {
   transition: background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal) !important;
 }
+/* Phone top row, one rhythm: daylight · speaker · face · location chip · Menu,
+   8px apart. The toggles join the chips row as its own items, the daylight
+   canvas and the face's svg lose their invisible padding, and the location chip
+   stretches into whatever is left, so its gap to the fixed Menu pill is 8px too. */
+@media (max-width: 768px) {
+  html body .hero-chips {
+    --row-gap: 8px;
+    gap: var(--row-gap);
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding-right: calc(28px + var(--row-gap));   /* the Menu pill, plus one gap */
+  }
+  html body .hero-chips > .hero-mobile-toggles { display: contents; }
+  html body .hero-chips > .hero-mobile-toggles > * { order: -1; margin: 0; }
+  html body .hero-chips .daylight-slot--mobile { margin: -5.5px -4.5px; }  /* 64x39 canvas around a 55x28 pill */
+  html body .hero-chips .hero-mobile-toggles .eye-buddy { width: 28px; }
+  html body .hero-chips .hero-mobile-toggles .eye-buddy svg { margin-inline: -1.5px; }
+  html body .hero-chips { align-items: center; }
+  /* Pinned with the Menu pill: same top (clear of the status bar), same 16px
+     inset, so the whole row stays together while the page scrolls. The hero
+     keeps the row's old space (28px + its margin + the column gap). */
+  html body .hero-chips {
+    position: fixed;
+    top: max(8px, env(safe-area-inset-top));
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    margin: 0;
+    z-index: 1001;          /* under the Menu pill (1003) and its overlay (1002) */
+  }
+  html body .hero-left { padding-top: calc(28px + 0.4rem + 0.4rem); }
+  html body .hero-chips > .hero-chip {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    margin-inline: 0;
+  }
+}
+/* iPhone widths: "Singapore · Moody's", the short chip, so it fits the even row */
+@media (max-width: 430px) {
+  html body .hero-chip__long { display: none; }
+}
+
+
+/* Phone: the frosted bar behind the pinned top row. Appears once the page
+   scrolls, blurs what passes under the row and fades out at its lower edge. */
+.top-veil { display: none; }
+@media (max-width: 768px) {
+  .top-veil {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: calc(max(8px, env(safe-area-inset-top)) + 28px + 26px);
+    z-index: 1000;            /* under the row (1001), the menu overlay and pill */
+    pointer-events: none;
+    background: rgba(44, 59, 69, 0.55);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-mask-image: linear-gradient(#000 70%, transparent);
+    mask-image: linear-gradient(#000 70%, transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  body.light-theme .top-veil { background: rgba(214, 228, 236, 0.6); }
+  body.page-scrolled .top-veil { opacity: 1; }
+}
+
 /* No more left-to-right shine sweep on hover: the tilt is the hover now */
 .app-card::after,
 .thesis-card::after,
@@ -1632,14 +1730,6 @@ html body .top-bar header h1.neon-title.heat-ready {
   z-index: 3;
 }
 
-/* The closing title gets the same heat word; its letters' scroll colours are
-   repainted on the canvas, so the spans themselves go transparent */
-.closing-section-title { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-html body .closing-section-title.heat-ready span.char,
-html body .closing-section-title.heat-ready span.char.active {
-  color: transparent !important;
-  transition: none !important;
-}
       
 .hero-greeting-row {
   display: flex;
@@ -2150,6 +2240,25 @@ body.light-theme .view-all-btn {
   color: var(--accent-light);
   border-color: rgba(107, 70, 193, 0.3);
   box-shadow: 0 2px 8px rgba(107, 70, 193, 0.15);
+}
+
+/* Dark mode on the meadow: the faint purple tint got lost, so the outline
+   buttons wear the hero chips' dark frosted fill and the title's lavender */
+body:not(.light-theme) .hero-btn-secondary,
+body:not(.light-theme) .view-all-btn {
+  background: rgba(22, 17, 34, 0.78);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: #f3eaff;
+  border-color: rgba(212, 181, 247, 0.65);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+body:not(.light-theme) .hero-btn-secondary i,
+body:not(.light-theme) .view-all-btn i { color: var(--neon-dark); }
+body:not(.light-theme) .hero-btn-secondary:hover,
+body:not(.light-theme) .view-all-btn:hover {
+  background: rgba(46, 34, 70, 0.85);
+  border-color: rgba(212, 181, 247, 0.85);
 }
 
 body.light-theme .hero-btn-primary:hover {
@@ -4124,9 +4233,11 @@ body.light-theme .hero-photo:focus-visible {
   aspect-ratio: 1 / 1;
   padding: 0;
   margin: 0;
-  border: 1px solid rgba(154, 119, 198, 0.22);   /* same purple rim as the Now card */
+  /* the gallery cards' edge: a thin light rim on an almost clear fill, so the
+     slanted edges never show a dark backing */
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
-  background: #111;
+  background: rgba(255, 255, 255, 0.05);
   overflow: hidden;
   cursor: pointer;
   font: inherit;
@@ -4137,7 +4248,7 @@ body.light-theme .hero-photo:focus-visible {
     skewY(5deg);
   transform-origin: center bottom;
   filter: brightness(calc(1 - var(--s) * 0.1));
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition:
     transform var(--speed) cubic-bezier(0.22, 1, 0.36, 1),
     opacity var(--speed) ease,
@@ -4146,9 +4257,9 @@ body.light-theme .hero-photo:focus-visible {
 }
 
 body.light-theme .swap-card {
-  border-color: rgba(107, 70, 193, 0.16);
-  background: #eee;
-  box-shadow: 0 18px 40px rgba(30, 20, 60, 0.22);
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* The fifth card waits, invisible, behind the stack */
@@ -6662,6 +6773,34 @@ body.light-theme .page-ruler-value {
   opacity: 1;
 }
 
+/* Each job sits in a card like the app cards: purple-tinted glass, a thin rim
+   that turns purple on hover, the same corner and shadow */
+.scrolly-step {
+  padding: 1.25rem;
+  margin: 0 0 1rem;
+  border-radius: 16px;
+  background: rgba(154, 119, 198, 0.1);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--glass-shadow);
+  transition: background-color var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+.scrolly-step:hover {
+  background: rgba(154, 119, 198, 0.14);
+  border-color: rgba(154, 119, 198, 0.45);
+  box-shadow: var(--hover-card-shadow);
+}
+body.light-theme .scrolly-step {
+  background: rgba(107, 70, 193, 0.1);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+body.light-theme .scrolly-step:hover {
+  background: rgba(107, 70, 193, 0.14);
+  border-color: rgba(107, 70, 193, 0.4);
+  box-shadow: var(--hover-card-shadow-light);
+}
+
 .scrolly-step-num {
   font-family: var(--main-font);
   font-size: 0.62rem;
@@ -6916,6 +7055,9 @@ body.light-theme .scrolly-step-link:focus-visible {
 </nav>
 
 <!-- Animated background system -->
+<div class="top-veil" aria-hidden="true"></div>
+<div class="safari-tint safari-tint--top" aria-hidden="true"></div>
+<div class="safari-tint safari-tint--bottom" aria-hidden="true"></div>
 <div class="scenic-background" aria-hidden="true"></div>
 <div class="gradient-background">
   <div class="gradient-sphere sphere-1"></div>
@@ -7074,8 +7216,8 @@ body.light-theme .scrolly-step-link:focus-visible {
         </a>
       </div>
 
-      <div class="card-swap" role="group" aria-roledescription="photo stack" aria-label="Selected frames — click for the next photo">
-        <button type="button" class="swap-card" style="--s:0" aria-label="Next photo (now showing Madeira, Portugal)">
+      <div class="card-swap" role="group" aria-roledescription="photo stack" aria-label="Selected frames — tap to open, swipe for the next">
+        <button type="button" class="swap-card" style="--s:0" aria-label="Open photo — Madeira, Portugal (arrow keys or swipe for the next)">
           <img src="assets/photos-600/madeira-market.jpg"
        srcset="assets/photos-600/madeira-market.jpg 600w, assets/photos-1200/madeira-market.jpg 1200w"
        sizes="(max-width: 640px) 70vw, 300px" alt="" width="600" height="400" decoding="async" fetchpriority="high">
@@ -9286,17 +9428,30 @@ if (menuPill && menuOverlay) {
   });
   window.matchMedia('(min-width: 769px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 
-  // Hide the pill once the page is scrolled; bring it back at the top (as the desktop nav does)
-  let pillTicking = false;
-  const syncPill = () => {
-    pillTicking = false;
-    if (document.body.classList.contains('menu-open')) return;
-    menuPill.classList.toggle('is-hidden', window.scrollY > 50);
-  };
+  // The pill stays put while scrolling, pinned with the phone top row (toggles +
+  // location chip), so the whole row behaves as one bar; once the page has moved,
+  // the frosted .top-veil fades in behind them.
+  // On phones the row lives at page level, beside the pill: inside the hero
+  // column its z-index only counted within the column, so the veil covered it.
+  // A comment marks its desktop spot so it goes back when the window widens.
+  const heroRow = document.querySelector('.hero-chips');
+  if (heroRow) {
+    const home = document.createComment('hero-chips');
+    heroRow.before(home);
+    const phone = window.matchMedia('(max-width: 768px)');
+    const place = () => {
+      if (phone.matches) { if (heroRow.parentElement !== document.body) document.body.appendChild(heroRow); }
+      else if (heroRow.parentElement === document.body) home.after(heroRow);
+    };
+    place();
+    phone.addEventListener('change', place);
+  }
+  let veilTicking = false;
+  const syncVeil = () => { veilTicking = false; document.body.classList.toggle('page-scrolled', window.scrollY > 8); };
   window.addEventListener('scroll', () => {
-    if (!pillTicking) { pillTicking = true; requestAnimationFrame(syncPill); }
+    if (!veilTicking) { veilTicking = true; requestAnimationFrame(syncVeil); }
   }, { passive: true });
-  syncPill();
+  syncVeil();
 }
 
 // NEW: Scroll indicator functionality
@@ -10275,7 +10430,7 @@ class EnhancedWebsite {
     // Update theme color meta tag immediately
     const themeColor = document.querySelector('meta[name="theme-color"]');
     if (themeColor) {
-      themeColor.content = isLight ? '#d5e2ec' : '#1c232b';
+      themeColor.content = isLight ? '#bed6e1' : '#2c3b45';
     }
 
     // Re-enable transitions after a short delay
@@ -11643,8 +11798,8 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-  // Heat word (after bencho.dev's Heat word, Pop palette), on ROCCO and the closing
-  // title. Each letter is drawn once, blurred, into a brightness field; the cursor
+  // Heat word (after bencho.dev's Heat word, Pop palette), on ROCCO. (heatWord() also handles a
+  // title split into letters.) Each letter is drawn once, blurred, into a brightness field; the cursor
   // cools a soft disc of it and every pixel there is looked up in a heat-map palette.
   // Outside the disc the canvas shows a crisp copy of the text in each letter's own
   // colour, so the closing title's scroll reveal looks exactly as before.
@@ -11961,13 +12116,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const rocco = document.querySelector('.top-bar header h1.neon-title');
     if (rocco) heatWord(rocco, () => themeVar(light() ? '--neon-light' : '--neon-dark') || '#7c3aed');
 
-    // let's build something amazing: lit letters full purple, the rest dim, as the scroll sets them
-    const closing = document.querySelector('.closing-section-title');
-    if (closing) heatWord(closing, (host) => {
-      const lit = !host.classList.contains('char') || host.classList.contains('active');
-      if (lit) return themeVar(light() ? '--neon-light' : '--neon-dark') || '#7c3aed';
-      return light() ? 'rgba(107, 70, 193, 0.3)' : 'rgba(154, 119, 198, 0.3)';
-    });
   })();
 
   // Tilt (after bencho.dev's Tilt, tilt 10 / shade 25): the box SINKS under the
@@ -11977,7 +12125,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // parks once settled, handing the box back to its own CSS.
   (() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const BOXES = '.hero-now-card, .app-card, .gh-card, .thesis-card, .spotify-container, #contactForm';
+    const BOXES = '.hero-now-card, .scrolly-step, .app-card, .gh-card, .thesis-card, .spotify-container, #contactForm';
     const TILT = 10, SHADE = 25, SINK = 14, DEPTH = 800;
     const K = 0.16, D = 0.72;                       // springOf(50): stiffness, decay per frame
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -12050,6 +12198,10 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       const off = () => { s.on = false; s.rect = null; run(); };
       box.addEventListener('pointermove', track);
+      // touch: a finger presses it in where it lands and holds while it stays down
+      // (moving only fired mid-drag, and a drag usually turns into a scroll)
+      box.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { s.on = false; track(e); } });
+      box.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') off(); });
       box.addEventListener('pointerout', (e) => { if (!e.relatedTarget || !box.contains(e.relatedTarget)) off(); });
       box.addEventListener('pointercancel', off);   // a touch taken over by a scroll
       box.addEventListener('focusin', () => { if (box.matches('form')) off(); });
@@ -12209,7 +12361,7 @@ document.addEventListener('DOMContentLoaded', () => {
       card.tabIndex = front ? 0 : -1;
       if (front) {
         card.removeAttribute('aria-hidden');
-        card.setAttribute('aria-label', `Next photo (now showing ${card.dataset.place})`);
+        card.setAttribute('aria-label', `Open photo — ${card.dataset.place} (arrow keys or swipe for the next)`);
       } else {
         card.setAttribute('aria-hidden', 'true');
         card.removeAttribute('aria-label');
@@ -12310,11 +12462,24 @@ document.addEventListener('DOMContentLoaded', () => {
     stack.addEventListener('pointerup', release);
     stack.addEventListener('pointercancel', release);
 
+    // A tap opens the front photo in the gallery's own lightbox, morphing out of
+    // the card; swipes (above) and the timer move the stack
+    const openFront = () => {
+      const lb = window.photoLightbox;
+      const front = order[0];
+      const file = fileOf(front.querySelector('img').getAttribute('src'));
+      const i = lb?.photos?.findIndex((p) => fileOf(p.src || '') === file) ?? -1;
+      if (i < 0) { swap(); return; }
+      stop();
+      lb.open(i, front);
+    };
     stack.addEventListener('click', (e) => {
       if (!e.target.closest('.swap-card')) return;
       if (swallowClick) { swallowClick = false; return; }
-      swap();
-      start();
+      openFront();
+    });
+    stack.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); swap(e.key === 'ArrowRight' ? 1 : -1); start(); }
     });
     stack.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { hovering = true; stop(); } });
     stack.addEventListener('pointerleave', () => { hovering = false; start(); });
@@ -12374,7 +12539,7 @@ if (root) {
     document.body.classList.toggle('light-theme', isLight);
     document.documentElement.classList.toggle('light-theme', isLight);
     const themeColor = document.querySelector('meta[name="theme-color"]');
-    if (themeColor) themeColor.content = isLight ? '#d5e2ec' : '#1c232b';
+    if (themeColor) themeColor.content = isLight ? '#bed6e1' : '#2c3b45';
   };
 
   // Cross-fade the whole page between themes, so every color eases at once
