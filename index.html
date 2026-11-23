@@ -262,27 +262,19 @@
 }
 body.light-theme .scenic-background { background-color: #d0ddd0; }
 
-/* Safari 26 on iPhone: thin fixed strips tucked under the status bar and the
-   floating toolbar, so the top bar takes the washed sky and the bottom the
-   washed grass (jahir.dev/blog/safari-toolbar). Off everywhere else. */
-.safari-tint { display: none; }
-@supports (-webkit-touch-callout: none) {
-  @media (max-width: 767px) {
-    .safari-tint {
-      display: block;
-      position: fixed;
-      left: 0;
-      width: 100%;
-      min-height: 12px;
-      margin: 0;
-      padding: 0;
-      z-index: 5;
-      pointer-events: none;
-    }
-    .safari-tint--top { top: -8px; background-color: #2c3b45; }
-    .safari-tint--bottom { bottom: -8px; background-color: #3c4231; }
-    body.light-theme .safari-tint--top { background-color: #bed6e1; }
-    body.light-theme .safari-tint--bottom { background-color: #d8e1c1; }
+/* Phones: iOS 26 Safari never draws FIXED layers under its status bar and
+   floating toolbar (it leaves a hard edge there), but it does draw the page's
+   own content. A STICKY layer is page content that still holds still on screen:
+   first in the page, stuck to the top, a full large-viewport tall, and taking
+   no room (the negative margin). So the meadow reaches under both bars. */
+@media (max-width: 768px) {
+  .scenic-background {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100lvh;
+    margin-bottom: -100vh;
+    margin-bottom: -100lvh;
   }
 }
 
@@ -706,6 +698,7 @@ body.light-theme .glow {
 html {
   height: 100%;
   overflow-x: hidden;
+  overflow-x: clip;   /* clip, not hidden: hidden makes a scroll box that breaks the sticky meadow */
   max-width: 100vw;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
@@ -735,6 +728,7 @@ body {
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+  overflow-x: clip;   /* see html: keeps position: sticky working */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -1372,8 +1366,9 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
 
 @media (max-width: 768px) {
   .menu-pill {
-    /* pinned, with the phone top row beside it (both stay while scrolling) */
-    position: fixed;
+    /* in the page like the row beside it, so the two scroll away together;
+       pinned (below) only while the menu is open */
+    position: absolute;
     top: max(8px, env(safe-area-inset-top));
     right: 1rem; /* same 16px inset as the page gutter on the left */
     z-index: 1003;
@@ -1397,6 +1392,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     transition: transform 0.2s var(--ease-out-expo), background 0.3s, color 0.3s;
   }
   body.light-theme .menu-pill { background: var(--text-light); color: #fff; }
+  .menu-open .menu-pill { position: fixed; }
   .menu-pill:active { transform: scale(0.95); }
   /* invisible 40px tap area around the 28px button */
   .menu-pill::before {
@@ -1467,6 +1463,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
   /* the cloned meadow fills the backing layer instead of fixing itself to the screen */
   .menu-overlay__bg .scenic-background {
     position: absolute;
+    margin: 0;
     inset: 0;
     top: 0;
     width: 100%;
@@ -1508,7 +1505,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
      finished, hide everything else: the strip under the bar then shows the
      page background, which is the same colour as the menu in both themes.
      Closing removes the class, so the page reappears instantly. */
-  body.menu-open > *:not(.menu-overlay):not(.menu-pill):not(.safari-tint):not(script):not(style):not(link) {
+  body.menu-open > *:not(.menu-overlay):not(.menu-pill):not(script):not(style):not(link) {
     visibility: hidden;
     transition: visibility 0s linear 0.42s;
   }
@@ -1661,19 +1658,6 @@ html body .top-bar header h1.neon-title.heat-ready {
   html body .hero-chips .hero-mobile-toggles .eye-buddy { width: 28px; }
   html body .hero-chips .hero-mobile-toggles .eye-buddy svg { margin-inline: -1.5px; }
   html body .hero-chips { align-items: center; }
-  /* Pinned with the Menu pill: same top (clear of the status bar), same 16px
-     inset, so the whole row stays together while the page scrolls. The hero
-     keeps the row's old space (28px + its margin + the column gap). */
-  html body .hero-chips {
-    position: fixed;
-    top: max(8px, env(safe-area-inset-top));
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-    margin: 0;
-    z-index: 1001;          /* under the Menu pill (1003) and its overlay (1002) */
-  }
-  html body .hero-left { padding-top: calc(28px + 0.4rem + 0.4rem); }
   html body .hero-chips > .hero-chip {
     flex: 1 1 auto;
     min-width: 0;
@@ -1686,31 +1670,6 @@ html body .top-bar header h1.neon-title.heat-ready {
   html body .hero-chip__long { display: none; }
 }
 
-
-/* Phone: the frosted bar behind the pinned top row. Appears once the page
-   scrolls, blurs what passes under the row and fades out at its lower edge. */
-.top-veil { display: none; }
-@media (max-width: 768px) {
-  .top-veil {
-    display: block;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: calc(max(8px, env(safe-area-inset-top)) + 28px + 26px);
-    z-index: 1000;            /* under the row (1001), the menu overlay and pill */
-    pointer-events: none;
-    background: rgba(44, 59, 69, 0.55);
-    -webkit-backdrop-filter: blur(14px) saturate(1.1);
-    backdrop-filter: blur(14px) saturate(1.1);
-    -webkit-mask-image: linear-gradient(#000 70%, transparent);
-    mask-image: linear-gradient(#000 70%, transparent);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-  }
-  body.light-theme .top-veil { background: rgba(214, 228, 236, 0.6); }
-  body.page-scrolled .top-veil { opacity: 1; }
-}
 
 /* No more left-to-right shine sweep on hover: the tilt is the hover now */
 .app-card::after,
@@ -4287,9 +4246,22 @@ body.light-theme .swap-card {
 .swap-card.is-flung {
   transform: translate3d(calc(var(--fling) * 140%), -6%, 40px) rotate(calc(var(--fling) * 16deg)) skewY(5deg);
   opacity: 0;
+  /* carries on from the finger: quick, decelerating, no wind-up */
   transition:
-    transform var(--speed) cubic-bezier(0.3, 0.6, 0.5, 1),
-    opacity var(--speed) ease-in;
+    transform 0.42s cubic-bezier(0.2, 0.7, 0.3, 1),
+    opacity 0.42s ease-in;
+}
+
+/* Touch screens: cheaper frames while cards move under a finger. No per-card
+   brightness filter, no live blur behind the label, and a snappier settle. */
+@media (hover: none) {
+  .card-swap { --speed: 0.5s; }
+  .swap-card { filter: none; }
+  .swap-card__label {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(17, 17, 17, 0.82);
+  }
 }
 
 .swap-card img { -webkit-user-drag: none; user-select: none; }
@@ -7055,9 +7027,6 @@ body.light-theme .scrolly-step-link:focus-visible {
 </nav>
 
 <!-- Animated background system -->
-<div class="top-veil" aria-hidden="true"></div>
-<div class="safari-tint safari-tint--top" aria-hidden="true"></div>
-<div class="safari-tint safari-tint--bottom" aria-hidden="true"></div>
 <div class="scenic-background" aria-hidden="true"></div>
 <div class="gradient-background">
   <div class="gradient-sphere sphere-1"></div>
@@ -7264,7 +7233,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           <img src="assets/moodys-logo-light.png" width="981" height="271" loading="lazy" decoding="async"  class="scrolly-step-logo scrolly-step-logo--light" alt="Moody's">
           <div class="scrolly-step-header-text">
             <span class="scrolly-step-num">01 / work</span>
-            <h3 class="scrolly-step-title">Product &amp; Solution Delivery at Moody's</h3>
+            <h3 class="scrolly-step-title">Product &amp; Solution Delivery</h3>
             <span class="scrolly-step-period">2023 — Present · Singapore</span>
           </div>
         </div>
@@ -7321,7 +7290,7 @@ body.light-theme .scrolly-step-link:focus-visible {
           <img src="assets/bitpanda-logo-light.png" width="5250" height="1618" loading="lazy" decoding="async"  class="scrolly-step-logo scrolly-step-logo--light" alt="Bitpanda">
           <div class="scrolly-step-header-text">
             <span class="scrolly-step-num">02 / work</span>
-            <h3 class="scrolly-step-title">Product at Bitpanda</h3>
+            <h3 class="scrolly-step-title">Product Manager</h3>
             <span class="scrolly-step-period">2022 — 2023 · Vienna, Austria</span>
           </div>
         </div>
@@ -9428,30 +9397,8 @@ if (menuPill && menuOverlay) {
   });
   window.matchMedia('(min-width: 769px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 
-  // The pill stays put while scrolling, pinned with the phone top row (toggles +
-  // location chip), so the whole row behaves as one bar; once the page has moved,
-  // the frosted .top-veil fades in behind them.
-  // On phones the row lives at page level, beside the pill: inside the hero
-  // column its z-index only counted within the column, so the veil covered it.
-  // A comment marks its desktop spot so it goes back when the window widens.
-  const heroRow = document.querySelector('.hero-chips');
-  if (heroRow) {
-    const home = document.createComment('hero-chips');
-    heroRow.before(home);
-    const phone = window.matchMedia('(max-width: 768px)');
-    const place = () => {
-      if (phone.matches) { if (heroRow.parentElement !== document.body) document.body.appendChild(heroRow); }
-      else if (heroRow.parentElement === document.body) home.after(heroRow);
-    };
-    place();
-    phone.addEventListener('change', place);
-  }
-  let veilTicking = false;
-  const syncVeil = () => { veilTicking = false; document.body.classList.toggle('page-scrolled', window.scrollY > 8); };
-  window.addEventListener('scroll', () => {
-    if (!veilTicking) { veilTicking = true; requestAnimationFrame(syncVeil); }
-  }, { passive: true });
-  syncVeil();
+  // The pill scrolls away with the phone top row (it sits in the page, not
+  // pinned; see .menu-pill), and is pinned only while the menu is open
 }
 
 // NEW: Scroll indicator functionality
@@ -12125,6 +12072,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // parks once settled, handing the box back to its own CSS.
   (() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // desktop only: phones keep the boxes still
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const BOXES = '.hero-now-card, .scrolly-step, .app-card, .gh-card, .thesis-card, .spotify-container, #contactForm';
     const TILT = 10, SHADE = 25, SINK = 14, DEPTH = 800;
     const K = 0.16, D = 0.72;                       // springOf(50): stiffness, decay per frame
@@ -12324,7 +12273,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const VISIBLE = 4;          // slots 0–3 show; slot 4 waits hidden at the rear
     const EVERY = 4000;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const speed = () => (reduceMotion.matches ? 0 : 750);
+    // the swap's length in ms, read from the stack's --speed (shorter on touch screens)
+    const speed = () => {
+      if (reduceMotion.matches) return 0;
+      const v = getComputedStyle(stack).getPropertyValue('--speed').trim();
+      return v.endsWith('ms') ? parseFloat(v) : (parseFloat(v) || 0.75) * 1000;
+    };
 
     const fileOf = (path) => path.split('/').pop();
     const cards = [...stack.querySelectorAll('.swap-card')];
@@ -12441,11 +12395,21 @@ document.addEventListener('DOMContentLoaded', () => {
         stop();
       }
       drag.dx = dx;
-      drag.card.setAttribute('style', `--s:0; --drag-x:${dx}px; --drag-y:${dy * 0.15}px; --drag-r:${dx * 0.05}deg`);
+      drag.dy = dy;
+      // one style write per frame, however many moves the finger reports
+      if (!drag.raf) {
+        const d = drag;
+        d.raf = requestAnimationFrame(() => {
+          d.raf = 0;
+          if (drag !== d || !d.live) return;
+          d.card.setAttribute('style', `--s:0; --drag-x:${d.dx}px; --drag-y:${d.dy * 0.15}px; --drag-r:${d.dx * 0.05}deg`);
+        });
+      }
     });
     const release = (e) => {
       if (!drag || e.pointerId !== drag.id) return;
-      const { card, live, dx, t0 } = drag;
+      const { card, live, dx, t0, raf } = drag;
+      if (raf) cancelAnimationFrame(raf);
       drag = null;
       if (!live) return;
       swallowClick = true;                         // the click after a drag is not a tap
