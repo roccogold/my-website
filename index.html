@@ -7499,7 +7499,7 @@ body.light-theme .scrolly-step-link:focus-visible {
   </div>
 
   <p class="photos-intro">
-    The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <b>sony a6000</b> [tt-artisan 35mm f0.95, sigma 18-50mm f2.8 & sony 55-210mm f4.5] and <b>olympus mju -1</b> [35mm].
+    The same eye for detail that designs elegant products also finds beauty through the lens. Capturing moments with <span class="hl">sony a6000</span> [tt-artisan 35mm f0.95, sigma 18-50mm f2.8 & sony 55-210mm f4.5] and <span class="hl">olympus mju -1</span> [35mm].
   </p>
 
   <div class="photo-filter-bar">
@@ -12498,28 +12498,52 @@ document.addEventListener('DOMContentLoaded', () => {
       if (i < 0) { swap(); return; }
       stop();
       const from = front.getBoundingClientRect();
+      const thumb = front.querySelector('img');
       // no origin card: the browser's morph would grow it out of a slanted 3D card.
-      // Instead the lightbox fades in and the photo zooms, straight, from the card.
       lb.open(i, null);
-      const img = lb.lightboxImg;
-      const zoom = () => {
-        const to = img.getBoundingClientRect();
-        if (!to.width || !to.height || reduceMotion.matches) return;
-        const sc = Math.min(from.width / to.width, from.height / to.height);
-        const dx = (from.left + from.width / 2) - (to.left + to.width / 2);
-        const dy = (from.top + from.height / 2) - (to.top + to.height / 2);
-        img.animate(
-          [
-            { transform: `translate(${dx}px, ${dy}px) scale(${sc})`, opacity: 0.4 },
-            { transform: 'none', opacity: 1 },
-          ],
-          { duration: 460, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }
-        );
-      };
-      // wait for the lightbox to lay the photo out (and for the photo to arrive)
+      if (reduceMotion.matches) return;
+      // A ghost of the card's photo (already loaded) grows from the card to
+      // exactly where the lightbox shows the photo, uncropping from the card's
+      // square to the photo's own shape; then the real slide takes over.
+      const slide = lb.lightboxImg;
       requestAnimationFrame(() => {
-        if (img.complete && img.naturalWidth) zoom();
-        else img.addEventListener('load', zoom, { once: true });
+        const box = slide.getBoundingClientRect();          // the slide's full-screen box
+        const nw = thumb.naturalWidth || 3, nh = thumb.naturalHeight || 2;
+        const k = Math.min(box.width / nw, box.height / nh); // object-fit: contain
+        const w = nw * k, h = nh * k;
+        const to = { left: box.left + (box.width - w) / 2, top: box.top + (box.height - h) / 2, width: w, height: h };
+        const ghost = document.createElement('img');
+        ghost.src = thumb.currentSrc || thumb.src;
+        ghost.alt = '';
+        ghost.setAttribute('aria-hidden', 'true');
+        Object.assign(ghost.style, {
+          position: 'fixed', zIndex: '100000', margin: '0', objectFit: 'cover',
+          pointerEvents: 'none', left: '0', top: '0',
+          width: `${to.width}px`, height: `${to.height}px`, borderRadius: '8px',
+        });
+        document.body.appendChild(ghost);
+        slide.style.opacity = '0';
+        // the ghost is laid out at its final size and moved with a transform from
+        // the card, while its crop (clip-path) opens from the card's square
+        const sx = from.width / to.width, sy = from.height / to.height;
+        const s0 = Math.max(sx, sy);                          // fill the card, like the card's cover crop
+        const cw = from.width / s0, ch = from.height / s0;    // the card's window, in final-size pixels
+        const insetX = (to.width - cw) / 2, insetY = (to.height - ch) / 2;
+        const anim = ghost.animate(
+          [
+            {
+              transform: `translate(${from.left + from.width / 2 - to.width / 2}px, ${from.top + from.height / 2 - to.height / 2}px) scale(${s0})`,
+              clipPath: `inset(${insetY}px ${insetX}px round ${14 / s0}px)`,
+            },
+            {
+              transform: `translate(${to.left}px, ${to.top}px) scale(1)`,
+              clipPath: 'inset(0px 0px round 8px)',
+            },
+          ],
+          { duration: 480, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: 'forwards' }
+        );
+        const done = () => { slide.style.opacity = ''; ghost.remove(); };
+        anim.finished.then(done, done);
       });
     };
     stack.addEventListener('click', (e) => {
