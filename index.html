@@ -1372,9 +1372,8 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
 
 @media (max-width: 768px) {
   .menu-pill {
-    /* in the page like the row beside it, so the two scroll away together;
-       pinned (below) only while the menu is open */
-    position: absolute;
+    /* pinned, with the phone top row beside it (both stay while scrolling) */
+    position: fixed;
     top: max(8px, env(safe-area-inset-top));
     right: 1rem; /* same 16px inset as the page gutter on the left */
     z-index: 1003;
@@ -1398,7 +1397,6 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     transition: transform 0.2s var(--ease-out-expo), background 0.3s, color 0.3s;
   }
   body.light-theme .menu-pill { background: var(--text-light); color: #fff; }
-  .menu-open .menu-pill { position: fixed; }
   .menu-pill:active { transform: scale(0.95); }
   /* invisible 40px tap area around the 28px button */
   .menu-pill::before {
@@ -1663,6 +1661,19 @@ html body .top-bar header h1.neon-title.heat-ready {
   html body .hero-chips .hero-mobile-toggles .eye-buddy { width: 28px; }
   html body .hero-chips .hero-mobile-toggles .eye-buddy svg { margin-inline: -1.5px; }
   html body .hero-chips { align-items: center; }
+  /* Pinned with the Menu pill: same top (clear of the status bar), same 16px
+     inset, so the whole row stays together while the page scrolls. The hero
+     keeps the row's old space (28px + its margin + the column gap). */
+  html body .hero-chips {
+    position: fixed;
+    top: max(8px, env(safe-area-inset-top));
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    margin: 0;
+    z-index: 1001;          /* under the Menu pill (1003) and its overlay (1002) */
+  }
+  html body .hero-left { padding-top: calc(28px + 0.4rem + 0.4rem); }
   html body .hero-chips > .hero-chip {
     flex: 1 1 auto;
     min-width: 0;
@@ -1675,6 +1686,31 @@ html body .top-bar header h1.neon-title.heat-ready {
   html body .hero-chip__long { display: none; }
 }
 
+
+/* Phone: the frosted bar behind the pinned top row. Appears once the page
+   scrolls, blurs what passes under the row and fades out at its lower edge. */
+.top-veil { display: none; }
+@media (max-width: 768px) {
+  .top-veil {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: calc(max(8px, env(safe-area-inset-top)) + 28px + 26px);
+    z-index: 1000;            /* under the row (1001), the menu overlay and pill */
+    pointer-events: none;
+    background: rgba(44, 59, 69, 0.55);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-mask-image: linear-gradient(#000 70%, transparent);
+    mask-image: linear-gradient(#000 70%, transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  body.light-theme .top-veil { background: rgba(214, 228, 236, 0.6); }
+  body.page-scrolled .top-veil { opacity: 1; }
+}
 
 /* No more left-to-right shine sweep on hover: the tilt is the hover now */
 .app-card::after,
@@ -7019,6 +7055,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 </nav>
 
 <!-- Animated background system -->
+<div class="top-veil" aria-hidden="true"></div>
 <div class="safari-tint safari-tint--top" aria-hidden="true"></div>
 <div class="safari-tint safari-tint--bottom" aria-hidden="true"></div>
 <div class="scenic-background" aria-hidden="true"></div>
@@ -9391,8 +9428,30 @@ if (menuPill && menuOverlay) {
   });
   window.matchMedia('(min-width: 769px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 
-  // The pill scrolls away with the phone top row (it sits in the page, not
-  // pinned; see .menu-pill), and is pinned only while the menu is open
+  // The pill stays put while scrolling, pinned with the phone top row (toggles +
+  // location chip), so the whole row behaves as one bar; once the page has moved,
+  // the frosted .top-veil fades in behind them.
+  // On phones the row lives at page level, beside the pill: inside the hero
+  // column its z-index only counted within the column, so the veil covered it.
+  // A comment marks its desktop spot so it goes back when the window widens.
+  const heroRow = document.querySelector('.hero-chips');
+  if (heroRow) {
+    const home = document.createComment('hero-chips');
+    heroRow.before(home);
+    const phone = window.matchMedia('(max-width: 768px)');
+    const place = () => {
+      if (phone.matches) { if (heroRow.parentElement !== document.body) document.body.appendChild(heroRow); }
+      else if (heroRow.parentElement === document.body) home.after(heroRow);
+    };
+    place();
+    phone.addEventListener('change', place);
+  }
+  let veilTicking = false;
+  const syncVeil = () => { veilTicking = false; document.body.classList.toggle('page-scrolled', window.scrollY > 8); };
+  window.addEventListener('scroll', () => {
+    if (!veilTicking) { veilTicking = true; requestAnimationFrame(syncVeil); }
+  }, { passive: true });
+  syncVeil();
 }
 
 // NEW: Scroll indicator functionality
