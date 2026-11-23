@@ -1372,7 +1372,9 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
 
 @media (max-width: 768px) {
   .menu-pill {
-    position: fixed;
+    /* in the page like the row beside it, so the two scroll away together;
+       pinned (below) only while the menu is open */
+    position: absolute;
     top: max(8px, env(safe-area-inset-top));
     right: 1rem; /* same 16px inset as the page gutter on the left */
     z-index: 1003;
@@ -1396,6 +1398,7 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
     transition: transform 0.2s var(--ease-out-expo), background 0.3s, color 0.3s;
   }
   body.light-theme .menu-pill { background: var(--text-light); color: #fff; }
+  .menu-open .menu-pill { position: fixed; }
   .menu-pill:active { transform: scale(0.95); }
   /* invisible 40px tap area around the 28px button */
   .menu-pill::before {
@@ -1671,6 +1674,7 @@ html body .top-bar header h1.neon-title.heat-ready {
 @media (max-width: 430px) {
   html body .hero-chip__long { display: none; }
 }
+
 
 /* No more left-to-right shine sweep on hover: the tilt is the hover now */
 .app-card::after,
@@ -6733,6 +6737,22 @@ body.light-theme .page-ruler-value {
   opacity: 1;
 }
 
+/* Each job sits in a box like the Now card, so it reads on the meadow:
+   light, the Now card's white; dark, the chips' darker frosted fill */
+.scrolly-step {
+  padding: 1.25rem;
+  margin: 0 0 1rem;
+  border-radius: 18px;
+  background: rgba(17, 17, 17, 0.45);
+  border: 1px solid rgba(154, 119, 198, 0.22);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+body.light-theme .scrolly-step {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(107, 70, 193, 0.16);
+  box-shadow: 0 18px 44px rgba(107, 70, 193, 0.08);
+}
+
 .scrolly-step-num {
   font-family: var(--main-font);
   font-size: 0.62rem;
@@ -9359,17 +9379,8 @@ if (menuPill && menuOverlay) {
   });
   window.matchMedia('(min-width: 769px)').addEventListener('change', (e) => { if (e.matches) setMenu(false); });
 
-  // Hide the pill once the page is scrolled; bring it back at the top (as the desktop nav does)
-  let pillTicking = false;
-  const syncPill = () => {
-    pillTicking = false;
-    if (document.body.classList.contains('menu-open')) return;
-    menuPill.classList.toggle('is-hidden', window.scrollY > 50);
-  };
-  window.addEventListener('scroll', () => {
-    if (!pillTicking) { pillTicking = true; requestAnimationFrame(syncPill); }
-  }, { passive: true });
-  syncPill();
+  // The pill scrolls away with the phone top row (it sits in the page, not
+  // pinned; see .menu-pill), and is pinned only while the menu is open
 }
 
 // NEW: Scroll indicator functionality
@@ -12043,7 +12054,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // parks once settled, handing the box back to its own CSS.
   (() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const BOXES = '.hero-now-card, .app-card, .gh-card, .thesis-card, .spotify-container, #contactForm';
+    const BOXES = '.hero-now-card, .scrolly-step, .app-card, .gh-card, .thesis-card, .spotify-container, #contactForm';
     const TILT = 10, SHADE = 25, SINK = 14, DEPTH = 800;
     const K = 0.16, D = 0.72;                       // springOf(50): stiffness, decay per frame
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
