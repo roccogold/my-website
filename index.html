@@ -4292,6 +4292,9 @@ body.light-theme .swap-card {
 
 .swap-card img { -webkit-user-drag: none; user-select: none; }
 
+.swap-card.is-ghosted,
+.photo-card.is-ghosted { visibility: hidden; }   /* while its ghost flies to the lightbox */
+
 .swap-card.no-anim {
   transition: none !important;
 }
@@ -11206,11 +11209,11 @@ class PhotoLightbox {
       card.setAttribute('aria-label', `Open photo${where}`);
     }
 
-    card.addEventListener('click', () => this.open(index, card));
+    card.addEventListener('click', () => this.openFromCard(index, card));
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
         e.preventDefault();          // stop Space from scrolling the page
-        this.open(index, card);
+        this.openFromCard(index, card);
       }
     });
   }
@@ -11222,6 +11225,87 @@ class PhotoLightbox {
   _lightboxFocusables() {
     return [...this.lightbox.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])')]
       .filter(el => !el.disabled && el.getClientRects().length > 0);
+  }
+
+  // Open from a card with a ghost of its photo: it flies alone (transform + crop
+  // over a fading black backdrop), the lightbox opens under it only after it
+  // lands, and the ghost fades once the real photo is ready. Smooth on phones,
+  // where the scroll lock and full-size load would otherwise stutter the flight.
+  openFromCard(index, card) {
+    const thumb = card?.querySelector('img');
+    if (!card || !thumb || !thumb.complete || !thumb.naturalWidth ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) { this.open(index, card); return; }
+    if (this._flying) return;
+    this._flying = true;
+    const from = card.getBoundingClientRect();
+    // the card's own corner, so the ghost starts as the card
+    const r0 = parseFloat(getComputedStyle(card).borderTopLeftRadius) || 12;
+    // Smooth on phones: the zoom runs ALONE first (a ghost of the card's photo
+    // over a black backdrop, moved and scaled only, which the GPU handles), and
+    // the lightbox opens underneath once it has landed: its scroll lock and the
+    // full-size photo load never land mid-animation. The ghost fades out once
+    // the real photo is ready, so there's never a blank frame.
+    const probe = document.createElement('div');      // where the lightbox puts the photo
+    Object.assign(probe.style, { position: 'fixed', left: '50%', top: '50%', width: 'calc(100vw - 2rem)', height: 'calc(100vh - 2rem)', transform: 'translate(-50%, -50%)', visibility: 'hidden', pointerEvents: 'none' });
+    document.body.appendChild(probe);
+    const box = probe.getBoundingClientRect();
+    probe.remove();
+    const nw = thumb.naturalWidth || 3, nh = thumb.naturalHeight || 2;
+    const k = Math.min(box.width / nw, box.height / nh);   // object-fit: contain
+    const w = nw * k, h = nh * k;
+    const to = { left: box.left + (box.width - w) / 2, top: box.top + (box.height - h) / 2, width: w, height: h };
+
+    const backdrop = document.createElement('div');
+    Object.assign(backdrop.style, { position: 'fixed', inset: '0', background: '#000', zIndex: '99998', pointerEvents: 'none', opacity: '0' });
+    // the ghost: the card's square crop, laid out at the card's size and placed
+    // with a transform, so the whole flight is transform + opacity
+    const ghost = document.createElement('div');
+    Object.assign(ghost.style, {
+      position: 'fixed', left: '0', top: '0', zIndex: '100000', pointerEvents: 'none',
+      width: `${to.width}px`, height: `${to.height}px`,
+      willChange: 'transform', backfaceVisibility: 'hidden',
+      backgroundImage: `url("${thumb.currentSrc || thumb.src}")`, backgroundSize: 'cover', backgroundPosition: 'center',
+    });
+    document.body.append(backdrop, ghost);
+    // start: the final-shaped photo scaled to cover the card, centred on it
+    const s0 = Math.max(from.width / to.width, from.height / to.height);
+    const fromT = `translate3d(${from.left + from.width / 2 - to.width / 2}px, ${from.top + from.height / 2 - to.height / 2}px, 0) scale(${s0})`;
+    const toT = `translate3d(${to.left}px, ${to.top}px, 0) scale(1)`;
+    const DUR = 420, EASE = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
+    backdrop.animate([{ opacity: 0 }, { opacity: 1 }], { duration: DUR, easing: 'ease-out', fill: 'forwards' });
+    // the crop opens from the card's square window to the whole photo
+    const cw = from.width / s0, ch = from.height / s0;
+    const ix = (to.width - cw) / 2, iy = (to.height - ch) / 2;
+    const fly = ghost.animate([
+      { transform: fromT, clipPath: `inset(${iy}px ${ix}px round ${r0 / s0}px)` },
+      { transform: toT, clipPath: 'inset(0px 0px round 8px)' },
+    ], { duration: DUR, easing: EASE, fill: 'forwards' });
+    // the card stays put under the ghost; hide it so the flight doesn't double it
+    card.classList.add('is-ghosted');
+
+    const cleanup = () => { ghost.remove(); backdrop.remove(); card.classList.remove('is-ghosted'); this._flying = false; };
+    fly.finished.then(() => {
+      this.open(index, null);                     // opens under the ghost (no browser morph)
+      this.lastFocused = card;
+      const slide = this.lightboxImg;
+      let handed = false;
+      const handOver = () => {
+        if (handed) return;
+        handed = true;
+        // give the lightbox its own fade-in time, then fade the ghost away
+        setTimeout(() => {
+          ghost.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, easing: 'ease-out', fill: 'forwards' })
+            .finished.then(cleanup, cleanup);
+          backdrop.remove();
+        }, 260);
+      };
+      if (slide.complete && slide.naturalWidth) handOver();
+      else {
+        slide.addEventListener('load', handOver, { once: true });
+        slide.addEventListener('error', handOver, { once: true });
+        setTimeout(handOver, 1500);                // never hold the ghost forever
+      }
+    }, cleanup);
   }
 
   open(index, originCard = null) {
@@ -12497,54 +12581,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const i = lb?.photos?.findIndex((p) => fileOf(p.src || '') === file) ?? -1;
       if (i < 0) { swap(); return; }
       stop();
-      const from = front.getBoundingClientRect();
-      const thumb = front.querySelector('img');
-      // no origin card: the browser's morph would grow it out of a slanted 3D card.
-      lb.open(i, null);
-      if (reduceMotion.matches) return;
-      // A ghost of the card's photo (already loaded) grows from the card to
-      // exactly where the lightbox shows the photo, uncropping from the card's
-      // square to the photo's own shape; then the real slide takes over.
-      const slide = lb.lightboxImg;
-      requestAnimationFrame(() => {
-        const box = slide.getBoundingClientRect();          // the slide's full-screen box
-        const nw = thumb.naturalWidth || 3, nh = thumb.naturalHeight || 2;
-        const k = Math.min(box.width / nw, box.height / nh); // object-fit: contain
-        const w = nw * k, h = nh * k;
-        const to = { left: box.left + (box.width - w) / 2, top: box.top + (box.height - h) / 2, width: w, height: h };
-        const ghost = document.createElement('img');
-        ghost.src = thumb.currentSrc || thumb.src;
-        ghost.alt = '';
-        ghost.setAttribute('aria-hidden', 'true');
-        Object.assign(ghost.style, {
-          position: 'fixed', zIndex: '100000', margin: '0', objectFit: 'cover',
-          pointerEvents: 'none', left: '0', top: '0',
-          width: `${to.width}px`, height: `${to.height}px`, borderRadius: '8px',
-        });
-        document.body.appendChild(ghost);
-        slide.style.opacity = '0';
-        // the ghost is laid out at its final size and moved with a transform from
-        // the card, while its crop (clip-path) opens from the card's square
-        const sx = from.width / to.width, sy = from.height / to.height;
-        const s0 = Math.max(sx, sy);                          // fill the card, like the card's cover crop
-        const cw = from.width / s0, ch = from.height / s0;    // the card's window, in final-size pixels
-        const insetX = (to.width - cw) / 2, insetY = (to.height - ch) / 2;
-        const anim = ghost.animate(
-          [
-            {
-              transform: `translate(${from.left + from.width / 2 - to.width / 2}px, ${from.top + from.height / 2 - to.height / 2}px) scale(${s0})`,
-              clipPath: `inset(${insetY}px ${insetX}px round ${14 / s0}px)`,
-            },
-            {
-              transform: `translate(${to.left}px, ${to.top}px) scale(1)`,
-              clipPath: 'inset(0px 0px round 8px)',
-            },
-          ],
-          { duration: 480, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)', fill: 'forwards' }
-        );
-        const done = () => { slide.style.opacity = ''; ghost.remove(); };
-        anim.finished.then(done, done);
-      });
+      lb.openFromCard(i, front);
     };
     stack.addEventListener('click', (e) => {
       if (!e.target.closest('.swap-card')) return;
