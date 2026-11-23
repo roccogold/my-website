@@ -243,6 +243,53 @@
   --photo-tile-radius-hover: 16px;
 }
 
+/* Scenic image background (experiment) */
+.scenic-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.scenic-background::before {
+  /* The photo, softened so its detail doesn't fight the text */
+  content: '';
+  position: absolute;
+  inset: -24px;
+  background: url('assets/meadow-bg.webp') center / cover no-repeat;
+  filter: blur(2px);
+}
+
+.scenic-background::after {
+  /* Frosted wash + film grain on top of the photo */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(rgba(12, 12, 16, 0.7), rgba(12, 12, 16, 0.7));
+  background-size: 200px 200px, cover;
+  transition: background var(--transition-normal);
+}
+
+body.light-theme .scenic-background::after {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.52));
+  background-size: 200px 200px, cover;
+}
+
+html:root body,
+html:root body.light-theme {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.gradient-background {
+  display: none !important;
+}
+
 /* Gradient background system */
 .gradient-background {
   position: fixed;
@@ -1490,6 +1537,25 @@ body.light-theme .nav-bar.has-highlight .nav-item.active:focus-visible {
 body.light-theme .top-bar header h1.neon-title {
   color: var(--neon-light);
   text-shadow: none;
+}
+
+/* ROCCO heat word: a canvas over the title paints it as a heat map
+   around the cursor; the real text stays underneath for SEO and readers */
+.top-bar header h1.neon-title {
+  position: relative;
+  cursor: default;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.heat-canvas {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+
+html body .top-bar header h1.neon-title.heat-ready {
+  color: transparent !important;
 }
       
 .hero-greeting-row {
@@ -3899,6 +3965,119 @@ body.light-theme .hero-photo:focus-visible {
 .hero-photo:focus-visible img {
   transform: scale(1.1);
   border-radius: var(--photo-tile-radius-hover);
+}
+
+/* Hero card swap: a 3D stack of square photos; the front card drops away
+   and comes back in at the rear with the next photo from the gallery */
+.card-swap {
+  --card: 64%;           /* card width, share of the stack */
+  --dx: 11%;             /* per-slot shift right, share of a card */
+  --dx-n: 0.11;          /* the same, as a number, for centring */
+  --dy: -8%;             /* per-slot shift up */
+  --dz: -60px;           /* per-slot push back */
+  --speed: 0.75s;
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 0.25rem auto 0;
+  aspect-ratio: 1 / 0.9;
+  perspective: 1100px;
+  transform-style: preserve-3d;
+}
+
+.swap-card {
+  --s: 0;
+  position: absolute;
+  /* centre the whole fan (front card + 3 slots of shift) in the stack */
+  left: calc((100% - var(--card) * (1 + 3 * var(--dx-n))) / 2 + 3%);  /* +3%: perspective pulls the back cards in */
+  bottom: 6%;
+  width: var(--card);
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  margin: 0;
+  border: 1px solid rgba(154, 119, 198, 0.22);   /* same purple rim as the Now card */
+  border-radius: 14px;
+  background: #111;
+  overflow: hidden;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  z-index: calc(10 - var(--s));
+  transform:
+    translate3d(calc(var(--s) * var(--dx)), calc(var(--s) * var(--dy)), calc(var(--s) * var(--dz)))
+    skewY(5deg);
+  transform-origin: center bottom;
+  filter: brightness(calc(1 - var(--s) * 0.1));
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  transition:
+    transform var(--speed) cubic-bezier(0.22, 1, 0.36, 1),
+    opacity var(--speed) ease,
+    filter var(--speed) ease;
+  will-change: transform;
+}
+
+body.light-theme .swap-card {
+  border-color: rgba(107, 70, 193, 0.16);
+  background: #eee;
+  box-shadow: 0 18px 40px rgba(30, 20, 60, 0.22);
+}
+
+/* The fifth card waits, invisible, behind the stack */
+.swap-card[style*="--s:4"] {
+  opacity: 0;
+}
+
+.swap-card.is-dropping {
+  transform: translate3d(-6%, 125%, 40px) skewY(5deg) rotate(-6deg);
+  opacity: 0;
+  transition:
+    transform var(--speed) cubic-bezier(0.55, 0, 0.75, 0.3),
+    opacity var(--speed) ease-in;
+}
+
+.swap-card.no-anim {
+  transition: none !important;
+}
+
+.swap-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.swap-card__label {
+  position: absolute;
+  left: 0.6rem;
+  bottom: 0.6rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.62rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.swap-card[style*="--s:0"] .swap-card__label {
+  opacity: 1;
+}
+
+.swap-card:focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .card-swap:hover .swap-card[style*="--s:0"] {
+    transform: translate3d(0, -3%, 0) skewY(5deg);
+  }
 }
 
 
@@ -6588,6 +6767,7 @@ body.light-theme .scrolly-step-link:focus-visible {
 </nav>
 
 <!-- Animated background system -->
+<div class="scenic-background" aria-hidden="true"></div>
 <div class="gradient-background">
   <div class="gradient-sphere sphere-1"></div>
   <div class="gradient-sphere sphere-2"></div>
@@ -6744,27 +6924,31 @@ body.light-theme .scrolly-step-link:focus-visible {
         </a>
       </div>
 
-      <div class="hero-photo-grid" aria-label="Selected frames">
-        <a href="#photos" class="hero-photo" aria-label="Madeira — fish market">
-          <img src="assets/photos/madeira-market.jpg"
-       srcset="assets/photos-600/madeira-market.jpg 600w, assets/photos-1200/madeira-market.jpg 1200w, assets/photos/madeira-market.jpg 2000w"
-       sizes="(max-width: 640px) 45vw, 190px" alt="" width="1200" height="800" decoding="async" fetchpriority="high">
-        </a>
-        <a href="#photos" class="hero-photo" aria-label="Tofino, Canada — surf">
-          <img src="assets/photos/tofino-surf.jpg"
-       srcset="assets/photos-600/tofino-surf.jpg 600w, assets/photos-1200/tofino-surf.jpg 1200w, assets/photos/tofino-surf.jpg 2000w"
-       sizes="(max-width: 640px) 45vw, 190px" alt="" width="1200" height="802" decoding="async" fetchpriority="high">
-        </a>
-        <a href="#photos" class="hero-photo" aria-label="Madeira — banana leaves by the sea">
-          <img src="assets/photos/madeira-sea.jpg"
-       srcset="assets/photos-600/madeira-sea.jpg 600w, assets/photos-1200/madeira-sea.jpg 1200w, assets/photos/madeira-sea.jpg 2000w"
-       sizes="(max-width: 640px) 45vw, 190px" alt="" width="1200" height="800" decoding="async" fetchpriority="high">
-        </a>
-        <a href="#photos" class="hero-photo" aria-label="Aourir, Morocco — beach with camel">
-          <img src="assets/photos/morocco-beach-camel.jpg"
-       srcset="assets/photos-600/morocco-beach-camel.jpg 600w, assets/photos-1200/morocco-beach-camel.jpg 1200w, assets/photos/morocco-beach-camel.jpg 2000w"
-       sizes="(max-width: 640px) 45vw, 190px" alt="" width="1200" height="795" decoding="async" fetchpriority="high">
-        </a>
+      <div class="card-swap" role="group" aria-roledescription="photo stack" aria-label="Selected frames — click for the next photo">
+        <button type="button" class="swap-card" style="--s:0" aria-label="Next photo (now showing Madeira, Portugal)">
+          <img src="assets/photos-600/madeira-market.jpg"
+       srcset="assets/photos-600/madeira-market.jpg 600w, assets/photos-1200/madeira-market.jpg 1200w"
+       sizes="(max-width: 640px) 70vw, 300px" alt="" width="600" height="400" decoding="async" fetchpriority="high">
+          <span class="swap-card__label">Madeira, Portugal</span>
+        </button>
+        <button type="button" class="swap-card" style="--s:1" tabindex="-1" aria-hidden="true">
+          <img src="assets/photos-600/tofino-surf.jpg"
+       srcset="assets/photos-600/tofino-surf.jpg 600w, assets/photos-1200/tofino-surf.jpg 1200w"
+       sizes="(max-width: 640px) 70vw, 300px" alt="" width="600" height="401" decoding="async">
+          <span class="swap-card__label">Tofino, Canada</span>
+        </button>
+        <button type="button" class="swap-card" style="--s:2" tabindex="-1" aria-hidden="true">
+          <img src="assets/photos-600/madeira-sea.jpg"
+       srcset="assets/photos-600/madeira-sea.jpg 600w, assets/photos-1200/madeira-sea.jpg 1200w"
+       sizes="(max-width: 640px) 70vw, 300px" alt="" width="600" height="400" decoding="async">
+          <span class="swap-card__label">Madeira, Portugal</span>
+        </button>
+        <button type="button" class="swap-card" style="--s:3" tabindex="-1" aria-hidden="true">
+          <img src="assets/photos-600/morocco-beach-camel.jpg"
+       srcset="assets/photos-600/morocco-beach-camel.jpg 600w, assets/photos-1200/morocco-beach-camel.jpg 1200w"
+       sizes="(max-width: 640px) 70vw, 300px" alt="" width="600" height="398" decoding="async">
+          <span class="swap-card__label">Aourir, Morocco</span>
+        </button>
       </div>
     </aside>
   </div>
@@ -11268,12 +11452,333 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-  // Desktop: start the hero credentials on the same line as the bottom row of hero photos
+  // ROCCO heat word (after bencho.dev's Heat word, Pop palette): the title is drawn
+  // once, blurred, into a brightness field; the cursor cools a soft disc of it and
+  // every pixel there is looked up in a heat-map palette. Elsewhere it stays flat purple.
+  (() => {
+    const title = document.querySelector('.top-bar header h1.neon-title');
+    if (!title || !document.createElement('canvas').getContext) return;
+
+    const HEAT = 60, SOFT = 40, AREA = 50;            // the knobs, 0..100
+    const spread = 0.5 + AREA / 100;
+    const STOPS = [                                    // Pop: rim (0) to core (1)
+      [0.0, [255, 225, 240]],
+      [0.16, [255, 160, 210]],
+      [0.34, [245, 110, 190]],
+      [0.52, [180, 110, 255]],
+      [0.72, [100, 150, 255]],
+      [0.88, [40, 70, 190]],
+      [1.0, [20, 24, 100]],
+    ];
+    const FLOOR = 34;
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+    const LUT = new Uint8ClampedArray(256 * 4);
+    for (let i = FLOOR; i < 256; i++) {
+      const u = (i - FLOOR) / (255 - FLOOR);
+      let k = 0;
+      while (k < STOPS.length - 2 && u > STOPS[k + 1][0]) k++;
+      const [u0, c0] = STOPS[k];
+      const [u1, c1] = STOPS[k + 1];
+      const f = clamp((u - u0) / (u1 - u0), 0, 1);
+      for (let c = 0; c < 3; c++) LUT[i * 4 + c] = c0[c] + (c1[c] - c0[c]) * f;
+      LUT[i * 4 + 3] = 255 * clamp((i - FLOOR) / 26, 0, 1);   // the rim is a glow, not a line
+    }
+    const REST_A = new Uint8ClampedArray(256);                  // the resting word's alpha per brightness
+    for (let i = 0; i < 256; i++) REST_A[i] = 255 * clamp((i - 70) / 45, 0, 1);
+
+    const shown = document.createElement('canvas');
+    shown.className = 'heat-canvas';
+    shown.setAttribute('aria-hidden', 'true');
+    title.appendChild(shown);
+    const base = document.createElement('canvas');
+    const work = document.createElement('canvas');
+
+    const s = { px: 0.5, py: 0.5, tx: 0.5, ty: 0.5, power: 0, want: 0, raf: 0, ratio: 1, em: 60, pad: 0, rest: [124, 58, 237] };
+
+    // The title's own colour, read from the theme variable (the h1 itself goes transparent)
+    const readRest = () => {
+      const light = document.body.classList.contains('light-theme');
+      const v = getComputedStyle(document.documentElement).getPropertyValue(light ? '--neon-light' : '--neon-dark').trim();
+      const g = work.getContext('2d');
+      g.fillStyle = '#7c3aed';
+      g.fillStyle = v || '#7c3aed';
+      const hex = g.fillStyle;
+      if (hex[0] === '#') s.rest = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+      else {
+        const m = hex.match(/[\d.]+/g);
+        if (m) s.rest = m.slice(0, 3).map(Number);
+      }
+    };
+
+    const build = () => {
+      const cs = getComputedStyle(title);
+      const em = parseFloat(cs.fontSize) || 60;
+      const r = Math.min(2, window.devicePixelRatio || 1);
+      const pad = Math.round(em * 0.5);
+      const bw = title.clientWidth, bh = title.clientHeight;
+      if (!bw || !bh) return false;
+      s.em = em; s.ratio = r; s.pad = pad;
+      const W = bw + pad * 2, H = bh + pad * 2;
+      const w = Math.round(W * r), h = Math.round(H * r);
+      for (const c of [base, work, shown]) { c.width = w; c.height = h; }
+      Object.assign(shown.style, { left: `${-pad}px`, top: `${-pad}px`, width: `${W}px`, height: `${H}px` });
+
+      // The field: the word, blurred, white on black. Drawn far off the canvas with
+      // its shadow thrown back on, so only the blurred shadow lands (Safari-safe).
+      const g = base.getContext('2d');
+      g.setTransform(1, 0, 0, 1, 0, 0);
+      g.shadowColor = 'transparent';
+      g.fillStyle = '#000';
+      g.fillRect(0, 0, w, h);
+      const blur = (2 + (SOFT / 100) * 5) * (em / 100) * r;   // Bagel is very fat: less blur than the reference, or the counters close
+      const off = w * 3;
+      g.shadowColor = '#fff';
+      g.shadowBlur = blur;
+      g.shadowOffsetX = off;
+      g.fillStyle = '#fff';
+      g.font = `${cs.fontWeight} ${em * r}px ${cs.fontFamily}`;
+      g.textBaseline = 'alphabetic';
+      if ('letterSpacing' in g) g.letterSpacing = `${(parseFloat(cs.letterSpacing) || 0) * r}px`;
+      const text = (title.firstChild && title.firstChild.nodeType === 3 ? title.firstChild.nodeValue : title.textContent).trim().toUpperCase();
+      const m = g.measureText(text);
+      const asc = m.fontBoundingBoxAscent ?? m.actualBoundingBoxAscent;
+      const desc = m.fontBoundingBoxDescent ?? m.actualBoundingBoxDescent;
+      const contentH = bh - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      const y = (pad + parseFloat(cs.paddingTop)) * r + (contentH * r - (asc + desc)) / 2 + asc;
+      const innerW = (bw - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) * r;
+      let x = (pad + parseFloat(cs.paddingLeft)) * r;
+      if (cs.textAlign === 'center') x += (innerW - m.width) / 2;
+      else if (cs.textAlign === 'right' || cs.textAlign === 'end') x += innerW - m.width;
+      // twice over, so the thick of a stroke saturates
+      g.fillText(text, x - off, y);
+      g.fillText(text, x - off, y);
+      return true;
+    };
+
+    // One frame: the field, cooled under the cursor, through the palette
+    const paint = () => {
+      const w = shown.width, h = shown.height;
+      if (!w || !h) return;
+      const g = work.getContext('2d', { willReadFrequently: true });
+      g.globalCompositeOperation = 'source-over';
+      g.drawImage(base, 0, 0);
+      const unit = (s.em / 100) * s.ratio * spread;
+      const cx = s.px * w, cy = s.py * h;
+      if (s.power > 0.002) {
+        const rad = (60 + (HEAT / 100) * 50) * unit;
+        const amt = s.power * (0.35 + (HEAT / 100) * 0.55);
+        // a multiply that dims the field toward the pointer, so the navy cores open
+        // into rings of violet and pink and the strokes thin: the letters melting
+        g.globalCompositeOperation = 'multiply';
+        const cool = g.createRadialGradient(cx, cy, 0, cx, cy, rad);
+        const v = (k) => Math.round(255 * (1 - amt * k));
+        cool.addColorStop(0, `rgb(${v(1)},${v(1)},${v(1)})`);
+        cool.addColorStop(0.45, `rgb(${v(0.6)},${v(0.6)},${v(0.6)})`);
+        cool.addColorStop(1, 'rgb(255,255,255)');
+        g.fillStyle = cool;
+        g.fillRect(0, 0, w, h);
+      }
+      const src = g.getImageData(0, 0, w, h).data;
+      const sctx = shown.getContext('2d');
+      const out = sctx.createImageData(w, h);
+      const d = out.data;
+      const [R0, G0, B0] = s.rest;
+      const RR = (95 + (HEAT / 100) * 55) * unit;
+      const R2 = RR * RR;
+      const on = s.power;
+      for (let y = 0, i = 0; y < h; y++) {
+        const dy2 = (y - cy) * (y - cy);
+        for (let x = 0; x < w; x++, i += 4) {
+          const f = src[i];
+          let m = 0;
+          if (on > 0.002) {
+            const q = ((x - cx) * (x - cx) + dy2) / R2;
+            if (q < 1) { const t = 1 - q; m = on * t * t * (3 - 2 * t); }
+          }
+          const ga = REST_A[f];
+          if (m <= 0) {
+            if (ga) { d[i] = R0; d[i + 1] = G0; d[i + 2] = B0; d[i + 3] = ga; }
+            continue;
+          }
+          const k = 1 - m, v = f * 4;
+          d[i] = R0 * k + LUT[v] * m;
+          d[i + 1] = G0 * k + LUT[v + 1] * m;
+          d[i + 2] = B0 * k + LUT[v + 2] * m;
+          d[i + 3] = ga * k + LUT[v + 3] * m;
+        }
+      }
+      sctx.putImageData(out, 0, 0);
+    };
+
+    // The loop runs only while something is moving
+    const run = () => {
+      if (s.raf) return;
+      let prev = performance.now();
+      const step = (t) => {
+        const dt = Math.min(0.05, (t - prev) / 1000);
+        prev = t;
+        const k = 1 - Math.pow(0.002, dt);
+        s.px += (s.tx - s.px) * k;
+        s.py += (s.ty - s.py) * k;
+        s.power += (s.want - s.power) * (1 - Math.pow(0.01, dt));
+        const still = Math.abs(s.want - s.power) < 0.004 && Math.abs(s.tx - s.px) < 0.001 && Math.abs(s.ty - s.py) < 0.001;
+        if (still && s.want === 0) s.power = 0;
+        paint();
+        s.raf = still ? 0 : requestAnimationFrame(step);
+      };
+      s.raf = requestAnimationFrame(step);
+    };
+
+    const aim = (e) => {
+      const r = shown.getBoundingClientRect();
+      s.tx = (e.clientX - r.left) / r.width;
+      s.ty = (e.clientY - r.top) / r.height;
+    };
+    title.addEventListener('pointerenter', (e) => { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); });
+    title.addEventListener('pointermove', (e) => { aim(e); s.want = 1; run(); });
+    title.addEventListener('pointerleave', () => { s.want = 0; run(); });
+    // touch: a tap or drag warms it, lifting the finger lets it cool
+    title.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { aim(e); s.px = s.tx; s.py = s.ty; s.want = 1; run(); } });
+    title.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') { setTimeout(() => { s.want = 0; run(); }, 600); } });
+
+    const go = () => {
+      readRest();
+      if (!build()) return;
+      paint();
+      title.classList.add('heat-ready');
+    };
+    const face = getComputedStyle(title);
+    (document.fonts ? document.fonts.load(`${face.fontWeight} ${parseFloat(face.fontSize)}px ${face.fontFamily}`).catch(() => {}) : Promise.resolve())
+      .then(() => document.fonts?.ready)
+      .then(go);
+
+    let sized = 0;
+    new ResizeObserver(() => { if (sized++) go(); }).observe(title);
+    new MutationObserver(() => { readRest(); paint(); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  })();
+
+  // Hero card swap: cycles every gallery photo through a 3D stack, front card to the back
+  (() => {
+    const stack = document.querySelector('.card-swap');
+    if (!stack) return;
+
+    const VISIBLE = 4;          // slots 0–3 show; slot 4 waits hidden at the rear
+    const EVERY = 4000;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const speed = () => (reduceMotion.matches ? 0 : 750);
+
+    const fileOf = (path) => path.split('/').pop();
+    const cards = [...stack.querySelectorAll('.swap-card')];
+    const shown = cards.map((c) => ({
+      file: fileOf(c.querySelector('img').getAttribute('src')),
+      place: c.querySelector('.swap-card__label').textContent,
+    }));
+
+    // Every gallery photo, the four starters first, the rest shuffled
+    const seen = new Set(shown.map((p) => p.file));
+    const rest = [...document.querySelectorAll('.photo-grid .photo-card[data-photo]')]
+      .map((el) => ({ file: fileOf(el.dataset.photo), place: el.dataset.location || '' }))
+      .filter((p) => !seen.has(p.file) && seen.add(p.file));
+    for (let i = rest.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rest[i], rest[j]] = [rest[j], rest[i]];
+    }
+    const pool = [...shown, ...rest];
+    let next = cards.length;    // pool index of the next photo to load
+
+    const fill = (card, photo) => {
+      const img = card.querySelector('img');
+      img.removeAttribute('fetchpriority');
+      img.srcset = `assets/photos-600/${photo.file} 600w, assets/photos-1200/${photo.file} 1200w`;
+      img.src = `assets/photos-600/${photo.file}`;
+      card.querySelector('.swap-card__label').textContent = photo.place;
+      card.dataset.place = photo.place;
+    };
+    cards.forEach((c, i) => (c.dataset.place = shown[i].place));
+
+    const setSlot = (card, s) => {
+      card.setAttribute('style', `--s:${s}`);
+      const front = s === 0;
+      card.tabIndex = front ? 0 : -1;
+      if (front) {
+        card.removeAttribute('aria-hidden');
+        card.setAttribute('aria-label', `Next photo (now showing ${card.dataset.place})`);
+      } else {
+        card.setAttribute('aria-hidden', 'true');
+        card.removeAttribute('aria-label');
+      }
+    };
+
+    // Fifth card, waiting at the rear with the next photo
+    if (pool.length > VISIBLE) {
+      const spare = cards[0].cloneNode(true);
+      spare.removeAttribute('id');
+      stack.appendChild(spare);
+      cards.push(spare);
+      fill(spare, pool[next++ % pool.length]);
+      setSlot(spare, VISIBLE);
+    }
+
+    let order = cards.slice();  // order[0] is the front card
+    let busy = false;
+
+    const swap = () => {
+      if (busy || order.length < 2) return;
+      busy = true;
+      const hadFocus = document.activeElement === order[0];
+      const front = order.shift();
+      front.setAttribute('style', '--s:-1');   // out of the slot rules while it falls
+      front.setAttribute('aria-hidden', 'true');
+      front.tabIndex = -1;
+      front.classList.add('is-dropping');
+      order.forEach((c, i) => setSlot(c, i));
+      order.push(front);
+      if (hadFocus) order[0].focus({ preventScroll: true });
+
+      setTimeout(() => {
+        front.classList.add('no-anim');
+        front.classList.remove('is-dropping');
+        setSlot(front, order.length - 1);
+        fill(front, pool[next++ % pool.length]);
+        void front.offsetWidth;
+        front.classList.remove('no-anim');
+        busy = false;
+      }, speed() + 50);
+    };
+
+    // Auto-advance, paused on hover/focus, off-screen, in a hidden tab or with reduced motion
+    let timer = null;
+    let hovering = false;
+    let onScreen = true;
+    const stop = () => { clearInterval(timer); timer = null; };
+    const start = () => {
+      stop();
+      if (reduceMotion.matches || hovering || !onScreen || document.hidden) return;
+      timer = setInterval(swap, EVERY);
+    };
+
+    stack.addEventListener('click', (e) => {
+      if (!e.target.closest('.swap-card')) return;
+      swap();
+      start();
+    });
+    stack.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { hovering = true; stop(); } });
+    stack.addEventListener('pointerleave', () => { hovering = false; start(); });
+    stack.addEventListener('focusin', () => { hovering = true; stop(); });
+    stack.addEventListener('focusout', () => { hovering = false; start(); });
+    document.addEventListener('visibilitychange', start);
+    reduceMotion.addEventListener?.('change', start);
+    new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; start(); }).observe(stack);
+  })();
+
+  // Desktop: start the hero credentials level with the middle of the photo stack
   (() => {
     const creds = document.querySelector('.hero-creds');
-    const photo = document.querySelectorAll('.hero-photo')[2];
+    const stack = document.querySelector('.card-swap');
     const grid = document.querySelector('.hero-grid');
-    if (!creds || !photo || !grid) return;
+    if (!creds || !stack || !grid) return;
+    const photo = { get offsetTop() { return stack.offsetTop + stack.offsetHeight / 2; }, get offsetParent() { return stack.offsetParent; } };
 
     const desktop = window.matchMedia('(min-width: 901px)');
     const pageTop = (el) => { let y = 0; for (; el; el = el.offsetParent) y += el.offsetTop; return y; };
